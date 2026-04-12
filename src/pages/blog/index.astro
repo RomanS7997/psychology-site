@@ -1,0 +1,291 @@
+---
+// src/pages/blog/index.astro
+import Layout from '../../layouts/Layout.astro';
+import ScrollAnimations from '../../components/ScrollAnimations.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SEO from '../../components/SEO.astro';
+
+const posts = [
+  {
+    slug: 'kak-spravitsya-s-panicheskimi-atakami',
+    title: 'Как справиться с паническими атаками: практические техники',
+    excerpt: '5 проверенных техник, которые помогут остановить паническую атаку и предотвратить ее в будущем. Практические упражнения от клинического психолога.',
+    category: 'Тревожность',
+    categoryColor: 'teal',
+    date: '15 января 2025',
+    emoji: '😰',
+    gradient: 'from-blue-100 to-teal-100',
+    readTime: '8 мин'
+  },
+  {
+    slug: 'chto-delat-esli-rebenok-ne-slushaetsya',
+    title: 'Что делать, если ребенок не слушается: 7 стратегий для родителей',
+    excerpt: 'Почему дети перестают слушаться и как восстановить контакт без криков и наказаний. Проверенные методы от детского психолога.',
+    category: 'Детская психология',
+    categoryColor: 'purple',
+    date: '12 января 2025',
+    emoji: '🧒',
+    gradient: 'from-purple-100 to-pink-100',
+    readTime: '10 мин'
+  },
+  {
+    slug: 'kak-uluchshit-otnosheniya-s-partnerom',
+    title: 'Как улучшить отношения с партнером: 5 упражнений на каждый день',
+    excerpt: 'Простые но эффективные упражнения для пар, которые хотят вернуть близость и понимание. Практики от семейного терапевта.',
+    category: 'Отношения',
+    categoryColor: 'pink',
+    date: '10 января 2025',
+    emoji: '💕',
+    gradient: 'from-pink-100 to-red-100',
+    readTime: '7 мин'
+  },
+  {
+    slug: 'kak-borotsya-s-vygoraniem',
+    title: 'Как бороться с выгоранием: признаки и способы восстановления',
+    excerpt: 'Эмоциональное выгорание — это не просто усталость. Узнайте, как распознать первые признаки и что делать для восстановления.',
+    category: 'Стресс',
+    categoryColor: 'orange',
+    date: '8 января 2025',
+    emoji: '🔥',
+    gradient: 'from-orange-100 to-yellow-100',
+    readTime: '9 мин'
+  },
+  {
+    slug: 'kak-povysit-samoocenku',
+    title: 'Как повысить самооценку: 10 упражнений от психолога',
+    excerpt: 'Низкая самооценка мешает жить полной жизнью. Практические упражнения, которые помогут полюбить себя и поверить в свои силы.',
+    category: 'Саморазвитие',
+    categoryColor: 'blue',
+    date: '5 января 2025',
+    emoji: '🌟',
+    gradient: 'from-[#4894B2] to-[#18698F]',
+    readTime: '12 мин'
+  },
+  {
+    slug: 'kak-perezhit-razryv-otnosheniy',
+    title: 'Как пережить разрыв отношений: этапы и практики',
+    excerpt: 'Расставание — это всегда больно. Разбираем этапы проживания разрыва и даём практические советы для восстановления.',
+    category: 'Отношения',
+    categoryColor: 'pink',
+    date: '3 января 2025',
+    emoji: '💔',
+    gradient: 'from-red-100 to-pink-100',
+    readTime: '11 мин'
+  }
+];
+---
+
+<SEO 
+  title="Блог - Статьи о психологии | Кабинет психолога в Одинцово"
+  description="Полезные статьи о психологии, воспитании детей, отношениях, тревоге и саморазвитии. Советы от психолога из Одинцово."
+  keywords="блог психолога, статьи о психологии, советы психолога"
+  type="website"
+/>
+
+<Layout 
+  title="Блог - Статьи о психологии | Кабинет психолога в Одинцово"
+  description="Полезные статьи о психологии от профессиональных психологов."
+>
+
+  <Breadcrumbs 
+    items={[
+      { label: 'Главная', href: '/' },
+      { label: 'Блог' }
+    ]}
+  />
+
+  <!-- Hero -->
+  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#F2F7FD] via-white to-[#F2F7FD]" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
+          Блог о психологии
+        </h1>
+        <p class="text-xl text-gray-700 mb-8">
+          Экспертные материалы от наших психологов о ментальном здоровье, 
+          отношениях и саморазвитии
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Категории / Фильтры -->
+  <section class="py-8 bg-white border-b border-gray-200" data-animate="slide-up">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="flex items-center justify-center gap-4 flex-wrap">
+        <button class="category-filter active px-6 py-3 rounded-full font-semibold transition-all" data-category="all">
+          Все статьи
+        </button>
+        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Тревожность">
+          Тревожность
+        </button>
+        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Детская психология">
+          Детская психология
+        </button>
+        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Отношения">
+          Отношения
+        </button>
+        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Стресс">
+          Стресс
+        </button>
+        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Саморазвитие">
+          Саморазвитие
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Сетка статей -->
+  <section class="py-20 bg-gray-50" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="posts-grid">
+        
+        {posts.map(post => (
+          <article 
+            class="post-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
+            data-category={post.category}
+          >
+            <a href={`/blog/${post.slug}`}>
+              <div class={`h-48 bg-gradient-to-br ${post.gradient} flex items-center justify-center`}>
+                <span class="text-6xl">{post.emoji}</span>
+              </div>
+              
+              <div class="p-6">
+                <div class="flex items-center justify-between mb-3">
+                  <span class={`px-3 py-1 bg-${post.categoryColor}-100 text-${post.categoryColor}-700 text-xs font-semibold rounded-full`}>
+                    {post.category}
+                  </span>
+                  <span class="text-xs text-gray-500">{post.readTime}</span>
+                </div>
+                
+                <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-[#4894B2] transition">
+                  {post.title}
+                </h3>
+                
+                <p class="text-gray-600 text-sm mb-4">
+                  {post.excerpt}
+                </p>
+                
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-gray-500">{post.date}</span>
+                  <span class="text-[#4894B2] hover:text-teal-700 font-semibold text-sm inline-flex items-center group">
+                    Читать
+                    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+          </article>
+        ))}
+        
+      </div>
+      
+      <!-- Пустое состояние при фильтрации -->
+      <div id="empty-state" class="hidden text-center py-20">
+        <div class="text-6xl mb-4">📝</div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-2">Статей в этой категории пока нет</h3>
+        <p class="text-gray-600">Попробуйте выбрать другую категорию</p>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Подписка на рассылку -->
+  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white relative overflow-hidden" data-animate="slide-up">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+          Подпишитесь на рассылку
+        </h2>
+        <p class="text-xl mb-8 opacity-90">
+          Получайте новые статьи о психологии прямо на почту
+        </p>
+        
+        <form class="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto" onsubmit="handleSubscribe(event)">
+          <input 
+            type="email" 
+            placeholder="Ваш email"
+            required
+            class="flex-1 px-6 py-4 rounded-full text-gray-900 focus:outline-none focus:ring-4 focus:ring-white/30"
+          >
+          <button 
+            type="submit"
+            class="px-8 py-4 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition shadow-xl hover:shadow-2xl"
+          >
+            Подписаться
+          </button>
+        </form>
+        
+        <p class="text-sm opacity-75 mt-4">
+          Никакого спама. Только качественные материалы о психологии.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <ScrollAnimations />
+</Layout>
+
+<style>
+  .category-filter {
+    @apply bg-gray-100 text-gray-700 hover:bg-[#F2F7FD] hover:text-[#4894B2];
+  }
+  
+  .category-filter.active {
+    @apply bg-[#4894B2] text-white shadow-lg;
+  }
+  
+  .post-card {
+    @apply transition-all duration-300;
+  }
+  
+  
+</style>
+
+<script>
+  // Фильтрация по категориям
+  const filterButtons = document.querySelectorAll('.category-filter');
+  const posts = document.querySelectorAll('.post-card');
+  const emptyState = document.getElementById('empty-state');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Убрать active у всех
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      // Добавить active к нажатой
+      button.classList.add('active');
+      
+      const category = button.dataset.category;
+      let visibleCount = 0;
+      
+      posts.forEach(post => {
+        if (category === 'all' || post.dataset.category === category) {
+          post.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          post.classList.add('hidden');
+        }
+      });
+      
+      // Показать/скрыть пустое состояние
+      if (visibleCount === 0) {
+        emptyState?.classList.remove('hidden');
+      } else {
+        emptyState?.classList.add('hidden');
+      }
+    });
+  });
+  
+  // Подписка на рассылку
+  function handleSubscribe(event) {
+    event.preventDefault();
+    alert('Спасибо за подписку! Вы будете получать новые статьи на email.');
+    event.target.reset();
+  }
+</script>

@@ -1,0 +1,356 @@
+---
+// src/pages/about.astro
+import Layout from '../layouts/Layout.astro';
+import ScrollAnimations from '../components/ScrollAnimations.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SEO from '../components/SEO.astro';
+---
+
+<SEO 
+  title="Обо мне - Кабинет психолога в Одинцово | Ляпина Юлия"
+  description="О кабинете психолога Ляпиной Юлии в Одинцово. Моя команда, 15 лет опыта работы, подход к клиентам."
+  keywords="психолог Одинцово, о кабинете, команда специалистов"
+  schema="organization"
+/>
+
+<Layout 
+  title="Обо мне - Кабинет психолога в Одинцово | Ляпина Юлия"
+  description="О кабинете психолога Ляпиной Юлии в Одинцово."
+>
+
+  <Breadcrumbs 
+    items={[
+      { label: 'Главная', href: '/' },
+      { label: 'О нас' }
+    ]}
+  />
+
+  <!-- Hero -->
+  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-teal-50 via-blue-50 to-purple-50" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
+          Обо мне
+        </h1>
+        <p class="text-xl text-gray-700 mb-8">
+          Кабинет психолога Ляпина Юлия — это пространство, 
+          где вы можете получить профессиональную помощь и поддержку 
+          в решении любых жизненных трудностей
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Обо мне -->
+  <section class="relative py-20 bg-gradient-to-br from-[#F2F7FD] via-white to-white overflow-hidden" data-animate="slide-up">
+    <div class="absolute top-20 right-10 w-56 h-56 bg-[#4894B2]/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-20 left-10 w-48 h-48 bg-[#d9797d]/10 rounded-full blur-3xl"></div>
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        
+        <div class="mb-16">
+          <h2 class="text-4xl font-bold text-gray-900 mb-6">Моя история</h2>
+          <div class="prose prose-lg text-gray-700 space-y-4">
+            <p>
+              Меня зовут Юлия Ляпина, я психолог с 15-летним опытом работы. 
+              Практика и знание разных методик дают мне возможность работать 
+              с детьми, подростками и взрослыми.
+            </p>
+            <p>
+              В своей работе использую арт-терапию, КПТ (когнитивно-поведенческая терапия), 
+              МАК (метафорические ассоциативные карты), ДПДГ (десенсибилизация и переработка 
+              движением глаз), НЛП, расстановки и системный подход в семейной терапии.
+            </p>
+            <p>
+              За годы своей работы я помогла сотням клиентов. Постоянно обучаюсь, 
+              честно подхожу к своему делу и опираюсь на научный подход в психологии.
+            </p>
+            <p>
+              Моя задача — не держать клиентов годами в терапии со мной, а с помощью 
+              определённых техник и упражнений научить самостоятельно справляться 
+              с трудностями и опираться на себя.
+            </p>
+            <p>
+              Результаты клиентов подтверждают, что мой подход работает.
+            </p>
+            <p>
+              Все свои продукты я создала с учётом запросов реальных клиентов. 
+              Так появились курсы для детей «Азбука общения» и «Умники и умницы».
+            </p>
+            <p>
+              Многие родители понимают, как важно мягко подготовить ребёнка к школе 
+              и помочь ему быть в контакте со своими чувствами. Всё это — основа для 
+              будущей успешной жизни. Я рада быть причастной к счастью детей и их родителей.
+            </p>
+          </div>
+        </div>
+
+        <!-- Статистика -->
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+          <div class="text-center">
+            <div class="text-5xl font-bold text-[#4894B2] mb-2">15+</div>
+            <div class="text-gray-600">лет опыта</div>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl font-bold text-[#4894B2] mb-2">100%</div>
+            <div class="text-gray-600">положительных результатов</div>
+          </div>
+          <div class="text-center">
+            <div class="text-5xl font-bold text-[#4894B2] mb-2">95%</div>
+            <div class="text-gray-600">рекомендуют друзьям</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Мои ценности -->
+  <section class="py-20 bg-gray-50" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="max-w-6xl mx-auto">
+        
+        <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Мои ценности</h2>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          
+          <!-- Ценность 1 -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
+            <div class="text-5xl mb-4">🤝</div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Доверие и конфиденциальность</h3>
+            <p class="text-gray-700">
+              Всё, что происходит на сессиях, остаётся между вами и мной. 
+              Я строго соблюдаю принципы конфиденциальности.
+            </p>
+          </div>
+
+          <!-- Ценность 2 -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
+            <div class="text-5xl mb-4">🎓</div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Профессионализм</h3>
+            <p class="text-gray-700">
+              Высшее психологическое образование, 
+              регулярное обучение и повышение квалификации.
+            </p>
+          </div>
+
+          <!-- Ценность 3 -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
+            <div class="text-5xl mb-4">🔬</div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Научный подход</h3>
+            <p class="text-gray-700">
+              Использую методы с доказанной эффективностью: арт-терапию, КПТ, 
+              МАК, ДПДГ, НЛП, расстановки, системный подход в семейной терапии.
+            </p>
+          </div>
+
+          <!-- Ценность 4 -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
+            <div class="text-5xl mb-4">❤️</div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Эмпатия и уважение</h3>
+            <p class="text-gray-700">
+              Отношусь к каждому клиенту с уважением и пониманием, 
+              создавая безопасное пространство для работы с трудностями.
+            </p>
+          </div>
+
+          <!-- Ценность 5 -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
+            <div class="text-5xl mb-4">🎯</div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Индивидуальный подход</h3>
+            <p class="text-gray-700">
+              Каждый человек уникален. Подбираю методы работы 
+              под ваши потребности и особенности.
+            </p>
+          </div>
+
+          <!-- Ценность 6 -->
+          <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition">
+            <div class="text-5xl mb-4">🌱</div>
+            <h3 class="text-xl font-bold text-gray-900 mb-3">Ориентация на результат</h3>
+            <p class="text-gray-700">
+              Не просто слушаю — помогаю вам достичь конкретных 
+              изменений и улучшить качество вашей жизни.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Мой подход -->
+  <section class="py-20 bg-white" data-animate="slide-up">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        
+        <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Мой подход к работе</h2>
+        
+        <div class="space-y-8">
+          
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-teal-100 text-[#4894B2] flex items-center justify-center text-xl font-bold">
+              1
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Первичная консультация</h3>
+              <p class="text-gray-700">
+                На первой встрече мы знакомимся, обсуждаем ваш запрос и определяем цели работы. 
+                Вы можете задать любые вопросы о процессе терапии.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-xl font-bold">
+              2
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Диагностика и план работы</h3>
+              <p class="text-gray-700">
+                Провожу диагностику и вместе с вами составляю индивидуальный план работы. 
+                Обсуждаем, какие методы будут использоваться и сколько сессий может потребоваться.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-xl font-bold">
+              3
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Работа с запросом</h3>
+              <p class="text-gray-700">
+                Регулярные встречи, на которых работаем над вашими трудностями, 
+                используя научно обоснованные методы. Между сессиями могут быть домашние задания.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-xl font-bold">
+              4
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Оценка прогресса</h3>
+              <p class="text-gray-700">
+                Регулярно оцениваю прогресс и корректирую план работы при необходимости. 
+                Важно, чтобы вы видели изменения и чувствовали улучшения.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-6 items-start">
+            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-xl font-bold">
+              5
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 mb-2">Завершение и поддержка</h3>
+              <p class="text-gray-700">
+                Когда цели достигнуты, планируем завершение работы. При необходимости 
+                вы всегда можете вернуться на поддерживающие сессии.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Методы работы -->
+  <section class="py-20 bg-gradient-to-br from-teal-50 to-blue-50" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        
+        <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Методы, которые я использую</h2>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Арт-терапия</h3>
+            <p class="text-gray-700 text-sm">
+              Работа через творчество и рисование. Помогает выразить эмоции, 
+              справиться со страхами и раскрыть внутренние ресурсы.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Когнитивно-поведенческая терапия (КПТ)</h3>
+            <p class="text-gray-700 text-sm">
+              Эффективный метод для работы с тревогой, паническими атаками и негативными мыслями. 
+              Помогает изменить деструктивные поведенческие паттерны.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">МАК (Метафорические ассоциативные карты)</h3>
+            <p class="text-gray-700 text-sm">
+              Проективный инструмент для диагностики и терапии. Помогает 
+              обойти защиты и получить доступ к подсознательным процессам.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">ДПДГ (Десенсибилизация движением глаз)</h3>
+            <p class="text-gray-700 text-sm">
+              Метод для работы с травмами и стрессовыми переживаниями. 
+              Помогает переработать болезненный опыт и снизить его влияние.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">НЛП (Нейролингвистическое программирование)</h3>
+            <p class="text-gray-700 text-sm">
+              Техники работы с убеждениями и поведением. Помогает достичь целей 
+              и изменить неэффективные стратегии мышления.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-xl p-6 shadow-md">
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Расстановки и системный подход</h3>
+            <p class="text-gray-700 text-sm">
+              Работа с семейными системами. Помогает увидеть скрытые динамики 
+              в отношениях и найти ресурсы для изменений.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 bg-gradient-to-br from-teal-600 via-blue-600 to-purple-700 text-white relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+          Готовы начать работу над собой?
+        </h2>
+        <p class="text-xl mb-8 opacity-90">
+          Запишитесь на первую консультацию и сделайте первый шаг к изменениям
+        </p>
+        
+        <div class="flex flex-wrap gap-4 justify-center">
+          <button 
+            onclick="window.location.href='/#booking'"
+            class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition shadow-xl hover:shadow-2xl text-lg"
+          >
+            Записаться на консультацию
+          </button>
+          <button 
+            onclick="window.location.href='/specialists'"
+            class="px-12 py-5 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-bold transition text-lg"
+          >
+            Наши специалисты
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ScrollAnimations />
+</Layout>

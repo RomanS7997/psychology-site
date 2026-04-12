@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#8b5cf6"/>
+  <path d="M 50 25 Q 35 25 25 40 Q 20 55 25 70 Q 30 85 45 90 Q 47.5 92.5 50 92.5" 
+    fill="none" 
+    stroke="white" 
+    stroke-width="3"/>
+  <path d="M 50 25 Q 65 25 75 40 Q 80 55 75 70 Q 70 85 55 90 Q 52.5 92.5 50 92.5" 
+    fill="none" 
+    stroke="white" 
+    stroke-width="3"/>
+  <path d="M 50 27.5 L 50 90" 
+    fill="none" 
+    stroke="white" 
+    stroke-width="2"
+    opacity="0.6"/>
+</svg>

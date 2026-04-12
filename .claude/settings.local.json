@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(copy \"c:\\Users\\romas\\Downloads\\Telegram Desktop\\лого3.png\" \"C:\\Users\\romas\\OneDrive\\Рабочий стол\\famproject\\psychology-site\\public\\images\\logo.png\")",
+      "Bash(rename \"C:\\Users\\romas\\OneDrive\\Рабочий стол\\famproject\\psychology-site\\public\\images\\2578b62e8f3864ea3585e6d8fd3f7d35.jpg\" watercolor-blue.jpg)",
+      "Bash(rename \"C:\\Users\\romas\\OneDrive\\Рабочий стол\\famproject\\psychology-site\\public\\images\\0a104145549e52a69bc6a5b2ed872147.jpg\" leaves-pattern.jpg)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,59 @@
+---
+interface Props {
+  color?: 'blue' | 'dark-blue' | 'pink' | 'light' | 'white';
+  position?: 'top' | 'bottom';
+  flip?: boolean;
+}
+
+const { 
+  color = 'blue', 
+  position = 'bottom',
+  flip = false 
+} = Astro.props;
+
+// Цвета из палитры
+const colors = {
+  'blue': '#4894B2',
+  'dark-blue': '#18698F',
+  'pink': '#d9797d',
+  'light': '#F2F7FD',
+  'white': '#ffffff'
+};
+
+const fillColor = colors[color];
+const transform = flip ? 'rotate(180)' : '';
+const positionClass = position === 'top' ? '-top-px' : '-bottom-px';
+---
+
+<div class={`absolute left-0 w-full ${positionClass} z-10 pointer-events-none`}>
+  <svg 
+    class="w-full h-auto" 
+    viewBox="0 0 1200 120" 
+    preserveAspectRatio="none"
+    style={`transform: ${transform}`}
+  >
+    <path 
+      d="M0,0 C300,80 600,80 900,40 C1050,20 1150,0 1200,0 L1200,120 L0,120 Z" 
+      fill={fillColor}
+    />
+  </svg>
+</div>
+
+<style>
+  svg {
+    display: block;
+    height: 60px;
+  }
+  
+  @media (min-width: 768px) {
+    svg {
+      height: 80px;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    svg {
+      height: 100px;
+    }
+  }
+</style>

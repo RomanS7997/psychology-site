@@ -1,0 +1,120 @@
+---
+// src/components/FAQ.astro
+interface Props {
+  items: Array<{
+    question: string;
+    answer: string;
+  }>;
+  title?: string;
+  subtitle?: string;
+}
+
+const { items, title = "Часто задаваемые вопросы", subtitle = "Ответы на популярные вопросы" } = Astro.props;
+const uniqueId = `faq-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<section id="faq" class="py-20 bg-white">
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-4xl font-bold text-center mb-4 text-gray-900">
+        {title}
+      </h2>
+      <p class="text-center text-gray-600 mb-12">
+        {subtitle}
+      </p>
+      
+      <div class="space-y-4" id={uniqueId}>
+        {items.map((item, index) => (
+          <div class="faq-item bg-gray-50 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:bg-gray-100" data-index={index}>
+            <button class="faq-button w-full text-left p-6 flex items-center justify-between" aria-expanded="false">
+              <span class="font-bold text-lg text-gray-900 pr-4">{item.question}</span>
+              <svg class="faq-icon w-6 h-6 text-[#4894B2] flex-shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div class="faq-content overflow-hidden transition-all duration-300 ease-in-out" style="max-height: 0;">
+              <div class="px-6 pb-6">
+                <p class="text-gray-600 leading-relaxed">{item.answer}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div class="text-center mt-12 p-8 bg-[#F2F7FD] rounded-2xl">
+        <p class="text-lg mb-4 text-gray-900">
+          Не нашли ответ на свой вопрос?
+        </p>
+        <button onclick="window.openBookingModal && window.openBookingModal()" class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition shadow-lg">
+          Задать вопрос специалисту
+        </button>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ uniqueId }}>
+  // FAQ accordion functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const faqContainer = document.getElementById(uniqueId);
+    if (!faqContainer) return;
+    
+    const faqItems = faqContainer.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+      const button = item.querySelector('.faq-button');
+      const content = item.querySelector('.faq-content');
+      const icon = item.querySelector('.faq-icon');
+      
+      if (!button || !content || !icon) return;
+      
+      button.addEventListener('click', () => {
+        const isOpen = button.getAttribute('aria-expanded') === 'true';
+        
+        // Закрыть все остальные FAQ
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            const otherButton = otherItem.querySelector('.faq-button');
+            const otherContent = otherItem.querySelector('.faq-content');
+            const otherIcon = otherItem.querySelector('.faq-icon');
+            
+            if (otherButton && otherContent && otherIcon) {
+              otherButton.setAttribute('aria-expanded', 'false');
+              otherContent.style.maxHeight = '0';
+              otherIcon.style.transform = 'rotate(0deg)';
+              otherItem.classList.remove('ring-2', 'ring-[#4894B2]');
+            }
+          }
+        });
+        
+        // Переключить текущий FAQ
+        if (isOpen) {
+          button.setAttribute('aria-expanded', 'false');
+          content.style.maxHeight = '0';
+          icon.style.transform = 'rotate(0deg)';
+          item.classList.remove('ring-2', 'ring-[#4894B2]');
+        } else {
+          button.setAttribute('aria-expanded', 'true');
+          content.style.maxHeight = content.scrollHeight + 'px';
+          icon.style.transform = 'rotate(180deg)';
+          item.classList.add('ring-2', 'ring-[#4894B2]');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .faq-item {
+    @apply transition-all duration-300;
+  }
+  
+  .faq-content {
+    transition: max-height 0.3s ease-in-out;
+  }
+  
+  .faq-icon {
+    transition: transform 0.3s ease-in-out;
+  }
+</style>

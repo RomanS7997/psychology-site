@@ -1,0 +1,309 @@
+---
+// src/components/forms/SimpleBookingForm.astro
+// Упрощенная форма записи без выбора специалиста
+---
+
+<div class="booking-modal-overlay" id="booking-modal">
+  <div class="booking-modal-content max-w-2xl">
+    <button class="modal-close" onclick="closeBookingModal()" aria-label="Закрыть">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    
+    <div class="booking-content">
+      <h2 class="text-3xl font-bold text-gray-900 mb-2">Записаться на консультацию</h2>
+      <p class="text-gray-600 mb-8">Заполните форму, и мы свяжемся с вами для подтверждения записи</p>
+      
+      <form id="booking-form" class="space-y-6">
+        
+        <!-- Выбор услуги -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-900 mb-3">
+            Что вас интересует? <span class="text-[#4894B2]">*</span>
+          </label>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="option-card cursor-pointer">
+              <input type="radio" name="service" value="adult" class="sr-only peer" required>
+              <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-[#4894B2] peer-checked:bg-[#F2F7FD] transition-all">
+                <div class="text-2xl mb-2">👨‍💼</div>
+                <div class="font-semibold text-gray-900">Консультация взрослого</div>
+                <div class="text-sm text-gray-600">Тревога, депрессия, отношения</div>
+              </div>
+            </label>
+            
+            <label class="option-card cursor-pointer">
+              <input type="radio" name="service" value="child" class="sr-only peer">
+              <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-[#4894B2] peer-checked:bg-[#F2F7FD] transition-all">
+                <div class="text-2xl mb-2">🧒</div>
+                <div class="font-semibold text-gray-900">Консультация ребенка</div>
+                <div class="text-sm text-gray-600">Поведение, эмоции, развитие</div>
+              </div>
+            </label>
+            
+            <label class="option-card cursor-pointer">
+              <input type="radio" name="service" value="family" class="sr-only peer">
+              <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-[#4894B2] peer-checked:bg-[#F2F7FD] transition-all">
+                <div class="text-2xl mb-2">👨‍👩‍👧</div>
+                <div class="font-semibold text-gray-900">Семейная терапия</div>
+                <div class="text-sm text-gray-600">Конфликты, кризисы</div>
+              </div>
+            </label>
+            
+            <label class="option-card cursor-pointer">
+              <input type="radio" name="service" value="program" class="sr-only peer">
+              <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-[#4894B2] peer-checked:bg-[#F2F7FD] transition-all">
+                <div class="text-2xl mb-2">📚</div>
+                <div class="font-semibold text-gray-900">Развивающая программа</div>
+                <div class="text-sm text-gray-600">Для детей 4-9 лет</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Имя -->
+        <div>
+          <label for="name" class="block text-sm font-semibold text-gray-900 mb-2">
+            Ваше имя <span class="text-[#4894B2]">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            required
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#4894B2] focus:outline-none transition"
+            placeholder="Введите ваше имя"
+          >
+        </div>
+
+        <!-- Телефон -->
+        <div>
+          <label for="phone" class="block text-sm font-semibold text-gray-900 mb-2">
+            Телефон <span class="text-[#4894B2]">*</span>
+          </label>
+          <input 
+            type="tel" 
+            id="phone" 
+            name="phone" 
+            required
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#4894B2] focus:outline-none transition"
+            placeholder="+7 (___) ___-__-__"
+          >
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">
+            Email
+          </label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#4894B2] focus:outline-none transition"
+            placeholder="your@email.com"
+          >
+        </div>
+
+        <!-- Комментарий -->
+        <div>
+          <label for="comment" class="block text-sm font-semibold text-gray-900 mb-2">
+            Комментарий
+          </label>
+          <textarea 
+            id="comment" 
+            name="comment"
+            rows="3"
+            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#4894B2] focus:outline-none transition resize-none"
+            placeholder="Расскажите кратко о вашей ситуации (необязательно)"
+          ></textarea>
+        </div>
+
+        <!-- Согласие на обработку данных -->
+        <div class="bg-gray-50 p-4 rounded-xl">
+          <label class="flex items-start gap-3 cursor-pointer">
+            <input 
+              type="checkbox" 
+              name="privacy" 
+              required
+              class="mt-1 w-5 h-5 text-[#4894B2] border-gray-300 rounded focus:ring-[#4894B2]"
+            >
+            <span class="text-sm text-gray-700">
+              Я согласен(а) на обработку персональных данных в соответствии с 
+              <a href="/privacy" target="_blank" class="text-[#4894B2] hover:text-[#18698F] underline">
+                Политикой конфиденциальности
+              </a>
+            </span>
+          </label>
+        </div>
+
+        <!-- Кнопка отправки -->
+        <div class="flex gap-4">
+          <button 
+            type="submit"
+            class="flex-1 px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-xl font-bold transition-colors shadow-lg hover:shadow-xl"
+          >
+            Отправить заявку
+          </button>
+          <button 
+            type="button"
+            onclick="closeBookingModal()"
+            class="px-8 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold transition-colors"
+          >
+            Отмена
+          </button>
+        </div>
+
+        <!-- Инфо -->
+        <p class="text-sm text-gray-500 text-center">
+          После отправки заявки мы свяжемся с вами в течение часа для подтверждения записи
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+  .booking-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 2rem 1rem;
+  }
+
+  .booking-modal-overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .booking-modal-content {
+    background: white;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    padding: 2.5rem;
+    margin: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: modalSlideIn 0.3s ease-out;
+  }
+
+  @keyframes modalSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-30px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    z-index: 10;
+  }
+
+  .modal-close:hover {
+    background: #e5e7eb;
+    color: #374151;
+    transform: rotate(90deg);
+  }
+
+  @media (max-width: 640px) {
+    .booking-modal-content {
+      padding: 1.5rem;
+      border-radius: 16px;
+    }
+  }
+</style>
+
+<script>
+  function openBookingModal() {
+    const modal = document.getElementById('booking-modal');
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeBookingModal() {
+    const modal = document.getElementById('booking-modal');
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  // Закрытие по клику вне модального окна
+  document.getElementById('booking-modal')?.addEventListener('click', (e) => {
+    if (e.target.id === 'booking-modal') {
+      closeBookingModal();
+    }
+  });
+
+  // Закрытие по Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeBookingModal();
+    }
+  });
+
+  // Обработка формы
+  document.getElementById('booking-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    
+    console.log('Form data:', data);
+    
+    // Здесь будет интеграция с AMO CRM или отправка на email
+    alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
+    
+    closeBookingModal();
+    e.target.reset();
+  });
+
+  // Форматирование телефона
+  const phoneInput = document.getElementById('phone');
+  phoneInput?.addEventListener('input', (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.startsWith('7') || value.startsWith('8')) {
+      value = value.substring(1);
+    }
+    if (value.length > 0) {
+      let formatted = '+7 ';
+      if (value.length > 0) formatted += '(' + value.substring(0, 3);
+      if (value.length >= 3) formatted += ') ' + value.substring(3, 6);
+      if (value.length >= 6) formatted += '-' + value.substring(6, 8);
+      if (value.length >= 8) formatted += '-' + value.substring(8, 10);
+      e.target.value = formatted;
+    }
+  });
+
+  // Глобальные функции для доступа из других скриптов
+  window.openBookingModal = openBookingModal;
+  window.closeBookingModal = closeBookingModal;
+</script>

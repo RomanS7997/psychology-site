@@ -1,0 +1,458 @@
+---
+// src/pages/test/children.astro
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Тест для родителей - Психологический центр"
+  description="Пройдите бесплатный тест и получите рекомендации по развитию вашего ребенка. Скидка 10% на первое занятие!"
+>
+
+  <section class="min-h-screen py-24 bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="max-w-3xl mx-auto">
+        
+        <!-- Прогресс-бар -->
+        <div class="mb-8">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-sm font-semibold text-gray-700">Шаг <span id="current-step">1</span> из <span id="total-steps">6</span></span>
+            <span class="text-sm font-semibold text-[#4894B2]"><span id="progress-percent">0</span>%</span>
+          </div>
+          <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+            <div id="progress-bar" class="h-full bg-gradient-to-r from-purple-600 to-pink-600 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- Форма теста -->
+        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
+          
+          <!-- Шаг 0: Приветствие -->
+          <div class="step active" data-step="0">
+            <div class="text-center mb-8">
+              <div class="text-7xl mb-6">🧒</div>
+              <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                Тест для родителей
+              </h1>
+              <p class="text-xl text-gray-700 mb-6">
+                Узнайте, какая программа лучше всего подойдёт вашему ребёнку
+              </p>
+              
+              <!-- Скидка -->
+              <div class="bg-gradient-to-r from-purple-100 to-pink-100 border-2 border-purple-300 rounded-2xl p-6 mb-8">
+                <div class="text-3xl mb-2">🎁</div>
+                <p class="text-lg font-bold text-[#4894B2] mb-2">
+                  Специальное предложение!
+                </p>
+                <p class="text-[#4894B2]">
+                  Пройдите тест и получите <strong>скидку 10%</strong> на первое занятие
+                </p>
+              </div>
+
+              <div class="text-left bg-gray-50 rounded-xl p-6 mb-8">
+                <p class="text-gray-700 mb-4">
+                  <strong>Тест займёт всего 2 минуты</strong> и поможет нам:
+                </p>
+                <ul class="space-y-2 text-gray-700">
+                  <li class="flex items-start gap-2">
+                    <span class="text-[#4894B2] mt-1">✓</span>
+                    <span>Понять особенности и потребности вашего ребёнка</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-[#4894B2] mt-1">✓</span>
+                    <span>Подобрать подходящую программу развития</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <span class="text-[#4894B2] mt-1">✓</span>
+                    <span>Дать рекомендации от детского психолога</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <button data-action="next" class="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full font-bold transition shadow-lg hover:shadow-xl text-lg">
+              Начать тест
+            </button>
+          </div>
+
+          <!-- Шаг 1: Возраст ребёнка -->
+          <div class="step" data-step="1">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Сколько лет вашему ребёнку?</h2>
+            
+            <div class="space-y-3">
+              <label class="answer-option block">
+                <input type="radio" name="age" value="3-4" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <span class="text-lg">3-4 года</span>
+                </div>
+              </label>
+              
+              <label class="answer-option block">
+                <input type="radio" name="age" value="5-6" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <span class="text-lg">5-6 лет</span>
+                </div>
+              </label>
+              
+              <label class="answer-option block">
+                <input type="radio" name="age" value="7-9" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <span class="text-lg">7-9 лет</span>
+                </div>
+              </label>
+
+              <label class="answer-option block">
+                <input type="radio" name="age" value="10+" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <span class="text-lg">10+ лет</span>
+                </div>
+              </label>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+              <button data-action="prev" class="flex-1 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-semibold transition">
+                Назад
+              </button>
+              <button data-action="next" class="flex-1 px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full font-bold transition shadow-lg">
+                Далее
+              </button>
+            </div>
+          </div>
+
+          <!-- Шаг 2: Что беспокоит -->
+          <div class="step" data-step="2">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Что вас беспокоит больше всего?</h2>
+            
+            <div class="space-y-3">
+              <label class="answer-option block">
+                <input type="radio" name="concern" value="behavior" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <div class="font-semibold mb-1">Поведение</div>
+                  <div class="text-sm text-gray-600">Не слушается, капризничает, агрессия</div>
+                </div>
+              </label>
+              
+              <label class="answer-option block">
+                <input type="radio" name="concern" value="communication" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <div class="font-semibold mb-1">Общение</div>
+                  <div class="text-sm text-gray-600">Трудности в контакте с детьми или взрослыми</div>
+                </div>
+              </label>
+              
+              <label class="answer-option block">
+                <input type="radio" name="concern" value="emotions" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <div class="font-semibold mb-1">Эмоции</div>
+                  <div class="text-sm text-gray-600">Страхи, тревоги, частые истерики</div>
+                </div>
+              </label>
+
+              <label class="answer-option block">
+                <input type="radio" name="concern" value="development" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <div class="font-semibold mb-1">Развитие</div>
+                  <div class="text-sm text-gray-600">Подготовка к школе, внимание, память</div>
+                </div>
+              </label>
+
+              <label class="answer-option block">
+                <input type="radio" name="concern" value="school" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <div class="font-semibold mb-1">Школьные проблемы</div>
+                  <div class="text-sm text-gray-600">Не хочет учиться, конфликты в школе</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+              <button data-action="prev" class="flex-1 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-semibold transition">
+                Назад
+              </button>
+              <button data-action="next" class="flex-1 px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full font-bold transition shadow-lg">
+                Далее
+              </button>
+            </div>
+          </div>
+
+          <!-- Шаг 3: Степень беспокойства -->
+          <div class="step" data-step="3">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Насколько серьёзной вы считаете проблему?</h2>
+            
+            <div class="space-y-3">
+              <label class="answer-option block">
+                <input type="radio" name="severity" value="low" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <div class="font-semibold mb-1">😊 Незначительная</div>
+                  <div class="text-sm text-gray-600">Хочу предупредить возможные трудности</div>
+                </div>
+              </label>
+              
+              <label class="answer-option block">
+                <input type="radio" name="severity" value="medium" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <div class="font-semibold mb-1">😐 Средняя</div>
+                  <div class="text-sm text-gray-600">Периодически возникают сложности</div>
+                </div>
+              </label>
+              
+              <label class="answer-option block">
+                <input type="radio" name="severity" value="high" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <div class="font-semibold mb-1">😟 Серьёзная</div>
+                  <div class="text-sm text-gray-600">Проблема мешает ребёнку в повседневной жизни</div>
+                </div>
+              </label>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+              <button data-action="prev" class="flex-1 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-semibold transition">
+                Назад
+              </button>
+              <button data-action="next" class="flex-1 px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full font-bold transition shadow-lg">
+                Далее
+              </button>
+            </div>
+          </div>
+
+          <!-- Шаг 4: Посещал ли психолога -->
+          <div class="step" data-step="4">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Ребёнок уже посещал психолога?</h2>
+            
+            <div class="space-y-3">
+              <label class="answer-option block">
+                <input type="radio" name="visited" value="yes" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <span class="text-lg">Да, посещал</span>
+                </div>
+              </label>
+              
+              <label class="answer-option block">
+                <input type="radio" name="visited" value="no" class="hidden">
+                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-purple-400 hover:bg-[#F2F7FD]">
+                  <span class="text-lg">Нет, это будет первый раз</span>
+                </div>
+              </label>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+              <button data-action="prev" class="flex-1 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-semibold transition">
+                Назад
+              </button>
+              <button data-action="next" class="flex-1 px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full font-bold transition shadow-lg">
+                Далее
+              </button>
+            </div>
+          </div>
+
+          <!-- Шаг 5: Контактные данные -->
+          <div class="step" data-step="5">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Ваши контактные данные</h2>
+            <p class="text-gray-600 mb-6">
+              Мы свяжемся с вами и расскажем о рекомендациях на основе ваших ответов
+            </p>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Ваше имя *</label>
+                <input 
+                  type="text" 
+                  id="parent-name"
+                  required
+                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition"
+                  placeholder="Как к вам обращаться?"
+                >
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Телефон *</label>
+                <input 
+                  type="tel" 
+                  id="parent-phone"
+                  required
+                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition"
+                  placeholder="+7 (___) ___-__-__"
+                >
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Имя ребёнка (необязательно)</label>
+                <input 
+                  type="text" 
+                  id="child-name"
+                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none transition"
+                  placeholder="Имя вашего ребёнка"
+                >
+              </div>
+            </div>
+
+            <div class="flex gap-4 mt-8">
+              <button data-action="prev" class="flex-1 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-semibold transition">
+                Назад
+              </button>
+              <button data-action="submit" class="flex-1 px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full font-bold transition shadow-lg">
+                Получить результат
+              </button>
+            </div>
+          </div>
+
+          <!-- Шаг 6: Финальный экран -->
+          <div class="step" data-step="6">
+            <div class="text-center">
+              <div class="text-7xl mb-6">🎉</div>
+              <h2 class="text-3xl font-bold text-gray-900 mb-4">
+                Спасибо за прохождение теста!
+              </h2>
+              <p class="text-xl text-gray-700 mb-8">
+                Мы свяжемся с вами в течение 15 минут и расскажем о наших рекомендациях
+              </p>
+
+              <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6 mb-8">
+                <p class="text-lg font-bold text-[#4894B2] mb-2">
+                  Ваша скидка 10% активирована! 🎁
+                </p>
+                <p class="text-[#4894B2]">
+                  Не забудьте упомянуть промокод <strong>TEST10</strong> при записи
+                </p>
+              </div>
+
+              <div class="text-left bg-gray-50 rounded-xl p-6 mb-8">
+                <p class="font-semibold text-gray-900 mb-4">Что дальше?</p>
+                <ul class="space-y-3 text-gray-700">
+                  <li class="flex items-start gap-3">
+                    <span class="text-2xl">1️⃣</span>
+                    <span>Наш специалист свяжется с вами по телефону</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="text-2xl">2️⃣</span>
+                    <span>Мы расскажем о рекомендациях на основе ваших ответов</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span class="text-2xl">3️⃣</span>
+                    <span>Подберём удобное время для первой консультации</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="flex flex-col sm:flex-row gap-4">
+                <a href="/" class="flex-1 px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-full font-bold transition shadow-lg text-center">
+                  Вернуться на главную
+                </a>
+                <a href="/programs/azbuka" class="flex-1 px-8 py-3 bg-white hover:bg-gray-50 text-[#4894B2] border-2 border-purple-600 rounded-full font-bold transition text-center">
+                  Посмотреть программы
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  .step {
+    display: none;
+  }
+  
+  .step.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .answer-option input:checked + .answer-card {
+    @apply border-purple-600 bg-[#F2F7FD];
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', function() {
+    let currentStep = 0;
+    const totalSteps = 6;
+    const testData = {};
+
+    function updateProgress() {
+      const percent = Math.round((currentStep / totalSteps) * 100);
+      document.getElementById('progress-bar').style.width = percent + '%';
+      document.getElementById('progress-percent').textContent = percent;
+      document.getElementById('current-step').textContent = currentStep + 1;
+      document.getElementById('total-steps').textContent = totalSteps + 1;
+    }
+
+    function nextStep() {
+      const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
+      const selectedAnswer = currentStepEl?.querySelector('input[type="radio"]:checked');
+      
+      if (currentStep > 0 && currentStep < 5 && !selectedAnswer) {
+        alert('Пожалуйста, выберите ответ');
+        return;
+      }
+      
+      if (selectedAnswer) {
+        testData[selectedAnswer.name] = selectedAnswer.value;
+      }
+      
+      document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.remove('active');
+      currentStep++;
+      document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.add('active');
+      
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function prevStep() {
+      document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.remove('active');
+      currentStep--;
+      document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.add('active');
+      
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function submitTest() {
+      const name = document.getElementById('parent-name')?.value;
+      const phone = document.getElementById('parent-phone')?.value;
+      const childName = document.getElementById('child-name')?.value;
+      
+      if (!name || !phone) {
+        alert('Пожалуйста, заполните обязательные поля');
+        return;
+      }
+      
+      testData.parentName = name;
+      testData.phone = phone;
+      testData.childName = childName;
+      
+      console.log('Test data:', testData);
+      nextStep();
+    }
+
+    // Добавляем обработчики на все кнопки
+    document.querySelectorAll('[data-action="next"]').forEach(btn => {
+      btn.addEventListener('click', nextStep);
+    });
+    
+    document.querySelectorAll('[data-action="prev"]').forEach(btn => {
+      btn.addEventListener('click', prevStep);
+    });
+    
+    document.querySelectorAll('[data-action="submit"]').forEach(btn => {
+      btn.addEventListener('click', submitTest);
+    });
+
+    updateProgress();
+  });
+</script>

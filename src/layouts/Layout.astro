@@ -1,0 +1,72 @@
+---
+// src/layouts/Layout.astro
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingCTA from '../components/global/FloatingCTA.astro';
+import ExitIntentPopup from '../components/global/ExitIntentPopup.astro';
+import SimpleBookingForm from '../components/forms/SimpleBookingForm.astro';
+import SocialProof from '../components/global/SocialProof.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { 
+  title, 
+  description = "Профессиональная психологическая помощь. Консультирование взрослых и детей, развивающие программы." 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- Favicon (добавишь позже) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Preconnect для шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <title>{title} | Кабинет психолога Ляпина Юлия</title>
+  </head>
+  <body>
+    <Header />
+    
+    <slot />
+    
+    <Footer />
+    
+    <!-- Глобальные компоненты конверсии -->
+    <SocialProof />
+    <FloatingCTA />
+    <ExitIntentPopup />
+    <SimpleBookingForm />
+  </body>
+</html>
+
+<style is:global>
+  /* Скрыть скроллбар, но оставить функциональность */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #4894B2;
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #18698F;
+  }
+</style>

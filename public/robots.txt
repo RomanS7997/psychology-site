@@ -1,0 +1,25 @@
+# robots.txt для julialyapina.ru
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://julialyapina.ru/sitemap.xml
+
+# Запрещаем индексацию технических директорий
+Disallow: /api/
+Disallow: /_astro/
+Disallow: /.well-known/
+
+# Разрешаем все остальное
+Allow: /services/
+Allow: /programs/
+Allow: /blog/
+Allow: /about
+Allow: /contact
+Allow: /specialists
+Allow: /reviews
+Allow: /test/
+
+# Crawl-delay для бота (опционально)
+Crawl-delay: 1

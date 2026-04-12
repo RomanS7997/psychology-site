@@ -1,0 +1,377 @@
+---
+// src/components/global/ExitIntentPopup.astro
+// Exit-intent popup - показывается когда пользователь хочет уйти с сайта
+---
+
+<div class="exit-popup-overlay" id="exit-popup">
+  <div class="exit-popup-content">
+    <button class="exit-popup-close" onclick="closeExitPopup()" aria-label="Закрыть">
+      ✕
+    </button>
+    
+    <div class="exit-popup-header">
+      <div class="exit-popup-icon">⏰</div>
+      <h2 class="exit-popup-title">Уходите?</h2>
+      <p class="exit-popup-subtitle">
+        Получите <strong>15-минутную первичную консультацию</strong>
+      </p>
+    </div>
+    
+    <form class="exit-popup-form" id="exit-form">
+      <div class="form-group">
+        <input 
+          type="text" 
+          name="name" 
+          placeholder="Ваше имя" 
+          required
+          class="form-input"
+        >
+      </div>
+      
+      <div class="form-group">
+        <input 
+          type="tel" 
+          name="phone" 
+          placeholder="Ваш телефон" 
+          required
+          class="form-input"
+          pattern="[0-9+\-\(\) ]+"
+        >
+      </div>
+      
+      <button type="submit" class="form-submit">
+        Получить консультацию
+      </button>
+      
+      <p class="form-note">
+        Перезвоним в течение <strong>15 минут</strong> в рабочее время
+      </p>
+    </form>
+    
+    <div class="exit-popup-guarantees">
+      <div class="guarantee-item">
+        <span class="guarantee-icon">🔒</span>
+        <span class="guarantee-text">100% конфиденциально</span>
+      </div>
+      <div class="guarantee-item">
+        <span class="guarantee-icon">✅</span>
+        <span class="guarantee-text">Без обязательств</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .exit-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 1rem;
+  }
+  
+  .exit-popup-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .exit-popup-content {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+  
+  .exit-popup-overlay.active .exit-popup-content {
+    transform: scale(1);
+  }
+  
+  .exit-popup-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+  }
+  
+  .exit-popup-close:hover {
+    color: #475569;
+    background: #f1f5f9;
+  }
+  
+  .exit-popup-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .exit-popup-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: swing 1s ease-in-out infinite;
+  }
+  
+  @keyframes swing {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+  }
+  
+  .exit-popup-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.75rem;
+  }
+  
+  .exit-popup-subtitle {
+    font-size: 1.125rem;
+    color: #475569;
+    line-height: 1.6;
+  }
+  
+  .exit-popup-subtitle strong {
+    color: #0d9488;
+    font-weight: 700;
+  }
+  
+  .exit-popup-form {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #0d9488;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+  }
+  
+  .form-submit {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
+  }
+  
+  .form-note {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+  
+  .form-note strong {
+    color: #0d9488;
+  }
+  
+  .exit-popup-guarantees {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+  }
+  
+  .guarantee-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+  
+  .guarantee-icon {
+    font-size: 1.25rem;
+  }
+  
+  @media (max-width: 640px) {
+    .exit-popup-content {
+      padding: 2rem 1.5rem;
+    }
+    
+    .exit-popup-title {
+      font-size: 1.5rem;
+    }
+    
+    .exit-popup-subtitle {
+      font-size: 1rem;
+    }
+    
+    .exit-popup-icon {
+      font-size: 3rem;
+    }
+    
+    .exit-popup-guarantees {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  let exitPopupShown = false;
+  
+  function showExitPopup() {
+    const popup = document.getElementById('exit-popup');
+    if (popup && !exitPopupShown) {
+      popup.classList.add('active');
+      exitPopupShown = true;
+      localStorage.setItem('exitPopupShown', 'true');
+    }
+  }
+  
+  function closeExitPopup() {
+    const popup = document.getElementById('exit-popup');
+    if (popup) {
+      popup.classList.remove('active');
+    }
+  }
+  
+  document.getElementById('exit-popup')?.addEventListener('click', (e) => {
+    if (e.target.id === 'exit-popup') {
+      closeExitPopup();
+    }
+  });
+  
+  document.getElementById('exit-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = {
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      source: 'exit-intent-popup'
+    };
+    
+    try {
+      console.log('Отправка данных:', data);
+      
+      const popup = document.querySelector('.exit-popup-content');
+      if (popup) {
+        popup.innerHTML = `
+          <div style="text-align: center; padding: 2rem;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: #0f172a;">
+              Спасибо! Заявка принята
+            </h3>
+            <p style="color: #64748b; margin-bottom: 2rem;">
+              Мы перезвоним вам в течение 15 минут в рабочее время
+            </p>
+            <button 
+              onclick="closeExitPopup()" 
+              style="
+                padding: 0.75rem 2rem; 
+                background: #0d9488; 
+                color: white; 
+                border: none; 
+                border-radius: 0.5rem; 
+                cursor: pointer;
+                font-size: 1rem;
+                font-weight: 600;
+              "
+            >
+              Закрыть
+            </button>
+          </div>
+        `;
+      }
+    } catch (error) {
+      console.error('Ошибка отправки:', error);
+      alert('Произошла ошибка. Попробуйте позвонить нам напрямую.');
+    }
+  });
+  
+  if (localStorage.getItem('exitPopupShown') === 'true') {
+    exitPopupShown = true;
+  }
+  
+  document.addEventListener('mouseleave', (e: MouseEvent) => {
+    if (e.clientY <= 0 && !exitPopupShown) {
+      showExitPopup();
+    }
+  });
+  
+  let lastScrollTop = 0;
+  let scrollUpCount = 0;
+  
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop < lastScrollTop && scrollTop < 100) {
+      scrollUpCount++;
+      
+      if (scrollUpCount >= 3 && !exitPopupShown) {
+        showExitPopup();
+      }
+    } else {
+      scrollUpCount = 0;
+    }
+    
+    lastScrollTop = scrollTop;
+  });
+  
+  setTimeout(() => {
+    if (!exitPopupShown && document.visibilityState === 'visible') {
+      const bookingForms = document.querySelectorAll('[id*="booking"], [class*="booking"]');
+      let nearBooking = false;
+      
+      bookingForms.forEach(form => {
+        const rect = form.getBoundingClientRect();
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+          nearBooking = true;
+        }
+      });
+      
+      if (!nearBooking) {
+        showExitPopup();
+      }
+    }
+  }, 30000);
+</script>

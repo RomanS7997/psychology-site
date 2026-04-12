@@ -1,0 +1,189 @@
+---
+// src/components/global/SocialProof.astro
+// Компактное социальное доказательство
+---
+
+<div class="social-proof-widget">
+  <!-- Главный счетчик -->
+  <div class="proof-main">
+    <span class="proof-icon">🎯</span>
+    <span class="proof-text">
+      Сегодня записались: <strong id="today-bookings">3</strong>
+    </span>
+  </div>
+  
+  <!-- Уведомление о новой записи -->
+  <div class="proof-notification" id="recent-booking">
+    <span class="proof-icon-small">✅</span>
+    <span class="proof-text-small" id="notification-text">
+      Ольга из Москвы (5 мин назад)
+    </span>
+  </div>
+</div>
+
+<style>
+  .social-proof-widget {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 999;
+    background: white;
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    max-width: 260px;
+    border: 1px solid rgba(13, 148, 136, 0.08);
+    transition: all 0.3s ease;
+  }
+  
+  .social-proof-widget:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  }
+  
+  .proof-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  .proof-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+  
+  .proof-text {
+    font-size: 0.8125rem;
+    color: #475569;
+    line-height: 1.4;
+  }
+  
+  .proof-text strong {
+    color: #0d9488;
+    font-weight: 700;
+  }
+  
+  .proof-notification {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 10px;
+    opacity: 0;
+    animation: fadeInSlide 0.4s ease forwards;
+  }
+  
+  .proof-icon-small {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  
+  .proof-text-small {
+    font-size: 0.75rem;
+    color: #64748b;
+    line-height: 1.4;
+  }
+  
+  @keyframes fadeInSlide {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .proof-notification.updating {
+    animation: fadeOutSlide 0.3s ease forwards;
+  }
+  
+  @keyframes fadeOutSlide {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+  
+  /* Адаптив */
+  @media (max-width: 1024px) {
+    .social-proof-widget {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const names = [
+    'Ольга', 'Марина', 'Анна', 'Елена', 'Ирина', 'Татьяна',
+    'Светлана', 'Наталья', 'Юлия', 'Екатерина', 'Дарья', 'Алексей',
+    'Дмитрий', 'Сергей', 'Андрей', 'Максим', 'Мария', 'Александра'
+  ];
+  
+  const cities = [
+    'Москвы', 'Московской области', 'Химок', 'Балашихи', 'Люберец',
+    'Подольска', 'Королева', 'Мытищ', 'Одинцово', 'Красногорска'
+  ];
+  
+  function getRandomElement(arr: string[]) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+  
+  function getRandomMinutes() {
+    return Math.floor(Math.random() * 30) + 3;
+  }
+  
+  function updateNotification() {
+    const notificationEl = document.getElementById('recent-booking');
+    const textEl = document.getElementById('notification-text');
+    
+    if (!notificationEl || !textEl) return;
+    
+    notificationEl.classList.add('updating');
+    
+    setTimeout(() => {
+      const name = getRandomElement(names);
+      const city = getRandomElement(cities);
+      const minutes = getRandomMinutes();
+      
+      textEl.textContent = `${name} из ${city} (${minutes} мин назад)`;
+      
+      notificationEl.classList.remove('updating');
+      notificationEl.style.animation = 'none';
+      setTimeout(() => {
+        notificationEl.style.animation = '';
+      }, 10);
+    }, 300);
+  }
+  
+  function scheduleNextUpdate() {
+    const delay = Math.random() * 180000 + 120000; // 2-5 минут
+    setTimeout(() => {
+      updateNotification();
+      scheduleNextUpdate();
+    }, delay);
+  }
+  
+  setTimeout(() => {
+    scheduleNextUpdate();
+  }, 3000);
+  
+  function incrementTodayBookings() {
+    const counter = document.getElementById('today-bookings');
+    if (counter) {
+      const current = parseInt(counter.textContent || '3');
+      const shouldIncrement = Math.random() > 0.7;
+      
+      if (shouldIncrement && current < 15) {
+        counter.textContent = (current + 1).toString();
+      }
+    }
+  }
+  
+  setInterval(incrementTodayBookings, Math.random() * 600000 + 1200000);
+</script>

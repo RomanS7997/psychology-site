@@ -1,0 +1,1014 @@
+---
+// src/pages/services/adult.astro
+import Layout from '../../layouts/Layout.astro';
+import ScrollAnimations from '../../components/ScrollAnimations.astro';
+import FAQ from '../../components/FAQ.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SEO from '../../components/SEO.astro';
+---
+
+<SEO 
+  title="Психолог для взрослых в Одинцово и Лесном городке | Консультации онлайн"
+  description="Помощь психолога взрослым в Одинцово. Работа с тревогой, прокрастинацией, кризисами, отношениями. Консультации онлайн и офлайн. Запись по телефону."
+  keywords="психолог для взрослых Одинцово, психотерапия, консультация психолога онлайн, работа с тревогой"
+  schema="service"
+/>
+
+<Layout 
+  title="Психолог для взрослых в Одинцово и Лесном городке | Консультации онлайн"
+  description="Помощь психолога взрослым в Одинцово. Работа с тревогой, прокрастинацией, кризисами, отношениями."
+>
+
+  
+
+  <!-- Hero секция -->
+  <section class="relative pt-32 pb-20 overflow-hidden" data-animate="fade">
+    <!-- Фоновый градиент -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#F2F7FD] via-blue-50 to-purple-50 opacity-50"></div>
+    
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        
+        <!-- Текст -->
+        <div>
+          <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
+            Психологическое консультирование для взрослых
+          </h1>
+          
+          <p class="text-xl text-gray-700 mb-6 leading-relaxed">
+            Помогаем разобраться в себе, преодолеть трудности и найти внутренние ресурсы 
+            для счастливой жизни
+          </p>
+          
+          <div class="flex flex-wrap gap-4">
+            <button 
+              onclick="openBookingModal()"
+              class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F]  hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
+            >
+              Записаться на консультацию
+            </button>
+            <button 
+              onclick="openBookingModal('specialist')"
+              class="px-8 py-4 bg-white hover:bg-gray-50 text-[#4894B2] border-2 border-teal-600 rounded-full font-semibold transition"
+            >
+              Первичная консультация
+            </button>
+          </div>
+          
+          <!-- Быстрые факты -->
+          <div class="grid grid-cols-3 gap-6 mt-12" data-stagger>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#4894B2] mb-2">50 мин</div>
+              <div class="text-sm text-gray-600">длительность<br/>сессии</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#4894B2] mb-2">5 900₽</div>
+              <div class="text-sm text-gray-600">стоимость<br/>консультации</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#4894B2] mb-2" data-counter="87" data-suffix="%">0</div>
+              <div class="text-sm text-gray-600">отмечают<br/>улучшение</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Изображение -->
+        <div class="flex justify-center lg:justify-end " >
+        <div class="relative w-full max-w-md">
+          <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
+            <img 
+              src="/images/services/adult-consulting.jpg" 
+              alt="Консультация психолога" 
+              class="w-full h-auto"
+            />
+            
+          </div>
+          </div>
+          <!-- Декоративные элементы -->
+          <div class="absolute -top-6 -right-6 w-24 h-24 bg-teal-400 rounded-full opacity-20 blur-2xl"></div>
+          <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-[#F2F7FD] rounded-full opacity-20 blur-2xl"></div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+<Breadcrumbs 
+    items={[
+      { label: 'Главная', href: '/' },
+      { label: 'Услуги', href: '/#services' },
+      { label: 'Консультирование взрослых' }
+    ]}
+  />
+  <!-- С чем я работаю -->
+  <section id="what-we-help" class="py-20 bg-white" data-animate="slide-up">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
+        С чем я помогаю взрослым
+      </h2>
+      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
+        Найдите себя в одной из ситуаций и узнайте, как я могу помочь
+      </p>
+      
+      <!-- Сетка проблем -->
+      <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        
+        <!-- Тревожность и страхи -->
+        <div id="anxiety" class="accordion-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
+          <div class="text-5xl mb-4">😰</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Тревога, страхи, панические атаки</h3>
+          
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            Если вас преследуют навязчивые мысли, постоянное беспокойство, 
+            панические атаки или необъяснимые страхи — помогу.
+          </p>
+          
+          <div class="mb-6">
+            <h4 class="font-bold text-gray-900 mb-3">Симптомы:</h4>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Учащенное сердцебиение</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Нехватка воздуха</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Постоянное напряжение</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Страх потери контроля</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Избегание ситуаций</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-[#F2F7FD]/50 p-6 rounded-xl mb-6">
+            <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <span class="text-[#4894B2]">✓</span>
+              Как я помогаю:
+            </h4>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              Используем когнитивно-поведенческую терапию (КПТ) — самый эффективный 
+              метод работы с тревожными расстройствами. Вы научитесь управлять тревогой, 
+              а не избегать ее.
+            </p>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Техники дыхания и релаксации</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Работа с негативными мыслями</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Постепенная экспозиция страхам</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Профилактика рецидивов</span>
+              </li>
+            </ul>
+          </div>
+          
+          <button 
+            onclick="openBookingModal('anxiety')"
+            class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition"
+          >
+            Записаться к специалисту по тревоге
+          </button>
+        </div>
+        
+        <!-- Прокрастинация -->
+        <div id="procrastination" class="accordion-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
+          <div class="text-5xl mb-4">⏰</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Прокрастинация, откладывание дел</h3>
+          
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            Если вы постоянно откладываете важные дела, не можете начать 
+            и чувствуете вину за невыполненные задачи — я помогу разобраться.
+          </p>
+          
+          <div class="mb-6">
+            <h4 class="font-bold text-gray-900 mb-3">Симптомы:</h4>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Постоянное откладывание важных дел</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Сложность с началом задач</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Чувство вины и самокритика</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Страх неудачи или критики</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Перфекционизм</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-[#F2F7FD]/50 p-6 rounded-xl mb-6">
+            <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <span class="text-[#4894B2]">✓</span>
+              Как я помогаю:
+            </h4>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              Разберёмся с глубинными причинами прокрастинации и найдём 
+              эффективные стратегии для достижения целей.
+            </p>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Работа со страхом неудачи</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Техники управления временем</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Работа с перфекционизмом</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Формирование мотивации</span>
+              </li>
+            </ul>
+          </div>
+          
+          <button 
+            onclick="openBookingModal('procrastination')"
+            class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition"
+          >
+            Записаться на консультацию
+          </button>
+        </div>
+        
+        <!-- Низкая самооценка -->
+        <div id="self-esteem" class="accordion-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+          <div class="text-5xl mb-4">😔</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Низкая самооценка и неуверенность</h3>
+          
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            Постоянная самокритика, сомнения в себе, страх не соответствовать 
+            ожиданиям других людей.
+          </p>
+          
+          <div class="mb-6">
+            <h4 class="font-bold text-gray-900 mb-3">Симптомы:</h4>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Сравнение себя с другими</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Страх критики и оценки</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Синдром самозванца</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Трудности в принятии решений</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Избегание новых возможностей</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Чувство недостаточности</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-[#F2F7FD]/50  p-6 rounded-xl mb-6">
+            <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <span class="text-[#4894B2]">✓</span>
+              Как я помогаю:
+            </h4>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              Помогаем выявить и изменить негативные убеждения о себе, 
+              развить самопринятие и уверенность в своих силах.
+            </p>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Работа с внутренним критиком</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Развитие самосострадания</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Практика уверенного поведения</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Укрепление границ</span>
+              </li>
+            </ul>
+          </div>
+          
+          <button 
+            onclick="openBookingModal('self-esteem')"
+            class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition"
+          >
+            Записаться к специалисту
+          </button>
+        </div>
+        
+        <!-- Кризис -->
+        <div id="crisis" class="accordion-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+          <div class="text-5xl mb-4">🌪️</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Возрастные и жизненные кризисы</h3>
+          
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            Кризис среднего возраста, потеря смысла жизни, сложный жизненный период, 
+            переоценка ценностей.
+          </p>
+          
+          <div class="mb-6">
+            <h4 class="font-bold text-gray-900 mb-3">Симптомы:</h4>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Потеря смысла и целей</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Чувство пустоты</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Переоценка прожитого</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Желание кардинальных перемен</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Растерянность</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-[#F2F7FD]/50  p-6 rounded-xl mb-6">
+            <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <span class="text-[#4894B2]">✓</span>
+              Как я помогаю:
+            </h4>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              Помогаем найти новый смысл, пройти через кризис и выйти 
+              из него с обновленным видением жизни.
+            </p>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Поиск личных ценностей</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Работа с экзистенциальными вопросами</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Постановка новых целей</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Принятие изменений</span>
+              </li>
+            </ul>
+          </div>
+          
+          <button 
+            onclick="openBookingModal('crisis')"
+            class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition"
+          >
+            Записаться к специалисту
+          </button>
+        </div>
+        
+        <!-- Отношения -->
+        <div id="relationships" class="accordion-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+          <div class="text-5xl mb-4">💔</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Сложности в отношениях</h3>
+          
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            Конфликты в паре, ревность, измены, созависимость, 
+            трудности с выстраиванием границ.
+          </p>
+          
+          <div class="mb-6">
+            <h4 class="font-bold text-gray-900 mb-3">Симптомы:</h4>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Постоянные конфликты</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Недопонимание с партнером</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Потеря близости</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Токсичные паттерны</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Страх одиночества</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-[#F2F7FD]/50 p-6 rounded-xl mb-6">
+            <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <span class="text-[#4894B2]">✓</span>
+              Как я помогаю:
+            </h4>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              Работаем с паттернами отношений, помогаем улучшить коммуникацию 
+              и выстроить здоровые границы.
+            </p>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Улучшение коммуникации</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Работа с конфликтами</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Выстраивание границ</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Преодоление созависимости</span>
+              </li>
+            </ul>
+          </div>
+          
+          <button 
+            onclick="openBookingModal('relationships')"
+            class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition"
+          >
+            Записаться к специалисту
+          </button>
+        </div>
+        
+        <!-- Стресс и выгорание -->
+        <div id="burnout" class="accordion-card bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+          <div class="text-5xl mb-4">🔥</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Стресс и профессиональное выгорание</h3>
+          
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            Хроническая усталость на работе, потеря мотивации, 
+            эмоциональное истощение.
+          </p>
+          
+          <div class="mb-6">
+            <h4 class="font-bold text-gray-900 mb-3">Симптомы:</h4>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Постоянная усталость</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Циничное отношение к работе</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Снижение продуктивности</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Раздражительность</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2] mt-1">•</span>
+                <span>Проблемы со сном</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="bg-[#F2F7FD]/50  p-6 rounded-xl mb-6">
+            <h4 class="font-bold text-gray-900 mb-3 flex items-center gap-2">
+              <span class="text-[#4894B2]">✓</span>
+              Как я помогаю:
+            </h4>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              Помогаем восстановить энергию, найти баланс между работой 
+              и личной жизнью, предотвратить выгорание.
+            </p>
+            <ul class="space-y-2 text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Управление стрессом</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Восстановление ресурсов</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Поиск work-life баланса</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Профилактика выгорания</span>
+              </li>
+            </ul>
+          </div>
+          
+          <button 
+            onclick="openBookingModal('burnout')"
+            class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#4894B2] text-white rounded-full font-semibold transition"
+          >
+            Записаться к специалисту
+          </button>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Методы работы -->
+  <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
+        Какие методы я использую
+      </h2>
+      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
+        Работаем только с научно-обоснованными подходами
+      </p>
+      
+      <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        
+        <!-- КПТ -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-gradient-to-br from-teal-100 to-teal-200 rounded-full flex items-center justify-center mb-6">
+            <span class="text-3xl">🧠</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Когнитивно-поведенческая терапия (КПТ)</h3>
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            Золотой стандарт в работе с тревогой, прокрастинацией, ОКР. 
+            Доказанная эффективность в 70-90% случаев.
+          </p>
+          <div class="bg-[#F2F7FD] p-4 rounded-xl">
+            <h4 class="font-bold text-gray-900 mb-3">Подходит для:</h4>
+            <ul class="space-y-2 text-sm text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Тревожных расстройств</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Депрессии</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Фобий и панических атак</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>ОКР</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Схема-терапия -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-gradient-to-br from-[#F2F7FD] to-white rounded-full flex items-center justify-center mb-6">
+            <span class="text-3xl">🔍</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Схема-терапия</h3>
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            Глубинная работа с детскими травмами и устойчивыми паттернами поведения.
+          </p>
+          <div class="bg-[#F2F7FD] p-4 rounded-xl">
+            <h4 class="font-bold text-gray-900 mb-3">Подходит для:</h4>
+            <ul class="space-y-2 text-sm text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Детских травм</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Низкой самооценки</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Проблем в отношениях</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Повторяющихся паттернов</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- ACT -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-gradient-to-br from-[#F2F7FD] to-white rounded-full flex items-center justify-center mb-6">
+            <span class="text-3xl">🧘</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4">Терапия принятия и ответственности (ACT)</h3>
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            Работа с ценностями, осознанностью и принятием сложных эмоций.
+          </p>
+          <div class="bg-[#F2F7FD] p-4 rounded-xl">
+            <h4 class="font-bold text-gray-900 mb-3">Подходит для:</h4>
+            <ul class="space-y-2 text-sm text-gray-700">
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Хронического стресса</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Поиска смысла жизни</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Эмоциональной регуляции</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-[#4894B2]">✓</span>
+                <span>Личностного роста</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Как проходит консультация -->
+  <section class="py-20 bg-white" data-animate="slide-up">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
+        Как проходит первая консультация
+      </h2>
+      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
+        Подробный план вашей первой встречи с психологом
+      </p>
+      
+      <!-- Timeline -->
+      <div class="max-w-4xl mx-auto relative">
+        <!-- Вертикальная линия -->
+        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-br from-[#4894B2] to-[#18698F] transition-all duration-2000" data-progress-line style="height: 0%"></div>
+        
+        <div class="space-y-8" data-stagger>
+          
+          <div class="flex gap-6 relative">
+            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
+              1
+            </div>
+            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              <h3 class="text-2xl font-bold text-gray-900 mb-3">Знакомство (5 минут)</h3>
+              <p class="text-gray-700 leading-relaxed">
+                Психолог расскажет о себе, своем подходе и правилах работы. 
+                Вы познакомитесь и оцените, комфортно ли вам с этим специалистом.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex gap-6 relative">
+            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
+              2
+            </div>
+            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              <h3 class="text-2xl font-bold text-gray-900 mb-3">Запрос и история (15-20 минут)</h3>
+              <p class="text-gray-700 leading-relaxed">
+                Вы расскажете, что привело вас к психологу, какие трудности испытываете. 
+                Психолог задаст уточняющие вопросы о вашей истории.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex gap-6 relative">
+            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
+              3
+            </div>
+            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              <h3 class="text-2xl font-bold text-gray-900 mb-3">Диагностика (10 минут)</h3>
+              <p class="text-gray-700 leading-relaxed">
+                Психолог оценит ваше состояние, при необходимости предложит пройти 
+                тестирование (шкалы тревоги).
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex gap-6 relative">
+            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
+              4
+            </div>
+            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              <h3 class="text-2xl font-bold text-gray-900 mb-3">План терапии (10 минут)</h3>
+              <p class="text-gray-700 leading-relaxed">
+                Психолог предложит план работы: какие методы будут использоваться, 
+                сколько примерно потребуется сессий, какие результаты ожидать.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex gap-6 relative">
+            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
+              5
+            </div>
+            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+              <h3 class="text-2xl font-bold text-gray-900 mb-3">Вопросы и следующие шаги (5 минут)</h3>
+              <p class="text-gray-700 leading-relaxed">
+                Вы можете задать любые вопросы о терапии. Если решите продолжить, 
+                договоритесь о следующей встрече.
+              </p>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      <!-- CTA после timeline -->
+      <div class="text-center mt-16">
+        <button 
+          onclick="openBookingModal()"
+          class="px-12 py-5 bg-[#4894B2] hover:bg-[#18698F] text-white text-xl rounded-full font-semibold transition shadow-xl hover:shadow-2xl"
+        >
+          Записаться на первую консультацию
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Цены и форматы -->
+  <section class="py-20 bg-gradient-to-br from-purple-50 to-pink-50" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
+        Стоимость консультации
+      </h2>
+      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
+        Индивидуальный подход к каждому клиенту
+      </p>
+      
+      <div class="max-w-lg mx-auto">
+        
+        <!-- Индивидуальная консультация -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-10 shadow-xl border-2 border-[#4894B2]/30 text-center">
+          <h3 class="text-2xl font-bold text-gray-900 mb-6">Индивидуальная консультация</h3>
+          <div class="mb-6">
+            <div class="text-6xl font-bold text-[#4894B2] mb-2">5 900₽</div>
+            <div class="text-gray-600 text-lg">55 минут</div>
+          </div>
+          
+          <ul class="space-y-3 mb-8 text-left max-w-sm mx-auto">
+            <li class="flex items-start gap-2 text-gray-700">
+              <span class="text-[#4894B2] mt-1">✓</span>
+              <span>Работа один на один с психологом</span>
+            </li>
+            <li class="flex items-start gap-2 text-gray-700">
+              <span class="text-[#4894B2] mt-1">✓</span>
+              <span>Онлайн или офлайн</span>
+            </li>
+            <li class="flex items-start gap-2 text-gray-700">
+              <span class="text-[#4894B2] mt-1">✓</span>
+              <span>Полная конфиденциальность</span>
+            </li>
+            <li class="flex items-start gap-2 text-gray-700">
+              <span class="text-[#4894B2] mt-1">✓</span>
+              <span>Индивидуальный план терапии</span>
+            </li>
+          </ul>
+          
+          <button 
+            onclick="openBookingModal('individual')"
+            class="w-full px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-bold transition text-lg"
+          >
+            Записаться на консультацию
+          </button>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ для взрослых -->
+  <div data-animate="fade">
+    <FAQ 
+    title="Часто задаваемые вопросы"
+    subtitle="Ответы на вопросы о консультировании взрослых"
+    items={[
+      {
+        question: "Как понять, нужен ли мне психолог?",
+        answer: "Если вы испытываете постоянный дискомфорт, трудности в отношениях, тревогу, апатию или просто хотите лучше понять себя — это уже достаточная причина обратиться к психологу. Не обязательно ждать серьезного кризиса."
+      },
+      {
+        question: "Сколько сессий мне понадобится?",
+        answer: "Это индивидуально. При работе с конкретным запросом (например, тревогой) может быть достаточно 8-12 сессий. Глубинная работа с личностными паттернами может занять 6-12 месяцев. Первые изменения вы заметите уже после 3-4 встреч."
+      },
+      {
+        question: "В чем разница между психологом и психотерапевтом?",
+        answer: "Психолог — это специалист с психологическим образованием. Психотерапевт — психолог с дополнительной подготовкой в определённом методе терапии (например, КПТ, арт-терапия). Имею дополнительную подготовку в нескольких методах психотерапии."
+      },
+      {
+        question: "Можно ли проводить консультации онлайн?",
+        answer: "Да, провожу как очные, так и онлайн-консультации. Эффективность онлайн-терапии не уступает очной, если у вас есть стабильный интернет и комфортное место для разговора."
+      },
+      {
+        question: "Гарантируется ли конфиденциальность?",
+        answer: "Абсолютно. Всё, что вы говорите на сессии, останется между вами и мной. Это зафиксировано в этическом кодексе психолога."
+      },
+      {
+        question: "Что делать, если не подошел психолог?",
+        answer: "Это нормально и случается редко. Контакт с психологом — важная часть терапии. На первичной консультации вы сможете понять, подходит ли вам мой стиль работы. Если почувствуете, что хотели бы другого специалиста — порекомендую проверенных коллег."
+      }
+    ]}
+  />
+
+  <!-- Финальный CTA -->
+  <section class="py-20 relative overflow-hidden" data-animate="fade">
+    <!-- Градиентный фон -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[#4894B2] to-[#18698F]"></div>
+    
+    <!-- Декоративные элементы -->
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+          Готовы начать работу над собой?
+        </h2>
+        <p class="text-xl mb-8 opacity-90">
+          Запишитесь на первичную консультацию прямо сейчас
+        </p>
+        
+        <div class="flex flex-wrap gap-4 justify-center">
+          <button 
+            onclick="openBookingModal()"
+            class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-semibold transition shadow-xl hover:shadow-2xl text-lg"
+          >
+            Записаться на консультацию
+          </button>
+          <button 
+            onclick="openBookingModal('specialist')"
+            class="px-12 py-5 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-semibold transition text-lg"
+          >
+            Подобрать специалиста
+          </button>
+        </div>
+        
+        <p class="mt-8 text-sm opacity-75">
+          📞 Или позвоните нам: +7 (999) 123-45-67
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Перелинковка: Смотрите также -->
+  <section class="py-16 bg-gray-50" data-animate="fade" >
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">
+        Вам также может быть интересно
+      </h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <a href="/services/children" class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
+          <div class="text-4xl mb-4">🧒</div>
+          <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Консультирование детей</h3>
+          <p class="text-gray-600">Помощь детям и подросткам в развитии и преодолении трудностей</p>
+        </a>
+        
+        <a href="/programs/umniky" class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
+          <div class="text-4xl mb-4">📚</div>
+          <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Умники и умницы</h3>
+          <p class="text-gray-600">Комплексная подготовка к школе для детей 4-7 лет</p>
+        </a>
+        
+        <a href="/blog/kak-spravitsya-s-panicheskimi-atakami" class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
+          <div class="text-4xl mb-4">📰</div>
+          <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Как справиться с паническими атаками</h3>
+          <p class="text-gray-600">Полезная статья в моём блоге</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Accordion для карточек проблем -->
+  <script is:inline>
+    function initProblemAccordion() {
+      const cards = document.querySelectorAll('.accordion-card');
+      
+      cards.forEach(card => {
+        // Находим элементы внутри карточки
+        const title = card.querySelector('h3');
+        const firstP = card.querySelector('p');
+        
+        // Всё остальное после первого параграфа - скрытый контент
+        const allContent = Array.from(card.children);
+        const visibleContent = [card.children[0], title, firstP]; // emoji, h3, first p
+        
+        // Создаём контейнер для скрытого контента
+        const hiddenContent = document.createElement('div');
+        hiddenContent.className = 'accordion-content';
+        hiddenContent.style.maxHeight = '0';
+        hiddenContent.style.overflow = 'hidden';
+        hiddenContent.style.transition = 'max-height 0.3s ease-out';
+        
+        // Переносим всё кроме видимого в скрытый контейнер
+        allContent.forEach((child, index) => {
+          if (index > 2) { // Пропускаем emoji, h3, первый p
+            hiddenContent.appendChild(child.cloneNode(true));
+            child.remove();
+          }
+        });
+        
+        // Добавляем иконку стрелки после заголовка
+        const arrow = document.createElement('span');
+        arrow.className = 'accordion-icon';
+        arrow.innerHTML = '▼';
+        arrow.style.cssText = 'display: inline-block; margin-left: 8px; transition: transform 0.3s ease; font-size: 16px;';
+        title.appendChild(arrow);
+        
+        // Добавляем скрытый контент в карточку
+        card.appendChild(hiddenContent);
+        
+        // Обработчик клика
+        card.addEventListener('click', function(e) {
+          if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+            return;
+          }
+          
+          const isOpen = hiddenContent.style.maxHeight && hiddenContent.style.maxHeight !== '0px';
+          
+          // Закрываем все остальные
+          document.querySelectorAll('.accordion-card').forEach(otherCard => {
+            if (otherCard !== card) {
+              const otherContent = otherCard.querySelector('.accordion-content');
+              const otherIcon = otherCard.querySelector('.accordion-icon');
+              if (otherContent) otherContent.style.maxHeight = '0px';
+              if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
+              otherCard.classList.remove('ring-2', 'ring-[#4894B2]');
+            }
+          });
+          
+          // Переключаем текущую
+          if (isOpen) {
+            hiddenContent.style.maxHeight = '0px';
+            arrow.style.transform = 'rotate(0deg)';
+            card.classList.remove('ring-2', 'ring-[#4894B2]');
+          } else {
+            hiddenContent.style.maxHeight = hiddenContent.scrollHeight + 'px';
+            arrow.style.transform = 'rotate(180deg)';
+            card.classList.add('ring-2', 'ring-[#4894B2]');
+          }
+        });
+      });
+    }
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initProblemAccordion);
+    } else {
+      initProblemAccordion();
+    }
+    
+    document.addEventListener('astro:page-load', initProblemAccordion);
+  </script>
+
+  <ScrollAnimations />
+</Layout>
+
+<script>
+  function openBookingModal(type?: string) {
+    console.log('Opening booking modal for:', type || 'general');
+    alert('Модальное окно записи будет здесь. Тип: ' + (type || 'general'));
+  }
+</script>

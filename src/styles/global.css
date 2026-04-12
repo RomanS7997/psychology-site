@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Подключаем шрифт Inter из Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    @apply bg-white text-gray-900;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+}
+
+@layer components {
+  /* Кнопки */
+  .btn {
+    @apply inline-block px-8 py-4 rounded-full font-semibold transition-all duration-300;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-600 to-secondary-500;
+    @apply text-white shadow-lg;
+    @apply hover:shadow-xl hover:-translate-y-1;
+    @apply focus:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply bg-white/10 text-white border-2 border-white;
+    @apply backdrop-blur-md;
+    @apply hover:bg-white/20 hover:-translate-y-1;
+  }
+
+  .btn-outline {
+    @apply bg-transparent border-2 border-primary-600 text-primary-600;
+    @apply hover:bg-primary-600 hover:text-white hover:-translate-y-1;
+  }
+
+  /* Контейнер */
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Карточки */
+  .card {
+    @apply bg-white rounded-2xl shadow-lg p-6;
+    @apply transition-all duration-300;
+    @apply hover:shadow-xl hover:-translate-y-2;
+  }
+
+  /* Секции */
+  .section {
+    @apply py-16 md:py-24;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-xl text-gray-600 text-center mb-12;
+  }
+}
+
+/* Анимации */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+/* Задержки для последовательной анимации */
+.delay-100 {
+  animation-delay: 0.1s;
+}
+.delay-200 {
+  animation-delay: 0.2s;
+}
+.delay-300 {
+  animation-delay: 0.3s;
+}
+.delay-400 {
+  animation-delay: 0.4s;
+}
+.delay-500 {
+  animation-delay: 0.5s;
+}
+.delay-600 {
+  animation-delay: 0.6s;
+}
+.delay-700 {
+  animation-delay: 0.7s;
+}
+.delay-800 {
+  animation-delay: 0.8s;
+}
+
+.border-teal-600 {
+  border-color: #4894b2;
+}
+.text-teal-700 {
+  color: #4894b2;
+}
+.hover\:text-teal-700:hover {
+  color: #18698f !important;
+}

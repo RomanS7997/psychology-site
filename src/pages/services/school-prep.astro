@@ -1,0 +1,601 @@
+---
+// src/pages/services/school-prep.astro
+import Layout from '../../layouts/Layout.astro';
+import ScrollAnimations from '../../components/ScrollAnimations.astro';
+import FAQ from '../../components/FAQ.astro';
+import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SEO from '../../components/SEO.astro';
+
+// Генерируем массив изображений для галереи 
+const galleryImages = Array.from({length: 38}, (_, i) => ({
+   src: `/images/gallery/school-prep/${i + 1}.jpg`,
+  alt: `Подготовка к школе - фото ${i + 1}`,
+  caption: i % 5 === 0 ? 'Обучение чтению и письму' : 
+            i % 5 === 1 ? 'Математика и логика' : 
+            i % 5 === 2 ? 'Творческие занятия' :
+            i % 5 === 3 ? 'Физическое развитие' :
+            'Работа в группе'
+ }));
+---
+
+<SEO 
+  title="Подготовка к школе в Одинцово и Лесном городке | Для детей 6-7 лет"
+  description="Подготовка к школе в Одинцово. Комплексные занятия для детей 6-7 лет. Обучение чтению, письму, математике. Записаться онлайн."
+  keywords="подготовка к школе Одинцово, занятия для дошкольников, подготовка ребенка к школе"
+  schema="service"
+/>
+
+<Layout 
+  title="Подготовка к школе в Одинцово и Лесном городке | Для детей 6-7 лет"
+  description="Комплексная программа подготовки к школе: мнемотехника, нейропсихология, чтение, письмо, математика, психологическая готовность. Занятия вт/чт 17:30-19:00"
+>
+
+
+
+  <!-- Hero секция -->
+  <section class="relative pt-32 pb-20 overflow-hidden" data-animate="fade">
+    <!-- Фоновый градиент -->
+    <div class="absolute inset-0 bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)]"></div>
+    
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        
+        <!-- Текст -->
+        <div>
+          <div class="inline-block px-4 py-2 bg-[#F2F7FD] text-gray-900 rounded-full font-semibold mb-4">
+            Для детей 6-7 лет
+          </div>
+          
+          <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
+            Подготовка к школе
+          </h1>
+          
+          <p class="text-xl text-gray-700 mb-6 leading-relaxed">
+            Комплексная программа с упором на всестороннее развитие ребёнка 
+            и подготовку к успешному обучению в школе
+          </p>
+          
+          <div class="flex flex-wrap gap-4 mb-8">
+          <button onclick="openBookingModal()" class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F]  hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105" data-astro-source-file="C:/Users/romas/OneDrive/Рабочий стол/famproject/psychology-site/src/pages/services/adult.astro" data-astro-source-loc="45:379">
+Записаться на консультацию
+</button> <button onclick="openBookingModal('specialist')" class="px-8 py-4 bg-white hover:bg-gray-50 text-[#4894B2] border-2 border-teal-600 rounded-full font-semibold transition" data-astro-source-file="C:/Users/romas/OneDrive/Рабочий стол/famproject/psychology-site/src/pages/services/adult.astro" data-astro-source-loc="47:332">
+Первичная консультация
+</button> 
+          </div>
+          
+          <!-- Быстрые факты -->
+          <div class="grid grid-cols-3 gap-6">
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#4894B2] mb-2">6-7</div>
+              <div class="text-sm text-gray-600">лет</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#4894B2] mb-2">1.5ч</div>
+              <div class="text-sm text-gray-600">длительность</div>
+            </div>
+            <div class="text-center">
+              <div class="text-4xl font-bold text-[#4894B2] mb-2" data-counter="100" data-suffix="%">0</div>
+              <div class="text-sm text-gray-600">готовы к школе</div>
+            </div>
+          </div>
+        </div>
+        
+         <!-- Изображение -->
+        <div class="flex justify-center lg:justify-end " >
+        <div class="relative w-full max-w-md">
+          <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
+            <img 
+              src="/images/services/school-prep.jpg" 
+              alt="Консультация психолога" 
+              class="w-full h-auto"
+            />
+          
+          <!-- Декоративные элементы -->
+          <div class="absolute -top-6 -right-6 w-24 h-24 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>
+          <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+  <Breadcrumbs 
+    items={[
+      { label: 'Главная', href: '/' },
+      { label: 'Услуги', href: '/#services' },
+      { label: 'Подготовка к школе' }
+    ]}
+  />
+  </div>
+  <!-- Что включает программа -->
+  <section class="py-20 bg-white" data-animate="slide-up">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
+        Что включает программа
+      </h2>
+      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
+        Комплексный подход к всестороннему развитию и подготовке к школе
+      </p>
+      
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        
+        <!-- Блок 1 -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-[#F2F7FD] rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">✅</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Индивидуальная диагностика</h3>
+          <p class="text-gray-700 text-center">
+            Перед началом обучения проводим диагностику готовности к школе 
+            и выявляем особенности развития ребёнка
+          </p>
+        </div>
+
+        <!-- Блок 2 -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-[#F2F7FD] rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">👤</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Персональный подход</h3>
+          <p class="text-gray-700 text-center">
+            Учитываем индивидуальные особенности каждого ребёнка, 
+            темп развития и интересы
+          </p>
+        </div>
+
+        <!-- Блок 3 -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-[#F2F7FD] rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">🧠</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Мнемотехника</h3>
+          <p class="text-gray-700 text-center">
+            Развитие памяти через специальные техники запоминания 
+            с помощью образов и ассоциаций
+          </p>
+        </div>
+
+        <!-- Блок 4 -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-[#F2F7FD] rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">🎮</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Нейропсихологические игры</h3>
+          <p class="text-gray-700 text-center">
+            Развитие межполушарного взаимодействия, внимания, 
+            концентрации и саморегуляции
+          </p>
+        </div>
+
+        <!-- Блок 5 -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-[#F2F7FD] rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">📚</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Обучение чтению</h3>
+          <p class="text-gray-700 text-center">
+            Освоение техники чтения, развитие речи, 
+            расширение словарного запаса
+          </p>
+        </div>
+
+        <!-- Блок 6 -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">✍️</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Постановка руки к письму</h3>
+          <p class="text-gray-700 text-center">
+            Развитие мелкой моторики, графомоторных навыков, 
+            подготовка к письму
+          </p>
+        </div>
+
+        <!-- Блок 7 -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-[#F2F7FD] rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">🔢</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Основы математики</h3>
+          <p class="text-gray-700 text-center">
+            Счёт, простые примеры, геометрические фигуры, 
+            логические задачи
+          </p>
+        </div>
+
+        <!-- Блок 8 -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-indigo-500 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">🌍</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Познавательные занятия</h3>
+          <p class="text-gray-700 text-center">
+            Еженедельные тематические занятия по окружающему миру, 
+            расширение кругозора
+          </p>
+        </div>
+
+        <!-- Блок 9 -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
+          <div class="w-16 h-16 bg-rose-500 rounded-full flex items-center justify-center mb-6 mx-auto">
+            <span class="text-3xl">💙</span>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Психологическая подготовка</h3>
+          <p class="text-gray-700 text-center">
+            Формирование мотивации к обучению, работа со страхами, 
+            развитие уверенности
+          </p>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+
+ 
+  <AutoGallerySlider 
+    images={galleryImages}
+    title="Как проходят наши занятия"
+    subtitle="Посмотрите, как дети готовятся к школе в нашем центре"
+    accentColor="purple"
+    autoplayDelay={4000}
+  />
+
+
+  <!-- Результаты выпускников -->
+  <section class="py-20 bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)]" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
+        Наши выпускники успешно поступают в школы
+      </h2>
+      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
+        и легко адаптируются к обучению
+      </p>
+      
+      <div class="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        
+        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
+          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="100" data-suffix="%">0</div>
+          <div class="text-gray-700 font-semibold">Готовы к первому классу</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
+          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="95" data-suffix="%">0</div>
+          <div class="text-gray-700 font-semibold">Поступили в желаемую школу</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
+          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="92" data-suffix="%">0</div>
+          <div class="text-gray-700 font-semibold">Легко адаптировались</div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
+          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="98" data-suffix="%">0</div>
+          <div class="text-gray-700 font-semibold">Родителей довольны результатом</div>
+        </div>
+        
+      </div>
+
+      <!-- Цитата -->
+      <div class="mt-16 max-w-4xl mx-auto">
+        <div class="bg-white rounded-3xl p-10 shadow-xl text-center">
+          <div class="text-6xl mb-6">🎓</div>
+          <blockquote class="text-2xl font-semibold text-gray-800 italic mb-4">
+            "Наши выпускники успешно поступают в школы и легко адаптируются к обучению"
+          </blockquote>
+          <p class="text-gray-600">
+            По отзывам родителей и учителей
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Расписание и формат -->
+  <section class="py-20 bg-white" data-animate="slide-up">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
+        Расписание и формат занятий
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        
+        <!-- Расписание -->
+        <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-3xl p-10">
+          <div class="text-6xl mb-6 text-center">📅</div>
+          <h3 class="text-3xl font-bold text-white mb-6 text-center">Вторник и Четверг</h3>
+          <p class="text-2xl text-center text-white font-bold mb-8">17:30 - 19:00</p>
+          
+          <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
+            <h4 class="font-bold text-gray-900 mb-4">Формат занятий:</h4>
+            <ul class="space-y-3">
+              <li class="flex items-center gap-3">
+                <span class="text-[#4894B2] text-xl">✓</span>
+                <span><strong>Длительность:</strong> 1.5 часа (90 минут)</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="text-[#4894B2] text-xl">✓</span>
+                <span><strong>Возраст:</strong> 6-7 лет</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="text-[#4894B2] text-xl">✓</span>
+                <span><strong>Формат:</strong> Групповые занятия</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="text-[#4894B2] text-xl">✓</span>
+                <span><strong>Атмосфера:</strong> Уютная, доброжелательная</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Преимущества -->
+        <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-10">
+          <div class="text-6xl mb-6 text-center">⭐</div>
+          <h3 class="text-3xl font-bold text-gray-900 mb-6 text-center">Почему выбирают нас</h3>
+          
+          <div class="space-y-6">
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
+              <h4 class="font-bold text-gray-900 mb-2">Комплексный подход</h4>
+              <p class="text-gray-700">Всестороннее развитие: интеллект, эмоции, социализация</p>
+            </div>
+
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
+              <h4 class="font-bold text-gray-900 mb-2">Опытные педагоги</h4>
+              <p class="text-gray-700">Квалифицированные специалисты с большим опытом</p>
+            </div>
+
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
+              <h4 class="font-bold text-gray-900 mb-2">Проверенные методики</h4>
+              <p class="text-gray-700">Современные подходы к обучению и развитию</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Отзывы родителей -->
+  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F]" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-white">
+        Что говорят родители
+      </h2>
+      
+      <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        
+        <div class="bg-white rounded-2xl p-8 relative">
+          <div class="text-6xl text-[#4894B2] opacity-20 absolute top-4 left-4">"</div>
+          <p class="text-gray-700 mb-6 relative z-10 leading-relaxed">
+            Сын с удовольствием ходит на занятия. За полгода научился читать, 
+            считать до 100, стал более усидчивым и внимательным. 
+            В школу идём уверенно благодаря вашей программе!
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-[#F2F7FD] flex items-center justify-center text-2xl">👤</div>
+            <div>
+              <h4 class="font-bold text-gray-900">Елена П., мама Максима (7 лет)</h4>
+              <div class="text-[#4894B2]">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 relative">
+          <div class="text-6xl text-[#4894B2] opacity-20 absolute top-4 left-4">"</div>
+          <p class="text-gray-700 mb-6 relative z-10 leading-relaxed">
+            Дочка прошла программу подготовки и успешно поступила в гимназию. 
+            Учителя отметили высокий уровень подготовки. Спасибо педагогам 
+            за профессионализм и внимание к детям!
+          </p>
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-[#F2F7FD] flex items-center justify-center text-2xl">👤</div>
+            <div>
+              <h4 class="font-bold text-gray-900">Ирина С., мама Софии (7 лет)</h4>
+              <div class="text-[#4894B2]">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Цены -->
+  <section class="py-20 bg-white" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
+        Стоимость программы
+      </h2>
+      
+      <div class="max-w-2xl mx-auto">
+        
+        <!-- Абонемент -->
+        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-3xl p-10 border-2 border-[#4894B2]/30 shadow-xl">
+          <div class="text-center mb-6">
+            <div class="text-sm text-[#4894B2] font-semibold mb-2">АБОНЕМЕНТ</div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Месячный абонемент</h3>
+            <div class="text-5xl font-bold text-[#4894B2] mb-2">10 000₽</div>
+            <div class="text-gray-600">8 занятий в месяц (2 раза в неделю)</div>
+          </div>
+          
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3">
+              <span class="text-[#4894B2] text-xl">✓</span>
+              <span>Диагностика при записи</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-[#4894B2] text-xl">✓</span>
+              <span>Все материалы включены</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-[#4894B2] text-xl">✓</span>
+              <span>Обратная связь родителям</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-[#4894B2] text-xl">✓</span>
+              <span>Занятия в мини-группах до 6 человек</span>
+            </li>
+          </ul>
+          
+          <button 
+            onclick="openBookingModal()"
+            class="w-full px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-bold transition shadow-lg"
+          >
+            Записаться на программу
+          </button>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <div data-animate="fade">
+    <FAQ 
+    title="Часто задаваемые вопросы"
+    subtitle="Ответы на популярные вопросы о подготовке к школе"
+    items={[
+      {
+        question: "В каком возрасте лучше начинать подготовку?",
+        answer: "Оптимальный возраст — 6-7 лет, за год до поступления в школу. В этом возрасте ребёнок готов к систематическим занятиям и хорошо усваивает новые знания."
+      },
+      {
+        question: "Что если ребёнок пропустит занятие?",
+        answer: "Пропущенное занятие можно отработать в другое время или в параллельной группе. При болезни (по справке) возможен перерасчёт абонемента."
+      },
+      {
+        question: "Нужно ли покупать учебные материалы?",
+        answer: "Нет, все учебные материалы, рабочие тетради, канцелярия предоставляются центром. Вам ничего не нужно покупать дополнительно."
+      },
+      {
+        question: "Как я узнаю о прогрессе ребёнка?",
+        answer: "Педагог регулярно даёт обратную связь родителям: рассказывает о достижениях, зонах роста и даёт рекомендации для домашних занятий. Также проводятся промежуточные диагностики."
+      },
+      {
+        question: "Будет ли ребёнок готов к школе после программы?",
+        answer: "Да! 100% наших выпускников готовы к школе, 95% поступают в желаемые учебные заведения, включая гимназии и лицеи. Программа даёт как академические знания, так и психологическую готовность."
+      }
+    ]}
+  />
+
+  <!-- Другие наши программы -->
+  <section class="py-20 bg-gray-50" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-gray-900">
+          Другие наши программы
+        </h2>
+        <p class="text-center text-gray-600 mb-12">
+          Дополнительные занятия для комплексного развития ребёнка
+        </p>
+        
+        <div class="grid md:grid-cols-2 gap-6" data-stagger>
+          <!-- Умники и умницы -->
+          <a 
+            href="/programs/umniky" 
+            class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+          >
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#4894B2] transition">
+                  "Умники и умницы"
+                </h3>
+                <p class="text-sm text-gray-600">Для детей 4-7 лет</p>
+              </div>
+              <span class="text-2xl">🎨</span>
+            </div>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              Комплексно-развивающие занятия по подготовке к школе с акцентом на чтение, письмо и логику.
+            </p>
+            <div class="flex items-center text-[#4894B2] font-semibold group-hover:gap-2 transition-all">
+              Узнать подробнее
+              <svg class="w-5 h-5 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Азбука общения -->
+          <a 
+            href="/programs/azbuka" 
+            class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+          >
+            <div class="flex items-start justify-between mb-4">
+              <div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-[#4894B2] transition">
+                  "Азбука общения"
+                </h3>
+                <p class="text-sm text-gray-600">Для детей 5-9 лет</p>
+              </div>
+              <span class="text-2xl">💙</span>
+            </div>
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              Курс развития эмоционального интеллекта. Учим детей понимать эмоции и выстраивать отношения.
+            </p>
+            <div class="flex items-center text-[#4894B2] font-semibold group-hover:gap-2 transition-all">
+              Узнать подробнее
+              <svg class="w-5 h-5 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Финальный CTA -->
+  <section class="py-20 relative overflow-hidden" data-animate="fade">
+    <div class="absolute inset-0 bg-gradient-to-br from-[#4894B2] to-[#18698F]"></div>
+    
+    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
+    
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+      <div class="max-w-4xl mx-auto text-center text-white">
+        <h2 class="text-4xl md:text-5xl font-bold mb-6">
+          Запишите ребёнка на подготовку к школе
+        </h2>
+        <p class="text-xl mb-8 opacity-90">
+          Дайте вашему ребёнку уверенный старт в школьной жизни
+        </p>
+        
+        <div class="flex flex-wrap gap-4 justify-center mb-8">
+          <button 
+            onclick="openBookingModal()"
+            class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-semibold transition shadow-xl hover:shadow-2xl text-lg"
+          >
+            Записаться на программу
+          </button>
+          <button 
+            onclick="openBookingModal('trial')"
+            class="px-12 py-5 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-semibold transition text-lg"
+          >
+            Бесплатное пробное занятие
+          </button>
+        </div>
+        
+        <div class="flex items-center justify-center gap-8 flex-wrap text-sm opacity-75">
+          <div class="flex items-center gap-2">
+            <span>📞</span>
+            <span>+7 (999) 123-45-67</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span>💬</span>
+            <span>WhatsApp / Telegram</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ScrollAnimations />
+</Layout>
+
+<script>
+  function openBookingModal(type?: string) {
+    console.log('Opening booking modal for:', type || 'general');
+    alert('Модальное окно записи будет здесь. Услуга: Подготовка к школе');
+  }
+</script>

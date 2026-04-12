@@ -1,0 +1,175 @@
+---
+// src/components/SEO.astro
+// Компонент для SEO и Schema.org разметки
+
+interface Props {
+  title: string;
+  description: string;
+  type?: 'website' | 'article' | 'service';
+  schema?: 'organization' | 'service' | 'person' | 'localbusiness' | 'article';
+  keywords?: string;
+  image?: string;
+  url?: string;
+}
+
+const { 
+  title, 
+  description, 
+  type = 'website',
+  schema,
+  keywords,
+  image = '/images/og-image.jpg',
+  url
+} = Astro.props;
+
+const canonicalURL = url || new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title.includes('|') ? title : `${title} | Кабинет психолога Ляпина Юлия`;
+
+// Schema.org разметка
+let schemaData = null;
+
+if (schema === 'organization') {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Кабинет психолога Ляпина Юлия",
+    "description": "Профессиональная психологическая помощь в Одинцово и Лесном городке",
+    "url": "https://julialyapina.ru",
+    "logo": "https://julialyapina.ru/images/logo.png",
+    "telephone": "+7-999-123-45-67",
+    "email": "info@julialyapina.ru",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Одинцово",
+      "addressRegion": "Московская область",
+      "addressCountry": "RU"
+    },
+    "sameAs": [
+      "https://vk.com/...",
+      "https://t.me/..."
+    ]
+  };
+}
+
+if (schema === 'localbusiness') {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Кабинет психолога Ляпина Юлия",
+    "image": "https://julialyapina.ru/images/logo.png",
+    "telephone": "+7-999-123-45-67",
+    "email": "info@julialyapina.ru",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Лесной городок",
+      "addressLocality": "Одинцово",
+      "addressRegion": "Московская область",
+      "postalCode": "143000",
+      "addressCountry": "RU"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "55.7558",
+      "longitude": "37.6173"
+    },
+    "url": "https://julialyapina.ru",
+    "priceRange": "от 3000₽",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "20:00"
+    }
+  };
+}
+
+if (schema === 'service') {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Психологическое консультирование",
+    "provider": {
+      "@type": "Organization",
+      "name": "Кабинет психолога Ляпина Юлия",
+      "telephone": "+7-999-123-45-67"
+    },
+    "areaServed": {
+      "@type": "Place",
+      "name": "Одинцово, Лесной городок"
+    },
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": "https://julialyapina.ru"
+    }
+  };
+}
+
+if (schema === 'person') {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Юлия Ляпина",
+    "jobTitle": "Клинический психолог",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Кабинет психолога Ляпина Юлия"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Одинцово",
+      "addressCountry": "RU"
+    }
+  };
+}
+
+if (schema === 'article') {
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "image": `https://julialyapina.ru${image}`,
+    "author": {
+      "@type": "Organization",
+      "name": "Кабинет психолога Ляпина Юлия"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Кабинет психолога Ляпина Юлия",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://julialyapina.ru/images/logo.png"
+      }
+    },
+    "datePublished": new Date().toISOString()
+  };
+}
+---
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="description" content={description} />
+{keywords && <meta name="keywords" content={keywords} />}
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={`https://julialyapina.ru${image}`} />
+<meta property="og:site_name" content="Кабинет психолога Ляпина Юлия" />
+<meta property="og:locale" content="ru_RU" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={`https://julialyapina.ru${image}`} />
+
+<!-- Schema.org -->
+{schemaData && (
+  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+)}
