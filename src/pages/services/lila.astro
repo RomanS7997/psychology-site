@@ -1,0 +1,79 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SEO from '../../components/SEO.astro';
+import ScrollAnimations from '../../components/ScrollAnimations.astro';
+---
+
+<SEO
+  title="Трансформационная игра «Лила» в Одинцово"
+  description="Трансформационная игра «Лила» с психологом в Одинцово. Глубокая работа с запросом через игру-медитацию."
+  keywords="трансформационная игра Лила, Одинцово, психолог"
+  schema="service"
+/>
+
+<Layout
+  title="Трансформационная игра «Лила»"
+  description="Трансформационная игра «Лила» с психологом."
+>
+  <Breadcrumbs
+    items={[
+      { label: 'Главная', href: '/' },
+      { label: 'Услуги', href: '/#services' },
+      { label: 'Трансформационная игра «Лила»' }
+    ]}
+  />
+
+  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#F2F7FD] via-white to-[#F2F7FD]" data-animate="fade">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="max-w-3xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
+          Трансформационная игра «Лила»
+        </h1>
+
+        <p class="text-xl text-gray-700 mb-8 leading-relaxed">
+          Древняя индийская игра-медитация, которая помогает взглянуть на свой запрос
+          с новой стороны, увидеть скрытые причины и найти ресурсы для изменений.
+        </p>
+
+        <button
+          onclick="openBookingModal()"
+          class="px-10 py-5 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105 text-lg"
+        >
+          Записаться на игру
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-white" data-animate="slide-up">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
+          Для кого подходит «Лила»
+        </h2>
+
+        <ul class="space-y-4 text-lg text-gray-700">
+          <li class="flex items-start gap-3">
+            <span class="text-[#4894B2] text-2xl mt-0.5">✓</span>
+            <span>Есть конкретный запрос или ситуация, с которой хочется разобраться</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-[#4894B2] text-2xl mt-0.5">✓</span>
+            <span>Хочется посмотреть на себя и свою жизнь под новым углом</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-[#4894B2] text-2xl mt-0.5">✓</span>
+            <span>Нужен импульс к изменениям и принятию решений</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="text-[#4894B2] text-2xl mt-0.5">✓</span>
+            <span>Интересен формат работы через игру и метафору</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <ScrollAnimations />
+</Layout>

@@ -31,77 +31,40 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
 
   
 
-  <!-- Баннер срочности -->
-  <div class="fixed top-24 left-0 right-0 bg-gradient-to-r from-[#4894B2] to-[#18698F] text-white py-3 z-40 shadow-lg">
-    <div class="container mx-auto px-4 lg:px-8">
-      <div class="flex items-center justify-center gap-4 text-center flex-wrap">
-        <span class="text-2xl">✨</span>
-        <p class="font-bold text-lg">
-          Набор открыт! Начало занятий: <strong>15 февраля</strong>
-        </p>
-        <button 
-          onclick="openBookingModal()"
-          class="px-6 py-2 bg-white text-[#4894B2] rounded-full font-semibold hover:bg-gray-100 transition"
-        >
-          Записаться
-        </button>
-      </div>
-    </div>
-  </div>
-
-
-  <section class="relative pt-40 pb-20 overflow-hidden bg-gradient-to-br from-[#F2F7FD] via-white to-[#F2F7FD]" data-animate="fade">
+  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#F2F7FD] via-white to-[#F2F7FD]" data-animate="fade">
     <div class="container mx-auto px-4 lg:px-8 relative z-10">
       <div class="grid md:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
         
         <!-- Текст -->
         <div>
-          <div class="inline-block px-4 py-2 bg-[#4894B2] text-white rounded-full font-semibold mb-4">
-            Программа для детей 5-9 лет
-          </div>
-          
           <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
-            "Азбука общения"
+            «Азбука общения»
           </h1>
-          
-          <p class="text-2xl text-gray-700 mb-6 font-semibold">
-            Курс развития эмоционального интеллекта
+
+          <p class="text-xl text-gray-700 mb-4 font-semibold leading-relaxed">
+            Уникальный психологический курс, который сочетает в себе все необходимые
+            компоненты для гармоничного развития детей!
           </p>
 
-          <p class="text-lg text-gray-700 mb-8 leading-relaxed">
-            Психологический курс, который знакомит детей со сложным миром человеческих эмоций. 
-            Дети учатся понимать, проявлять и реагировать на свои и чужие эмоции.
+          <p class="text-lg text-gray-700 mb-6">
+            Занятия раз в неделю. Дети научатся:
           </p>
-          
+
+          <ul class="space-y-2 mb-8 text-gray-700">
+            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Раскрыться, научиться говорить о своих чувствах, проявлять и реагировать на них</span></li>
+            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Выстраивать границы и чувствовать их у других</span></li>
+            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Избавиться от страхов, переживаний и обид</span></li>
+            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Играть по правилам, уметь достойно проигрывать и выигрывать</span></li>
+            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Работать в команде, быть лидером и её частью</span></li>
+          </ul>
+
           <div class="flex flex-wrap gap-4 mb-8">
-            <button 
-              onclick="openBookingModal()" 
+            <button
+              onclick="openBookingModal()"
               class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
             >
               Записаться на консультацию
             </button>
-            <button 
-              onclick="openBookingModal('specialist')" 
-              class="px-8 py-4 bg-white hover:bg-[#F2F7FD] text-[#4894B2] border-2 border-[#4894B2] hover:border-[#18698F] rounded-full font-semibold transition"
-            >
-              Первичная консультация
-            </button> 
-          </div>
-          
-          <!-- Быстрые факты -->
-          <div class="grid grid-cols-3 gap-6" data-stagger>
-            <div class="text-center">
-              <div class="text-4xl font-bold text-[#4894B2] mb-2">5-9</div>
-              <div class="text-sm text-gray-600">возраст</div>
-            </div>
-            <div class="text-center">
-              <div class="text-4xl font-bold text-[#4894B2] mb-2">4</div>
-              <div class="text-sm text-gray-600">занятия/месяц</div>
-            </div>
-            <div class="text-center">
-              <div class="text-4xl font-bold text-[#4894B2] mb-2" data-counter="88" data-suffix="%">0</div>
-              <div class="text-sm text-gray-600">улучшение поведения</div>
-            </div>
           </div>
         </div>
         
@@ -404,9 +367,8 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
         <!-- Расписание -->
         <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-3xl p-10">
           <div class="text-6xl mb-6 text-center">📅</div>
-          <h3 class="text-3xl font-bold text-white mb-6 text-center">Среда</h3>
-          <p class="text-2xl text-center text-white font-bold mb-8">18:00 - 19:00</p>
-          
+          <h3 class="text-3xl font-bold text-white mb-6 text-center">Занятия раз в неделю</h3>
+
           <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
             <h4 class="font-bold text-gray-900 mb-4">Формат занятий:</h4>
             <ul class="space-y-3">
@@ -421,10 +383,6 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
               <li class="flex items-center gap-3">
                 <span class="text-[#4894B2] text-xl">✓</span>
                 <span><strong>Возраст:</strong> 5-9 лет</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Частота:</strong> 4 занятия в месяц</span>
               </li>
             </ul>
           </div>
@@ -562,52 +520,21 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
     </div>
   </section>
 
-  <!-- Цена -->
+  <!-- CTA -->
   <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white relative overflow-hidden" data-animate="slide-up">
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-5 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
-        Стоимость занятий
+    <div class="container mx-auto px-4 lg:px-8 relative z-10 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6">
+        Записаться на программу
       </h2>
-      
-      <div class="max-w-3xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-8 mb-8">
-          
-          <!-- Разовое занятие -->
-          <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 text-center">
-            <div class="text-lg font-semibold mb-2 opacity-80">Разовое занятие</div>
-            <div class="text-5xl font-bold mb-2">2 000₽</div>
-            <div class="text-sm opacity-70 mb-4">60 минут</div>
-            <p class="text-sm opacity-80">Оплата за одно занятие</p>
-          </div>
-          
-          <!-- Пакет -->
-          <div class="bg-white/20 backdrop-blur-lg rounded-2xl p-8 border-2 border-white/40 text-center relative">
-            <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-[#4894B2] px-3 py-1 rounded-full text-xs font-bold">
-              Выгодно
-            </div>
-            <div class="text-lg font-semibold mb-2">Пакет на месяц</div>
-            <div class="text-5xl font-bold mb-2">8 000₽</div>
-            <div class="text-sm opacity-70 mb-4">4 занятия</div>
-            <p class="text-sm opacity-80">Экономия 500₽ на каждом занятии</p>
-          </div>
-          
-        </div>
-        
-        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 text-center mb-8">
-          <p class="text-lg">Занятия по <strong>понедельникам в 19:00</strong></p>
-        </div>
-        
-        <button 
-          onclick="openBookingModal()"
-          class="w-full max-w-md mx-auto block px-12 py-6 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition-all shadow-2xl hover:shadow-3xl text-2xl"
-        >
-          💬 Записаться в группу
-        </button>
-        
-      </div>
+      <p class="text-xl opacity-90 mb-10 max-w-2xl mx-auto">
+        Расскажу подробнее о курсе и подберу удобное расписание
+      </p>
+      <button
+        onclick="openBookingModal()"
+        class="px-12 py-6 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition-all shadow-2xl text-2xl"
+      >
+        💬 Записаться
+      </button>
     </div>
   </section>
 
@@ -631,7 +558,7 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
       },
       {
         question: "Когда начинаются занятия?",
-        answer: "Занятия проходят по понедельникам в 19:00. Уточняйте актуальное расписание при записи."
+        answer: "Занятия проходят раз в неделю. Точное расписание уточняйте при записи."
       },
       {
         question: "Можно ли посетить пробное занятие?",
@@ -650,8 +577,8 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
     <div class="container mx-auto px-4 lg:px-8 py-4">
       <div class="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <div class="font-bold text-gray-900">Программа "Азбука общения"</div>
-          <div class="text-sm text-gray-600">2 000₽/занятие • Понедельник 19:00</div>
+          <div class="font-bold text-gray-900">Программа «Азбука общения»</div>
+          <div class="text-sm text-gray-600">Занятия раз в неделю • 5-9 лет</div>
         </div>
         <button 
           onclick="openBookingModal()"
