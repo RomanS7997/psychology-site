@@ -164,10 +164,10 @@ import SEO from '../components/SEO.astro';
             <div>
               <h3 class="text-lg font-bold text-gray-900 mb-2">Адрес</h3>
               <p class="text-lg text-gray-700 mb-1">
-                г. Москва, ул. Примерная, д. 10, офис 205
+                Одинцово, Лесной городок
               </p>
               <p class="text-sm text-gray-600 mb-2">
-                м. Маяковская, 5 минут пешком
+                Точный адрес кабинета сообщим при записи
               </p>
               <a href="#map" class="text-[#4894B2] hover:text-teal-700 font-semibold inline-flex items-center gap-2 transition">
                 Как добраться →
@@ -191,46 +191,17 @@ import SEO from '../components/SEO.astro';
                   <span>📱</span>
                   WhatsApp
                 </a>
-                <a 
-                  href="https://t.me/psychocenter" 
-                  target="_blank"
-                  class="px-4 py-2 bg-[#229ED9] hover:bg-[#1E88C5] text-white rounded-full font-semibold transition shadow-md hover:shadow-lg flex items-center gap-2"
+                <a
+                  href="tel:+79151955132"
+                  class="px-4 py-2 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-md hover:shadow-lg flex items-center gap-2"
                 >
-                  <span>✈️</span>
-                  Telegram
+                  <span>📞</span>
+                  Позвонить
                 </a>
               </div>
             </div>
           </div>
           
-          <!-- Социальные сети -->
-          <div class="pt-6 border-t border-gray-200">
-            <h3 class="text-lg font-bold text-gray-900 mb-4">Мы в соцсетях:</h3>
-            <div class="flex gap-3">
-              <a 
-                href="#" 
-                class="w-12 h-12 rounded-full bg-[#4894B2] hover:bg-[#18698F] text-white flex items-center justify-center text-xl transition shadow-md hover:shadow-lg"
-                title="ВКонтакте"
-              >
-                VK
-              </a>
-              <a 
-                href="#" 
-                class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white flex items-center justify-center text-xl transition shadow-md hover:shadow-lg"
-                title="Instagram"
-              >
-                IG
-              </a>
-              <a 
-                href="#" 
-                class="w-12 h-12 rounded-full bg-[#4894B2] hover:bg-[#4894B2] text-white flex items-center justify-center text-xl transition shadow-md hover:shadow-lg"
-                title="YouTube"
-              >
-                YT
-              </a>
-            </div>
-          </div>
-
         </div>
         
       </div>
@@ -254,20 +225,19 @@ import SEO from '../components/SEO.astro';
       <div class="max-w-6xl mx-auto">
         <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">Как добраться:</h3>
         
-        <div class="grid md:grid-cols-3 gap-6">
-          
-          <!-- На метро -->
+        <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+
+          <!-- На электричке -->
           <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
-            <div class="w-16 h-16 rounded-full bg-[#4894B2] text-[#4894B2] flex items-center justify-center text-3xl mx-auto mb-4">
-              🚇
+            <div class="w-16 h-16 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-3xl mx-auto mb-4">
+              🚆
             </div>
-            <h4 class="text-xl font-bold text-gray-900 mb-3 text-center">На метро</h4>
+            <h4 class="text-xl font-bold text-gray-900 mb-3 text-center">На электричке</h4>
             <p class="text-gray-700 text-center">
-              Станция «Маяковская», выход к ул. Тверская. 
-              Пешком 5 минут по ул. Примерная до дома 10.
+              С Белорусского вокзала до станции «Лесной Городок» или «Одинцово». Точный маршрут сообщим при записи.
             </p>
           </div>
-          
+
           <!-- На машине -->
           <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
             <div class="w-16 h-16 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-3xl mx-auto mb-4">
@@ -275,23 +245,10 @@ import SEO from '../components/SEO.astro';
             </div>
             <h4 class="text-xl font-bold text-gray-900 mb-3 text-center">На машине</h4>
             <p class="text-gray-700 text-center">
-              Платная парковка рядом с домом. 
-              Стоимость: 200₽/час. Есть бесплатные места на соседних улицах.
+              По Минскому или Можайскому шоссе. Парковка рядом с кабинетом. Маршрут сообщим при записи.
             </p>
           </div>
-          
-          <!-- На автобусе -->
-          <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
-            <div class="w-16 h-16 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-3xl mx-auto mb-4">
-              🚌
-            </div>
-            <h4 class="text-xl font-bold text-gray-900 mb-3 text-center">На автобусе</h4>
-            <p class="text-gray-700 text-center">
-              Автобусы №10, №15, №20. 
-              Остановка «Ул. Примерная», 2 минуты пешком до центра.
-            </p>
-          </div>
-          
+
         </div>
       </div>
       
@@ -352,20 +309,19 @@ import SEO from '../components/SEO.astro';
     }
 
     ymaps.ready(function () {
-      // Координаты центра (пример: Маяковская, Москва)
+      // Координаты Лесной городок, Одинцово
       const map = new ymaps.Map('yandex-map', {
-        center: [55.769444, 37.595556], // Координаты м. Маяковская
-        zoom: 16,
+        center: [55.634, 37.193],
+        zoom: 13,
         controls: ['zoomControl', 'fullscreenControl', 'geolocationControl']
       });
 
-      // Добавление метки
-      const placemark = new ymaps.Placemark([55.769444, 37.595556], {
-        balloonContent: '<strong>Кабинет психолога Ляпина Юлия</strong><br>ул. Примерная, д. 10, офис 205<br>+7 (915) 195-51-32',
+      const placemark = new ymaps.Placemark([55.634, 37.193], {
+        balloonContent: '<strong>Кабинет психолога Ляпина Юлия</strong><br>Одинцово, Лесной городок<br>+7 (915) 195-51-32',
         hintContent: 'Кабинет психолога'
       }, {
         preset: 'islands#blueMedicalIcon',
-        iconColor: '#0d9488' // teal-600
+        iconColor: '#0d9488'
       });
 
       map.geoObjects.add(placemark);
