@@ -897,33 +897,27 @@ import SEO from '../../components/SEO.astro';
       
       <!-- CTA -->
       <div class="text-center mt-16">
-        <button onclick="openBookingModal()" class="px-12 py-5 bg-[#4894B2] hover:bg-[#18698F] text-white text-xl rounded-full font-semibold transition shadow-xl hover:shadow-2xl" data-astro-source-file="C:/Users/romas/OneDrive/Рабочий стол/famproject/psychology-site/src/pages/services/adult.astro" data-astro-source-loc="759:10">
-Записаться на первую консультацию
-</button>
-        <p class="text-gray-600 mt-6">
-          Первая консультация — <span class="font-bold text-[#4894B2]">3000₽</span>
-        </p>
+        <button onclick="openBookingModal()" class="px-12 py-5 bg-[#4894B2] hover:bg-[#18698F] text-white text-xl rounded-full font-semibold transition shadow-xl hover:shadow-2xl">
+          Записаться на первую консультацию
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- Цены -->
+  <!-- Форматы работы -->
  <section class="py-20 bg-gradient-to-br from-purple-50 to-pink-50" data-animate="fade">
   <div class="container mx-auto px-4 lg:px-8">
     <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
-      Стоимость детских консультаций
+      Форматы работы с ребёнком
     </h2>
     <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-      Гибкая система скидок для многодетных семей
+      Выбираем подход под запрос семьи
     </p>
     <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
       <!-- Разовая консультация -->
       <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-        <h3 class="text-2xl font-bold text-gray-900 mb-6">Разовая консультация</h3>
-        <div class="mb-6">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2">3 000₽</div>
-          <div class="text-gray-600">55 минут</div>
-        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Разовая консультация</h3>
+        <div class="text-gray-600 mb-6">55 минут</div>
         <ul class="space-y-3 mb-8">
           <li class="flex items-start gap-2 text-gray-700">
             <span class="text-[#4894B2] mt-1">✓</span>
@@ -947,24 +941,21 @@ import SEO from '../../components/SEO.astro';
         </button>
       </div>
 
-      <!-- Пакет сессий -->
+      <!-- Системная работа -->
       <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 relative">
         <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-2 bg-[#F2F7FD] text-gray-900 font-bold rounded-full shadow-lg">
-          Выгоднее
+          Рекомендуем
         </div>
-        <h3 class="text-2xl font-bold text-white mb-6 mt-2">Пакет из 8 сессий</h3>
-        <div class="mb-6">
-          <div class="text-5xl font-bold text-white mb-2">21 600₽</div>
-          <div class="text-teal-100">2 700₽ за сессию</div>
-        </div>
+        <h3 class="text-2xl font-bold text-white mb-4 mt-2">Системная работа</h3>
+        <div class="text-teal-100 mb-6">Серия встреч по плану терапии</div>
         <ul class="space-y-3 mb-8">
           <li class="flex items-start gap-2 text-white">
             <span class="text-white mt-1">✓</span>
-            <span>Экономия 2,400₽</span>
+            <span>Глубокая проработка запроса</span>
           </li>
           <li class="flex items-start gap-2 text-white">
             <span class="text-white mt-1">✓</span>
-            <span>Системная работа</span>
+            <span>Индивидуальный план</span>
           </li>
           <li class="flex items-start gap-2 text-white">
             <span class="text-white mt-1">✓</span>
@@ -976,21 +967,18 @@ import SEO from '../../components/SEO.astro';
           </li>
         </ul>
         <button onclick="openBookingModal('package')" class="w-full px-6 py-3 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-semibold transition">
-          Купить пакет
+          Записаться
         </button>
       </div>
 
       <!-- Групповые занятия -->
       <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-        <h3 class="text-2xl font-bold text-gray-900 mb-6">Групповые занятия</h3>
-        <div class="mb-6">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2">2 000₽</div>
-          <div class="text-gray-600">60 минут в группе</div>
-        </div>
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Групповые занятия</h3>
+        <div class="text-gray-600 mb-6">60 минут в группе</div>
         <ul class="space-y-3 mb-8">
           <li class="flex items-start gap-2 text-gray-700">
             <span class="text-[#4894B2] mt-1">✓</span>
-            <span>Группы 4-6 детей</span>
+            <span>Группы 4–6 детей</span>
           </li>
           <li class="flex items-start gap-2 text-gray-700">
             <span class="text-[#4894B2] mt-1">✓</span>
@@ -1008,34 +996,6 @@ import SEO from '../../components/SEO.astro';
         <button onclick="openBookingModal('group')" class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition">
           Записаться в группу
         </button>
-      </div>
-    </div>
-
-    <!-- Скидки -->
-    <div class="mt-16 max-w-4xl mx-auto bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] p-8 rounded-2xl shadow-lg border border-gray-100">
-      <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Скидки:</h3>
-      <div class="grid md:grid-cols-2 gap-4">
-        <div class="flex items-start gap-3">
-          <span class="text-2xl">👨‍👩‍👧‍👦</span>
-          <div>
-            <div class="font-bold text-gray-900">Многодетным семьям</div>
-            <div class="text-gray-600">скидка 25%</div>
-          </div>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="text-2xl">👧👦</span>
-          <div>
-            <div class="font-bold text-gray-900">На двоих детей</div>
-            <div class="text-gray-600">скидка 15% на каждого</div>
-          </div>
-        </div>
-        <div class="flex items-start gap-3">
-          <span class="text-2xl">💳</span>
-          <div>
-            <div class="font-bold text-gray-900">Рассрочка</div>
-            <div class="text-gray-600">на пакеты до 4 месяцев</div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
