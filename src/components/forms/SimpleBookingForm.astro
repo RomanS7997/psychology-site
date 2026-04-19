@@ -14,7 +14,33 @@
     <div class="booking-content">
       <h2 class="text-3xl font-bold text-gray-900 mb-2">Записаться на консультацию</h2>
       <p class="text-gray-600 mb-8">Заполните форму, и мы свяжемся с вами для подтверждения записи</p>
-      
+
+      <!-- Экран успеха (скрыт по умолчанию) -->
+      <div id="booking-success" class="booking-success hidden" aria-hidden="true">
+        <div class="success-confetti" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="success-icon">
+          <svg viewBox="0 0 80 80" width="80" height="80" aria-hidden="true">
+            <circle class="success-ring" cx="40" cy="40" r="36" fill="none" stroke="currentColor" stroke-width="4"/>
+            <path class="success-check" d="M24 42 L36 54 L58 30" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3 class="success-title">Заявка отправлена!</h3>
+        <p class="success-text">Спасибо! Мы свяжемся с вами в ближайшее время для подтверждения записи.</p>
+        <button type="button" onclick="closeBookingModal()" class="success-btn">
+          Хорошо
+        </button>
+      </div>
+
+      <!-- Инлайн-ошибка (скрыта по умолчанию) -->
+      <div id="booking-error" class="booking-error hidden" role="alert" aria-hidden="true">
+        <span class="error-icon" aria-hidden="true">⚠️</span>
+        <span>Не удалось отправить заявку. Позвоните нам: <a href="tel:+79151955132" class="underline font-semibold">+7 (915) 195-51-32</a></span>
+      </div>
+
       <form id="booking-form" class="space-y-6">
         
         <!-- Выбор услуги -->
@@ -237,12 +263,205 @@
       border-radius: 16px;
     }
   }
+
+  /* ---------- Экран успеха ---------- */
+  .booking-success {
+    position: relative;
+    text-align: center;
+    padding: 1.5rem 0.5rem 0.5rem;
+    animation: successFadeIn 0.5s ease-out both;
+  }
+
+  .booking-success.hidden { display: none; }
+
+  @keyframes successFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .success-icon {
+    display: inline-flex;
+    color: #4894B2;
+    margin-bottom: 1.25rem;
+    filter: drop-shadow(0 8px 20px rgba(72, 148, 178, 0.35));
+  }
+
+  .success-icon svg { overflow: visible; }
+
+  .success-ring {
+    stroke-dasharray: 226;
+    stroke-dashoffset: 226;
+    animation: drawRing 0.55s 0.05s ease-out forwards;
+    transform-origin: 40px 40px;
+  }
+
+  .success-check {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    animation: drawCheck 0.35s 0.55s ease-out forwards;
+  }
+
+  @keyframes drawRing {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes drawCheck {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .success-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.75rem;
+    animation: successPop 0.4s 0.65s ease-out both;
+  }
+
+  .success-text {
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+    animation: successPop 0.4s 0.8s ease-out both;
+  }
+
+  @keyframes successPop {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .success-btn {
+    padding: 0.875rem 2.5rem;
+    background: linear-gradient(135deg, #4894B2 0%, #18698F 100%);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 20px rgba(72, 148, 178, 0.35);
+    animation: successPop 0.4s 0.95s ease-out both;
+  }
+
+  .success-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(72, 148, 178, 0.45);
+  }
+
+  /* Конфетти */
+  .success-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .success-confetti span {
+    position: absolute;
+    left: 50%;
+    top: 60px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: confettiBurst 1.1s 0.6s ease-out forwards;
+  }
+
+  .success-confetti span:nth-child(1)  { background: #4894B2; --tx:  -160px; --ty: -120px; --r: -40deg; }
+  .success-confetti span:nth-child(2)  { background: #d9797d; --tx:   140px; --ty: -140px; --r:  50deg; }
+  .success-confetti span:nth-child(3)  { background: #f2b134; --tx:  -220px; --ty:  -40px; --r: -80deg; }
+  .success-confetti span:nth-child(4)  { background: #7fb685; --tx:   220px; --ty:  -20px; --r:  90deg; }
+  .success-confetti span:nth-child(5)  { background: #4894B2; --tx:   -80px; --ty: -180px; --r: -20deg; border-radius: 50%; }
+  .success-confetti span:nth-child(6)  { background: #d9797d; --tx:    80px; --ty: -180px; --r:  20deg; border-radius: 50%; }
+  .success-confetti span:nth-child(7)  { background: #18698F; --tx:  -260px; --ty:   40px; --r: -110deg; }
+  .success-confetti span:nth-child(8)  { background: #f2b134; --tx:   260px; --ty:   60px; --r:  110deg; }
+  .success-confetti span:nth-child(9)  { background: #7fb685; --tx:  -120px; --ty:  -80px; --r: -60deg; border-radius: 50%; }
+  .success-confetti span:nth-child(10) { background: #4894B2; --tx:   120px; --ty:  -90px; --r:  60deg; border-radius: 50%; }
+  .success-confetti span:nth-child(11) { background: #d9797d; --tx:  -200px; --ty:  120px; --r: -140deg; }
+  .success-confetti span:nth-child(12) { background: #18698F; --tx:   200px; --ty:  140px; --r:  140deg; }
+  .success-confetti span:nth-child(13) { background: #f2b134; --tx:   -40px; --ty: -220px; --r:   10deg; border-radius: 50%; }
+  .success-confetti span:nth-child(14) { background: #7fb685; --tx:    40px; --ty: -220px; --r:  -10deg; border-radius: 50%; }
+  .success-confetti span:nth-child(15) { background: #4894B2; --tx:     0px; --ty: -260px; --r:   30deg; }
+
+  @keyframes confettiBurst {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 0) rotate(0deg) scale(0.6);
+    }
+    15% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(calc(-50% + var(--tx)), var(--ty)) rotate(var(--r)) scale(1);
+    }
+  }
+
+  /* ---------- Ошибка ---------- */
+  .booking-error {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 1rem 1.25rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    animation: errorShake 0.5s ease-out;
+  }
+
+  .booking-error.hidden { display: none; }
+
+  .booking-error .error-icon { font-size: 1.25rem; flex-shrink: 0; }
+
+  @keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    20%      { transform: translateX(-6px); }
+    40%      { transform: translateX(6px); }
+    60%      { transform: translateX(-4px); }
+    80%      { transform: translateX(4px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .booking-success,
+    .success-ring,
+    .success-check,
+    .success-title,
+    .success-text,
+    .success-btn,
+    .success-confetti span,
+    .booking-error {
+      animation: none !important;
+    }
+    .success-ring, .success-check { stroke-dashoffset: 0; }
+  }
 </style>
 
 <script>
+  function resetBookingView() {
+    const form = document.getElementById('booking-form');
+    const success = document.getElementById('booking-success');
+    const errorBox = document.getElementById('booking-error');
+    if (form) form.classList.remove('hidden');
+    if (success) {
+      success.classList.add('hidden');
+      success.setAttribute('aria-hidden', 'true');
+      // Перезапуск CSS-анимаций: форсируем reflow, сбрасывая классы
+      success.style.animation = 'none';
+      void success.offsetWidth;
+      success.style.animation = '';
+    }
+    if (errorBox) {
+      errorBox.classList.add('hidden');
+      errorBox.setAttribute('aria-hidden', 'true');
+    }
+  }
+
   function openBookingModal() {
     const modal = document.getElementById('booking-modal');
     if (modal) {
+      resetBookingView();
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
@@ -297,6 +516,13 @@
 
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn ? submitBtn.textContent : '';
+    const errorBox = document.getElementById('booking-error');
+    const successBox = document.getElementById('booking-success');
+
+    if (errorBox) {
+      errorBox.classList.add('hidden');
+      errorBox.setAttribute('aria-hidden', 'true');
+    }
     if (submitBtn) {
       submitBtn.disabled = true;
       submitBtn.textContent = 'Отправка...';
@@ -314,11 +540,26 @@
 
       if (!response.ok) throw new Error('Ошибка отправки');
 
-      alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
+      // Показываем красивый экран успеха
       form.reset();
-      closeBookingModal();
+      form.classList.add('hidden');
+      if (successBox) {
+        successBox.classList.remove('hidden');
+        successBox.setAttribute('aria-hidden', 'false');
+        // Форсируем перезапуск анимаций
+        successBox.style.animation = 'none';
+        void successBox.offsetWidth;
+        successBox.style.animation = '';
+      }
     } catch (err) {
-      alert('Не удалось отправить заявку. Пожалуйста, позвоните по телефону +7 (915) 195-51-32.');
+      if (errorBox) {
+        errorBox.classList.remove('hidden');
+        errorBox.setAttribute('aria-hidden', 'false');
+        // Перезапуск shake-анимации
+        errorBox.style.animation = 'none';
+        void errorBox.offsetWidth;
+        errorBox.style.animation = '';
+      }
     } finally {
       if (submitBtn) {
         submitBtn.disabled = false;
@@ -327,21 +568,27 @@
     }
   });
 
-  // Форматирование телефона
+  // Форматирование телефона (фикс: разделители не дописываются
+  // пока следующего разряда нет — backspace удаляет по одной цифре)
   const phoneInput = document.getElementById('phone');
   phoneInput?.addEventListener('input', (e) => {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.startsWith('7') || value.startsWith('8')) {
-      value = value.substring(1);
+    let digits = e.target.value.replace(/\D/g, '');
+    if (digits.startsWith('7') || digits.startsWith('8')) {
+      digits = digits.substring(1);
     }
-    if (value.length > 0) {
-      let formatted = '+7 ';
-      if (value.length > 0) formatted += '(' + value.substring(0, 3);
-      if (value.length >= 3) formatted += ') ' + value.substring(3, 6);
-      if (value.length >= 6) formatted += '-' + value.substring(6, 8);
-      if (value.length >= 8) formatted += '-' + value.substring(8, 10);
-      e.target.value = formatted;
+    digits = digits.substring(0, 10);
+
+    if (digits.length === 0) {
+      e.target.value = '';
+      return;
     }
+
+    let formatted = '+7 (' + digits.substring(0, 3);
+    if (digits.length > 3) formatted += ') ' + digits.substring(3, 6);
+    if (digits.length > 6) formatted += '-' + digits.substring(6, 8);
+    if (digits.length > 8) formatted += '-' + digits.substring(8, 10);
+
+    e.target.value = formatted;
   });
 
   // Глобальные функции для доступа из других скриптов
