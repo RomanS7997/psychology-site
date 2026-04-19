@@ -58,7 +58,7 @@ import SEO from '../components/SEO.astro';
       <div class="space-y-20">
         
         <!-- Специалист 1: Юлия Ляпина -->
-        <div class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="adult family">
+        <div id="specialist-1" class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="adult family">
           <div class="grid md:grid-cols-5 gap-0">
             
             <!-- Фото -->
@@ -187,7 +187,7 @@ import SEO from '../components/SEO.astro';
         </div>
 
         <!-- Специалист 2: Власихина Людмила Степановна -->
-        <div class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="children">
+        <div id="specialist-2" class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="children">
           <div class="grid md:grid-cols-5 gap-0">
             
             <div class="md:col-span-2 relative">
@@ -303,7 +303,7 @@ import SEO from '../components/SEO.astro';
         </div>
 
         <!-- Специалист 3: Евграфова Наталья Викторовна -->
-        <div class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="children">
+        <div id="specialist-3" class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="children">
           <div class="grid md:grid-cols-5 gap-0">
 
             <div class="md:col-span-2 relative">
@@ -433,7 +433,7 @@ import SEO from '../components/SEO.astro';
         </div>
 
         <!-- Специалист 4: Стрижкова Наталья Петровна -->
-        <div class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="children">
+        <div id="specialist-4" class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="children">
           <div class="grid md:grid-cols-5 gap-0">
 
             <div class="md:col-span-2 relative">
@@ -614,6 +614,7 @@ import SEO from '../components/SEO.astro';
 <style>
   .specialist-card {
     @apply transition-all duration-300;
+    scroll-margin-top: 120px;
   }
   
   /* Скрыть scrollbar в слайдере сертификатов */
