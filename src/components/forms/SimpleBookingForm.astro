@@ -270,20 +270,61 @@
     }
   });
 
-  // Обработка формы
+  // Обработка формы — отправка через FormSubmit.co на lyapina_sorokina@mail.ru
   document.getElementById('booking-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-    
-    console.log('Form data:', data);
-    
-    // Здесь будет интеграция с AMO CRM или отправка на email
-    alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
-    
-    closeBookingModal();
-    e.target.reset();
+
+    const form = e.target;
+    const formData = new FormData(form);
+    const serviceLabels = {
+      adult: 'Консультация взрослого',
+      child: 'Консультация ребенка',
+      family: 'Семейная терапия',
+      program: 'Развивающая программа'
+    };
+
+    const payload = {
+      _subject: 'Новая заявка с сайта — запись на консультацию',
+      _template: 'table',
+      _captcha: 'false',
+      Услуга: serviceLabels[formData.get('service')] || formData.get('service') || '—',
+      Имя: formData.get('name') || '—',
+      Телефон: formData.get('phone') || '—',
+      Email: formData.get('email') || '—',
+      Комментарий: formData.get('comment') || '—',
+      Источник: 'Форма записи (julialyapina.ru)'
+    };
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn ? submitBtn.textContent : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка...';
+    }
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/lyapina_sorokina@mail.ru', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) throw new Error('Ошибка отправки');
+
+      alert('Спасибо за заявку! Мы свяжемся с вами в ближайшее время.');
+      form.reset();
+      closeBookingModal();
+    } catch (err) {
+      alert('Не удалось отправить заявку. Пожалуйста, позвоните по телефону +7 (915) 195-51-32.');
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    }
   });
 
   // Форматирование телефона

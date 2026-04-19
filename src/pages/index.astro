@@ -345,15 +345,15 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
               <ul class="space-y-2 mb-4 text-sm text-gray-600">
                 <li class="flex items-start gap-2">
                   <span class="text-[#4894B2] mt-1">✓</span>
-                  <span><strong>«Умники и умницы» (4-6 лет)</strong> — ежедневные занятия в группе, развитие интеллекта, логики, памяти, подготовка к школе, обучение чтению</span>
+                  <span><strong>Развивающие занятия «Умники и умницы» (4-7 лет)</strong> — ежедневные комплексно-развивающие занятия: нейропсихологические игры, обучение чтению и развитию речи, постановка руки к письму, основы математики, творческие задания, психологическая подготовка к школе.</span>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="text-[#4894B2] mt-1">✓</span>
-                  <span><strong>«Азбука общения» (5-9 лет)</strong> — эмоциональный интеллект, коммуникация</span>
+                  <span><strong>Психологический курс «Азбука общения» (5-9 лет)</strong> — занятия раз в неделю. Курс направлен на развитие эмоционального интеллекта, выстраивание эффективных коммуникаций и повышение уверенности в себе.</span>
                 </li>
                 <li class="flex items-start gap-2">
                   <span class="text-[#4894B2] mt-1">✓</span>
-                  <span><strong>«Подготовка к школе»</strong> — занятия два раза в неделю, обучение чтению, письму, развитие логики, мышления, памяти, речи</span>
+                  <span><strong>«Подготовка к школе»</strong> — занятия два раза в неделю, обучение чтению, письму, развитие логики, мышления, памяти, речи.</span>
                 </li>
               </ul>
               <button
@@ -411,7 +411,7 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
             preload="metadata"
             muted
           >
-            <source src="/psychology-site/videos/mainvid.mp4#t=0.1" type="video/mp4">
+            <source src="/psychology-site/videos/mainvid.mp4#t=5" type="video/mp4">
           </video>
           
           <!-- Оверлей с кнопкой Play -->
@@ -466,7 +466,7 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
     <div class="absolute bottom-20 right-10 w-48 h-48 bg-[#d9797d]/10 rounded-full blur-3xl"></div>
     <div class="container mx-auto px-4 lg:px-8">
       <h2 class="text-4xl md:text-5xl font-bold text-center text-gray-900 mb-4">
-        Развивающие программы для детей 4-9 лет
+        Развивающие программы
       </h2>
       <p class="text-center text-gray-600 text-lg mb-16">
         Готовим к школе • Развиваем эмоциональный интеллект • Учим общаться
@@ -506,21 +506,12 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
               </p>
             </div>
             
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-2xl font-bold text-[#4894B2]">3 500₽/мес</span>
-              <span class="text-sm text-gray-500">8 занятий</span>
-            </div>
-            
-            <button 
+            <button
               onclick="openBookingModal()"
               class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105"
             >
               Записаться в группу
             </button>
-            
-            <p class="text-xs text-center mt-2 text-gray-500">
-              Начало занятий: 1 февраля
-            </p>
           </div>
         </div>
 
@@ -534,8 +525,11 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
           <div class="p-6">
             <div class="text-5xl mb-4">💬</div>
             <h3 class="text-2xl font-bold text-gray-900 mb-2">Азбука общения</h3>
-            <p class="text-gray-600 mb-4">Возраст: 5-9 лет</p>
-            
+            <p class="text-gray-600 mb-2">Возраст: 5-9 лет</p>
+            <p class="text-gray-700 text-sm mb-4">
+              Занятия раз в неделю. Курс направлен на развитие эмоционального интеллекта, выстраивание эффективных коммуникаций и повышение уверенности в себе.
+            </p>
+
             <ul class="space-y-2 mb-6">
               <li class="flex items-start gap-2 text-sm text-gray-600">
                 <span class="text-[#4894B2] mt-0.5">✓</span>
@@ -554,28 +548,19 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
                 <span>Ролевые игры</span>
               </li>
             </ul>
-            
+
             <div class="bg-[#F2F7FD] p-4 rounded-lg mb-4">
               <p class="text-sm text-[#4894B2]">
                 <strong>88% родителей</strong> отмечают улучшение поведения ребенка
               </p>
             </div>
-            
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-2xl font-bold text-[#4894B2]">2 800₽/мес</span>
-              <span class="text-sm text-gray-500">4 занятия</span>
-            </div>
-            
-            <button 
+
+            <button
               onclick="openBookingModal()"
               class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105"
             >
               Записаться на пробное занятие
             </button>
-            
-            <p class="text-xs text-center mt-2 text-gray-500">
-              Среда, 18:30
-            </p>
           </div>
         </div>
 
@@ -613,12 +598,7 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
               </p>
             </div>
             
-            <div class="flex items-center justify-between mb-4">
-              <span class="text-2xl font-bold text-[#4894B2]">4 200₽/мес</span>
-              <span class="text-sm text-gray-500">8 занятий</span>
-            </div>
-            
-            <button 
+            <button
               onclick="openBookingModal()"
               class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl group-hover:scale-105"
             >
@@ -715,7 +695,7 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
         <div class="bg-white rounded-2xl p-6 text-center shadow-lg">
           <div class="text-4xl mb-4">💰</div>
           <h3 class="font-bold text-gray-900 mb-2">Прозрачные цены</h3>
-          <p class="text-sm text-gray-600">Фиксированная стоимость без скрытых платежей. Рассрочка и скидки</p>
+          <p class="text-sm text-gray-600">Фиксированная стоимость без скрытых платежей.</p>
         </div>
         
       </div>
@@ -1159,7 +1139,7 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
           </ul>
           
           <div class="flex flex-wrap gap-4 justify-center">
-            <a href="https://wa.me/79991234567" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#20BA5A] text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-xl">
+            <a href="https://wa.me/79151955132" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#20BA5A] text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-xl">
               <span>📱</span> WhatsApp
             </a>
             <a href="https://t.me/username" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-[#229ED9] hover:bg-[#1E88C5] text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-xl">
@@ -1311,7 +1291,7 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
               📞 Записаться на консультацию
             </button>
             
-            <a href="https://wa.me/79991234567" target="_blank" class="inline-block bg-transparent border-2 border-white text-white hover:bg-white/10 px-10 py-5 rounded-full font-bold text-lg transition-all w-full md:w-auto">
+            <a href="https://wa.me/79151955132" target="_blank" class="inline-block bg-transparent border-2 border-white text-white hover:bg-white/10 px-10 py-5 rounded-full font-bold text-lg transition-all w-full md:w-auto">
               💬 Написать в WhatsApp
             </a>
           </div>

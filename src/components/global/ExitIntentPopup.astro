@@ -293,24 +293,51 @@
 
       const form = e.target;
       const formData = new FormData(form);
-      const data = {
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        source: 'exit-intent-popup'
+      const submitBtn = form.querySelector('.form-submit');
+      const originalText = submitBtn ? submitBtn.textContent : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправка...';
+      }
+
+      const payload = {
+        _subject: 'Новая заявка с сайта — всплывающая форма',
+        _template: 'table',
+        _captcha: 'false',
+        Имя: formData.get('name') || '—',
+        Телефон: formData.get('phone') || '—',
+        Источник: 'Exit-intent попап (julialyapina.ru)'
       };
 
-      console.log('Заявка (15-мин консультация):', data);
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/lyapina_sorokina@mail.ru', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
 
-      const content = document.querySelector('.exit-popup-content');
-      if (content) {
-        content.innerHTML =
-          '<div style="text-align:center;padding:2rem;">' +
-          '<div style="font-size:4rem;margin-bottom:1rem;">✅</div>' +
-          '<h3 style="font-size:1.5rem;font-weight:700;margin-bottom:1rem;color:#0f172a;">Спасибо! Заявка принята</h3>' +
-          '<p style="color:#64748b;margin-bottom:2rem;">Перезвоним вам в ближайшее время</p>' +
-          '<button data-exit-close style="padding:0.75rem 2rem;background:#4894B2;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-size:1rem;font-weight:600;">Закрыть</button>' +
-          '</div>';
-        content.querySelector('[data-exit-close]')?.addEventListener('click', closeExitPopup);
+        if (!response.ok) throw new Error('Ошибка отправки');
+
+        const content = document.querySelector('.exit-popup-content');
+        if (content) {
+          content.innerHTML =
+            '<div style="text-align:center;padding:2rem;">' +
+            '<div style="font-size:4rem;margin-bottom:1rem;">✅</div>' +
+            '<h3 style="font-size:1.5rem;font-weight:700;margin-bottom:1rem;color:#0f172a;">Спасибо! Заявка принята</h3>' +
+            '<p style="color:#64748b;margin-bottom:2rem;">Перезвоним вам в ближайшее время</p>' +
+            '<button data-exit-close style="padding:0.75rem 2rem;background:#4894B2;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-size:1rem;font-weight:600;">Закрыть</button>' +
+            '</div>';
+          content.querySelector('[data-exit-close]')?.addEventListener('click', closeExitPopup);
+        }
+      } catch (err) {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
+        alert('Не удалось отправить заявку. Пожалуйста, позвоните по телефону +7 (915) 195-51-32.');
       }
     });
 
