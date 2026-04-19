@@ -235,23 +235,186 @@
     .exit-popup-content {
       padding: 2rem 1.5rem;
     }
-    
+
     .exit-popup-title {
       font-size: 1.5rem;
     }
-    
+
     .exit-popup-subtitle {
       font-size: 1rem;
     }
-    
+
     .exit-popup-icon {
       font-size: 3rem;
     }
-    
+
     .exit-popup-guarantees {
       flex-direction: column;
       gap: 0.75rem;
     }
+  }
+
+  /* ---------- Экран успеха ---------- */
+  .exit-success {
+    position: relative;
+    text-align: center;
+    padding: 1rem 0.5rem 0.5rem;
+    animation: exitSuccessFadeIn 0.5s ease-out both;
+  }
+
+  @keyframes exitSuccessFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .exit-success-icon {
+    display: inline-flex;
+    color: #4894B2;
+    margin-bottom: 1.25rem;
+    filter: drop-shadow(0 8px 20px rgba(72, 148, 178, 0.35));
+  }
+
+  .exit-success-icon svg { overflow: visible; }
+
+  .exit-ring {
+    stroke-dasharray: 226;
+    stroke-dashoffset: 226;
+    animation: exitDrawRing 0.55s 0.05s ease-out forwards;
+  }
+
+  .exit-check {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    animation: exitDrawCheck 0.35s 0.55s ease-out forwards;
+  }
+
+  @keyframes exitDrawRing { to { stroke-dashoffset: 0; } }
+  @keyframes exitDrawCheck { to { stroke-dashoffset: 0; } }
+
+  .exit-success-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 0.75rem;
+    animation: exitSuccessPop 0.4s 0.65s ease-out both;
+  }
+
+  .exit-success-text {
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+    animation: exitSuccessPop 0.4s 0.8s ease-out both;
+  }
+
+  @keyframes exitSuccessPop {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .exit-success-btn {
+    padding: 0.875rem 2.5rem;
+    background: linear-gradient(135deg, #4894B2 0%, #18698F 100%);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 20px rgba(72, 148, 178, 0.35);
+    animation: exitSuccessPop 0.4s 0.95s ease-out both;
+  }
+
+  .exit-success-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(72, 148, 178, 0.45);
+  }
+
+  .exit-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .exit-confetti span {
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: exitConfettiBurst 1.1s 0.6s ease-out forwards;
+  }
+
+  .exit-confetti span:nth-child(1)  { background: #4894B2; --tx:  -160px; --ty: -120px; --r: -40deg; }
+  .exit-confetti span:nth-child(2)  { background: #d9797d; --tx:   140px; --ty: -140px; --r:  50deg; }
+  .exit-confetti span:nth-child(3)  { background: #f2b134; --tx:  -220px; --ty:  -40px; --r: -80deg; }
+  .exit-confetti span:nth-child(4)  { background: #7fb685; --tx:   220px; --ty:  -20px; --r:  90deg; }
+  .exit-confetti span:nth-child(5)  { background: #4894B2; --tx:   -80px; --ty: -180px; --r: -20deg; border-radius: 50%; }
+  .exit-confetti span:nth-child(6)  { background: #d9797d; --tx:    80px; --ty: -180px; --r:  20deg; border-radius: 50%; }
+  .exit-confetti span:nth-child(7)  { background: #18698F; --tx:  -260px; --ty:   40px; --r: -110deg; }
+  .exit-confetti span:nth-child(8)  { background: #f2b134; --tx:   260px; --ty:   60px; --r:  110deg; }
+  .exit-confetti span:nth-child(9)  { background: #7fb685; --tx:  -120px; --ty:  -80px; --r: -60deg; border-radius: 50%; }
+  .exit-confetti span:nth-child(10) { background: #4894B2; --tx:   120px; --ty:  -90px; --r:  60deg; border-radius: 50%; }
+  .exit-confetti span:nth-child(11) { background: #d9797d; --tx:  -200px; --ty:  120px; --r: -140deg; }
+  .exit-confetti span:nth-child(12) { background: #18698F; --tx:   200px; --ty:  140px; --r:  140deg; }
+  .exit-confetti span:nth-child(13) { background: #f2b134; --tx:   -40px; --ty: -220px; --r:   10deg; border-radius: 50%; }
+  .exit-confetti span:nth-child(14) { background: #7fb685; --tx:    40px; --ty: -220px; --r:  -10deg; border-radius: 50%; }
+  .exit-confetti span:nth-child(15) { background: #4894B2; --tx:     0px; --ty: -260px; --r:   30deg; }
+
+  @keyframes exitConfettiBurst {
+    0% {
+      opacity: 0;
+      transform: translate(-50%, 0) rotate(0deg) scale(0.6);
+    }
+    15% { opacity: 1; }
+    100% {
+      opacity: 0;
+      transform: translate(calc(-50% + var(--tx)), var(--ty)) rotate(var(--r)) scale(1);
+    }
+  }
+
+  /* Inline-ошибка */
+  .exit-error {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 0.875rem 1rem;
+    border-radius: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 0.925rem;
+    animation: exitErrorShake 0.5s ease-out;
+  }
+
+  .exit-error.hidden { display: none; }
+
+  .exit-error .error-icon { font-size: 1.125rem; flex-shrink: 0; }
+
+  @keyframes exitErrorShake {
+    0%, 100% { transform: translateX(0); }
+    20%      { transform: translateX(-6px); }
+    40%      { transform: translateX(6px); }
+    60%      { transform: translateX(-4px); }
+    80%      { transform: translateX(4px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .exit-success,
+    .exit-ring,
+    .exit-check,
+    .exit-success-title,
+    .exit-success-text,
+    .exit-success-btn,
+    .exit-confetti span,
+    .exit-error {
+      animation: none !important;
+    }
+    .exit-ring, .exit-check { stroke-dashoffset: 0; }
   }
 </style>
 
@@ -324,20 +487,47 @@
         const content = document.querySelector('.exit-popup-content');
         if (content) {
           content.innerHTML =
-            '<div style="text-align:center;padding:2rem;">' +
-            '<div style="font-size:4rem;margin-bottom:1rem;">✅</div>' +
-            '<h3 style="font-size:1.5rem;font-weight:700;margin-bottom:1rem;color:#0f172a;">Спасибо! Заявка принята</h3>' +
-            '<p style="color:#64748b;margin-bottom:2rem;">Перезвоним вам в ближайшее время</p>' +
-            '<button data-exit-close style="padding:0.75rem 2rem;background:#4894B2;color:white;border:none;border-radius:0.5rem;cursor:pointer;font-size:1rem;font-weight:600;">Закрыть</button>' +
+            '<button class="exit-popup-close" data-exit-close aria-label="Закрыть">✕</button>' +
+            '<div class="exit-success">' +
+              '<div class="exit-confetti" aria-hidden="true">' +
+                '<span></span><span></span><span></span><span></span><span></span>' +
+                '<span></span><span></span><span></span><span></span><span></span>' +
+                '<span></span><span></span><span></span><span></span><span></span>' +
+              '</div>' +
+              '<div class="exit-success-icon">' +
+                '<svg viewBox="0 0 80 80" width="80" height="80" aria-hidden="true">' +
+                  '<circle class="exit-ring" cx="40" cy="40" r="36" fill="none" stroke="currentColor" stroke-width="4"></circle>' +
+                  '<path class="exit-check" d="M24 42 L36 54 L58 30" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>' +
+                '</svg>' +
+              '</div>' +
+              '<h3 class="exit-success-title">Заявка принята!</h3>' +
+              '<p class="exit-success-text">Перезвоним вам в ближайшее время для подтверждения записи.</p>' +
+              '<button type="button" data-exit-close class="exit-success-btn">Хорошо</button>' +
             '</div>';
-          content.querySelector('[data-exit-close]')?.addEventListener('click', closeExitPopup);
+          content.querySelectorAll('[data-exit-close]').forEach(function (btn) {
+            btn.addEventListener('click', closeExitPopup);
+          });
         }
       } catch (err) {
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.textContent = originalText;
         }
-        alert('Не удалось отправить заявку. Пожалуйста, позвоните по телефону +7 (915) 195-51-32.');
+        let errorBox = form.querySelector('.exit-error');
+        if (!errorBox) {
+          errorBox = document.createElement('div');
+          errorBox.className = 'exit-error';
+          errorBox.setAttribute('role', 'alert');
+          errorBox.innerHTML =
+            '<span class="error-icon" aria-hidden="true">⚠️</span>' +
+            '<span>Не удалось отправить. Позвоните: <a href="tel:+79151955132" style="color:#991b1b;text-decoration:underline;font-weight:600;">+7 (915) 195-51-32</a></span>';
+          form.insertBefore(errorBox, form.firstChild);
+        } else {
+          errorBox.classList.remove('hidden');
+          errorBox.style.animation = 'none';
+          void errorBox.offsetWidth;
+          errorBox.style.animation = '';
+        }
       }
     });
 
