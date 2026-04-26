@@ -7,12 +7,12 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import FAQ from '../../components/FAQ.astro';
 
-// Генерируем массив изображений для галереи (30 фото)
+// Генерируем массив изображений для галереи
 const galleryImages = Array.from({length: 30}, (_, i) => ({
-  src: `/images/gallery/umniky/${i + 1}.jpg`,
+  src: `/psychology-site/images/gallery/umniky/${i + 1}.jpg`,
   alt: `Занятие Умники и умницы - фото ${i + 1}`,
-  caption: i % 4 === 0 ? 'Изучаем эмоции и чувства' : 
-           i % 4 === 1 ? 'Ментальная арифметика и взаимодействие' : 
+  caption: i % 4 === 0 ? 'Изучаем эмоции и чувства' :
+           i % 4 === 1 ? 'Ментальная арифметика и взаимодействие' :
            i % 4 === 2 ? 'Творческое самовыражение' :
            'Работа в группе и общение'
 }));
@@ -63,7 +63,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
               onclick="openBookingModal()"
               class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
             >
-              Записаться на консультацию
+              Записаться на занятие
             </button>
           </div>
         </div>
@@ -73,7 +73,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
         <div class="relative w-full max-w-md">
           <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="/psychology-site/images/gallery/umniky/47.jpg" 
+              src="/psychology-site/images/gallery/umniky/1.jpg"
               alt="Консультация психолога" 
               class="w-full h-auto"
             />
@@ -115,8 +115,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
           </div>
           <h3 class="text-2xl font-bold text-gray-900 mb-3">Обучение чтению</h3>
           <p class="text-gray-700 leading-relaxed">
-            От букв к словам и предложениям. Учим читать осмысленно, понимать прочитанное. 
-            Скорость чтения к концу курса — 30-40 слов в минуту.
+            От букв к словам и предложениям. Учим читать осмысленно, понимать прочитанное.
           </p>
         </div>
 
@@ -127,10 +126,9 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
             </svg>
           </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">Письмо и каллиграфия</h3>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">Письмо</h3>
           <p class="text-gray-700 leading-relaxed">
-            Правильная постановка руки, графомоторные навыки. Учим писать буквы, 
-            слоги и слова печатными и прописными буквами.
+            Правильная постановка руки, графомоторные навыки.
           </p>
         </div>
 
@@ -143,8 +141,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
           </div>
           <h3 class="text-2xl font-bold text-gray-900 mb-3">Математика и логика</h3>
           <p class="text-gray-700 leading-relaxed">
-            Счет до 100, состав числа, простые примеры и задачи. Развиваем 
-            логическое мышление, учим анализировать и решать задачи.
+            Состав числа, счет, решение задач. Развиваем логическое мышление.
           </p>
         </div>
 
@@ -157,8 +154,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
           </div>
           <h3 class="text-2xl font-bold text-gray-900 mb-3">Окружающий мир</h3>
           <p class="text-gray-700 leading-relaxed">
-            Расширяем кругозор: времена года, животные, растения, профессии. 
-            Формируем представления о мире и обществе.
+            Расширяем кругозор, формируем представления о мире. Каждую неделю новая тема.
           </p>
         </div>
 
@@ -222,76 +218,19 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
         Как меняются дети после курса "Умники и умницы"
       </p>
       
-      <!-- Статистика -->
-      <div class="grid md:grid-cols-4 gap-8 mb-16 max-w-6xl mx-auto" data-stagger>
-        
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto" data-stagger>
         <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="95" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Поступают в желаемые школы</div>
+          <div class="text-4xl mb-3">🎯</div>
+          <div class="text-gray-700 font-semibold">Готовность к школе и уверенность в себе</div>
         </div>
-
         <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="100" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Слов в минуту читают</div>
+          <div class="text-4xl mb-3">📚</div>
+          <div class="text-gray-700 font-semibold">Навыки чтения, письма и счета</div>
         </div>
-
         <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="92" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Готовы к школьной нагрузке</div>
+          <div class="text-4xl mb-3">🧠</div>
+          <div class="text-gray-700 font-semibold">Развитая память, внимание и мотивация</div>
         </div>
-
-        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2">30-40</div>
-          <div class="text-gray-700 font-semibold">Повысилась уверенность</div>
-        </div>
-        
-      </div>
-
-      <!-- Прогресс-бары -->
-      <h3 class="text-3xl font-bold text-center mb-12">Средний прогресс после 6 месяцев</h3>
-      
-      <div class="max-w-4xl mx-auto space-y-6">
-        
-        <div class="bg-white rounded-2xl p-6 shadow-lg">
-          <div class="flex items-center justify-between mb-3">
-            <span class="font-bold text-gray-900">Навыки чтения</span>
-            <span class="text-[#4894B2] font-bold">30% → 92%</span>
-          </div>
-          <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full" data-progress-bar="92" style="width: 0%; transition-duration: 2s;"></div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-6 shadow-lg">
-          <div class="flex items-center justify-between mb-3">
-            <span class="font-bold text-gray-900">Математические способности</span>
-            <span class="text-[#4894B2] font-bold">20% → 85%</span>
-          </div>
-          <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full" data-progress-bar="80" style="width: 0%; transition-duration: 2s;"></div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-6 shadow-lg">
-          <div class="flex items-center justify-between mb-3">
-            <span class="font-bold text-gray-900">Концентрация внимания</span>
-            <span class="text-[#4894B2] font-bold">35% → 30-40</span>
-          </div>
-          <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full" data-progress-bar="88" style="width: 0%; transition-duration: 2s;"></div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-6 shadow-lg">
-          <div class="flex items-center justify-between mb-3">
-            <span class="font-bold text-gray-900">Учебная мотивация</span>
-            <span class="text-[#4894B2] font-bold">40% → 95%</span>
-          </div>
-          <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full" data-progress-bar="95" style="width: 0%; transition-duration: 2s;"></div>
-          </div>
-        </div>
-        
       </div>
     </div>
   </section>
@@ -337,21 +276,19 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
         <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-10">
           <div class="text-6xl mb-6 text-center">🎭</div>
           <h3 class="text-3xl font-bold text-gray-900 mb-6 text-center">Методы работы</h3>
-          
-          <div class="space-y-6">
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
-              <h4 class="font-bold text-gray-900 mb-2">Игротерапия</h4>
-              <p class="text-gray-700">Проработка эмоций через игру и ролевые ситуации</p>
-            </div>
 
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
-              <h4 class="font-bold text-gray-900 mb-2">Методика Н. Зайцева</h4>
-              <p class="text-gray-700">Выражение чувств через рисование и творчество</p>
+          <div class="space-y-4">
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-5">
+              <h4 class="font-bold text-gray-900">Методика Зайцева</h4>
             </div>
-
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
-              <h4 class="font-bold text-gray-900 mb-2">Телесные практики</h4>
-              <p class="text-gray-700">Релаксация, дыхательные упражнения, йога</p>
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-5">
+              <h4 class="font-bold text-gray-900">Нейроупражнения</h4>
+            </div>
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-5">
+              <h4 class="font-bold text-gray-900">Мнемотехника</h4>
+            </div>
+            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-5">
+              <h4 class="font-bold text-gray-900">Индивидуальный подход к каждому ребенку</h4>
             </div>
           </div>
         </div>
@@ -364,11 +301,8 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
   <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F]" data-animate="fade">
     <div class="container mx-auto px-4 lg:px-8">
       <h2 class="text-4xl md:text-5xl font-bold text-center mb-8 text-white">
-        Занятия ведут наши педагоги
+        С детьми работают специалисты, любящие свою работу
       </h2>
-      <p class="text-center text-white/90 text-lg max-w-2xl mx-auto mb-10">
-        В нашем центре работают дипломированные специалисты с многолетним опытом работы с детьми.
-      </p>
       <div class="text-center">
         <a href="/psychology-site/specialists" class="inline-block px-8 py-4 bg-white text-[#4894B2] font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all">
           Познакомиться со специалистами
@@ -428,7 +362,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
   <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white relative overflow-hidden" data-animate="slide-up">
     <div class="container mx-auto px-4 lg:px-8 relative z-10 text-center">
       <h2 class="text-4xl md:text-5xl font-bold mb-6">
-        Записаться на консультацию
+        Записаться на занятие
       </h2>
       <p class="text-xl opacity-90 mb-10 max-w-2xl mx-auto">
         Расскажу подробнее о программе и подберу удобное расписание

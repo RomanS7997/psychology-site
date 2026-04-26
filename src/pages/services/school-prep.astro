@@ -9,7 +9,7 @@ import SEO from '../../components/SEO.astro';
 
 // Генерируем массив изображений для галереи 
 const galleryImages = Array.from({length: 38}, (_, i) => ({
-   src: `/images/gallery/school-prep/${i + 1}.jpg`,
+   src: `/psychology-site/images/gallery/school-prep/${i + 1}.jpg`,
   alt: `Подготовка к школе - фото ${i + 1}`,
   caption: i % 5 === 0 ? 'Обучение чтению и письму' : 
             i % 5 === 1 ? 'Математика и логика' : 
@@ -230,28 +230,19 @@ const galleryImages = Array.from({length: 38}, (_, i) => ({
         и легко адаптируются к обучению
       </p>
       
-      <div class="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
-        
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
         <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="100" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Готовы к первому классу</div>
+          <div class="text-4xl mb-3">🎓</div>
+          <div class="text-gray-700 font-semibold">Готовность к первому классу</div>
         </div>
-
         <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="95" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Поступили в желаемую школу</div>
+          <div class="text-4xl mb-3">📖</div>
+          <div class="text-gray-700 font-semibold">Уверенный старт в учёбе</div>
         </div>
-
         <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="92" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Легко адаптировались</div>
+          <div class="text-4xl mb-3">😊</div>
+          <div class="text-gray-700 font-semibold">Лёгкая адаптация в школе</div>
         </div>
-
-        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="98" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Родителей довольны результатом</div>
-        </div>
-        
       </div>
 
       <!-- Цитата -->
@@ -551,7 +542,7 @@ const galleryImages = Array.from({length: 38}, (_, i) => ({
         <div class="flex items-center justify-center gap-8 flex-wrap text-sm opacity-75">
           <div class="flex items-center gap-2">
             <span>📞</span>
-            <span>+7 (915) 195-51-32</span>
+            <a href="tel:+79151955132" class="underline hover:no-underline">+7 (915) 195-51-32</a>
           </div>
           <div class="flex items-center gap-2">
             <span>💬</span>

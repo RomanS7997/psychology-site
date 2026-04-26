@@ -8,7 +8,7 @@ import SEO from '../../components/SEO.astro';
 import FAQ from '../../components/FAQ.astro';
 // Генерируем массив изображений для галереи (48 фото)
 const galleryImages = Array.from({length: 48}, (_, i) => ({
-  src: `/images/gallery/azbuka/${i + 1}.jpg`,
+  src: `/psychology-site/images/gallery/azbuka/${i + 1}.jpg`,
   alt: `Занятие Азбука общения - фото ${i + 1}`,
   caption: i % 4 === 0 ? 'Изучаем эмоции и чувства' : 
            i % 4 === 1 ? 'Ролевые игры и взаимодействие' : 
@@ -63,7 +63,7 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
               onclick="openBookingModal()"
               class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
             >
-              Записаться на консультацию
+              Записаться на занятие
             </button>
           </div>
         </div>
@@ -402,11 +402,6 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
             <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
               <h4 class="font-bold text-gray-900 mb-2">Арт-терапия</h4>
               <p class="text-gray-700">Выражение чувств через рисование и творчество</p>
-            </div>
-
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
-              <h4 class="font-bold text-gray-900 mb-2">Телесные практики</h4>
-              <p class="text-gray-700">Релаксация, дыхательные упражнения, йога</p>
             </div>
           </div>
         </div>
