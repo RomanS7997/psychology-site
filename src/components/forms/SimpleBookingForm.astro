@@ -12,7 +12,7 @@
     </button>
     
     <div class="booking-content">
-      <h2 class="text-3xl font-bold text-gray-900 mb-2">Записаться на консультацию</h2>
+      <h2 class="text-3xl font-bold text-gray-900 mb-2">Записаться</h2>
       <p class="text-gray-600 mb-8">Заполните форму, и мы свяжемся с вами для подтверждения записи</p>
 
       <!-- Экран успеха (скрыт по умолчанию) -->
@@ -42,50 +42,6 @@
       </div>
 
       <form id="booking-form" class="space-y-6">
-        
-        <!-- Выбор услуги -->
-        <div>
-          <label class="block text-sm font-semibold text-gray-900 mb-3">
-            Что вас интересует? <span class="text-[#4894B2]">*</span>
-          </label>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <label class="option-card cursor-pointer">
-              <input type="radio" name="service" value="adult" class="sr-only peer" required>
-              <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-[#4894B2] peer-checked:bg-[#F2F7FD] transition-all">
-                <div class="text-2xl mb-2">👨‍💼</div>
-                <div class="font-semibold text-gray-900">Консультация взрослого</div>
-                <div class="text-sm text-gray-600">Тревога, депрессия, отношения</div>
-              </div>
-            </label>
-            
-            <label class="option-card cursor-pointer">
-              <input type="radio" name="service" value="child" class="sr-only peer">
-              <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-[#4894B2] peer-checked:bg-[#F2F7FD] transition-all">
-                <div class="text-2xl mb-2">🧒</div>
-                <div class="font-semibold text-gray-900">Консультация ребенка</div>
-                <div class="text-sm text-gray-600">Поведение, эмоции, развитие</div>
-              </div>
-            </label>
-            
-            <label class="option-card cursor-pointer">
-              <input type="radio" name="service" value="family" class="sr-only peer">
-              <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-[#4894B2] peer-checked:bg-[#F2F7FD] transition-all">
-                <div class="text-2xl mb-2">👨‍👩‍👧</div>
-                <div class="font-semibold text-gray-900">Семейная терапия</div>
-                <div class="text-sm text-gray-600">Конфликты, кризисы</div>
-              </div>
-            </label>
-            
-            <label class="option-card cursor-pointer">
-              <input type="radio" name="service" value="program" class="sr-only peer">
-              <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-[#4894B2] peer-checked:bg-[#F2F7FD] transition-all">
-                <div class="text-2xl mb-2">📚</div>
-                <div class="font-semibold text-gray-900">Развивающая программа</div>
-                <div class="text-sm text-gray-600">Для детей 4-9 лет</div>
-              </div>
-            </label>
-          </div>
-        </div>
 
         <!-- Имя -->
         <div>
@@ -495,18 +451,11 @@
 
     const form = e.target;
     const formData = new FormData(form);
-    const serviceLabels = {
-      adult: 'Консультация взрослого',
-      child: 'Консультация ребенка',
-      family: 'Семейная терапия',
-      program: 'Развивающая программа'
-    };
 
     const payload = {
       _subject: 'Новая заявка с сайта — запись на консультацию',
       _template: 'table',
       _captcha: 'false',
-      Услуга: serviceLabels[formData.get('service')] || formData.get('service') || '—',
       Имя: formData.get('name') || '—',
       Телефон: formData.get('phone') || '—',
       Email: formData.get('email') || '—',

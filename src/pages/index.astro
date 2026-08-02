@@ -428,7 +428,7 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
         <!-- Текст -->
         <div>
           <h2 class="text-4xl font-bold mb-6 text-gray-900">
-            Добро пожаловать в кабинет психолога Ляпина Юлия
+            Добро пожаловать!
           </h2>
           <ul class="space-y-3 mb-6">
             <li class="flex items-center gap-2 text-gray-700">
@@ -728,18 +728,18 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
           
           <div class="p-6">
             <h3 class="text-xl font-bold text-gray-900 mb-1">Юлия Ляпина</h3>
-            <p class="text-[#4894B2] text-sm mb-3">Психолог, работа с детьми и взрослыми</p>
+            <p class="text-[#4894B2] text-sm mb-3">Психолог, монтессори-педагог, работа с детьми и взрослыми</p>
 
             <ul class="text-xs space-y-2 mb-4 text-gray-600">
               <li>🎓 СГУ им. Н.Г. Чернышевского</li>
-              <li>📚 КПТ, арт-терапия, МАК, ДПДГ</li>
+              <li>📚 КПТ, арт-терапия, МАК, ДПДГ, системная семейная терапия</li>
               <li>⏱️ 15+ лет практики</li>
             </ul>
 
             <div class="flex flex-wrap gap-2 mb-4">
-              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Тревожность</span>
-              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Отношения</span>
-              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Семья</span>
+              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Психологическая помощь</span>
+              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Развивающие занятия</span>
+              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Коррекция</span>
             </div>
 
             <div class="flex gap-3">
@@ -772,6 +772,7 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
             <div class="flex flex-wrap gap-2 mb-4">
               <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Начальная школа</span>
               <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Коррекция</span>
+              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Подготовка к школе</span>
             </div>
 
             <div class="flex gap-3">
@@ -802,8 +803,8 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
             </ul>
 
             <div class="flex flex-wrap gap-2 mb-4">
-              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Дети 3–6</span>
-              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Монтессори</span>
+              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Развивающие занятия</span>
+              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Подготовка к школе</span>
             </div>
 
             <div class="flex gap-3">
@@ -836,6 +837,7 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
             <div class="flex flex-wrap gap-2 mb-4">
               <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Логопедия</span>
               <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Русский язык</span>
+              <span class="px-3 py-1 bg-[#F2F7FD] text-teal-700 text-xs rounded-full">Подготовка к ОГЭ/ЕГЭ</span>
             </div>
 
             <div class="flex gap-3">
@@ -859,303 +861,11 @@ import ScrollAnimations from '../components/ScrollAnimations.astro';
     </div>
   </section>
 
-  <!-- БЛОК 8: Отзывы -->
-  <section class="py-20 bg-gradient-to-br from-purple-50 to-pink-50"" data-animate="slide-up">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl font-bold text-center mb-4 text-gray-900">
-        Что говорят наши клиенты
-      </h2>
-      <p class="text-center text-gray-600 mb-12">
-        Реальные отзывы людей, которым мы помогли
-      </p>
-      
-      <!-- Видео-отзывы -->
-      <div class="grid md:grid-cols-3 gap-8 mb-12">
-        
-        <div class="bg-white rounded-2xl p-4 shadow-lg">
-          <div class="aspect-video bg-gray-900 rounded-xl mb-4 overflow-hidden relative cursor-pointer group">
-            <video class="w-full h-full object-cover" poster="/images/testimonials/video-1-poster.jpg">
-              <source src="/psychology-site/videos/testimonials/video-1.mp4" type="video/mp4">
-            </video>
-            <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center group-hover:bg-opacity-20 transition">
-              <div class="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
-                <svg class="w-8 h-8 text-[#4894B2] ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <h4 class="font-bold text-gray-900">Ольга, 34 года</h4>
-          <p class="text-sm text-gray-600">Преодолела панические атаки</p>
-          <div class="text-[#4894B2] mt-2">⭐⭐⭐⭐⭐</div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-4 shadow-lg">
-          <div class="aspect-video bg-gray-900 rounded-xl mb-4 overflow-hidden relative cursor-pointer group">
-            <video class="w-full h-full object-cover" poster="/images/testimonials/video-2-poster.jpg">
-              <source src="/psychology-site/videos/testimonials/video-2.mp4" type="video/mp4">
-            </video>
-            <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center group-hover:bg-opacity-20 transition">
-              <div class="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
-                <svg class="w-8 h-8 text-[#4894B2] ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <h4 class="font-bold text-gray-900">Марина, мама Саши (6 лет)</h4>
-          <p class="text-sm text-gray-600">Подготовка к школе</p>
-          <div class="text-[#4894B2] mt-2">⭐⭐⭐⭐⭐</div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-4 shadow-lg">
-          <div class="aspect-video bg-gray-900 rounded-xl mb-4 overflow-hidden relative cursor-pointer group">
-            <video class="w-full h-full object-cover" poster="/images/testimonials/video-3-poster.jpg">
-              <source src="/psychology-site/videos/testimonials/video-3.mp4" type="video/mp4">
-            </video>
-            <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center group-hover:bg-opacity-20 transition">
-              <div class="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
-                <svg class="w-8 h-8 text-[#4894B2] ml-1" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              </div>
-            </div>
-          </div>
-          <h4 class="font-bold text-gray-900">Дмитрий и Анна</h4>
-          <p class="text-sm text-gray-600">Семейная терапия</p>
-          <div class="text-[#4894B2] mt-2">⭐⭐⭐⭐⭐</div>
-        </div>
-        
-      </div>
-      
-      <!-- Текстовые отзывы -->
-      <div class="grid md:grid-cols-2 gap-8">
-        
-        <div class="bg-white rounded-2xl p-8 shadow-lg relative">
-          <div class="text-6xl text-[#4894B2] opacity-20 absolute top-4 left-4">"</div>
-          <p class="text-gray-700 mb-6 relative z-10">
-            Юлия помогла мне разобраться в себе и найти причины моей тревожности. 
-            Уже после 3-й сессии я почувствовала значительное облегчение. 
-            Теперь я знаю как справляться с паническими атаками.
-          </p>
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-2xl">👤</div>
-            <div>
-              <h4 class="font-bold text-gray-900">Ольга К.</h4>
-              <p class="text-sm text-gray-600">Москва</p>
-              <div class="text-[#4894B2] text-sm">⭐⭐⭐⭐⭐</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-8 shadow-lg relative">
-          <div class="text-6xl text-[#4894B2] opacity-20 absolute top-4 left-4">"</div>
-          <p class="text-gray-700 mb-6 relative z-10">
-            Мой сын ходит на программу "Умники и умницы" уже 3 месяца. 
-            Результат превзошел все ожидания! Он стал более усидчивым, 
-            научился считать до 100 и читать по слогам. Учителя молодцы!
-          </p>
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-teal-100 flex items-center justify-center text-2xl">👤</div>
-            <div>
-              <h4 class="font-bold text-gray-900">Марина С., мама Саши (6 лет)</h4>
-              <p class="text-sm text-gray-600">Москва</p>
-              <div class="text-[#4894B2] text-sm">⭐⭐⭐⭐⭐</div>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-      
-      <div class="text-center mt-8">
-        <button class="px-8 py-3 bg-white hover:bg-gray-50 text-[#4894B2] font-semibold rounded-full transition border-2 border-teal-600 shadow-md">
-          Читать все отзывы (127)
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- БЛОК 9: Результаты До/После -->
-  <section class="py-20 bg-white" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl font-bold text-center mb-4 text-gray-900">
-        Результаты наших программ
-      </h2>
-      <p class="text-center text-gray-600 mb-12">
-        Как меняются дети после занятий 
-      </p>
-      
-      <div class="grid md:grid-cols-2 gap-12">
-        
-        
-
-        <!-- Результат 3: Прогресс -->
-        <div class="bg-white rounded-2xl border border-gray-200 p-6">
-          <h3 class="text-xl font-bold mb-4 text-gray-900">Эмоциональный интеллект</h3>
-          
-          <div class="space-y-4">
-            <div>
-              <div class="flex items-center justify-between text-sm mb-2">
-                <span class="text-gray-700">Умение выражать эмоции</span>
-                <span class="font-bold text-[#4894B2]">30% → 85%</span>
-              </div>
-              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div class="h-full bg-[#4894B2] rounded-full transition-all" data-progress-bar="85" style="width: 0%; transition-duration: 2s;"></div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex items-center justify-between text-sm mb-2">
-                <span class="text-gray-700">Навыки общения</span>
-                <span class="font-bold text-[#4894B2]">25% → 80%</span>
-              </div>
-              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div class="h-full bg-[#4894B2] rounded-full transition-all" data-progress-bar="80" style="width: 0%; transition-duration: 2s;"></div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex items-center justify-between text-sm mb-2">
-                <span class="text-gray-700">Уверенность в себе</span>
-                <span class="font-bold text-[#4894B2]">35% → 90%</span>
-              </div>
-              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div class="h-full bg-[#4894B2] rounded-full transition-all" data-progress-bar="90" style="width: 0%; transition-duration: 2s;"></div>
-              </div>
-            </div>
-          </div>
-          
-         
-        </div>
-
-        <!-- Результат 4: Статистика -->
-        <div class=" rounded-2xl border  p-6">
-          <h3 class="text-xl font-bold mb-4 text-gray-900">Общая статистика</h3>
-          
-          <div class="grid grid-cols-2 gap-4 mb-6" data-stagger>
-            <div class="text-center">
-              <div class="text-3xl font-bold text-[#4894B2]" data-counter="95" data-suffix="%">0</div>
-              <div class="text-xs text-gray-700">Поступили в желаемую школу</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold text-[#4894B2]" data-counter="88" data-suffix="%">0</div>
-              <div class="text-xs text-gray-700">Улучшение поведения</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold text-[#4894B2]" data-counter="92" data-suffix="%">0</div>
-              <div class="text-xs text-gray-700">Стали увереннее</div>
-            </div>
-            <div class="text-center">
-              <div class="text-3xl font-bold text-[#4894B2]" data-counter="97" data-suffix="%">0</div>
-              <div class="text-xs text-gray-700">Родители довольны</div>
-            </div>
-          </div>
-          
-          <button onclick="openBookingModal()" class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition shadow-lg">
-            Записать ребенка на программу
-          </button>
-        </div>
-        
-      </div>
-    </div>
-  </section>
-
-  <!-- БЛОК 10: Инфографика с результатами -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white"" data-animate="slide-up">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl font-bold text-center mb-4">
-        Наши результаты в цифрах
-      </h2>
-      <p class="text-center opacity-80 mb-16">
-        Подтверждено анонимными опросами клиентов
-      </p>
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8" data-stagger>
-        
-        <div class="text-center">
-          <div class="text-6xl mb-4">👥</div>
-          <div class="text-5xl font-bold mb-2" data-counter="87" data-suffix="%">0</div>
-          <div class="text-lg font-semibold mb-2">Клиентов отмечают значительное улучшение</div>
-          <p class="text-sm opacity-80">после 5-8 сессий терапии</p>
-        </div>
-        
-        <div class="text-center">
-          <div class="text-6xl mb-4">🎓</div>
-          <div class="text-5xl font-bold mb-2" data-counter="95" data-suffix="%">0</div>
-          <div class="text-lg font-semibold mb-2">Выпускников готовы к школе</div>
-          <p class="text-sm opacity-80">по оценке независимых педагогов</p>
-        </div>
-        
-        <div class="text-center">
-          <div class="text-6xl mb-4">⭐</div>
-          <div class="text-5xl font-bold mb-2" data-counter="4.9" data-suffix="/5">0</div>
-          <div class="text-lg font-semibold mb-2">Средняя оценка на Яндекс.Картах</div>
-          <p class="text-sm opacity-80">127 отзывов от реальных клиентов</p>
-        </div>
-        
-        <div class="text-center">
-          <div class="text-6xl mb-4">🔄</div>
-          <div class="text-5xl font-bold mb-2" data-counter="72" data-suffix="%">0</div>
-          <div class="text-lg font-semibold mb-2">Клиентов возвращаются к нам</div>
-          <p class="text-sm opacity-80">или рекомендуют друзьям</p>
-        </div>
-        
-      </div>
-    </div>
-  </section>
-
-  <!-- БЛОК 11: Форма обратной связи -->
-  <section class="py-20 bg-white" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8">
-      <div class="max-w-3xl mx-auto text-center">
-        <h2 class="text-4xl font-bold mb-4 text-gray-900">
-          Не знаете с чего начать?
-        </h2>
-        <p class="text-xl text-gray-600 mb-8">
-          Свяжитесь со мной, и я помогу подобрать подходящий формат работы
-        </p>
-        
-        <div class="bg-gradient-to-br from-teal-50 to-blue-50 p-12 rounded-3xl">
-          <div class="text-6xl mb-6">💬</div>
-          
-          <h3 class="text-2xl font-bold mb-4 text-gray-900">Задайте вопрос</h3>
-          
-          <ul class="text-left max-w-md mx-auto space-y-3 mb-8">
-            <li class="flex items-center gap-3">
-              <span class="text-[#4894B2] text-xl">✓</span>
-              <span>Отвечу в ближайшее время</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-[#4894B2] text-xl">✓</span>
-              <span>Помогу определиться с запросом</span>
-            </li>
-            <li class="flex items-center gap-3">
-              <span class="text-[#4894B2] text-xl">✓</span>
-              <span>Подберу удобное время</span>
-            </li>
-          </ul>
-          
-          <div class="flex flex-wrap gap-4 justify-center">
-            <a href="https://wa.me/79151955132" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#20BA5A] text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-xl">
-              <span>📱</span> WhatsApp
-            </a>
-            <a href="tel:+79151955132" class="inline-flex items-center gap-2 px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-xl">
-              <span>📞</span> Позвонить
-            </a>
-            <a href="/psychology-site/contact" class="inline-flex items-center gap-2 px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition-all shadow-lg hover:shadow-xl">
-              <span>📧</span> Написать
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- БЛОК 12: Последние статьи из блога -->
   <section class="py-20 bg-gray-50"" data-animate="slide-up">
     <div class="container mx-auto px-4 lg:px-8">
       <h2 class="text-4xl font-bold text-center mb-4 text-gray-900">
-        Полезные статьи от наших психологов
+        Полезные статьи
       </h2>
       <p class="text-center text-gray-600 mb-12">
         Экспертные материалы о психологии и саморазвитии

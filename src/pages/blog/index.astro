@@ -102,7 +102,7 @@ const posts = [
           Блог о психологии
         </h1>
         <p class="text-xl text-gray-700 mb-8">
-          Экспертные материалы от наших психологов о ментальном здоровье, 
+          Экспертные материалы о ментальном здоровье,
           отношениях и саморазвитии
         </p>
       </div>
@@ -193,42 +193,6 @@ const posts = [
     </div>
   </section>
 
-  <!-- Подписка на рассылку -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white relative overflow-hidden" data-animate="slide-up">
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-4xl md:text-5xl font-bold mb-6">
-          Подпишитесь на рассылку
-        </h2>
-        <p class="text-xl mb-8 opacity-90">
-          Получайте новые статьи о психологии прямо на почту
-        </p>
-        
-        <form class="flex flex-col sm:flex-row gap-4 max-w-2xl mx-auto" onsubmit="handleSubscribe(event)">
-          <input 
-            type="email" 
-            placeholder="Ваш email"
-            required
-            class="flex-1 px-6 py-4 rounded-full text-gray-900 focus:outline-none focus:ring-4 focus:ring-white/30"
-          >
-          <button 
-            type="submit"
-            class="px-8 py-4 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition shadow-xl hover:shadow-2xl"
-          >
-            Подписаться
-          </button>
-        </form>
-        
-        <p class="text-sm opacity-75 mt-4">
-          Никакого спама. Только качественные материалы о психологии.
-        </p>
-      </div>
-    </div>
-  </section>
-
   <ScrollAnimations />
 </Layout>
 
@@ -281,11 +245,4 @@ const posts = [
       }
     });
   });
-  
-  // Подписка на рассылку
-  function handleSubscribe(event) {
-    event.preventDefault();
-    alert('Спасибо за подписку! Вы будете получать новые статьи на email.');
-    event.target.reset();
-  }
 </script>
