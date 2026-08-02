@@ -312,23 +312,22 @@ const { title, subtitle } = Astro.props;
         </p>
 
         <!-- CTA -->
-        <div class="cta-stack space-y-3 flex flex-col items-center lg:items-start">
+        <div class="cta-stack flex flex-col items-center lg:items-start">
           <button
             onclick="openBookingModal()"
-            class="inline-flex items-center justify-center px-10 py-5 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-xl w-full sm:w-auto"
+            class="inline-flex items-center justify-center px-9 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-lg w-full sm:w-auto"
           >
             Записаться и узнать стоимость
           </button>
         </div>
 
-      
-
         <!-- Stats or features -->
-        <div class="mt-12 grid grid-cols-2 gap-6 max-w-sm mx-auto lg:mx-0" data-stagger>
+        <div class="mt-10 flex items-center justify-center lg:justify-start gap-8 sm:gap-12" data-stagger>
           <div class="text-center lg:text-left">
             <div class="text-3xl font-bold text-[#4894B2] mb-1" data-counter="15" data-suffix="+">0</div>
             <div class="text-sm text-gray-600">лет опыта</div>
           </div>
+          <div class="w-px h-12 bg-gray-200"></div>
           <div class="text-center lg:text-left">
             <div class="text-3xl font-bold text-[#4894B2] mb-1" data-counter="500" data-suffix="+">0</div>
             <div class="text-sm text-gray-600">клиентов</div>
