@@ -1,0 +1,114 @@
+{
+  "site": {
+    "name": "Кабинет психолога Ляпина Юлия",
+    "copyright": "© 2025 Кабинет психолога Ляпина Юлия. Все права защищены."
+  },
+  "contacts": {
+    "phone": "+7 (915) 195-51-32",
+    "phoneRaw": "+79151955132",
+    "email": "lyapina_sorokina@mail.ru",
+    "address": "Одинцово, Лесной городок",
+    "whatsapp": "https://wa.me/79151955132",
+    "telegram": "https://t.me/+79151955132"
+  },
+  "menu": {
+    "servicesLabel": "Услуги",
+    "services": [
+      {
+        "href": "/services/adult",
+        "title": "Консультирование взрослых",
+        "note": "Индивидуальная психологическая помощь"
+      },
+      {
+        "href": "/services/children",
+        "title": "Индивидуальные занятия с детьми",
+        "note": "Работа с эмоциями, страхами, поведением"
+      },
+      {
+        "href": "/services/lila",
+        "title": "Трансформационная игра «Лила»",
+        "note": "Игра-медитация для работы с запросом"
+      },
+      {
+        "href": "/services/school-prep",
+        "title": "Подготовка к школе",
+        "note": "Занятия 2 раза в неделю для будущих первоклассников"
+      },
+      {
+        "href": "/programs/umniky",
+        "title": "Умники и умницы",
+        "note": "Ежедневные комплексно-развивающие занятия 4–6 лет"
+      },
+      {
+        "href": "/programs/azbuka",
+        "title": "Азбука общения",
+        "note": "Психологический курс развития EQ для детей"
+      }
+    ],
+    "links": [
+      { "href": "/specialists", "title": "Специалисты" },
+      { "href": "/about", "title": "Обо мне" },
+      { "href": "/blog", "title": "Блог" },
+      { "href": "/contact", "title": "Контакты" }
+    ],
+    "bookButton": "Записаться"
+  },
+  "footer": {
+    "aboutTitle": "Обо мне",
+    "aboutLinks": [
+      { "href": "/about", "title": "О кабинете" },
+      { "href": "/specialists", "title": "Моя команда" },
+      { "href": "/blog", "title": "Блог" },
+      { "href": "/contact", "title": "Контакты" }
+    ],
+    "servicesTitle": "Услуги",
+    "servicesLinks": [
+      {
+        "href": "/services/adult",
+        "title": "Консультирование взрослых",
+        "note": "Индивидуальная психологическая помощь"
+      },
+      {
+        "href": "/services/children",
+        "title": "Индивидуальные занятия с детьми",
+        "note": "Работа с эмоциями, страхами, поведением"
+      },
+      {
+        "href": "/services/lila",
+        "title": "Трансформационная игра «Лила»",
+        "note": "Игра-медитация для работы с запросом"
+      },
+      {
+        "href": "/services/school-prep",
+        "title": "Подготовка к школе",
+        "note": "Занятия 2 раза в неделю"
+      },
+      {
+        "href": "/programs/umniky",
+        "title": "Умники и умницы",
+        "note": "Ежедневные занятия для детей 4–6 лет"
+      },
+      {
+        "href": "/programs/azbuka",
+        "title": "Азбука общения",
+        "note": "Психологический курс развития EQ"
+      }
+    ],
+    "contactsTitle": "Контакты",
+    "infoTitle": "Информация",
+    "infoLinks": [
+      { "href": "/privacy", "title": "Политика конфиденциальности" }
+    ]
+  },
+  "bookingForm": {
+    "title": "Записаться",
+    "subtitle": "Заполните форму, и мы свяжемся с вами для подтверждения записи",
+    "nameLabel": "Ваше имя",
+    "phoneLabel": "Телефон",
+    "emailLabel": "Email",
+    "commentLabel": "Комментарий",
+    "submitButton": "Отправить заявку",
+    "successTitle": "Заявка отправлена!",
+    "successText": "Спасибо! Мы свяжемся с вами в ближайшее время для подтверждения записи."
+  }
+}

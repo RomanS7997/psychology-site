@@ -1,69 +1,60 @@
 ---
 // src/components/Footer.astro
+// Все тексты — в src/content/global.json
+import global from '../content/global.json';
+import { url } from '../utils/url';
+
+const { site, contacts, footer } = global;
 ---
 
 <footer class="bg-gray-900 text-white py-12">
   <div class="container mx-auto px-4 lg:px-8">
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       <div>
-        <h3 class="font-bold mb-4">Обо мне</h3>
+        <h3 class="font-bold mb-4">{footer.aboutTitle}</h3>
         <ul class="space-y-2 text-sm text-gray-400">
-          <li><a href="/psychology-site/about" class="hover:text-white transition">О кабинете</a></li>
-          <li><a href="/psychology-site/specialists" class="hover:text-white transition">Моя команда</a></li>
-          <li><a href="/psychology-site/blog" class="hover:text-white transition">Блог</a></li>
-          <li><a href="/psychology-site/contact" class="hover:text-white transition">Контакты</a></li>
+          {footer.aboutLinks.map((link) => (
+            <li><a href={url(link.href)} class="hover:text-white transition">{link.title}</a></li>
+          ))}
         </ul>
       </div>
       <div>
-        <h3 class="font-bold mb-4">Услуги</h3>
+        <h3 class="font-bold mb-4">{footer.servicesTitle}</h3>
         <ul class="space-y-3 text-sm text-gray-400">
-          <li>
-            <a href="/psychology-site/services/adult" class="hover:text-white transition font-semibold">Консультирование взрослых</a>
-            <div class="text-xs text-gray-500">Индивидуальная психологическая помощь</div>
-          </li>
-          <li>
-            <a href="/psychology-site/services/children" class="hover:text-white transition font-semibold">Индивидуальные занятия с детьми</a>
-            <div class="text-xs text-gray-500">Работа с эмоциями, страхами, поведением</div>
-          </li>
-          <li>
-            <a href="/psychology-site/services/lila" class="hover:text-white transition font-semibold">Трансформационная игра «Лила»</a>
-            <div class="text-xs text-gray-500">Игра-медитация для работы с запросом</div>
-          </li>
-          <li>
-            <a href="/psychology-site/services/school-prep" class="hover:text-white transition font-semibold">Подготовка к школе</a>
-            <div class="text-xs text-gray-500">Занятия 2 раза в неделю</div>
-          </li>
-          <li>
-            <a href="/psychology-site/programs/umniky" class="hover:text-white transition font-semibold">Умники и умницы</a>
-            <div class="text-xs text-gray-500">Ежедневные занятия для детей 4–7 лет</div>
-          </li>
-          <li>
-            <a href="/psychology-site/programs/azbuka" class="hover:text-white transition font-semibold">Азбука общения</a>
-            <div class="text-xs text-gray-500">Психологический курс развития EQ</div>
-          </li>
+          {footer.servicesLinks.map((link) => (
+            <li>
+              <a href={url(link.href)} class="hover:text-white transition font-semibold">{link.title}</a>
+              <div class="text-xs text-gray-500">{link.note}</div>
+            </li>
+          ))}
         </ul>
       </div>
       <div>
-        <h3 class="font-bold mb-4">Контакты</h3>
+        <h3 class="font-bold mb-4">{footer.contactsTitle}</h3>
         <ul class="space-y-2 text-sm text-gray-400">
-          <li>📍 Одинцово, Лесной городок</li>
-          <li>📞 <a href="tel:+79151955132" class="hover:text-white transition">+7 (915) 195-51-32</a></li>
-          <li>📧 <a href="mailto:lyapina_sorokina@mail.ru" class="hover:text-white transition">lyapina_sorokina@mail.ru</a></li>
+          <li>📍 {contacts.address}</li>
+          <li>📞 <a href={`tel:${contacts.phoneRaw}`} class="hover:text-white transition">{contacts.phone}</a></li>
+          <li>📧 <a href={`mailto:${contacts.email}`} class="hover:text-white transition">{contacts.email}</a></li>
         </ul>
       </div>
       <div>
-        <h3 class="font-bold mb-4">Информация</h3>
+        <h3 class="font-bold mb-4">{footer.infoTitle}</h3>
         <ul class="space-y-2 text-sm text-gray-400">
-          <li><a href="/psychology-site/privacy" class="hover:text-white transition">Политика конфиденциальности</a></li>
+          {footer.infoLinks.map((link) => (
+            <li><a href={url(link.href)} class="hover:text-white transition">{link.title}</a></li>
+          ))}
         </ul>
       </div>
     </div>
     <div class="border-t border-gray-800 mt-8 pt-8">
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-        <p class="text-sm text-gray-400">© 2025 Кабинет психолога Ляпина Юлия. Все права защищены.</p>
+        <p class="text-sm text-gray-400">{site.copyright}</p>
         <div class="flex gap-4">
-          <a href="https://wa.me/79151955132" target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#4894B2] transition">
+          <a href={contacts.whatsapp} target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#4894B2] transition">
             <span class="text-sm">WA</span>
+          </a>
+          <a href={contacts.telegram} target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#4894B2] transition">
+            <span class="text-sm">TG</span>
           </a>
         </div>
       </div>
