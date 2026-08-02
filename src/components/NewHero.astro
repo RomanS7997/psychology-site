@@ -311,26 +311,24 @@ const { title, subtitle } = Astro.props;
           {subtitle}
         </p>
 
-        <!-- CTA -->
-        <div class="cta-stack flex flex-col items-center lg:items-start">
+        <!-- CTA + показатели в одной строке -->
+        <div class="cta-stack flex flex-col sm:flex-row sm:items-center justify-center lg:justify-start gap-6 sm:gap-8">
           <button
             onclick="openBookingModal()"
-            class="inline-flex items-center justify-center px-9 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-lg w-full sm:w-auto"
+            class="inline-flex items-center justify-center px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white font-semibold rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-[17px] w-full sm:w-auto shrink-0"
           >
             Записаться и узнать стоимость
           </button>
-        </div>
 
-        <!-- Stats or features -->
-        <div class="mt-10 flex items-center justify-center lg:justify-start gap-8 sm:gap-12" data-stagger>
-          <div class="text-center lg:text-left">
-            <div class="text-3xl font-bold text-[#4894B2] mb-1" data-counter="15" data-suffix="+">0</div>
-            <div class="text-sm text-gray-600">лет опыта</div>
-          </div>
-          <div class="w-px h-12 bg-gray-200"></div>
-          <div class="text-center lg:text-left">
-            <div class="text-3xl font-bold text-[#4894B2] mb-1" data-counter="500" data-suffix="+">0</div>
-            <div class="text-sm text-gray-600">клиентов</div>
+          <div class="flex items-center justify-center gap-8" data-stagger>
+            <div class="text-center sm:text-left">
+              <div class="text-3xl font-bold text-[#4894B2] mb-1" data-counter="15" data-suffix="+">0</div>
+              <div class="text-sm text-gray-600">лет опыта</div>
+            </div>
+            <div class="text-center sm:text-left">
+              <div class="text-3xl font-bold text-[#4894B2] mb-1" data-counter="500" data-suffix="+">0</div>
+              <div class="text-sm text-gray-600">клиентов</div>
+            </div>
           </div>
         </div>
       </div>
