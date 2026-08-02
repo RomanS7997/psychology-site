@@ -7,16 +7,25 @@ import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 
-// Генерируем массив изображений для галереи 
-const galleryImages = Array.from({length: 38}, (_, i) => ({
-   src: `/psychology-site/images/gallery/school-prep/${i + 1}.jpg`,
-  alt: `Подготовка к школе - фото ${i + 1}`,
-  caption: i % 5 === 0 ? 'Обучение чтению и письму' : 
-            i % 5 === 1 ? 'Математика и логика' : 
-            i % 5 === 2 ? 'Творческие занятия' :
-            i % 5 === 3 ? 'Физическое развитие' :
-            'Работа в группе'
- }));
+// Отобранные фото для галереи (номера файлов в /images/gallery/school-prep/)
+const galleryPhotos = [
+  { n: 23, caption: 'Постановка руки и графомоторика' },
+  { n: 32, caption: 'Учимся читать по слогам' },
+  { n: 28, caption: 'Подготовка к письму' },
+  { n: 38, caption: 'Складываем слова из слогов' },
+  { n: 11, caption: 'Задания на внимание и логику' },
+  { n: 27, caption: 'Работа в тетради' },
+  { n: 21, caption: 'Конструирование' },
+  { n: 34, caption: 'Развивающие игры' },
+  { n: 20, caption: 'Физкультминутка' },
+  { n: 6,  caption: 'Индивидуальные задания' },
+];
+
+const galleryImages = galleryPhotos.map(({ n, caption }) => ({
+  src: `/psychology-site/images/gallery/school-prep/${n}.jpg`,
+  alt: `Подготовка к школе — ${caption.toLowerCase()}`,
+  caption
+}));
 ---
 
 <SEO 
