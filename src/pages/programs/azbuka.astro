@@ -6,14 +6,24 @@ import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import FAQ from '../../components/FAQ.astro';
-// Генерируем массив изображений для галереи (48 фото)
-const galleryImages = Array.from({length: 48}, (_, i) => ({
-  src: `/psychology-site/images/gallery/azbuka/${i + 1}.jpg`,
-  alt: `Занятие Азбука общения - фото ${i + 1}`,
-  caption: i % 4 === 0 ? 'Изучаем эмоции и чувства' : 
-           i % 4 === 1 ? 'Ролевые игры и взаимодействие' : 
-           i % 4 === 2 ? 'Творческое самовыражение' :
-           'Работа в группе и общение'
+// Отобранные фото для галереи (номера файлов в /images/gallery/azbuka/)
+const galleryPhotos = [
+  { n: 14, caption: 'Радость от занятия' },
+  { n: 33, caption: 'Песочная терапия' },
+  { n: 40, caption: 'Изучаем эмоции и чувства' },
+  { n: 1,  caption: 'Учимся называть свои эмоции' },
+  { n: 11, caption: 'Карточки эмоционального интеллекта' },
+  { n: 36, caption: 'Учимся общаться друг с другом' },
+  { n: 32, caption: 'Строим свой мир в песке' },
+  { n: 43, caption: 'Работа с карточками' },
+  { n: 26, caption: 'Игры на снятие напряжения' },
+  { n: 30, caption: 'Дыхательные упражнения' },
+];
+
+const galleryImages = galleryPhotos.map(({ n, caption }) => ({
+  src: `/psychology-site/images/gallery/azbuka/${n}.jpg`,
+  alt: `Занятие Азбука общения — ${caption.toLowerCase()}`,
+  caption
 }));
 ---
 
@@ -271,90 +281,6 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
     accentColor="pink"
     autoplayDelay={4500}
   />
-  <!-- Результаты программы -->
-  <section class="py-20 bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)]" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
-        Результаты программы
-      </h2>
-      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-        Как меняются дети после курса "Азбука общения"
-      </p>
-      
-      <!-- Статистика -->
-      <div class="grid md:grid-cols-4 gap-8 mb-16 max-w-6xl mx-auto">
-        
-        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-           <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="88" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Родителей отмечают улучшение поведения</div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-           <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="92" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Дети стали увереннее в себе</div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-         <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="85" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Улучшились отношения со сверстниками</div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-           <div class="text-5xl font-bold text-[#4894B2] mb-2" data-counter="90" data-suffix="%">0</div>
-          <div class="text-gray-700 font-semibold">Научились управлять эмоциями</div>
-        </div>
-        
-      </div>
-
-      <!-- Прогресс-бары -->
-      <h3 class="text-3xl font-bold text-center mb-12">Средний прогресс после 3 месяцев</h3>
-      
-      <div class="max-w-4xl mx-auto space-y-6">
-        
-        <div class="bg-white rounded-2xl p-6 shadow-lg">
-          <div class="flex items-center justify-between mb-3">
-            <span class="font-bold text-gray-900">Умение выражать эмоции</span>
-            <span class="text-[#4894B2] font-bold">30% → 85%</span>
-          </div>
-          <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
-           <div class="h-full bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full" data-progress-bar="85" style="width: 0%; transition-duration: 2s;"></div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-6 shadow-lg">
-          <div class="flex items-center justify-between mb-3">
-            <span class="font-bold text-gray-900">Навыки общения</span>
-            <span class="text-[#4894B2] font-bold">25% → 80%</span>
-          </div>
-          <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full" data-progress-bar="80" style="width: 0%; transition-duration: 2s;"></div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-6 shadow-lg">
-          <div class="flex items-center justify-between mb-3">
-            <span class="font-bold text-gray-900">Уверенность в себе</span>
-            <span class="text-[#4894B2] font-bold">35% → 90%</span>
-          </div>
-          <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
-            <div class="h-full bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full" data-progress-bar="90" style="width: 0%; transition-duration: 2s;"></div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl p-6 shadow-lg">
-          <div class="flex items-center justify-between mb-3">
-            <span class="font-bold text-gray-900">Эмоциональная устойчивость</span>
-            <span class="text-[#4894B2] font-bold">40% → 88%</span>
-          </div>
-          <div class="h-4 bg-gray-200 rounded-full overflow-hidden">
-           <div class="h-full bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full" data-progress-bar="88" style="width: 0%; transition-duration: 2s;"></div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </section>
-
   <!-- Расписание и формат -->
   <section class="py-20 bg-white" data-animate="slide-up">
     <div class="container mx-auto px-4 lg:px-8">
@@ -402,70 +328,6 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
             <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
               <h4 class="font-bold text-gray-900 mb-2">Арт-терапия</h4>
               <p class="text-gray-700">Выражение чувств через рисование и творчество</p>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </section>
-
-  <!-- Педагоги -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F]" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-8 text-white">
-        Занятия ведут наши педагоги
-      </h2>
-      <p class="text-center text-white/90 text-lg max-w-2xl mx-auto mb-10">
-        В нашем центре работают дипломированные специалисты с многолетним опытом работы с детьми.
-      </p>
-      <div class="text-center">
-        <a href="/psychology-site/specialists" class="inline-block px-8 py-4 bg-white text-[#4894B2] font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-          Познакомиться со специалистами
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Отзывы -->
-  <section class="py-20 bg-white" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
-        Что говорят родители
-      </h2>
-      
-      <!-- Текстовые отзывы -->
-      <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        
-        <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-2xl p-8 relative">
-          <div class="text-6xl text-[#4894B2] opacity-20 absolute top-4 left-4">"</div>
-          <p class="text-gray-700 mb-6 relative z-10 leading-relaxed text-white">
-            Мой сын был очень замкнутым, стеснялся общаться с детьми. 
-            После курса "Азбука общения" он стал более открытым, 
-            научился выражать свои эмоции и нашел друзей в классе. 
-            Огромное спасибо психологу!
-          </p>
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-[#F2F7FD] flex items-center justify-center text-2xl">👤</div>
-            <div>
-              <h4 class="font-bold text-gray-900 text-white">Ольга В., мама Артема (7 лет)</h4>
-              <div class="text-[#4894B2]">⭐⭐⭐⭐⭐</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 relative">
-          <div class="text-6xl text-[#4894B2] opacity-20 absolute top-4 left-4">"</div>
-          <p class="text-gray-700 mb-6 relative z-10 leading-relaxed">
-            Дочка научилась справляться со своими страхами и тревогами. 
-            Раньше она боялась темноты и не хотела оставаться одна. 
-            Теперь спит спокойно, стала увереннее. Рекомендую эту программу всем!
-          </p>
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-[#F2F7FD] flex items-center justify-center text-2xl">👤</div>
-            <div>
-              <h4 class="font-bold text-gray-900">Анна К., мама Софии (6 лет)</h4>
-              <div class="text-[#4894B2]">⭐⭐⭐⭐⭐</div>
             </div>
           </div>
         </div>
@@ -524,47 +386,7 @@ const galleryImages = Array.from({length: 48}, (_, i) => ({
       }
     ]}
   />
-  </div><!-- 
-
-  Липкий CTA -->
-  <div id="stickyFooter" class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#4894B2] shadow-2xl z-50 transform translate-y-full transition-transform duration-300">
-    <div class="container mx-auto px-4 lg:px-8 py-4">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-        <div>
-          <div class="font-bold text-gray-900">Программа «Азбука общения»</div>
-          <div class="text-sm text-gray-600">Занятия раз в неделю • 5-9 лет</div>
-        </div>
-        <button 
-          onclick="openBookingModal()"
-          class="px-8 py-3 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-[#18698F] hover:to-[#0d4a6b] text-white rounded-full font-bold transition shadow-lg"
-        >
-          Записаться в группу
-        </button>
-      </div>
-    </div>
   </div>
-
-  <ScrollAnimations />
-</Layout>
-
-<script>
-  function openBookingModal(type?: string) {
-    console.log('Opening booking modal for:', type || 'general');
-    alert('Модальное окно записи будет здесь. Программа: Азбука общения');
-  }
-
-  // Показать липкий футер при скролле
-  window.addEventListener('scroll', () => {
-    const footer = document.getElementById('stickyFooter');
-    if (footer) {
-      if (window.scrollY > 500) {
-        footer.classList.remove('translate-y-full');
-      } else {
-        footer.classList.add('translate-y-full');
-      }
-    }
-  });
-</script>
 
   <ScrollAnimations />
 </Layout>

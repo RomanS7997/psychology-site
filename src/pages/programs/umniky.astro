@@ -7,27 +7,37 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import FAQ from '../../components/FAQ.astro';
 
-// Генерируем массив изображений для галереи
-const galleryImages = Array.from({length: 30}, (_, i) => ({
-  src: `/psychology-site/images/gallery/umniky/${i + 1}.jpg`,
-  alt: `Занятие Умники и умницы - фото ${i + 1}`,
-  caption: i % 4 === 0 ? 'Изучаем эмоции и чувства' :
-           i % 4 === 1 ? 'Ментальная арифметика и взаимодействие' :
-           i % 4 === 2 ? 'Творческое самовыражение' :
-           'Работа в группе и общение'
+// Отобранные фото для галереи (номера файлов в /images/gallery/umniky/)
+const galleryPhotos = [
+  { n: 3,  caption: 'Обучение чтению по кубикам' },
+  { n: 6,  caption: 'Постановка руки к письму' },
+  { n: 18, caption: 'Основы математики и счёт' },
+  { n: 4,  caption: 'Творческие задания' },
+  { n: 7,  caption: 'Занятия в радость' },
+  { n: 5,  caption: 'Развитие мелкой моторики' },
+  { n: 15, caption: 'Изучаем буквы' },
+  { n: 21, caption: 'Логика и внимание' },
+  { n: 23, caption: 'Работа в тетради' },
+  { n: 29, caption: 'Рисование и творчество' },
+];
+
+const galleryImages = galleryPhotos.map(({ n, caption }) => ({
+  src: `/psychology-site/images/gallery/umniky/${n}.jpg`,
+  alt: `Занятие Умники и умницы — ${caption.toLowerCase()}`,
+  caption
 }));
 ---
 
 <SEO 
-  title="Умники и умницы - Подготовка к школе в Одинцово | Для детей 5-7 лет"
-  description="Программа Умники и умницы в Одинцово. Развитие эмоционального интеллекта для детей 5-7 лет. Умение общаться, дружить, понимать эмоции."
-  keywords="подготовка к школе Одинцово, занятия для дошкольников, развитие детей 5-7 лет, занятия для детей Одинцово"
+  title="Умники и умницы - Подготовка к школе в Одинцово | Для детей 4-6 лет"
+  description="Программа Умники и умницы в Одинцово. Развитие эмоционального интеллекта для детей 4-6 лет. Умение общаться, дружить, понимать эмоции."
+  keywords="подготовка к школе Одинцово, занятия для дошкольников, развитие детей 4-6 лет, занятия для детей Одинцово"
   schema="service"
 />
 
 <Layout 
-  title="Умники и умницы - Подготовка к школе в Одинцово | Для детей 5-7 лет"
-  description="Психологический курс для детей 5-7 лет. Развитие эмоционального интеллекта, работа со страхами, навыки общения. Группы до 8 детей."
+  title="Умники и умницы - Подготовка к школе в Одинцово | Для детей 4-6 лет"
+  description="Психологический курс для детей 4-6 лет. Развитие эмоционального интеллекта, работа со страхами, навыки общения. Группы до 8 детей."
 >
 
   
@@ -45,7 +55,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
           </h1>
 
           <p class="text-xl text-gray-700 mb-6 font-semibold">
-            Ежедневные комплексно-развивающие занятия для детей 4-7 лет
+            Ежедневные комплексно-развивающие занятия для детей 4-6 лет
           </p>
 
           <ul class="space-y-2 mb-8 text-gray-700">
@@ -204,7 +214,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
   <AutoGallerySlider 
     images={galleryImages}
     title="Как проходят наши занятия"
-    subtitle="Смотрите, как дети учатся понимать эмоции и общаться друг с другом"
+    subtitle="Смотрите, как проходят наши занятия"
     accentColor="pink"
     autoplayDelay={4500}
   />
@@ -254,7 +264,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
             <ul class="space-y-3">
               <li class="flex items-center gap-3">
                 <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Длительность:</strong> 90 минут (с перерывом)</span>
+                <span><strong>Длительность:</strong> с 9:30 до 13:00, 3,5 часа (с перерывом)</span>
               </li>
               <li class="flex items-center gap-3">
                 <span class="text-[#4894B2] text-xl">✓</span>
@@ -262,11 +272,11 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
               </li>
               <li class="flex items-center gap-3">
                 <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Возраст:</strong> 5-7 лет</span>
+                <span><strong>Возраст:</strong> 4-6 лет</span>
               </li>
               <li class="flex items-center gap-3">
                 <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Частота:</strong> 8 занятий в месяц</span>
+                <span><strong>Частота:</strong> ежедневно, будние дни</span>
               </li>
             </ul>
           </div>
@@ -289,67 +299,6 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
             </div>
             <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-5">
               <h4 class="font-bold text-gray-900">Индивидуальный подход к каждому ребенку</h4>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </section>
-
-  <!-- Преподаватель -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F]" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-8 text-white">
-        С детьми работают специалисты, любящие свою работу
-      </h2>
-      <div class="text-center">
-        <a href="/psychology-site/specialists" class="inline-block px-8 py-4 bg-white text-[#4894B2] font-bold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-          Познакомиться со специалистами
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Отзывы -->
-  <section class="py-20 bg-white" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
-        Что говорят родители
-      </h2>
-      
-      <!-- Текстовые отзывы -->
-      <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        
-        <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-2xl p-8 relative">
-          <div class="text-6xl text-[#4894B2] opacity-20 absolute top-4 left-4">"</div>
-          <p class="text-gray-700 mb-6 relative z-10 leading-relaxed text-white">
-            Мой сын был очень замкнутым, стеснялся общаться с детьми. 
-            После курса "Умники и умницы" он стал более открытым, 
-            научился выражать свои эмоции и нашел друзей в классе. 
-            Огромное спасибо психологу!
-          </p>
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-[#F2F7FD] flex items-center justify-center text-2xl">👤</div>
-            <div>
-              <h4 class="font-bold text-gray-900 text-white">Ольга В., мама Артема (7 лет)</h4>
-              <div class="text-[#4894B2]">⭐⭐⭐⭐⭐</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 relative">
-          <div class="text-6xl text-[#4894B2] opacity-20 absolute top-4 left-4">"</div>
-          <p class="text-gray-700 mb-6 relative z-10 leading-relaxed">
-            Дочка научилась справляться со своими страхами и тревогами. 
-            Раньше она боялась темноты и не хотела оставаться одна. 
-            Теперь спит спокойно, стала увереннее. Рекомендую эту программу всем!
-          </p>
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full bg-[#F2F7FD] flex items-center justify-center text-2xl">👤</div>
-            <div>
-              <h4 class="font-bold text-gray-900">Анна К., мама Софии (6 лет)</h4>
-              <div class="text-[#4894B2]">⭐⭐⭐⭐⭐</div>
             </div>
           </div>
         </div>
@@ -385,7 +334,7 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
     items={[
       {
         question: "С какого возраста можно начинать?",
-        answer: "Программа рассчитана на детей 5-7 лет. Учитываю возрастные особенности и адаптирую задания под каждого ребёнка."
+        answer: "Программа рассчитана на детей 4-6 лет. Учитываю возрастные особенности и адаптирую задания под каждого ребёнка."
       },
       {
         question: "Когда проходят занятия?",
@@ -405,46 +354,6 @@ const galleryImages = Array.from({length: 30}, (_, i) => ({
       }
     ]}
   />
-
-  <!-- Липкий CTA -->
-  <div id="stickyFooter" class="fixed bottom-0 left-0 right-0 bg-white border-t-2 border-[#4894B2] shadow-2xl z-50 transform translate-y-full transition-transform duration-300">
-    <div class="container mx-auto px-4 lg:px-8 py-4">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-        <div>
-          <div class="font-bold text-gray-900">Программа «Умники и умницы»</div>
-          <div class="text-sm text-gray-600">Ежедневные занятия • 4-7 лет</div>
-        </div>
-        <button 
-          onclick="openBookingModal()"
-          class="px-8 py-3 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-[#18698F] hover:to-[#4894B2] text-white rounded-full font-bold transition shadow-lg"
-        >
-          Записаться в группу
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <ScrollAnimations />
-</Layout>
-
-<script>
-  function openBookingModal(type?: string) {
-    console.log('Opening booking modal for:', type || 'general');
-    alert('Модальное окно записи будет здесь. Программа: Умники и умницы');
-  }
-
-  // Показать липкий футер при скролле
-  window.addEventListener('scroll', () => {
-    const footer = document.getElementById('stickyFooter');
-    if (footer) {
-      if (window.scrollY > 500) {
-        footer.classList.remove('translate-y-full');
-      } else {
-        footer.classList.add('translate-y-full');
-      }
-    }
-  });
-</script>
 
   <ScrollAnimations />
 </Layout>
