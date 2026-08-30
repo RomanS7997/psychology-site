@@ -14,7 +14,13 @@
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in', 'shown');
+          // соседи внутри одной сетки выходят по очереди, а не одним пластом
+          var el = entry.target;
+          if (!el.style.transitionDelay && el.parentElement) {
+            var idx = Array.prototype.indexOf.call(el.parentElement.children, el);
+            if (idx > 0 && idx < 8) el.style.transitionDelay = (idx * 70) + 'ms';
+          }
+          el.classList.add('animate-in', 'shown');
           
           // Для stagger эффекта (элементы появляются по очереди)
           if (entry.target.hasAttribute('data-stagger')) {

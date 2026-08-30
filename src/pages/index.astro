@@ -45,9 +45,10 @@ const requests = [
     icon: 'book',
     title: 'Развивающие программы',
     items: [
-      '«Умники и умницы», 4–6 лет — ежедневные занятия: чтение, письмо, математика, нейроигры',
-      '«Азбука общения», 5–9 лет — эмоциональный интеллект и навыки общения',
-      '«Подготовка к школе» — чтение, письмо, логика, память и речь',
+      '«Умники и умницы», 4–6 лет',
+      '«Азбука общения», 5–9 лет',
+      '«Подготовка к школе», 6–7 лет',
+      'Группы до 8 детей, занятия ведут педагоги',
     ],
     text: 'Занятия проходят в малых группах до 8 детей. Программу подбираю под возраст и готовность ребёнка.',
   },
@@ -60,6 +61,7 @@ const programs = [
     note: 'Ежедневно, будние дни',
     items: ['Чтение и развитие речи', 'Постановка руки к письму', 'Основы математики', 'Группы до 8 детей'],
     href: '/programs/umniky',
+    photo: '/images/gallery/umniky/2.jpg',
   },
   {
     name: 'Азбука общения',
@@ -75,7 +77,16 @@ const programs = [
     note: 'Два раза в неделю',
     items: ['Чтение и письмо', 'Математика и счёт', 'Окружающий мир', 'Концентрация внимания'],
     href: '/services/school-prep',
+    photo: '/images/gallery/school-prep/23.jpg',
   },
+];
+
+// Первая встреча — коротко. Подробности на странице консультирования взрослых.
+const firstSession = [
+  { icon: 'chat', title: 'Знакомство', text: 'Расскажу о себе и о том, как строю работу. Вы поймёте, комфортно ли вам со мной.' },
+  { icon: 'note', title: 'Ваш запрос', text: 'Разберём, что происходит сейчас и что вы хотите изменить.' },
+  { icon: 'compass', title: 'Диагностика', text: 'Оценю состояние, при необходимости предложу пройти тестирование.' },
+  { icon: 'check', title: 'План работы', text: 'Скажу, какими методами буду работать и сколько примерно встреч потребуется.' },
 ];
 
 const advantages = [
@@ -84,7 +95,7 @@ const advantages = [
   { icon: 'lock', title: 'Конфиденциальность', text: 'Информация с сессий не передаётся третьим лицам ни при каких условиях.' },
   { icon: 'screen', title: 'Онлайн и офлайн', text: 'Консультации по видеосвязи или лично в кабинете в Лесном городке.' },
   { icon: 'clock', title: 'Удобное расписание', text: 'Будни и выходные с 9:00 до 21:00 — подберём время под вашу занятость.' },
-  { icon: 'price', title: 'Прозрачные цены', text: 'Фиксированная стоимость консультации без скрытых доплат.' },
+  { icon: 'price', title: 'Понятная стоимость', text: 'Консультация 55 минут — 6000 ₽. Фиксированная цена без скрытых доплат.' },
 ];
 
 const specialists = [
@@ -180,26 +191,30 @@ const posts = [
         <div class="cards-3">
           {requests.map((item) => (
             <article
-              class={`accordion-card lift ${item.featured ? 'gradient-card' : 'surface'}`}
+              class={`accordion-card ${item.featured ? 'gradient-card' : 'surface'}`}
               data-reveal
             >
               <div class="card-inner">
-                <div class="card-head">
+                <button class="card-head" type="button" aria-expanded="false">
                   <span class="card-icon"><Icon name={item.icon} size={22} /></span>
-                  <h3 class="card-title">{item.title}</h3>
+                  <span class="card-title">{item.title}</span>
                   <svg class="accordion-icon chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M19 9l-7 7-7-7" />
                   </svg>
-                </div>
+                </button>
 
-                <div class="accordion-content">
+                <ul class="card-preview">
+                  {item.items.slice(0, 2).map((li) => <li>{li}</li>)}
+                </ul>
+
+                <div class="accordion-content" inert>
                   <ul class="card-list">
-                    {item.items.map((li) => <li>{li}</li>)}
+                    {item.items.slice(2).map((li) => <li>{li}</li>)}
                   </ul>
                   <p class="card-text">{item.text}</p>
                   <button
                     onclick="openBookingModal(); event.stopPropagation();"
-                    class={`pill ${item.featured ? 'pill-light' : 'pill-solid'}`}
+                    class={`pill ${item.featured ? 'pill-light' : 'pill-solid'} card-cta`}
                     type="button"
                   >
                     Записаться
@@ -213,10 +228,38 @@ const posts = [
     </div>
   </section>
 
-  <!-- ============ Видео о кабинете ============ -->
-  <section class="band band-tight">
+  <!-- ============ Как проходит первая встреча ============ -->
+  <section class="band band-taupe">
     <div class="container mx-auto px-4 lg:px-8">
       <div class="inner">
+        <div class="band-head band-head-row" data-reveal>
+          <div>
+            <p class="eyebrow mb-3">Первая встреча</p>
+            <h2 class="heading">Как всё будет проходить</h2>
+          </div>
+          <a href={url('/services/adult')} class="pill pill-outline">Подробнее о консультации</a>
+        </div>
+
+        <ol class="steps">
+          {firstSession.map((step, i) => (
+            <li class="step" data-reveal>
+              <span class="step-num">0{i + 1}</span>
+              <span class="step-icon"><Icon name={step.icon} size={20} /></span>
+              <h3 class="step-title">{step.title}</h3>
+              <p class="step-text">{step.text}</p>
+            </li>
+          ))}
+        </ol>
+
+        <p class="steps-note" data-reveal>55 минут · онлайн или в кабинете в Лесном городке · 6000 ₽</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Видео о кабинете ============ -->
+  <section class="band band-tight">
+    <div class="wide">
+      <div class="inner-wide">
         <div class="glow-band video-band" data-reveal>
           <div class="video-grid">
             <button class="video-preview" onclick="openVideoModal()" type="button" aria-label="Смотреть видео о кабинете">
@@ -261,6 +304,11 @@ const posts = [
         <div class="cards-3">
           {programs.map((program) => (
             <article class={`program-card lift ${program.featured ? 'gradient-card' : 'surface'}`} data-reveal>
+              {program.photo && (
+                <div class="program-photo">
+                  <img src={url(program.photo)} alt={`Занятия «${program.name}»`} loading="lazy" decoding="async" />
+                </div>
+              )}
               <div class="card-inner">
                 <div class="program-meta">
                   <span class="program-age">{program.age}</span>
@@ -287,21 +335,11 @@ const posts = [
       <div class="inner">
         <div class="why-grid">
           <div data-reveal>
-            <p class="eyebrow mb-3">О работе</p>
-            <h2 class="heading mb-5">Почему выбирают меня</h2>
-            <p class="lede mb-8 max-w-[38ch]">
+            <p class="eyebrow mb-4">О работе</p>
+            <h2 class="why-quote">
               Не держу клиентов годами в терапии — учу справляться с трудностями самостоятельно.
-            </p>
-            <div class="why-figures">
-              <div>
-                <span data-counter="15" data-suffix="+">0</span>
-                <small>лет практики</small>
-              </div>
-              <div>
-                <span data-counter="95" data-suffix="%">0</span>
-                <small>рекомендуют знакомым</small>
-              </div>
-            </div>
+            </h2>
+            <p class="why-sign">Юлия Ляпина, психолог</p>
           </div>
 
           <div class="why-list">
@@ -386,33 +424,6 @@ const posts = [
     </div>
   </section>
 
-  <!-- ============ Финальный призыв ============ -->
-  <section class="band band-tight">
-    <div class="container mx-auto px-4 lg:px-8">
-      <div class="inner">
-        <div class="glow-band closing-band" data-reveal>
-          <h2 class="heading mb-4">Первый шаг — самый трудный</h2>
-          <p class="lede mb-8 mx-auto max-w-[46ch]">
-            Напишите пару слов о своей ситуации. Отвечу, чем могу помочь, и подберу удобное время.
-          </p>
-          <div class="closing-actions">
-            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
-              Записаться на консультацию
-            </button>
-            <a href="https://wa.me/79151955132" target="_blank" rel="noopener" class="pill pill-outline pill-lg">
-              Написать в WhatsApp
-            </a>
-          </div>
-          <div class="closing-notes">
-            <span><Icon name="lock" size={16} />Конфиденциально</span>
-            <span><Icon name="screen" size={16} />Онлайн и офлайн</span>
-            <span><Icon name="clock" size={16} />Отвечу в ближайшее время</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ Вопросы ============ -->
   <div data-reveal>
     <FAQ
@@ -424,8 +435,12 @@ const posts = [
           answer: "Если вы чувствуете, что не справляетесь с эмоциями, испытываете постоянный стресс, тревогу или проблемы в отношениях — это повод обратиться к психологу. Также стоит прийти, если вы просто хотите лучше понять себя и свои реакции."
         },
         {
+          question: "Что если психолог мне не подойдёт?",
+          answer: "Это нормально, и решать вам. Первая встреча ни к чему не обязывает: на ней вы посмотрите, комфортно ли вам со мной, и только потом решите, продолжать ли. Если почувствую, что ваш запрос за пределами моей специализации, скажу об этом прямо и подскажу, к какому специалисту обратиться."
+        },
+        {
           question: "Сколько сессий мне потребуется?",
-          answer: "Это зависит от вашего запроса. Некоторые вопросы решаются за 3-5 встреч, более глубокие проблемы требуют 10-20 сессий. На первой консультации психолог даст примерную оценку длительности терапии."
+          answer: "Это зависит от запроса. Часть вопросов решается за 3-5 встреч, более глубокие требуют больше времени. Моя задача — не держать вас в терапии годами, а научить справляться самостоятельно. Примерную длительность назову уже на первой консультации."
         },
         {
           question: "Чем психолог отличается от психотерапевта и психиатра?",
@@ -446,6 +461,42 @@ const posts = [
       ]}
     />
   </div>
+
+  <!-- ============ Финальный призыв ============ -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <div class="closing-grid">
+            <div class="closing-photo">
+              <img src={url('/images/services/julia-lyapina.jpg')} alt="Юлия Ляпина" loading="lazy" decoding="async" />
+            </div>
+
+            <div class="closing-text">
+              <p class="eyebrow mb-4">Запись</p>
+              <h2 class="heading mb-4">Первый шаг — самый трудный</h2>
+              <p class="lede mb-8 max-w-[46ch]">
+                Напишите пару слов о своей ситуации. Отвечу, чем могу помочь, и подберу удобное время.
+              </p>
+              <div class="closing-actions">
+                <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+                  Записаться на консультацию
+                </button>
+                <a href="https://wa.me/79151955132" target="_blank" rel="noopener" class="pill pill-outline pill-lg">
+                  Написать в WhatsApp
+                </a>
+              </div>
+              <div class="closing-notes">
+                <span><Icon name="lock" size={16} />Конфиденциально</span>
+                <span><Icon name="screen" size={16} />Онлайн и офлайн</span>
+                <span><Icon name="clock" size={16} />Отвечу в ближайшее время</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- Модальное окно для видео -->
   <div
@@ -517,41 +568,54 @@ const posts = [
   <!-- Раскрытие карточек с запросами -->
   <script is:inline>
     function initAccordion() {
-      const cards = document.querySelectorAll('.accordion-card');
+      document.querySelectorAll('.accordion-card').forEach(function (card) {
+        var head = card.querySelector('.card-head');
+        var content = card.querySelector('.accordion-content');
+        if (!head || !content || head.dataset.bound) return;
+        head.dataset.bound = '1';
 
-      cards.forEach((card) => {
-        card.addEventListener('click', function (e) {
-          if (e.target.tagName === 'BUTTON' || e.target.closest('button') || e.target.closest('a')) {
-            return;
-          }
+        head.addEventListener('click', function () {
+          var isOpen = card.classList.contains('is-open');
 
-          const content = this.querySelector('.accordion-content');
-          const icon = this.querySelector('.accordion-icon');
-          if (!content) return;
-          const isOpen = content.style.maxHeight && content.style.maxHeight !== '0px';
-
-          document.querySelectorAll('.accordion-card').forEach((other) => {
-            if (other !== this) {
-              const otherContent = other.querySelector('.accordion-content');
-              const otherIcon = other.querySelector('.accordion-icon');
-              if (otherContent) otherContent.style.maxHeight = '0px';
-              if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-              other.classList.remove('is-open');
-            }
+          document.querySelectorAll('.accordion-card.is-open').forEach(function (other) {
+            if (other === card) return;
+            other.classList.remove('is-open');
+            var oc = other.querySelector('.accordion-content');
+            var oh = other.querySelector('.card-head');
+            var oi = other.querySelector('.accordion-icon');
+            if (oc) { oc.style.maxHeight = '0px'; oc.setAttribute('inert', ''); }
+            if (oh) oh.setAttribute('aria-expanded', 'false');
+            if (oi) oi.style.transform = 'rotate(0deg)';
           });
 
+          var icon = card.querySelector('.accordion-icon');
           if (isOpen) {
+            card.classList.remove('is-open');
             content.style.maxHeight = '0px';
+            content.setAttribute('inert', '');
+            head.setAttribute('aria-expanded', 'false');
             if (icon) icon.style.transform = 'rotate(0deg)';
-            this.classList.remove('is-open');
           } else {
+            card.classList.add('is-open');
+            content.removeAttribute('inert');
             content.style.maxHeight = content.scrollHeight + 'px';
+            head.setAttribute('aria-expanded', 'true');
             if (icon) icon.style.transform = 'rotate(180deg)';
-            this.classList.add('is-open');
           }
         });
       });
     }
+
+    // при смене ширины высота раскрытой карточки пересчитывается
+    var accResizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(accResizeTimer);
+      accResizeTimer = setTimeout(function () {
+        document.querySelectorAll('.accordion-card.is-open .accordion-content').forEach(function (c) {
+          c.style.maxHeight = c.scrollHeight + 'px';
+        });
+      }, 150);
+    });
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initAccordion);
@@ -572,6 +636,10 @@ const posts = [
   .band-taupe { background: var(--taupe); }
   .inner { max-width: 1180px; margin: 0 auto; }
 
+  /* Широкая полоса: выходит за основную колонку, скругление сохраняем */
+  .wide { padding: 0 20px; }
+  .inner-wide { max-width: 1560px; margin: 0 auto; }
+
   .band-head { margin-bottom: 44px; }
   .band-head-row {
     display: flex; align-items: flex-end; justify-content: space-between;
@@ -582,18 +650,45 @@ const posts = [
   .cards-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 
   /* ---------- карточка запроса ---------- */
-  .accordion-card { cursor: pointer; }
-  .card-inner { padding: 32px; display: flex; flex-direction: column; height: 100%; }
-  .card-head { display: flex; align-items: flex-start; gap: 14px; }
+  /* Соседи по строке не тянутся за раскрытой карточкой */
+  .cards-3 { align-items: start; }
+
+  .card-inner { padding: 28px; display: flex; flex-direction: column; height: 100%; }
+
+  /* Заголовок — настоящая кнопка: открывается и с клавиатуры */
+  .card-head {
+    display: flex; align-items: flex-start; gap: 14px; width: 100%;
+    background: none; border: 0; padding: 0; cursor: pointer; text-align: left;
+    font-family: inherit; color: inherit;
+  }
+  .card-head:focus-visible {
+    outline: 2px solid var(--spark-deep); outline-offset: 6px; border-radius: 8px;
+  }
   .card-icon {
     flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    background: rgba(47, 125, 150, .09); color: var(--spark-deep);
+    background: rgba(47, 125, 150, .1); color: var(--spark-deep);
   }
-  .gradient-card .card-icon { background: rgba(255, 255, 255, .18); color: #fff; }
-  .card-head .card-title { flex: 1; }
-  .card-title { font-size: 20px; line-height: 1.3; font-weight: 400; letter-spacing: -0.01em; }
+  .gradient-card .card-icon { background: rgba(255, 255, 255, .2); color: #fff; }
+  .card-title {
+    flex: 1; font-size: 19px; line-height: 1.3; font-weight: 400; letter-spacing: -0.01em;
+    padding-top: 7px;
+  }
   .gradient-card .card-title { color: #fff; }
+
+  /* Два пункта видно сразу: карточка читается как содержание, а не как строка меню */
+  .card-preview {
+    list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 7px;
+  }
+  .card-preview li {
+    position: relative; padding-left: 20px; font-size: 13.5px; line-height: 1.5; color: var(--smoke);
+  }
+  .card-preview li::before {
+    content: ""; position: absolute; left: 3px; top: 8px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
+  }
+  .gradient-card .card-preview li { color: rgba(255, 255, 255, .9); }
+  .gradient-card .card-preview li::before { background: rgba(255, 255, 255, .8); }
 
   .chevron {
     width: 20px; height: 20px; flex-shrink: 0; margin-top: 3px;
@@ -601,9 +696,12 @@ const posts = [
   }
   .gradient-card .chevron { color: rgba(255, 255, 255, 0.75); }
 
-  .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
+  .accordion-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s ease-out;
+  }
 
-  .card-list { margin: 20px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
+  .card-list { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 9px; }
   .card-list li {
     position: relative; padding-left: 20px; font-size: 14px; line-height: 1.5; color: var(--smoke);
   }
@@ -614,11 +712,18 @@ const posts = [
   .gradient-card .card-list li { color: rgba(255, 255, 255, 0.88); }
   .gradient-card .card-list li::before { background: rgba(255, 255, 255, 0.75); }
 
-  .card-text { margin: 18px 0 22px; font-size: 14px; line-height: 1.6; color: var(--smoke); }
+  .card-text { margin: 16px 0 20px; font-size: 14px; line-height: 1.6; color: var(--smoke); }
   .gradient-card .card-text { color: rgba(255, 255, 255, 0.85); }
 
   /* ---------- программы ---------- */
-  .program-card .card-inner { min-height: 320px; }
+  .program-card { display: flex; flex-direction: column; overflow: hidden; }
+  .program-card .card-inner { min-height: 300px; }
+  .program-photo { aspect-ratio: 16 / 9; overflow: hidden; }
+  .program-photo img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+  .program-card:hover .program-photo img { transform: scale(1.03); }
   .program-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
   .program-age {
     font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
@@ -631,16 +736,44 @@ const posts = [
   .program-card .card-list { margin-top: 0; }
   .program-link { margin-top: auto; align-self: flex-start; }
 
+  /* ---------- первая встреча ---------- */
+  .steps {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  }
+  .step {
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-card);
+    padding: 26px 24px;
+  }
+  .step-num {
+    display: block; font-size: 12px; font-weight: 500; letter-spacing: .1em;
+    color: var(--ash); font-variant-numeric: tabular-nums; margin-bottom: 16px;
+  }
+  .step-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; border-radius: 11px; margin-bottom: 14px;
+    background: rgba(47, 125, 150, .1); color: var(--spark-deep);
+  }
+  .step-title { font-size: 17px; font-weight: 400; letter-spacing: -.01em; margin-bottom: 8px; }
+  .step-text { font-size: 14px; line-height: 1.6; color: var(--smoke); }
+  .steps-note {
+    margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--stone);
+    font-size: 14px; color: var(--smoke);
+  }
+
   /* ---------- видео ---------- */
-  .video-band { padding: 40px; }
-  .video-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 44px; align-items: center; }
+  .video-band { padding: 48px; }
+  .video-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 56px; align-items: center; }
+  .video-grid > div:last-child { max-width: 46ch; }
 
   .video-preview {
     position: relative; display: block; width: 100%; aspect-ratio: 16 / 10;
     border: 0; padding: 0; cursor: pointer; overflow: hidden;
     border-radius: var(--r-card); background: var(--stone);
   }
-  .video-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .video-preview img { width: 100%; height: 100%; object-fit: cover; object-position: center 28%; display: block; }
   .video-play {
     position: absolute; inset: 0; margin: auto;
     width: 66px; height: 66px; border-radius: 50%;
@@ -664,13 +797,19 @@ const posts = [
   }
 
   /* ---------- почему выбирают ---------- */
-  .why-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px; align-items: start; }
-  .why-figures { display: flex; gap: 40px; }
-  .why-figures span {
-    display: block; font-size: 34px; font-weight: 300; letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums; color: var(--ink);
+  .why-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: start; }
+
+  /* Единственное место на странице, где текст звучит крупно и от первого лица */
+  .why-quote {
+    margin: 0 0 18px;
+    font-size: clamp(24px, 2.9vw, 34px);
+    line-height: 1.25;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: balance;
   }
-  .why-figures small { font-size: 13px; color: var(--smoke); }
+  .why-sign { font-size: 14px; color: var(--smoke); }
 
   .why-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 40px; }
   .why-item { padding: 22px 0; border-top: 1px solid var(--stone); }
@@ -723,11 +862,17 @@ const posts = [
   .post:hover .post-more :global(svg) { transform: translateX(3px); }
 
   /* ---------- финальный призыв ---------- */
-  .closing-band { padding: 72px 48px; text-align: center; }
-  .closing-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .closing-band { padding: 48px; }
+  .closing-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: center; }
+  .closing-photo {
+    aspect-ratio: 4 / 5; border-radius: var(--r-card); overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, .5);
+  }
+  .closing-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .closing-actions { display: flex; gap: 12px; flex-wrap: wrap; }
   .closing-notes {
-    display: flex; gap: 28px; justify-content: center; flex-wrap: wrap;
-    margin-top: 34px; padding-top: 24px; border-top: 1px solid var(--stone);
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--stone);
     font-size: 13px; color: var(--smoke);
   }
   .closing-notes span { display: inline-flex; align-items: center; gap: 8px; }
@@ -735,6 +880,8 @@ const posts = [
 
   /* ---------- адаптив ---------- */
   @media (max-width: 1023px) {
+    .cards-3 { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: repeat(2, 1fr); }
     .cards-4 { grid-template-columns: repeat(2, 1fr); }
     .why-grid { grid-template-columns: 1fr; gap: 40px; }
     .video-grid { grid-template-columns: 1fr; gap: 28px; }
@@ -743,11 +890,14 @@ const posts = [
   @media (max-width: 767px) {
     .band { padding: 64px 0; }
     .band-tight { padding: 8px 0 64px; }
-    .cards-3, .cards-4 { grid-template-columns: 1fr; }
+    .cards-3, .cards-4, .steps { grid-template-columns: 1fr; }
     .why-list { grid-template-columns: 1fr; }
     .card-inner { padding: 26px; }
-    .video-band { padding: 24px; }
-    .closing-band { padding: 48px 24px; }
+    .video-band { padding: 22px; }
+    .wide { padding: 0 16px; }
+    .closing-band { padding: 28px; }
+    .closing-grid { grid-template-columns: 1fr; gap: 28px; }
+    .closing-photo { max-width: 260px; }
     .why-figures { gap: 28px; }
   }
 </style>

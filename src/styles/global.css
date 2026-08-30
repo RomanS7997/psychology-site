@@ -18,11 +18,12 @@
     /* Текст */
     --ink: #14181c;
     --graphite: #3f4650;
-    --smoke: #6e7278;
-    --ash: #a3a29e;
+    --smoke: #5f646a;
+    --ash: #706c66;
 
     /* Градиентные искры — только для визуалов */
-    --spark-deep: #2f7d96;
+    --spark-deep: #276579;
+    --spark-deep-visual: #2f7d96;
     --spark-water: #3e8fa8;
     --spark-mint: #7fc4c0;
     --spark-powder: #e9a88c;
@@ -96,11 +97,27 @@
   }
 
   .eyebrow {
-    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ash);
+  }
+
+  /* короткая волосяная черта слева — метка начала секции */
+  .eyebrow::before {
+    content: "";
+    width: 22px;
+    height: 1px;
+    background: var(--stone);
+    flex-shrink: 0;
+  }
+
+  .eyebrow-center {
+    justify-content: center;
   }
 
   .lede {
@@ -137,15 +154,29 @@
     transform: translateY(-1px);
   }
 
+  /* Прозрачная, чтобы не заливаться цветом подложки, на которой лежит */
   .pill-outline {
-    background: var(--canvas);
+    background: transparent;
     color: var(--ink);
     border-color: var(--stone);
   }
 
   .pill-outline:hover {
-    background: var(--taupe);
+    background: rgba(20, 24, 28, 0.04);
+    border-color: var(--graphite);
     transform: translateY(-1px);
+  }
+
+  /* На градиенте нужна плотная подложка: иначе пудра и лаванда лезут внутрь кнопки */
+  .gradient-card .pill-outline,
+  .glow-band .pill-outline {
+    background: rgba(253, 252, 252, 0.9);
+    border-color: transparent;
+  }
+
+  .gradient-card .pill-outline:hover,
+  .glow-band .pill-outline:hover {
+    background: #fff;
   }
 
   .pill-light {
@@ -163,6 +194,10 @@
     font-size: 15px;
   }
 
+  .pill:active {
+    transform: translateY(0) scale(0.985);
+  }
+
   .pill:focus-visible {
     outline: 2px solid var(--spark-deep);
     outline-offset: 3px;
@@ -171,11 +206,13 @@
   /* ---------- Поверхности ---------- */
   .surface {
     background: var(--taupe);
+    border: 1px solid var(--stone);
     border-radius: var(--r-card);
   }
 
   .surface-lg {
     background: var(--taupe);
+    border: 1px solid var(--stone);
     border-radius: var(--r-large);
   }
 
@@ -218,7 +255,7 @@
       circle at 35% 35%,
       var(--spark-mint),
       var(--spark-water) 52%,
-      var(--spark-deep) 88%
+      var(--spark-deep-visual) 88%
     );
     animation: orb-drift-a 22s ease-in-out infinite alternate;
   }
@@ -244,7 +281,7 @@
     border-radius: var(--r-card);
     background: linear-gradient(
       155deg,
-      var(--spark-deep),
+      var(--spark-deep-visual),
       var(--spark-water) 46%,
       var(--spark-lilac) 96%
     );
@@ -281,15 +318,15 @@
   .glow-band::after {
     content: "";
     position: absolute;
-    right: -6%;
-    bottom: -58%;
-    width: 62%;
-    aspect-ratio: 1.6;
+    right: -120px;
+    bottom: -180px;
+    width: clamp(420px, 60%, 760px);
+    aspect-ratio: 1.35;
     z-index: 0;
     background: radial-gradient(48% 42% at 62% 40%, rgba(233, 168, 140, 0.55), transparent 72%),
       radial-gradient(52% 46% at 32% 62%, rgba(169, 163, 214, 0.5), transparent 74%),
       radial-gradient(46% 40% at 78% 74%, rgba(127, 196, 192, 0.5), transparent 72%);
-    filter: blur(34px);
+    filter: blur(40px);
     animation: orb-drift-b 28s ease-in-out infinite alternate;
   }
 
