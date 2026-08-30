@@ -17,7 +17,7 @@ import { url } from '../../utils/url';
       <p class="muted mb-8">Заполните форму, и мы свяжемся с вами для подтверждения записи</p>
 
       <!-- Экран успеха (скрыт по умолчанию) -->
-      <div id="booking-success" class="booking-success hidden" aria-hidden="true">
+      <div id="booking-success" class="booking-success hidden" role="status" aria-live="polite" aria-hidden="true">
         <div class="success-confetti" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span>
           <span></span><span></span><span></span><span></span><span></span>
@@ -544,7 +544,7 @@ import { url } from '../../utils/url';
       Телефон: formData.get('phone') || '—',
       Email: formData.get('email') || '—',
       Комментарий: formData.get('comment') || '—',
-      Источник: 'Форма записи (julialyapina.ru)'
+      Источник: 'Форма записи на сайте'
     };
 
     const submitBtn = form.querySelector('button[type="submit"]');
@@ -571,7 +571,12 @@ import { url } from '../../utils/url';
         body: JSON.stringify(payload)
       });
 
-      if (!response.ok) throw new Error('Ошибка отправки');
+      // formsubmit отвечает 200 и при отказе — судить по статусу нельзя,
+      // иначе человек видит «заявка отправлена», а письмо никуда не ушло.
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data || String(data.success) !== 'true') {
+        throw new Error('Заявка не принята сервисом отправки');
+      }
 
       // Показываем красивый экран успеха
       form.reset();
@@ -583,6 +588,10 @@ import { url } from '../../utils/url';
         successBox.style.animation = 'none';
         void successBox.offsetWidth;
         successBox.style.animation = '';
+        // Фокус стоял на кнопке, которая только что уехала в display:none —
+        // без этого он падает на body и ловушка Tab перестаёт держать окно.
+        const okBtn = successBox.querySelector('.success-btn');
+        if (okBtn) okBtn.focus();
       }
     } catch (err) {
       if (errorBox) {

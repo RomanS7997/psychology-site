@@ -50,9 +50,12 @@ import { url } from '../utils/url';
     
   </head>
   <body>
+    <a class="skip-link" href="#main">Перейти к содержимому</a>
     <Header />
     
-    <slot />
+    <main id="main">
+      <slot />
+    </main>
     
     <Footer />
     

@@ -122,6 +122,8 @@ import { url } from '../utils/url';
 
             </form>
 
+            <p id="contact-form-note" class="form-status" role="status" aria-live="polite"></p>
+
             <p class="form-note">
               <Icon name="clock" size={16} />
               Мы ответим в течение 15 минут в рабочее время
@@ -292,11 +294,57 @@ import { url } from '../utils/url';
 <script is:inline src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU"></script>
 
 <script is:inline>
-  // Обработка формы
-  function handleFormSubmit(event) {
+  // Обработка формы. Раньше здесь стоял alert без отправки — заявки терялись.
+  async function handleFormSubmit(event) {
     event.preventDefault();
-    alert('Спасибо за обращение! Мы свяжемся с вами в ближайшее время.');
-    event.target.reset();
+
+    const form = event.target;
+    const fd = new FormData(form);
+    const btn = form.querySelector('button[type="submit"]');
+    const note = document.getElementById('contact-form-note');
+    const label = btn ? btn.textContent : '';
+
+    if (btn) { btn.disabled = true; btn.textContent = 'Отправка...'; }
+    if (note) { note.textContent = ''; note.className = 'form-status'; }
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/lyapina_sorokina@mail.ru', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: 'Новое обращение с сайта — форма «Напишите нам»',
+          _template: 'table',
+          _captcha: 'false',
+          'Имя': fd.get('name') || '—',
+          'Телефон': fd.get('phone') || '—',
+          'Email': fd.get('email') || '—',
+          'Тема': fd.get('subject') || '—',
+          'Сообщение': fd.get('message') || '—',
+          'Источник': 'Страница контактов',
+        }),
+      });
+
+      // Сервис отвечает 200 и при отказе — смотрим тело
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data || String(data.success) !== 'true') {
+        throw new Error('Заявка не принята');
+      }
+
+      form.reset();
+      if (note) {
+        note.className = 'form-status form-status-ok';
+        note.textContent = 'Спасибо! Сообщение отправлено — мы свяжемся с вами.';
+      }
+    } catch (err) {
+      if (note) {
+        note.className = 'form-status form-status-fail';
+        note.innerHTML =
+          'Не удалось отправить сообщение. Позвоните нам: ' +
+          '<a href="tel:+79151955132">+7 (915) 195-51-32</a>';
+      }
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = label; }
+    }
   }
 
   // Инициализация Яндекс.Карты
@@ -307,12 +355,6 @@ import { url } from '../utils/url';
     }
 
     ymaps.ready(function () {
-      // Пока карта не загрузилась, в контейнере лежит адрес — убираем его
-      var fallback = document.getElementById('map-fallback');
-      if (fallback && fallback.parentNode) {
-        fallback.parentNode.removeChild(fallback);
-      }
-
       // Координаты Лесной городок, Одинцово
       const map = new ymaps.Map('yandex-map', {
         center: [55.634, 37.193],
@@ -332,6 +374,12 @@ import { url } from '../utils/url';
 
       // Отключение скроллинга карты колесиком мыши
       map.behaviors.disable('scrollZoom');
+
+      // Адрес-подстраховку убираем только теперь, когда карта действительно
+      // построилась. Раньше её стирали заранее — и при неверном ключе
+      // на месте карты оставалась пустота без единой строчки адреса.
+      const fallback = document.getElementById('map-fallback');
+      if (fallback && fallback.parentNode) fallback.parentNode.removeChild(fallback);
     });
   }
 
@@ -345,7 +393,7 @@ import { url } from '../utils/url';
 
 <style>
   /* ---------- ритм секций ---------- */
-  .band { padding: 96px 0; background: var(--canvas); }
+  .band { padding: 96px 0; }
   .band-top-tight { padding-top: 0; }
   .band-tight { padding: 24px 0 96px; }
 
@@ -396,6 +444,16 @@ import { url } from '../utils/url';
   textarea.form-field { resize: none; }
 
   .form-submit { width: 100%; margin-top: 6px; }
+
+  .form-status {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .form-status:empty { display: none; }
+  .form-status-ok { color: var(--spark-deep); }
+  .form-status-fail { color: var(--ink); }
+  .form-status a { color: var(--spark-deep); text-decoration: underline; }
 
   .form-note {
     display: flex;

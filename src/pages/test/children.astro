@@ -23,7 +23,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
 
         <!-- Прогресс -->
         <div class="progress" data-reveal>
-          <div class="progress-row">
+          <div class="progress-row" role="status" aria-live="polite">
             <span class="progress-step">Шаг <span id="current-step">1</span> из <span id="total-steps">7</span></span>
             <span class="progress-percent"><span id="progress-percent">0</span>%</span>
           </div>
@@ -45,6 +45,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
               <p class="lede intro-lede">
                 Узнайте, какая программа лучше всего подойдёт вашему ребёнку
               </p>
+              <p id="test-send-note" class="send-note" role="status" aria-live="polite"></p>
             </div>
 
             <div class="panel">
@@ -377,7 +378,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
 
 <style>
   /* ---------- полоса страницы ---------- */
-  .band { padding: 96px 0; background: var(--canvas); }
+  .band { padding: 96px 0; }
   /* На этих страницах нет крошек, поэтому отступ под закреплённой
      шапкой держит первая полоса — иначе прогресс уезжает под неё. */
   .test-band { padding-top: 128px; }
@@ -429,6 +430,14 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
     width: 56px; height: 56px; border-radius: 16px; margin-bottom: 22px;
     background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
   }
+  .send-note {
+    margin-top: 14px;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .send-note:empty { display: none; }
+  .send-note a { color: var(--spark-deep); text-decoration: underline; }
+
   .intro-lede { max-width: 48ch; margin: 0 auto; }
 
   /* ---------- панель со списком ---------- */
@@ -574,6 +583,17 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
       document.getElementById('total-steps').textContent = totalSteps + 1;
     }
 
+    function focusStep(step) {
+      if (!step) return;
+      const heading = step.querySelector('h2, h3, legend, .question-title');
+      if (heading) {
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+      } else {
+        step.querySelector('input, button, textarea')?.focus({ preventScroll: true });
+      }
+    }
+
     function nextStep() {
       const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
       const selectedAnswer = currentStepEl?.querySelector('input[type="radio"]:checked');
@@ -589,7 +609,11 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
 
       document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.remove('active');
       currentStep++;
-      document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.add('active');
+      const shownStep = document.querySelector(`.step[data-step="${currentStep}"]`);
+      shownStep?.classList.add('active');
+      // Фокус стоял на кнопке, которая уехала в скрытый шаг: без переноса
+      // он падал на body, и следующий Tab начинался с шапки сайта.
+      focusStep(shownStep);
 
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -598,10 +622,48 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
     function prevStep() {
       document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.remove('active');
       currentStep--;
-      document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.add('active');
+      const backStep = document.querySelector(`.step[data-step="${currentStep}"]`);
+      backStep?.classList.add('active');
+      focusStep(backStep);
 
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function sendTest(data) {
+      const answers = Object.entries(data)
+        .filter(([k]) => !['name', 'phone', 'email', 'comment'].includes(k))
+        .map(([k, v]) => `${k}: ${v}`)
+        .join('; ');
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/lyapina_sorokina@mail.ru', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            _subject: 'Результат теста с сайта — родитель',
+            _template: 'table',
+            _captcha: 'false',
+            'Имя': data.name || '—',
+            'Телефон': data.phone || '—',
+            'Email': data.email || '—',
+            'Комментарий': data.comment || '—',
+            'Ответы': answers || '—',
+            'Источник': 'Тест для родителей',
+          }),
+        });
+        const body = await response.json().catch(() => null);
+        if (!response.ok || !body || String(body.success) !== 'true') {
+          throw new Error('Заявка не принята');
+        }
+      } catch (err) {
+        const note = document.getElementById('test-send-note');
+        if (note) {
+          note.innerHTML =
+            'Не получилось отправить ответы. Позвоните нам: ' +
+            '<a href="tel:+79151955132">+7 (915) 195-51-32</a>';
+        }
+      }
     }
 
     function submitTest() {
@@ -618,7 +680,8 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
       testData.phone = phone;
       testData.childName = childName;
 
-      console.log('Test data:', testData);
+      // Раньше ответы и телефон уходили в консоль браузера и терялись.
+      sendTest(testData);
       nextStep();
     }
 

@@ -4,15 +4,16 @@
 import Icon from '../Icon.astro';
 ---
 
-<div class="exit-popup-overlay" role="dialog" aria-modal="true" id="exit-popup">
+<div class="exit-popup-overlay" role="dialog" aria-modal="true"
+     aria-labelledby="exit-popup-title" id="exit-popup">
   <div class="exit-popup-content">
     <button class="exit-popup-close" onclick="closeExitPopup()" aria-label="Закрыть">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
     </button>
     
     <div class="exit-popup-header">
-      <div class="exit-popup-icon">⏰</div>
-      <h2 class="exit-popup-title">Уходите?</h2>
+      <div class="exit-popup-icon" aria-hidden="true"><Icon name="clock" size={26} /></div>
+      <h2 class="exit-popup-title" id="exit-popup-title">Уходите?</h2>
       <p class="exit-popup-subtitle">
         Запишитесь на <strong>первичную консультацию</strong>
       </p>
@@ -20,23 +21,27 @@ import Icon from '../Icon.astro';
     
     <form class="exit-popup-form" id="exit-form">
       <div class="form-group">
-        <input 
-          type="text" 
-          name="name" 
-          placeholder="Ваше имя" 
+        <label class="visually-hidden" for="exit-name">Ваше имя</label>
+        <input
+          type="text"
+          id="exit-name"
+          name="name"
+          placeholder="Ваше имя"
           required
           class="form-input"
         >
       </div>
       
       <div class="form-group">
-        <input 
-          type="tel" 
-          name="phone" 
-          placeholder="Ваш телефон" 
+        <label class="visually-hidden" for="exit-phone">Ваш телефон</label>
+        <input
+          type="tel"
+          id="exit-phone"
+          name="phone"
+          placeholder="Ваш телефон"
           required
           class="form-input"
-          pattern="[0-9+\-\(\) ]+"
+          inputmode="tel"
         >
       </div>
       
@@ -429,12 +434,25 @@ import Icon from '../Icon.astro';
   (function () {
     let exitPopupShown = false;
 
+    let exitReturnFocus = null;
+
+    function exitFocusables(popup) {
+      return [...popup.querySelectorAll('button, [href], input, select, textarea')]
+        .filter((el) => !el.disabled && el.offsetParent !== null);
+    }
+
     function showExitPopup() {
       const popup = document.getElementById('exit-popup');
       if (popup && !exitPopupShown) {
+        exitReturnFocus = document.activeElement;
         popup.classList.add('active');
         exitPopupShown = true;
         localStorage.setItem('exitPopupShown', 'true');
+
+        // Окно перекрывает страницу целиком: без этого мышью выйти можно,
+        // а с клавиатуры — нет, и страница под ним продолжала прокручиваться.
+        document.body.style.overflow = 'hidden';
+        popup.querySelector('.exit-popup-close')?.focus();
       }
     }
 
@@ -442,8 +460,40 @@ import Icon from '../Icon.astro';
       const popup = document.getElementById('exit-popup');
       if (popup) {
         popup.classList.remove('active');
+        document.body.style.overflow = '';
+        if (exitReturnFocus && exitReturnFocus.focus) exitReturnFocus.focus();
+        exitReturnFocus = null;
       }
     }
+
+    document.addEventListener('keydown', function (e) {
+      const popup = document.getElementById('exit-popup');
+      if (!popup || !popup.classList.contains('active')) return;
+
+      if (e.key === 'Escape') {
+        closeExitPopup();
+        return;
+      }
+
+      if (e.key !== 'Tab') return;
+
+      // Держим фокус внутри окна, иначе Tab уводит на страницу под затемнением
+      const items = exitFocusables(popup);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (!popup.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
 
     window.closeExitPopup = closeExitPopup;
     window.showExitPopup = showExitPopup;
@@ -489,7 +539,12 @@ import Icon from '../Icon.astro';
           body: JSON.stringify(payload)
         });
 
-        if (!response.ok) throw new Error('Ошибка отправки');
+        // formsubmit отвечает 200 и при отказе — судить по статусу нельзя,
+      // иначе человек видит «заявка отправлена», а письмо никуда не ушло.
+      const data = await response.json().catch(() => null);
+      if (!response.ok || !data || String(data.success) !== 'true') {
+        throw new Error('Заявка не принята сервисом отправки');
+      }
 
         const content = document.querySelector('.exit-popup-content');
         if (content) {

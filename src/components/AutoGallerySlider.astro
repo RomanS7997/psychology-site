@@ -42,7 +42,12 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
 
           <div class="slides">
             {images.map((image, index) => (
-              <div class={`slide ${index === 0 ? 'opacity-100' : 'opacity-0'}`} data-slide={index}>
+              <div
+                class={`slide ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+                data-slide={index}
+                inert={index === 0 ? undefined : true}
+                aria-hidden={index === 0 ? undefined : 'true'}
+              >
                 <button
                   type="button"
                   class="slide-btn"
@@ -184,8 +189,19 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
       const indicators = document.querySelectorAll(`#${sliderId} [data-indicator]`);
       const counter = document.querySelector(`#${sliderId} [data-current-slide]`);
 
-      slides.forEach((slide) => slide.classList.replace('opacity-100', 'opacity-0'));
-      slides[index]?.classList.replace('opacity-0', 'opacity-100');
+      slides.forEach((slide) => {
+        slide.classList.replace('opacity-100', 'opacity-0');
+        // Невидимый слайд не должен ловить Tab: раньше по галерее
+        // пряталось девять кнопок «открыть фото», и обход шёл сквозь них.
+        slide.setAttribute('inert', '');
+        slide.setAttribute('aria-hidden', 'true');
+      });
+      const shown = slides[index];
+      if (shown) {
+        shown.classList.replace('opacity-0', 'opacity-100');
+        shown.removeAttribute('inert');
+        shown.removeAttribute('aria-hidden');
+      }
 
       indicators.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
 
@@ -212,6 +228,10 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
 
     function startAutoplay() {
       if (reduceMotion) return;
+      // Под открытым просмотром слайды не листаем — иначе, закрыв его,
+      // человек оказывается на другом кадре, чем смотрел.
+      const lightbox = document.getElementById(`lightbox-${sliderId}`);
+      if (lightbox && !lightbox.classList.contains('hidden')) return;
       stopAutoplay();
       autoplayInterval = setInterval(() => {
         let next = currentSlide + 1;
@@ -279,9 +299,28 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
       const lightbox = document.getElementById(`lightbox-${sliderId}`);
       if (!lightbox || lightbox.classList.contains('hidden')) return;
 
-      if (e.key === 'Escape') window.closeLightbox(sliderId);
-      if (e.key === 'ArrowLeft') window.navigateLightbox(sliderId, -1);
-      if (e.key === 'ArrowRight') window.navigateLightbox(sliderId, 1);
+      if (e.key === 'Escape') { window.closeLightbox(sliderId); return; }
+      if (e.key === 'ArrowLeft') { window.navigateLightbox(sliderId, -1); return; }
+      if (e.key === 'ArrowRight') { window.navigateLightbox(sliderId, 1); return; }
+
+      if (e.key !== 'Tab') return;
+
+      // Держим фокус внутри просмотра: страница под ним скрыта от скринридера
+      const items = [...lightbox.querySelectorAll('button')].filter((b) => b.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (!lightbox.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
     });
 
     // Клик по фону закрывает просмотр
@@ -352,13 +391,23 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
     background: linear-gradient(to top, rgba(20, 24, 28, .62) 0%, rgba(20, 24, 28, .18) 34%, transparent 62%);
   }
 
+  /* Подпись лежит поверх произвольной фотографии, поэтому у неё своя
+     тёмная плашка: на светлых кадрах белый текст на одной вуали
+     опускался до 2.3:1 и читался с трудом. */
   .slide-caption {
     position: absolute;
-    left: 28px;
-    right: 92px;
-    bottom: 58px;
+    left: 24px;
+    right: 88px;
+    bottom: 52px;
+    display: inline-block;
+    width: fit-content;
+    max-width: calc(100% - 112px);
+    padding: 9px 18px;
+    border-radius: 99px;
+    background: rgba(20, 24, 28, .72);
+    backdrop-filter: blur(8px);
     color: #fff;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 400;
     letter-spacing: -.01em;
     pointer-events: none;
@@ -410,7 +459,8 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
     width: 8px;
     height: 8px;
     border-radius: 99px;
-    background: rgba(255, 255, 255, .55);
+    background: rgba(255, 255, 255, .8);
+    box-shadow: 0 0 0 1px rgba(20, 24, 28, .35);
     transition: width .3s ease, background .3s ease;
   }
   .dot:hover::before { background: rgba(255, 255, 255, .8); }
@@ -425,7 +475,7 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
     right: 20px;
     padding: 6px 13px;
     border-radius: 99px;
-    background: rgba(20, 24, 28, .55);
+    background: rgba(20, 24, 28, .72);
     backdrop-filter: blur(8px);
     color: #fff;
     font-size: 13px;
@@ -519,7 +569,7 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
     top: 30px;
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(255, 255, 255, .8);
+    color: #fff;
     font-size: 14px;
   }
 
@@ -527,7 +577,8 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
     .band { padding: 64px 0; }
     .band-head { margin-bottom: 32px; }
     .slides { height: 300px; }
-    .slide-caption { left: 20px; right: 20px; bottom: 54px; font-size: 15px; }
+    .slide-caption { left: 16px; right: 16px; bottom: 48px; font-size: 14px;
+      max-width: calc(100% - 32px); padding: 8px 15px; }
     .nav-btn { width: 44px; height: 44px; }
     .nav-prev { left: 12px; }
     .nav-next { right: 12px; }

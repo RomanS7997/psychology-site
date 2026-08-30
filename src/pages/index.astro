@@ -505,6 +505,9 @@ const posts = [
   <div
     id="videoModal"
     class="fixed inset-0 bg-black/95 z-[100] hidden items-center justify-center p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Видео о кабинете"
     onclick="closeVideoModal(event)"
   >
     <button
@@ -533,16 +536,21 @@ const posts = [
   </div>
 
   <script is:inline>
+    let videoReturnFocus = null;
+
     function openVideoModal() {
       const modal = document.getElementById('videoModal');
       const video = document.getElementById('modalVideo');
 
       if (modal && video) {
+        videoReturnFocus = document.activeElement;
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         document.body.style.overflow = 'hidden';
         video.volume = 0.1;
         video.play();
+        // Иначе до крестика приходится прожать почти три десятка табов
+        modal.querySelector('button')?.focus();
       }
     }
 
@@ -560,12 +568,36 @@ const posts = [
         document.body.style.overflow = '';
         video.pause();
         video.currentTime = 0;
+        if (videoReturnFocus && videoReturnFocus.focus) videoReturnFocus.focus();
+        videoReturnFocus = null;
       }
     }
 
     document.addEventListener('keydown', function (event) {
+      const modal = document.getElementById('videoModal');
+      if (!modal || modal.classList.contains('hidden')) return;
+
       if (event.key === 'Escape') {
         closeVideoModal();
+        return;
+      }
+
+      // Не выпускаем фокус на страницу под затемнением
+      if (event.key !== 'Tab') return;
+      const items = [...modal.querySelectorAll('button, video')].filter((el) => el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      } else if (!modal.contains(document.activeElement)) {
+        event.preventDefault();
+        first.focus();
       }
     });
   </script>
@@ -642,7 +674,7 @@ const posts = [
 
 <style>
   /* ---------- ритм секций ---------- */
-  .band { padding: 96px 0; background: var(--canvas); }
+  .band { padding: 96px 0; }
   .band-tight { padding: 24px 0 96px; }
 
   /* Широкая полоса: выходит за основную колонку, скругление сохраняем */
@@ -700,14 +732,14 @@ const posts = [
     content: ""; position: absolute; left: 3px; top: 8px;
     width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
   }
-  .gradient-card .card-preview li { color: rgba(255, 255, 255, .9); }
+  .gradient-card .card-preview li { color: #fff; }
   .gradient-card .card-preview li::before { background: rgba(255, 255, 255, .8); }
 
   .chevron {
     width: 20px; height: 20px; flex-shrink: 0; margin-top: 3px;
     color: var(--ash); transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1);
   }
-  .gradient-card .chevron { color: rgba(255, 255, 255, 0.75); }
+  .gradient-card .chevron { color: #fff; }
 
   .accordion-content {
     max-height: 0; overflow: hidden;
@@ -722,11 +754,11 @@ const posts = [
     content: ""; position: absolute; left: 3px; top: 9px;
     width: 5px; height: 5px; border-radius: 50%; background: var(--spark-water);
   }
-  .gradient-card .card-list li { color: rgba(255, 255, 255, 0.88); }
+  .gradient-card .card-list li { color: #fff; }
   .gradient-card .card-list li::before { background: rgba(255, 255, 255, 0.75); }
 
   .card-text { margin: 16px 0 20px; font-size: 14px; line-height: 1.6; color: var(--smoke); }
-  .gradient-card .card-text { color: rgba(255, 255, 255, 0.85); }
+  .gradient-card .card-text { color: #fff; }
 
   /* ---------- программы ---------- */
   .program-card { display: flex; flex-direction: column; overflow: hidden; }
@@ -751,9 +783,9 @@ const posts = [
     padding: 5px 12px; border-radius: var(--r-pill);
     background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
   }
-  .gradient-card .program-age { background: rgba(255, 255, 255, 0.22); color: #fff; }
+  .gradient-card .program-age { background: rgba(20, 24, 28, 0.26); color: #fff; }
   .program-note { font-size: 13px; color: var(--ash); }
-  .gradient-card .program-note { color: rgba(255, 255, 255, 0.75); }
+  .gradient-card .program-note { color: #fff; }
   .program-card .card-list { margin-top: 0; }
   .program-link { margin-top: auto; align-self: flex-start; }
 

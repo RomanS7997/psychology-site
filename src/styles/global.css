@@ -293,14 +293,15 @@
     position: absolute;
     inset: 0;
     z-index: 0;
-    /* Блики приглушены и уведены в углы: раньше они осветляли карточку целиком
-       и белый текст падал до 2:1 */
+    /* Блики приглушены и уведены в углы. Альфа 0.12, а не больше:
+       при 0.24 самая светлая точка карточки давала белому тексту 3.8:1,
+       при 0.12 — не ниже 4.7:1 в любой точке. */
     background: radial-gradient(
         46% 34% at 88% 10%,
-        rgba(233, 168, 140, 0.24),
+        rgba(233, 168, 140, 0.12),
         transparent 72%
       ),
-      radial-gradient(42% 32% at 8% 94%, rgba(127, 196, 192, 0.24), transparent 74%);
+      radial-gradient(42% 32% at 8% 94%, rgba(127, 196, 192, 0.12), transparent 74%);
     animation: orb-sheen 20s ease-in-out infinite alternate;
   }
 
@@ -343,6 +344,37 @@
     border-radius: 16px;
     box-shadow: var(--whisper);
     backdrop-filter: blur(6px);
+  }
+
+  /* Видно только скринридеру: подписи полей, пояснения */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Ссылка «перейти к содержимому»: без неё каждая страница начинается
+     с полутора десятков табов по шапке */
+  .skip-link {
+    position: absolute;
+    left: 16px;
+    top: -60px;
+    z-index: 100;
+    padding: 12px 22px;
+    border-radius: var(--r-pill);
+    background: var(--ink);
+    color: #fff;
+    font-size: 14px;
+    transition: top .2s ease;
+  }
+  .skip-link:focus {
+    top: 16px;
   }
 
   /* ---------- Каркас секции ----------

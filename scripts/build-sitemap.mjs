@@ -64,8 +64,8 @@ Allow: /
 
 Sitemap: ${ORIGIN}/sitemap.xml
 
-# Служебные каталоги
-Disallow: ${BASE}/_astro/
+# Каталог _astro НЕ закрываем: там лежат стили и скрипты,
+# без них поисковик не может отрисовать страницу и оценить вёрстку.
 Disallow: ${BASE}/.well-known/
 
 Crawl-delay: 1
