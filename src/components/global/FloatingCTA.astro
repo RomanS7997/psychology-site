@@ -1,6 +1,7 @@
 ---
 // src/components/global/FloatingCTA.astro
-// Фиксированная пульсирующая кнопка записи в правом нижнем углу
+// Кнопка записи в правом нижнем углу
+import Icon from '../Icon.astro';
 ---
 
 <div class="floating-cta-container">
@@ -10,7 +11,7 @@
     onclick="openBookingModal()"
     aria-label="Записаться на консультацию"
   >
-    <span class="cta-icon">📝</span>
+    <span class="cta-icon"><Icon name="note" size={22} /></span>
   </button>
   
   <!-- Тултип -->
@@ -41,31 +42,26 @@
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    animation: pulse 2s ease-in-out infinite;
+    animation: cta-appear .5s cubic-bezier(.2,.7,.3,1) both;
     position: relative;
   }
   
   .floating-cta-btn:hover {
-    transform: scale(1.1);
-    animation: none;
+    transform: scale(1.06);
     box-shadow: 0 14px 32px rgba(20, 24, 28, .34);
   }
   
   .cta-icon {
-    font-size: 1.75rem;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
   }
   
   /* Пульсация */
-  @keyframes pulse {
-    0%, 100% {
-      transform: scale(1);
-      box-shadow: 0 10px 26px rgba(20, 24, 28, .28);
-    }
-    50% {
-      transform: scale(1.10);
-      box-shadow: 0 14px 32px rgba(20, 24, 28, .34);
-    }
+  @keyframes cta-appear {
+    from { opacity: 0; transform: scale(.9) translateY(8px); }
+    to   { opacity: 1; transform: none; }
   }
   
   /* Тултип */

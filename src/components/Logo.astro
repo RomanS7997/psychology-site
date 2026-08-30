@@ -1,0 +1,86 @@
+---
+// Знак и подпись кабинета.
+// Дерево — то же, что было на прежнем логотипе, но нарисовано линией
+// в один вес со всей графикой сайта.
+interface Props {
+  compact?: boolean;
+  class?: string;
+}
+
+const { compact = false, class: className = '' } = Astro.props;
+---
+
+<span class={`logo ${className}`}>
+  <svg class="logo-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true" focusable="false">
+    <!-- крона: две дуги, оставляющие просвет сверху -->
+    <path
+      d="M24 6c-7.2 0-13 5.4-13 12.1 0 5.2 3.5 9.6 8.4 11.3"
+      stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    />
+    <path
+      d="M24 6c7.2 0 13 5.4 13 12.1 0 5.2-3.5 9.6-8.4 11.3"
+      stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+    />
+    <!-- ствол и две ветви -->
+    <path
+      d="M24 42V17m0 7.5 5-5M24 29l-5-5"
+      stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+    />
+    <!-- земля -->
+    <path d="M16 42h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+  </svg>
+
+  {!compact && (
+    <span class="logo-text">
+      <span class="logo-name">Юлия Ляпина</span>
+      <span class="logo-role">кабинет психолога</span>
+    </span>
+  )}
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    color: var(--spark-deep);
+    transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  .logo:hover .logo-mark {
+    transform: translateY(-1px);
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .logo-name {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .logo-role {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 400px) {
+    .logo-text { display: none; }
+  }
+</style>

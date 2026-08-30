@@ -6,36 +6,43 @@ import SEO from '../components/SEO.astro';
 import FAQ from '../components/FAQ.astro';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import { url } from '../utils/url';
+import Icon from '../components/Icon.astro';
 
 // Запросы, с которыми обращаются. Раскрываются по клику.
 const requests = [
   {
+    icon: 'calm',
     title: 'Тревожное расстройство',
     items: ['Панические атаки', 'Тревога', 'Навязчивые мысли и постоянное беспокойство', 'Специфические фобии'],
     text: 'Использую когнитивно-поведенческую терапию (КПТ), дыхательные техники и ДПДГ — эффективные методы работы с тревожными расстройствами. Результат заметен уже через 4–6 сессий.',
   },
   {
+    icon: 'bond',
     title: 'Проблемы в отношениях',
     items: ['Конфликты и непонимание в паре', 'Ревность, недоверие, контроль', 'Измена и восстановление доверия', 'Подготовка к разводу или его переживание'],
     text: 'Семейная терапия помогает наладить общение, восстановить близость или принять решение о расставании бережно для обеих сторон.',
     featured: true,
   },
   {
+    icon: 'child',
     title: 'Поведение ребёнка',
     items: ['Истерики, непослушание, протесты', 'Агрессия, драки, конфликты', 'Проблемы с учёбой и мотивацией', 'Адаптация к садику или школе'],
     text: 'Работаю с ребёнком через игру и арт-терапию. Обязательно консультирую родителей по выстраиванию границ и воспитанию.',
   },
   {
+    icon: 'worth',
     title: 'Низкая самооценка',
     items: ['Неуверенность в себе', 'Негативные мысли о себе', 'Страх оценки и критики', 'Постоянное сравнение с другими'],
     text: 'Работаем над здоровой самооценкой через выявление и изменение убеждений, которые мешают. Учу самоподдержке и принятию себя.',
   },
   {
+    icon: 'compass',
     title: 'Возрастной кризис',
     items: ['Ощущение пустоты', 'Потеря смысла и цели в жизни', 'Профессиональное выгорание'],
     text: 'Помогаю найти новые смыслы, переосмыслить пройденный путь и наметить направление. Кризис — это возможность для роста.',
   },
   {
+    icon: 'book',
     title: 'Развивающие программы',
     items: [
       '«Умники и умницы», 4–6 лет — ежедневные занятия: чтение, письмо, математика, нейроигры',
@@ -72,12 +79,12 @@ const programs = [
 ];
 
 const advantages = [
-  { title: 'Научный подход', text: 'Арт-терапия, КПТ, МАК, ДПДГ, расстановки, системный подход в семейной терапии.' },
-  { title: 'Команда', text: 'Три педагога и психолог с высшим образованием и регулярным повышением квалификации.' },
-  { title: 'Конфиденциальность', text: 'Информация с сессий не передаётся третьим лицам ни при каких условиях.' },
-  { title: 'Онлайн и офлайн', text: 'Консультации по видеосвязи или лично в кабинете в Лесном городке.' },
-  { title: 'Удобное расписание', text: 'Будни и выходные с 9:00 до 21:00 — подберём время под вашу занятость.' },
-  { title: 'Прозрачные цены', text: 'Фиксированная стоимость консультации без скрытых доплат.' },
+  { icon: 'flask', title: 'Научный подход', text: 'Арт-терапия, КПТ, МАК, ДПДГ, расстановки, системный подход в семейной терапии.' },
+  { icon: 'team', title: 'Команда', text: 'Три педагога и психолог с высшим образованием и регулярным повышением квалификации.' },
+  { icon: 'lock', title: 'Конфиденциальность', text: 'Информация с сессий не передаётся третьим лицам ни при каких условиях.' },
+  { icon: 'screen', title: 'Онлайн и офлайн', text: 'Консультации по видеосвязи или лично в кабинете в Лесном городке.' },
+  { icon: 'clock', title: 'Удобное расписание', text: 'Будни и выходные с 9:00 до 21:00 — подберём время под вашу занятость.' },
+  { icon: 'price', title: 'Прозрачные цены', text: 'Фиксированная стоимость консультации без скрытых доплат.' },
 ];
 
 const specialists = [
@@ -178,6 +185,7 @@ const posts = [
             >
               <div class="card-inner">
                 <div class="card-head">
+                  <span class="card-icon"><Icon name={item.icon} size={22} /></span>
                   <h3 class="card-title">{item.title}</h3>
                   <svg class="accordion-icon chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M19 9l-7 7-7-7" />
@@ -214,7 +222,7 @@ const posts = [
             <button class="video-preview" onclick="openVideoModal()" type="button" aria-label="Смотреть видео о кабинете">
               <img src={url('/images/services/child-therapy.jpg')} alt="Кабинет психолога" loading="lazy" decoding="async" />
               <span class="video-play" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                <Icon name="play" size={26} />
               </span>
             </button>
 
@@ -299,7 +307,7 @@ const posts = [
           <div class="why-list">
             {advantages.map((item) => (
               <div class="why-item" data-reveal>
-                <h3 class="why-title">{item.title}</h3>
+                <h3 class="why-title"><Icon name={item.icon} size={19} />{item.title}</h3>
                 <p class="why-text">{item.text}</p>
               </div>
             ))}
@@ -369,7 +377,7 @@ const posts = [
                 </div>
                 <h3 class="post-title">{post.title}</h3>
                 <p class="post-excerpt">{post.excerpt}</p>
-                <span class="post-more">Читать →</span>
+                <span class="post-more">Читать <Icon name="arrow" size={16} /></span>
               </div>
             </a>
           ))}
@@ -396,9 +404,9 @@ const posts = [
             </a>
           </div>
           <div class="closing-notes">
-            <span>Конфиденциально</span>
-            <span>Онлайн и офлайн</span>
-            <span>Отвечу в ближайшее время</span>
+            <span><Icon name="lock" size={16} />Конфиденциально</span>
+            <span><Icon name="screen" size={16} />Онлайн и офлайн</span>
+            <span><Icon name="clock" size={16} />Отвечу в ближайшее время</span>
           </div>
         </div>
       </div>
@@ -576,7 +584,14 @@ const posts = [
   /* ---------- карточка запроса ---------- */
   .accordion-card { cursor: pointer; }
   .card-inner { padding: 32px; display: flex; flex-direction: column; height: 100%; }
-  .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .card-head { display: flex; align-items: flex-start; gap: 14px; }
+  .card-icon {
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(47, 125, 150, .09); color: var(--spark-deep);
+  }
+  .gradient-card .card-icon { background: rgba(255, 255, 255, .18); color: #fff; }
+  .card-head .card-title { flex: 1; }
   .card-title { font-size: 20px; line-height: 1.3; font-weight: 400; letter-spacing: -0.01em; }
   .gradient-card .card-title { color: #fff; }
 
@@ -634,7 +649,7 @@ const posts = [
     box-shadow: var(--whisper);
     transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1);
   }
-  .video-play svg { width: 26px; height: 26px; margin-left: 3px; }
+  .video-play :global(svg) { margin-left: 3px; }
   .video-preview:hover .video-play { transform: scale(1.06); }
   .video-preview:focus-visible { outline: 2px solid var(--spark-deep); outline-offset: 3px; }
 
@@ -659,7 +674,12 @@ const posts = [
 
   .why-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 40px; }
   .why-item { padding: 22px 0; border-top: 1px solid var(--stone); }
-  .why-title { font-size: 16px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .why-title {
+    font-size: 16px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .why-title :global(svg) { color: var(--spark-deep); flex-shrink: 0; }
+  .why-text { padding-left: 29px; }
   .why-text { font-size: 14px; line-height: 1.6; color: var(--smoke); }
 
   /* ---------- специалисты ---------- */
@@ -695,7 +715,12 @@ const posts = [
   .post-cat { color: var(--spark-deep); font-weight: 500; }
   .post-title { font-size: 17px; font-weight: 400; line-height: 1.35; letter-spacing: -0.01em; margin-bottom: 10px; }
   .post-excerpt { font-size: 14px; line-height: 1.6; color: var(--smoke); margin-bottom: 18px; }
-  .post-more { margin-top: auto; font-size: 14px; font-weight: 500; color: var(--ink); }
+  .post-more {
+    margin-top: auto; font-size: 14px; font-weight: 500; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .post-more :global(svg) { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
+  .post:hover .post-more :global(svg) { transform: translateX(3px); }
 
   /* ---------- финальный призыв ---------- */
   .closing-band { padding: 72px 48px; text-align: center; }
@@ -705,6 +730,8 @@ const posts = [
     margin-top: 34px; padding-top: 24px; border-top: 1px solid var(--stone);
     font-size: 13px; color: var(--smoke);
   }
+  .closing-notes span { display: inline-flex; align-items: center; gap: 8px; }
+  .closing-notes :global(svg) { color: var(--ash); }
 
   /* ---------- адаптив ---------- */
   @media (max-width: 1023px) {

@@ -3,6 +3,7 @@
 // Все тексты — в src/data/global.json
 import global from '../data/global.json';
 import { url } from '../utils/url';
+import Icon from './Icon.astro';
 
 const { site, contacts, footer } = global;
 ---
@@ -32,9 +33,9 @@ const { site, contacts, footer } = global;
       <div>
         <h3 class="footer-title">{footer.contactsTitle}</h3>
         <ul class="footer-list">
-          <li>📍 {contacts.address}</li>
-          <li>📞 <a href={`tel:${contacts.phoneRaw}`} class="footer-link">{contacts.phone}</a></li>
-          <li>📧 <a href={`mailto:${contacts.email}`} class="footer-link">{contacts.email}</a></li>
+          <li class="footer-contact"><Icon name="pin" size={17} /><span>{contacts.address}</span></li>
+          <li class="footer-contact"><Icon name="phone" size={17} /><a href={`tel:${contacts.phoneRaw}`} class="footer-link">{contacts.phone}</a></li>
+          <li class="footer-contact"><Icon name="mail" size={17} /><a href={`mailto:${contacts.email}`} class="footer-link">{contacts.email}</a></li>
         </ul>
       </div>
       <div>
@@ -50,11 +51,11 @@ const { site, contacts, footer } = global;
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <p class="footer-copy">{site.copyright}</p>
         <div class="flex gap-4">
-          <a href={contacts.whatsapp} target="_blank" class="footer-social">
-            <span class="text-sm">WA</span>
+          <a href={contacts.whatsapp} target="_blank" rel="noopener" class="footer-social" aria-label="WhatsApp" title="WhatsApp">
+            <Icon name="chat" size={18} />
           </a>
-          <a href={contacts.telegram} target="_blank" class="footer-social">
-            <span class="text-sm">TG</span>
+          <a href={contacts.telegram} target="_blank" rel="noopener" class="footer-social" aria-label="Telegram" title="Telegram">
+            <Icon name="send" size={18} />
           </a>
         </div>
       </div>
@@ -93,6 +94,14 @@ const { site, contacts, footer } = global;
     padding-top: 24px;
     border-top: 1px solid var(--stone);
   }
+
+  .footer-contact {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    color: var(--graphite);
+  }
+  .footer-contact :global(svg) { color: var(--ash); flex-shrink: 0; margin-top: 1px; }
 
   .footer-copy { font-size: 13px; color: var(--ash); }
 

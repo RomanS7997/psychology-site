@@ -44,6 +44,13 @@
     @apply scroll-smooth;
   }
 
+  /* Шапка закреплена сверху — якорные переходы не должны уезжать под неё */
+  section[id],
+  div[id],
+  article[id] {
+    scroll-margin-top: 112px;
+  }
+
   body {
     @apply font-sans antialiased;
     background: var(--canvas);

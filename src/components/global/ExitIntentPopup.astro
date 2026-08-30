@@ -1,12 +1,13 @@
 ---
 // src/components/global/ExitIntentPopup.astro
 // Exit-intent popup - показывается когда пользователь хочет уйти с сайта
+import Icon from '../Icon.astro';
 ---
 
 <div class="exit-popup-overlay" id="exit-popup">
   <div class="exit-popup-content">
     <button class="exit-popup-close" onclick="closeExitPopup()" aria-label="Закрыть">
-      ✕
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
     </button>
     
     <div class="exit-popup-header">
@@ -50,11 +51,11 @@
     
     <div class="exit-popup-guarantees">
       <div class="guarantee-item">
-        <span class="guarantee-icon">🔒</span>
+        <span class="guarantee-icon"><Icon name="lock" size={18} /></span>
         <span class="guarantee-text">100% конфиденциально</span>
       </div>
       <div class="guarantee-item">
-        <span class="guarantee-icon">✅</span>
+        <span class="guarantee-icon"><Icon name="check" size={18} /></span>
         <span class="guarantee-text">Без обязательств</span>
       </div>
     </div>
@@ -228,6 +229,9 @@
   }
   
   .guarantee-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--spark-deep);
     font-size: 1.25rem;
   }
   
@@ -269,7 +273,7 @@
 
   .exit-success-icon {
     display: inline-flex;
-    color: #4894B2;
+    color: var(--spark-deep);
     margin-bottom: 1.25rem;
     filter: drop-shadow(0 8px 20px rgba(72, 148, 178, 0.35));
   }
@@ -313,7 +317,7 @@
 
   .exit-success-btn {
     padding: 0.875rem 2.5rem;
-    background: linear-gradient(135deg, #4894B2 0%, #18698F 100%);
+    background: linear-gradient(135deg, var(--spark-deep) 0%, var(--spark-lilac) 100%);
     color: white;
     border: none;
     border-radius: 0.75rem;
@@ -348,21 +352,21 @@
     animation: exitConfettiBurst 1.1s 0.6s ease-out forwards;
   }
 
-  .exit-confetti span:nth-child(1)  { background: #4894B2; --tx:  -160px; --ty: -120px; --r: -40deg; }
+  .exit-confetti span:nth-child(1)  { background: var(--spark-water); --tx:  -160px; --ty: -120px; --r: -40deg; }
   .exit-confetti span:nth-child(2)  { background: #d9797d; --tx:   140px; --ty: -140px; --r:  50deg; }
   .exit-confetti span:nth-child(3)  { background: #f2b134; --tx:  -220px; --ty:  -40px; --r: -80deg; }
   .exit-confetti span:nth-child(4)  { background: #7fb685; --tx:   220px; --ty:  -20px; --r:  90deg; }
-  .exit-confetti span:nth-child(5)  { background: #4894B2; --tx:   -80px; --ty: -180px; --r: -20deg; border-radius: 50%; }
+  .exit-confetti span:nth-child(5)  { background: var(--spark-water); --tx:   -80px; --ty: -180px; --r: -20deg; border-radius: 50%; }
   .exit-confetti span:nth-child(6)  { background: #d9797d; --tx:    80px; --ty: -180px; --r:  20deg; border-radius: 50%; }
-  .exit-confetti span:nth-child(7)  { background: #18698F; --tx:  -260px; --ty:   40px; --r: -110deg; }
+  .exit-confetti span:nth-child(7)  { background: var(--spark-lilac); --tx:  -260px; --ty:   40px; --r: -110deg; }
   .exit-confetti span:nth-child(8)  { background: #f2b134; --tx:   260px; --ty:   60px; --r:  110deg; }
   .exit-confetti span:nth-child(9)  { background: #7fb685; --tx:  -120px; --ty:  -80px; --r: -60deg; border-radius: 50%; }
-  .exit-confetti span:nth-child(10) { background: #4894B2; --tx:   120px; --ty:  -90px; --r:  60deg; border-radius: 50%; }
+  .exit-confetti span:nth-child(10) { background: var(--spark-water); --tx:   120px; --ty:  -90px; --r:  60deg; border-radius: 50%; }
   .exit-confetti span:nth-child(11) { background: #d9797d; --tx:  -200px; --ty:  120px; --r: -140deg; }
-  .exit-confetti span:nth-child(12) { background: #18698F; --tx:   200px; --ty:  140px; --r:  140deg; }
+  .exit-confetti span:nth-child(12) { background: var(--spark-lilac); --tx:   200px; --ty:  140px; --r:  140deg; }
   .exit-confetti span:nth-child(13) { background: #f2b134; --tx:   -40px; --ty: -220px; --r:   10deg; border-radius: 50%; }
   .exit-confetti span:nth-child(14) { background: #7fb685; --tx:    40px; --ty: -220px; --r:  -10deg; border-radius: 50%; }
-  .exit-confetti span:nth-child(15) { background: #4894B2; --tx:     0px; --ty: -260px; --r:   30deg; }
+  .exit-confetti span:nth-child(15) { background: var(--spark-water); --tx:     0px; --ty: -260px; --r:   30deg; }
 
   @keyframes exitConfettiBurst {
     0% {
@@ -487,7 +491,7 @@
         const content = document.querySelector('.exit-popup-content');
         if (content) {
           content.innerHTML =
-            '<button class="exit-popup-close" data-exit-close aria-label="Закрыть">✕</button>' +
+            '<button class="exit-popup-close" data-exit-close aria-label="Закрыть"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
             '<div class="exit-success">' +
               '<div class="exit-confetti" aria-hidden="true">' +
                 '<span></span><span></span><span></span><span></span><span></span>' +
