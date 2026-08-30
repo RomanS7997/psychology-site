@@ -1,6 +1,7 @@
 ---
 // src/pages/test/general.astro
 import Layout from '../../layouts/Layout.astro';
+import { url } from '../../utils/url';
 ---
 
 <Layout 
@@ -334,7 +335,7 @@ import Layout from '../../layouts/Layout.astro';
               </div>
 
               <div class="flex justify-center">
-                <a href="/psychology-site/" class="px-10 py-3 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-bold transition shadow-lg text-center">
+                <a href={url('/')} class="px-10 py-3 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-bold transition shadow-lg text-center">
                   Вернуться на главную
                 </a>
               </div>

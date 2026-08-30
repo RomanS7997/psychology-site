@@ -22,10 +22,11 @@ const galleryPhotos = [
 ];
 
 const galleryImages = galleryPhotos.map(({ n, caption }) => ({
-  src: `/psychology-site/images/gallery/school-prep/${n}.jpg`,
+  src: url(`/images/gallery/school-prep/${n}.jpg`),
   alt: `Подготовка к школе — ${caption.toLowerCase()}`,
   caption
 }));
+import { url } from '../../utils/url';
 ---
 
 <SEO 
@@ -81,10 +82,9 @@ const galleryImages = galleryPhotos.map(({ n, caption }) => ({
         <div class="relative w-full max-w-md">
           <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="/psychology-site/images/services/school-prep.jpg" 
+              src={url('/images/services/school-prep.jpg')} 
               alt="Консультация психолога" 
-              class="w-full h-auto"
-            />
+              class="w-full h-auto" loading="lazy" decoding="async" />
           
           <!-- Декоративные элементы -->
           <div class="absolute -top-6 -right-6 w-24 h-24 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>
@@ -473,7 +473,7 @@ const galleryImages = galleryPhotos.map(({ n, caption }) => ({
         <div class="grid md:grid-cols-2 gap-6" data-stagger>
           <!-- Умники и умницы -->
           <a 
-            href="/psychology-site/programs/umniky" 
+            href={url('/programs/umniky')} 
             class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
           >
             <div class="flex items-start justify-between mb-4">
@@ -498,7 +498,7 @@ const galleryImages = galleryPhotos.map(({ n, caption }) => ({
 
           <!-- Азбука общения -->
           <a 
-            href="/psychology-site/programs/azbuka" 
+            href={url('/programs/azbuka')} 
             class="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
           >
             <div class="flex items-start justify-between mb-4">
@@ -574,8 +574,4 @@ const galleryImages = galleryPhotos.map(({ n, caption }) => ({
 </Layout>
 
 <script>
-  function openBookingModal(type?: string) {
-    console.log('Opening booking modal for:', type || 'general');
-    alert('Модальное окно записи будет здесь. Услуга: Подготовка к школе');
-  }
 </script>

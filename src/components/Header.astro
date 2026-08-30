@@ -1,7 +1,7 @@
 ---
 // src/components/Header.astro
-// Все тексты и пункты меню — в src/content/global.json
-import global from '../content/global.json';
+// Все тексты и пункты меню — в src/data/global.json
+import global from '../data/global.json';
 import { url } from '../utils/url';
 
 const { site, contacts, menu } = global;
@@ -14,7 +14,7 @@ const { site, contacts, menu } = global;
       <!-- Logo -->
       <div class="flex items-center gap-3">
         <a href={url('/')} class="flex items-center">
-          <img src={url('/images/logo.png')} alt={site.name} class="h-16 w-auto" />
+          <img src={url('/images/logo.png')} alt={site.name} class="h-16 w-auto" loading="eager" fetchpriority="high" decoding="async" />
         </a>
       </div>
 

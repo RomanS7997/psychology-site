@@ -16,6 +16,7 @@ const {
   title, 
   description = "Профессиональная психологическая помощь. Консультирование взрослых и детей, развивающие программы." 
 } = Astro.props;
+import { url } from '../utils/url';
 ---
 
 <!doctype html>
@@ -27,11 +28,15 @@ const {
     <meta name="generator" content={Astro.generator} />
     
     <!-- Favicon (добавишь позже) -->
-    <link rel="icon" type="image/svg+xml" href="/psychology-site/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     
     <!-- Preconnect для шрифтов -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    />
     
     <title>{title} | Кабинет психолога Ляпина Юлия</title>
   </head>

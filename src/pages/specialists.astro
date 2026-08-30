@@ -4,6 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
+import { url } from '../utils/url';
 ---
 
 <SEO 
@@ -64,7 +65,7 @@ import SEO from '../components/SEO.astro';
             <!-- Фото -->
             <div class="md:col-span-2 relative flex flex-col">
               <div class="aspect-[3/4] relative overflow-hidden">
-                <img src="/psychology-site/images/specialists/julia-lyapina.jpg" alt="Юлия Ляпина" class="w-full h-full object-cover object-top" />
+                <img src={url('/images/specialists/julia-lyapina.jpg')} alt="Юлия Ляпина" class="w-full h-full object-cover object-top" loading="lazy" decoding="async" />
 
               </div>
               <!-- Бейджи под фото -->
@@ -194,7 +195,7 @@ import SEO from '../components/SEO.astro';
             
             <div class="md:col-span-2 relative flex flex-col">
               <div class="aspect-[3/4] relative overflow-hidden">
-                <img src="/psychology-site/images/specialists/vlasihina-lyudmila.jpg" alt="Власихина Людмила Степановна" class="w-full h-full object-cover object-top" />
+                <img src={url('/images/specialists/vlasihina-lyudmila.jpg')} alt="Власихина Людмила Степановна" class="w-full h-full object-cover object-top" loading="lazy" decoding="async" />
 
               </div>
               <div class="flex-1 flex flex-col items-center justify-center gap-3 p-6 bg-gradient-to-b from-white to-[#F2F7FD]">
@@ -303,7 +304,7 @@ import SEO from '../components/SEO.astro';
 
             <div class="md:col-span-2 relative flex flex-col">
               <div class="aspect-[3/4] relative overflow-hidden">
-                <img src="/psychology-site/images/specialists/evgrafova-natalia.jpg" alt="Евграфова Наталья Викторовна" class="w-full h-full object-cover object-top" />
+                <img src={url('/images/specialists/evgrafova-natalia.jpg')} alt="Евграфова Наталья Викторовна" class="w-full h-full object-cover object-top" loading="lazy" decoding="async" />
               </div>
               <div class="flex-1 flex flex-col items-center justify-center gap-3 p-6 bg-gradient-to-b from-white to-[#F2F7FD]">
                 <span class="px-5 py-2.5 bg-[#4894B2] text-white text-sm font-bold rounded-full shadow-md">
@@ -432,7 +433,7 @@ import SEO from '../components/SEO.astro';
 
             <div class="md:col-span-2 relative flex flex-col">
               <div class="aspect-[3/4] relative overflow-hidden">
-                <img src="/psychology-site/images/specialists/strizhkova-natalia.jpg" alt="Стрижкова Наталья Петровна" class="w-full h-full object-cover object-top" />
+                <img src={url('/images/specialists/strizhkova-natalia.jpg')} alt="Стрижкова Наталья Петровна" class="w-full h-full object-cover object-top" loading="lazy" decoding="async" />
               </div>
               <div class="flex-1 flex flex-col items-center justify-center gap-3 p-6 bg-gradient-to-b from-white to-[#F2F7FD]">
                 <span class="px-5 py-2.5 bg-[#4894B2] text-white text-sm font-bold rounded-full shadow-md">
@@ -620,9 +621,3 @@ import SEO from '../components/SEO.astro';
     scroll-behavior: smooth;
   }
 </style>
-
-<script>
-  function openBookingModal() {
-    alert('Модальное окно записи будет здесь');
-  }
-</script>

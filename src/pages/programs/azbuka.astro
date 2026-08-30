@@ -21,10 +21,11 @@ const galleryPhotos = [
 ];
 
 const galleryImages = galleryPhotos.map(({ n, caption }) => ({
-  src: `/psychology-site/images/gallery/azbuka/${n}.jpg`,
+  src: url(`/images/gallery/azbuka/${n}.jpg`),
   alt: `Занятие Азбука общения — ${caption.toLowerCase()}`,
   caption
 }));
+import { url } from '../../utils/url';
 ---
 
 <SEO 
@@ -83,10 +84,9 @@ const galleryImages = galleryPhotos.map(({ n, caption }) => ({
         <div class="relative w-full max-w-md">
           <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="/psychology-site/images/gallery/azbuka/hero.jpg" 
+              src={url('/images/gallery/azbuka/hero.jpg')} 
               alt="Консультация психолога" 
-              class="w-full h-auto"
-            />
+              class="w-full h-auto" loading="eager" fetchpriority="high" decoding="async" />
           
           <!-- Декоративные элементы -->
           <div class="absolute -top-6 -right-6 w-24 h-24 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>

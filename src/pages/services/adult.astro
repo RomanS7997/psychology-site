@@ -1,10 +1,11 @@
-﻿---
+---
 // src/pages/services/adult.astro
 import Layout from '../../layouts/Layout.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
+import { url } from '../../utils/url';
 ---
 
 <SEO 
@@ -67,10 +68,9 @@ import SEO from '../../components/SEO.astro';
         <div class="relative w-full max-w-md">
           <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="/psychology-site/images/services/adult-consulting.jpg" 
+              src={url('/images/services/adult-consulting.jpg')} 
               alt="Консультация психолога" 
-              class="w-full h-auto"
-            />
+              class="w-full h-auto" loading="lazy" decoding="async" />
             
           </div>
           </div>
@@ -295,19 +295,19 @@ import SEO from '../../components/SEO.astro';
         Вам также может быть интересно
       </h2>
       <div class="grid md:grid-cols-3 gap-8">
-        <a href="/psychology-site/services/children" class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
+        <a href={url('/services/children')} class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
           <div class="text-4xl mb-4">🧒</div>
           <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Консультирование детей</h3>
           <p class="text-gray-600">Помощь детям и подросткам в развитии и преодолении трудностей</p>
         </a>
         
-        <a href="/psychology-site/programs/umniky" class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
+        <a href={url('/programs/umniky')} class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
           <div class="text-4xl mb-4">📚</div>
           <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Умники и умницы</h3>
           <p class="text-gray-600">Комплексная подготовка к школе для детей 4-7 лет</p>
         </a>
         
-        <a href="/psychology-site/blog/kak-spravitsya-s-panicheskimi-atakami" class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
+        <a href={url('/blog/kak-spravitsya-s-panicheskimi-atakami')} class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
           <div class="text-4xl mb-4">📰</div>
           <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Как справиться с паническими атаками</h3>
           <p class="text-gray-600">Полезная статья в моём блоге</p>
@@ -402,8 +402,4 @@ import SEO from '../../components/SEO.astro';
 </Layout>
 
 <script>
-  function openBookingModal(type?: string) {
-    console.log('Opening booking modal for:', type || 'general');
-    alert('Модальное окно записи будет здесь. Тип: ' + (type || 'general'));
-  }
 </script>

@@ -18,7 +18,6 @@ Allow: /blog/
 Allow: /about
 Allow: /contact
 Allow: /specialists
-Allow: /reviews
 Allow: /test/
 
 # Crawl-delay для бота (опционально)
