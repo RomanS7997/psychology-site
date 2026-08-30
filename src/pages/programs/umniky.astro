@@ -7,18 +7,18 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import FAQ from '../../components/FAQ.astro';
 
-// Отобранные фото для галереи (номера файлов в /images/gallery/umniky/)
+// Фото галереи: файлы 1..10 в /images/gallery/umniky/
 const galleryPhotos = [
-  { n: 3,  caption: 'Обучение чтению по кубикам' },
+  { n: 1,  caption: 'Работа в тетради' },
+  { n: 2,  caption: 'Обучение чтению по слогам' },
+  { n: 3,  caption: 'Изучаем буквы' },
+  { n: 4,  caption: 'Основы математики и счёт' },
+  { n: 5,  caption: 'Занятия в группе' },
   { n: 6,  caption: 'Постановка руки к письму' },
-  { n: 18, caption: 'Основы математики и счёт' },
-  { n: 4,  caption: 'Творческие задания' },
-  { n: 7,  caption: 'Занятия в радость' },
-  { n: 5,  caption: 'Развитие мелкой моторики' },
-  { n: 15, caption: 'Изучаем буквы' },
-  { n: 21, caption: 'Логика и внимание' },
-  { n: 23, caption: 'Работа в тетради' },
-  { n: 29, caption: 'Рисование и творчество' },
+  { n: 7,  caption: 'Развитие мелкой моторики' },
+  { n: 8,  caption: 'Творческие задания' },
+  { n: 9,  caption: 'Числовой ряд и состав числа' },
+  { n: 10, caption: 'Логика и внимание' },
 ];
 
 const galleryImages = galleryPhotos.map(({ n, caption }) => ({
@@ -83,7 +83,7 @@ const galleryImages = galleryPhotos.map(({ n, caption }) => ({
         <div class="relative w-full max-w-md">
           <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src="/psychology-site/images/gallery/umniky/1.jpg"
+              src="/psychology-site/images/gallery/umniky/hero.jpg"
               alt="Консультация психолога" 
               class="w-full h-auto"
             />
