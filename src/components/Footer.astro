@@ -7,53 +7,53 @@ import { url } from '../utils/url';
 const { site, contacts, footer } = global;
 ---
 
-<footer class="bg-gray-900 text-white py-12">
+<footer class="site-footer">
   <div class="container mx-auto px-4 lg:px-8">
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       <div>
-        <h3 class="font-bold mb-4">{footer.aboutTitle}</h3>
-        <ul class="space-y-2 text-sm text-gray-400">
+        <h3 class="footer-title">{footer.aboutTitle}</h3>
+        <ul class="footer-list">
           {footer.aboutLinks.map((link) => (
-            <li><a href={url(link.href)} class="hover:text-white transition">{link.title}</a></li>
+            <li><a href={url(link.href)} class="footer-link">{link.title}</a></li>
           ))}
         </ul>
       </div>
       <div>
-        <h3 class="font-bold mb-4">{footer.servicesTitle}</h3>
-        <ul class="space-y-3 text-sm text-gray-400">
+        <h3 class="footer-title">{footer.servicesTitle}</h3>
+        <ul class="footer-list footer-list-wide">
           {footer.servicesLinks.map((link) => (
             <li>
-              <a href={url(link.href)} class="hover:text-white transition font-semibold">{link.title}</a>
-              <div class="text-xs text-gray-500">{link.note}</div>
+              <a href={url(link.href)} class="footer-link footer-link-strong">{link.title}</a>
+              <div class="footer-note">{link.note}</div>
             </li>
           ))}
         </ul>
       </div>
       <div>
-        <h3 class="font-bold mb-4">{footer.contactsTitle}</h3>
-        <ul class="space-y-2 text-sm text-gray-400">
+        <h3 class="footer-title">{footer.contactsTitle}</h3>
+        <ul class="footer-list">
           <li>📍 {contacts.address}</li>
-          <li>📞 <a href={`tel:${contacts.phoneRaw}`} class="hover:text-white transition">{contacts.phone}</a></li>
-          <li>📧 <a href={`mailto:${contacts.email}`} class="hover:text-white transition">{contacts.email}</a></li>
+          <li>📞 <a href={`tel:${contacts.phoneRaw}`} class="footer-link">{contacts.phone}</a></li>
+          <li>📧 <a href={`mailto:${contacts.email}`} class="footer-link">{contacts.email}</a></li>
         </ul>
       </div>
       <div>
-        <h3 class="font-bold mb-4">{footer.infoTitle}</h3>
-        <ul class="space-y-2 text-sm text-gray-400">
+        <h3 class="footer-title">{footer.infoTitle}</h3>
+        <ul class="footer-list">
           {footer.infoLinks.map((link) => (
-            <li><a href={url(link.href)} class="hover:text-white transition">{link.title}</a></li>
+            <li><a href={url(link.href)} class="footer-link">{link.title}</a></li>
           ))}
         </ul>
       </div>
     </div>
-    <div class="border-t border-gray-800 mt-8 pt-8">
+    <div class="footer-bottom">
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-        <p class="text-sm text-gray-400">{site.copyright}</p>
+        <p class="footer-copy">{site.copyright}</p>
         <div class="flex gap-4">
-          <a href={contacts.whatsapp} target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#4894B2] transition">
+          <a href={contacts.whatsapp} target="_blank" class="footer-social">
             <span class="text-sm">WA</span>
           </a>
-          <a href={contacts.telegram} target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-[#4894B2] transition">
+          <a href={contacts.telegram} target="_blank" class="footer-social">
             <span class="text-sm">TG</span>
           </a>
         </div>
@@ -61,3 +61,49 @@ const { site, contacts, footer } = global;
     </div>
   </div>
 </footer>
+
+<style>
+  .site-footer {
+    background: var(--taupe);
+    color: var(--graphite);
+    padding: 64px 0 40px;
+    border-top: 1px solid var(--stone);
+  }
+
+  .footer-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 18px;
+  }
+
+  .footer-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 14px; }
+  .footer-list-wide { gap: 14px; }
+
+  .footer-link { color: var(--graphite); transition: color 0.2s ease; }
+  .footer-link:hover { color: var(--ink); }
+  .footer-link-strong { font-weight: 500; }
+
+  .footer-note { font-size: 12.5px; color: var(--ash); margin-top: 2px; }
+
+  .footer-bottom {
+    margin-top: 44px;
+    padding-top: 24px;
+    border-top: 1px solid var(--stone);
+  }
+
+  .footer-copy { font-size: 13px; color: var(--ash); }
+
+  .footer-social {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--canvas);
+    color: var(--graphite);
+    border: 1px solid var(--stone);
+    font-size: 12px; font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  }
+  .footer-social:hover { background: var(--ink); color: #fff; transform: translateY(-1px); }
+</style>

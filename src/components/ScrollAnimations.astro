@@ -14,7 +14,7 @@
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
+          entry.target.classList.add('animate-in', 'shown');
           
           // Для stagger эффекта (элементы появляются по очереди)
           if (entry.target.hasAttribute('data-stagger')) {
@@ -22,7 +22,7 @@
             Array.from(children).forEach((child, index) => {
               setTimeout(() => {
                 child.classList.add('animate-in');
-              }, index * 250); // 250ms задержка между элементами
+              }, index * 70); // короткий каскад: 70 мс между соседями
             });
           }
           
@@ -56,8 +56,51 @@
     }, observerOptions);
 
     // Находим все элементы для анимации
-    const animatedElements = document.querySelectorAll('[data-animate], [data-stagger]');
+    const animatedElements = document.querySelectorAll('[data-animate], [data-stagger], [data-reveal], [data-counter]');
     animatedElements.forEach(el => observer.observe(el));
+
+    // Предохранитель: если наблюдатель почему-то молчит (вкладка была скрыта,
+    // фоновая отрисовка, старый браузер) — через полторы секунды показываем всё,
+    // что уже находится в пределах экрана. Страница не должна остаться пустой.
+    setTimeout(function () {
+      document.querySelectorAll('[data-reveal]:not(.shown), [data-animate]:not(.animate-in)').forEach(function (el) {
+        if (el.getBoundingClientRect().top < window.innerHeight * 1.5) {
+          el.classList.add('animate-in', 'shown');
+        }
+      });
+      document.querySelectorAll('[data-counter]').forEach(function (el) {
+        if (el.textContent.trim() === '0' && el.getBoundingClientRect().top < window.innerHeight * 1.5) {
+          el.textContent = el.getAttribute('data-counter') + (el.getAttribute('data-suffix') || '');
+        }
+      });
+    }, 1500);
+
+    // Вкладка могла быть открыта в фоне — наблюдатель и таймеры там заморожены.
+    // Когда её наконец показали, проверяем ещё раз.
+    document.addEventListener('visibilitychange', function onShow() {
+      if (document.visibilityState !== 'visible') return;
+      document.removeEventListener('visibilitychange', onShow);
+      setTimeout(function () {
+        document.querySelectorAll('[data-reveal]:not(.shown)').forEach(function (el) {
+          if (el.getBoundingClientRect().top < window.innerHeight * 1.5) {
+            el.classList.add('animate-in', 'shown');
+          }
+        });
+      }, 200);
+    });
+  }
+
+  // Без поддержки наблюдателя или при отключённом движении показываем сразу
+  function revealEverything() {
+    document.querySelectorAll('[data-reveal], [data-animate]').forEach(function (el) {
+      el.classList.add('animate-in', 'shown');
+    });
+    document.querySelectorAll('[data-stagger] > *').forEach(function (el) {
+      el.classList.add('animate-in');
+    });
+    document.querySelectorAll('[data-counter]').forEach(function (el) {
+      el.textContent = el.getAttribute('data-counter') + (el.getAttribute('data-suffix') || '');
+    });
   }
 
   // Анимация прогресс-баров
@@ -80,7 +123,7 @@
     const targetStr = element.getAttribute('data-counter');
     const isDecimal = targetStr.includes('.');
     const target = parseFloat(targetStr);
-    const duration = 2000; // 2 секунды
+    const duration = 1200;
     const start = 0;
     const increment = target / (duration / 16); // 60 FPS
     let current = start;
@@ -105,21 +148,53 @@
   }
 
   // Инициализация при загрузке страницы
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initScrollAnimations);
-  } else {
+  function bootAnimations() {
+    var noMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!('IntersectionObserver' in window) || noMotion) {
+      revealEverything();
+      return;
+    }
     initScrollAnimations();
   }
 
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootAnimations);
+  } else {
+    bootAnimations();
+  }
+
   // Реинициализация для SPA navigation (если используется)
-  document.addEventListener('astro:page-load', initScrollAnimations);
+  document.addEventListener('astro:page-load', bootAnimations);
 </script>
 
 <style is:global>
+  /* Появление блоков: короткое и мягкое */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .55s ease-out, transform .55s cubic-bezier(.2, .7, .3, 1);
+  }
+
+  [data-reveal].shown,
+  [data-reveal].animate-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal],
+    [data-animate],
+    [data-stagger] > * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
   /* Fade in */
   [data-animate="fade"] {
     opacity: 0;
-    transition: opacity 0.9s ease-out;
+    transition: opacity .5s ease-out;
   }
   
   [data-animate="fade"].animate-in {
@@ -129,8 +204,8 @@
   /* Slide up */
   [data-animate="slide-up"] {
     opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+    transform: translateY(18px);
+    transition: opacity .55s ease-out, transform .55s cubic-bezier(.2,.7,.3,1);
   }
   
   [data-animate="slide-up"].animate-in {
@@ -142,7 +217,7 @@
   [data-animate="slide-left"] {
     opacity: 0;
     transform: translateX(30px);
-    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+    transition: opacity .55s ease-out, transform .55s cubic-bezier(.2,.7,.3,1);
   }
   
   [data-animate="slide-left"].animate-in {
@@ -154,7 +229,7 @@
   [data-animate="slide-right"] {
     opacity: 0;
     transform: translateX(-30px);
-    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+    transition: opacity .55s ease-out, transform .55s cubic-bezier(.2,.7,.3,1);
   }
   
   [data-animate="slide-right"].animate-in {
@@ -166,7 +241,7 @@
   [data-animate="scale"] {
     opacity: 0;
     transform: scale(0.95);
-    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+    transition: opacity .55s ease-out, transform .55s cubic-bezier(.2,.7,.3,1);
   }
   
   [data-animate="scale"].animate-in {
@@ -181,8 +256,8 @@
 
   [data-stagger] > * {
     opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 1s ease-out, transform 1s ease-out;
+    transform: translateY(18px);
+    transition: opacity .55s ease-out, transform .55s cubic-bezier(.2,.7,.3,1);
   }
 
   [data-stagger] > *.animate-in {
@@ -192,18 +267,18 @@
 
   /* Задержки для разных элементов */
   [data-delay="100"] {
-    transition-delay: 0.1s;
+    transition-delay: 0.07s;
   }
   
   [data-delay="200"] {
-    transition-delay: 0.2s;
+    transition-delay: 0.14s;
   }
   
   [data-delay="300"] {
-    transition-delay: 0.3s;
+    transition-delay: 0.21s;
   }
   
   [data-delay="400"] {
-    transition-delay: 0.4s;
+    transition-delay: 0.28s;
   }
 </style>

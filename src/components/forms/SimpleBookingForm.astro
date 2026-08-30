@@ -47,14 +47,14 @@ import { url } from '../../utils/url';
         <!-- Имя -->
         <div>
           <label for="name" class="block text-sm font-semibold text-gray-900 mb-2">
-            Ваше имя <span class="text-[#4894B2]">*</span>
+            Ваше имя <span style="color: var(--spark-deep)">*</span>
           </label>
           <input 
             type="text" 
             id="name" 
             name="name" 
             required
-            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#4894B2] focus:outline-none transition"
+            class="form-field"
             placeholder="Введите ваше имя"
           >
         </div>
@@ -62,14 +62,14 @@ import { url } from '../../utils/url';
         <!-- Телефон -->
         <div>
           <label for="phone" class="block text-sm font-semibold text-gray-900 mb-2">
-            Телефон <span class="text-[#4894B2]">*</span>
+            Телефон <span style="color: var(--spark-deep)">*</span>
           </label>
           <input 
             type="tel" 
             id="phone" 
             name="phone" 
             required
-            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#4894B2] focus:outline-none transition"
+            class="form-field"
             placeholder="+7 (___) ___-__-__"
           >
         </div>
@@ -83,7 +83,7 @@ import { url } from '../../utils/url';
             type="email" 
             id="email" 
             name="email"
-            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#4894B2] focus:outline-none transition"
+            class="form-field"
             placeholder="your@email.com"
           >
         </div>
@@ -97,7 +97,7 @@ import { url } from '../../utils/url';
             id="comment" 
             name="comment"
             rows="3"
-            class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-[#4894B2] focus:outline-none transition resize-none"
+            class="form-field resize-none"
             placeholder="Расскажите кратко о вашей ситуации (необязательно)"
           ></textarea>
         </div>
@@ -109,11 +109,11 @@ import { url } from '../../utils/url';
               type="checkbox" 
               name="privacy" 
               required
-              class="mt-1 w-5 h-5 text-[#4894B2] border-gray-300 rounded focus:ring-[#4894B2]"
+              class="mt-1 w-5 h-5 rounded" style="accent-color: var(--spark-deep)"
             >
             <span class="text-sm text-gray-700">
               Я согласен(а) на обработку персональных данных в соответствии с 
-              <a href={url('/privacy')} target="_blank" class="text-[#4894B2] hover:text-[#18698F] underline">
+              <a href={url('/privacy')} target="_blank" style="color: var(--spark-deep)" class="underline">
                 Политикой конфиденциальности
               </a>
             </span>
@@ -124,14 +124,14 @@ import { url } from '../../utils/url';
         <div class="flex gap-4">
           <button 
             type="submit"
-            class="flex-1 px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-xl font-bold transition-colors shadow-lg hover:shadow-xl"
+            class="pill pill-solid flex-1 justify-center"
           >
             Отправить заявку
           </button>
           <button 
             type="button"
             onclick="closeBookingModal()"
-            class="px-8 py-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl font-semibold transition-colors"
+            class="pill pill-outline"
           >
             Отмена
           </button>
@@ -147,6 +147,21 @@ import { url } from '../../utils/url';
 </div>
 
 <style>
+  .form-field {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--stone);
+    border-radius: 10px;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 15px;
+    transition: border-color .2s ease;
+  }
+  .form-field:focus {
+    outline: none;
+    border-color: var(--spark-water);
+  }
+
   .booking-modal-overlay {
     display: none;
     position: fixed;
@@ -238,7 +253,7 @@ import { url } from '../../utils/url';
 
   .success-icon {
     display: inline-flex;
-    color: #4894B2;
+    color: var(--spark-deep);
     margin-bottom: 1.25rem;
     filter: drop-shadow(0 8px 20px rgba(72, 148, 178, 0.35));
   }
@@ -288,7 +303,7 @@ import { url } from '../../utils/url';
 
   .success-btn {
     padding: 0.875rem 2.5rem;
-    background: linear-gradient(135deg, #4894B2 0%, #18698F 100%);
+    background: linear-gradient(135deg, var(--spark-deep) 0%, var(--spark-lilac) 100%);
     color: white;
     border: none;
     border-radius: 0.75rem;
@@ -324,21 +339,21 @@ import { url } from '../../utils/url';
     animation: confettiBurst 1.1s 0.6s ease-out forwards;
   }
 
-  .success-confetti span:nth-child(1)  { background: #4894B2; --tx:  -160px; --ty: -120px; --r: -40deg; }
+  .success-confetti span:nth-child(1)  { background: var(--spark-water); --tx:  -160px; --ty: -120px; --r: -40deg; }
   .success-confetti span:nth-child(2)  { background: #d9797d; --tx:   140px; --ty: -140px; --r:  50deg; }
   .success-confetti span:nth-child(3)  { background: #f2b134; --tx:  -220px; --ty:  -40px; --r: -80deg; }
   .success-confetti span:nth-child(4)  { background: #7fb685; --tx:   220px; --ty:  -20px; --r:  90deg; }
-  .success-confetti span:nth-child(5)  { background: #4894B2; --tx:   -80px; --ty: -180px; --r: -20deg; border-radius: 50%; }
+  .success-confetti span:nth-child(5)  { background: var(--spark-water); --tx:   -80px; --ty: -180px; --r: -20deg; border-radius: 50%; }
   .success-confetti span:nth-child(6)  { background: #d9797d; --tx:    80px; --ty: -180px; --r:  20deg; border-radius: 50%; }
-  .success-confetti span:nth-child(7)  { background: #18698F; --tx:  -260px; --ty:   40px; --r: -110deg; }
+  .success-confetti span:nth-child(7)  { background: var(--spark-lilac); --tx:  -260px; --ty:   40px; --r: -110deg; }
   .success-confetti span:nth-child(8)  { background: #f2b134; --tx:   260px; --ty:   60px; --r:  110deg; }
   .success-confetti span:nth-child(9)  { background: #7fb685; --tx:  -120px; --ty:  -80px; --r: -60deg; border-radius: 50%; }
-  .success-confetti span:nth-child(10) { background: #4894B2; --tx:   120px; --ty:  -90px; --r:  60deg; border-radius: 50%; }
+  .success-confetti span:nth-child(10) { background: var(--spark-water); --tx:   120px; --ty:  -90px; --r:  60deg; border-radius: 50%; }
   .success-confetti span:nth-child(11) { background: #d9797d; --tx:  -200px; --ty:  120px; --r: -140deg; }
-  .success-confetti span:nth-child(12) { background: #18698F; --tx:   200px; --ty:  140px; --r:  140deg; }
+  .success-confetti span:nth-child(12) { background: var(--spark-lilac); --tx:   200px; --ty:  140px; --r:  140deg; }
   .success-confetti span:nth-child(13) { background: #f2b134; --tx:   -40px; --ty: -220px; --r:   10deg; border-radius: 50%; }
   .success-confetti span:nth-child(14) { background: #7fb685; --tx:    40px; --ty: -220px; --r:  -10deg; border-radius: 50%; }
-  .success-confetti span:nth-child(15) { background: #4894B2; --tx:     0px; --ty: -260px; --r:   30deg; }
+  .success-confetti span:nth-child(15) { background: var(--spark-water); --tx:     0px; --ty: -260px; --r:   30deg; }
 
   @keyframes confettiBurst {
     0% {

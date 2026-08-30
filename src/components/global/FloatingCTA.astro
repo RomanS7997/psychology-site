@@ -33,9 +33,9 @@
     width: 4rem;
     height: 4rem;
     border-radius: 50%;
-    background: #4894B2;
+    background: var(--ink);
     border: none;
-    box-shadow: 0 8px 24px #18698F;
+    box-shadow: 0 10px 26px rgba(20, 24, 28, .28);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -48,7 +48,7 @@
   .floating-cta-btn:hover {
     transform: scale(1.1);
     animation: none;
-    box-shadow: 0 12px 32px #18698F;
+    box-shadow: 0 14px 32px rgba(20, 24, 28, .34);
   }
   
   .cta-icon {
@@ -60,11 +60,11 @@
   @keyframes pulse {
     0%, 100% {
       transform: scale(1);
-      box-shadow: 0 8px 24px #18698F;
+      box-shadow: 0 10px 26px rgba(20, 24, 28, .28);
     }
     50% {
       transform: scale(1.10);
-      box-shadow: 0 12px 32px #18698F;
+      box-shadow: 0 14px 32px rgba(20, 24, 28, .34);
     }
   }
   

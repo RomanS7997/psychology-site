@@ -2,7 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   Дизайн-система сайта
+   Тёплый холст вместо белого, лёгкие заголовки, кнопки-пилюли,
+   волосяные линии вместо теней. Цвет живёт только внутри
+   градиентных визуалов — в кнопках и ссылках его нет.
+   ============================================================ */
 @layer base {
+  :root {
+    /* Поверхности */
+    --canvas: #fbfaf8;
+    --taupe: #f3f1ed;
+    --stone: #e6e2dc;
+
+    /* Текст */
+    --ink: #14181c;
+    --graphite: #3f4650;
+    --smoke: #6e7278;
+    --ash: #a3a29e;
+
+    /* Градиентные искры — только для визуалов */
+    --spark-deep: #2f7d96;
+    --spark-water: #3e8fa8;
+    --spark-mint: #7fc4c0;
+    --spark-powder: #e9a88c;
+    --spark-lilac: #a9a3d6;
+
+    /* Форма */
+    --r-card: 20px;
+    --r-large: 24px;
+    --r-pill: 9999px;
+    --whisper: rgba(0, 0, 0, 0.4) 0 0 1px 0, rgba(0, 0, 0, 0.04) 0 1px 1px 0,
+      rgba(0, 0, 0, 0.04) 0 2px 4px 0;
+  }
+
   * {
     @apply box-border;
   }
@@ -13,131 +46,294 @@
 
   body {
     @apply font-sans antialiased;
-    @apply bg-white text-gray-900;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.16px;
   }
 
+  /* Заголовки — лёгкое начертание и тесный трекинг */
   h1,
   h2,
-  h3,
+  h3 {
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+
   h4,
   h5,
   h6 {
-    @apply font-bold;
+    font-weight: 500;
+    letter-spacing: -0.01em;
   }
 }
 
 @layer components {
-  /* Кнопки */
-  .btn {
-    @apply inline-block px-8 py-4 rounded-full font-semibold transition-all duration-300;
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  /* ---------- Типографика ---------- */
+  .display {
+    font-size: clamp(34px, 5vw, 48px);
+    line-height: 1.08;
   }
 
-  .btn-primary {
-    @apply bg-gradient-to-r from-primary-600 to-secondary-500;
-    @apply text-white shadow-lg;
-    @apply hover:shadow-xl hover:-translate-y-1;
-    @apply focus:ring-primary-500;
+  .heading {
+    font-size: clamp(27px, 3.6vw, 36px);
+    line-height: 1.17;
   }
 
-  .btn-secondary {
-    @apply bg-white/10 text-white border-2 border-white;
-    @apply backdrop-blur-md;
-    @apply hover:bg-white/20 hover:-translate-y-1;
+  .heading-sm {
+    font-size: clamp(23px, 2.6vw, 32px);
+    line-height: 1.13;
   }
 
-  .btn-outline {
-    @apply bg-transparent border-2 border-primary-600 text-primary-600;
-    @apply hover:bg-primary-600 hover:text-white hover:-translate-y-1;
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash);
   }
 
-  /* Контейнер */
-  .container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  .lede {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--smoke);
   }
 
-  /* Карточки */
-  .card {
-    @apply bg-white rounded-2xl shadow-lg p-6;
-    @apply transition-all duration-300;
-    @apply hover:shadow-xl hover:-translate-y-2;
+  .muted {
+    color: var(--smoke);
   }
 
-  /* Секции */
-  .section {
-    @apply py-16 md:py-24;
+  /* ---------- Кнопки-пилюли ---------- */
+  .pill {
+    @apply inline-flex items-center justify-center gap-2;
+    border-radius: var(--r-pill);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 13px 24px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1),
+      background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   }
 
-  .section-title {
-    @apply text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-4;
+  .pill-solid {
+    background: var(--ink);
+    color: #fff;
   }
 
-  .section-subtitle {
-    @apply text-lg md:text-xl text-gray-600 text-center mb-12;
+  .pill-solid:hover {
+    background: #000;
+    transform: translateY(-1px);
+  }
+
+  .pill-outline {
+    background: var(--canvas);
+    color: var(--ink);
+    border-color: var(--stone);
+  }
+
+  .pill-outline:hover {
+    background: var(--taupe);
+    transform: translateY(-1px);
+  }
+
+  .pill-light {
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--ink);
+  }
+
+  .pill-light:hover {
+    background: #fff;
+    transform: translateY(-1px);
+  }
+
+  .pill-lg {
+    padding: 16px 30px;
+    font-size: 15px;
+  }
+
+  .pill:focus-visible {
+    outline: 2px solid var(--spark-deep);
+    outline-offset: 3px;
+  }
+
+  /* ---------- Поверхности ---------- */
+  .surface {
+    background: var(--taupe);
+    border-radius: var(--r-card);
+  }
+
+  .surface-lg {
+    background: var(--taupe);
+    border-radius: var(--r-large);
+  }
+
+  .hairline {
+    border-top: 1px solid var(--stone);
+  }
+
+  .lift {
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  .lift:hover {
+    transform: translateY(-3px);
+  }
+
+  /* ---------- Градиентные визуалы ---------- */
+  /* Мягкие пятна, медленно дрейфующие внутри контейнера */
+  .orb {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .orb::before,
+  .orb::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(42px);
+    opacity: 0.95;
+    z-index: 0;
+  }
+
+  .orb::before {
+    width: 78%;
+    aspect-ratio: 1;
+    left: -8%;
+    top: -14%;
+    background: radial-gradient(
+      circle at 35% 35%,
+      var(--spark-mint),
+      var(--spark-water) 52%,
+      var(--spark-deep) 88%
+    );
+    animation: orb-drift-a 22s ease-in-out infinite alternate;
+  }
+
+  .orb::after {
+    width: 62%;
+    aspect-ratio: 1;
+    right: -12%;
+    bottom: -18%;
+    background: radial-gradient(
+      circle at 60% 40%,
+      var(--spark-powder),
+      var(--spark-lilac) 70%,
+      transparent 78%
+    );
+    animation: orb-drift-b 26s ease-in-out infinite alternate;
+  }
+
+  /* Сплошная градиентная карточка */
+  .gradient-card {
+    position: relative;
+    color: #fff;
+    border-radius: var(--r-card);
+    background: linear-gradient(
+      155deg,
+      var(--spark-deep),
+      var(--spark-water) 46%,
+      var(--spark-lilac) 96%
+    );
+    overflow: hidden;
+  }
+
+  .gradient-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(
+        60% 45% at 78% 22%,
+        rgba(233, 168, 140, 0.85),
+        transparent 70%
+      ),
+      radial-gradient(55% 40% at 18% 84%, rgba(127, 196, 192, 0.8), transparent 72%);
+    animation: orb-sheen 20s ease-in-out infinite alternate;
+  }
+
+  .gradient-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Широкая полоса с градиентным свечением в углу */
+  .glow-band {
+    position: relative;
+    overflow: hidden;
+    background: var(--taupe);
+    border-radius: var(--r-large);
+  }
+
+  .glow-band::after {
+    content: "";
+    position: absolute;
+    right: -6%;
+    bottom: -58%;
+    width: 62%;
+    aspect-ratio: 1.6;
+    z-index: 0;
+    background: radial-gradient(48% 42% at 62% 40%, rgba(233, 168, 140, 0.55), transparent 72%),
+      radial-gradient(52% 46% at 32% 62%, rgba(169, 163, 214, 0.5), transparent 74%),
+      radial-gradient(46% 40% at 78% 74%, rgba(127, 196, 192, 0.5), transparent 72%);
+    filter: blur(34px);
+    animation: orb-drift-b 28s ease-in-out infinite alternate;
+  }
+
+  .glow-band > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Стеклянная карточка поверх градиента */
+  .glass-card {
+    background: rgba(253, 252, 252, 0.92);
+    border-radius: 16px;
+    box-shadow: var(--whisper);
+    backdrop-filter: blur(6px);
   }
 }
 
-/* Анимации */
-@keyframes fade-in-up {
+@keyframes orb-drift-a {
   from {
-    opacity: 0;
-    transform: translateY(30px);
+    transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(9%, 7%, 0) scale(1.08);
   }
 }
 
-@keyframes fade-in {
+@keyframes orb-drift-b {
   from {
-    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(1.04);
   }
   to {
+    transform: translate3d(-8%, -9%, 0) scale(0.96);
+  }
+}
+
+@keyframes orb-sheen {
+  from {
+    transform: scale(1) translate3d(0, 0, 0);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.12) translate3d(-3%, 4%, 0);
     opacity: 1;
   }
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out forwards;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
-}
-
-/* Задержки для последовательной анимации */
-.delay-100 {
-  animation-delay: 0.1s;
-}
-.delay-200 {
-  animation-delay: 0.2s;
-}
-.delay-300 {
-  animation-delay: 0.3s;
-}
-.delay-400 {
-  animation-delay: 0.4s;
-}
-.delay-500 {
-  animation-delay: 0.5s;
-}
-.delay-600 {
-  animation-delay: 0.6s;
-}
-.delay-700 {
-  animation-delay: 0.7s;
-}
-.delay-800 {
-  animation-delay: 0.8s;
-}
-
-.border-teal-600 {
-  border-color: #4894b2;
-}
-.text-teal-700 {
-  color: #4894b2;
-}
-.hover\:text-teal-700:hover {
-  color: #18698f !important;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }
