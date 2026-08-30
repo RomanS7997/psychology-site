@@ -27,8 +27,11 @@ import { url } from '../utils/url';
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Favicon (добавишь позже) -->
-    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <!-- Иконки вкладки и мобильного экрана -->
+    <link rel="icon" href={url('/favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href={url('/favicon-32.png')} />
+    <link rel="icon" type="image/png" sizes="16x16" href={url('/favicon-16.png')} />
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
     
     <!-- Preconnect для шрифтов -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
