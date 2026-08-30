@@ -10,11 +10,14 @@ import SimpleBookingForm from '../components/forms/SimpleBookingForm.astro';
 interface Props {
   title: string;
   description?: string;
+  /** Страница подключает компонент SEO сама. Если нет — Layout поставит теги за неё. */
+  hasSEO?: boolean;
 }
 
-const { 
-  title, 
-  description = "Профессиональная психологическая помощь. Консультирование взрослых и детей, развивающие программы." 
+const {
+  title,
+  description = "Профессиональная психологическая помощь. Консультирование взрослых и детей, развивающие программы.",
+  hasSEO = true,
 } = Astro.props;
 import { url } from '../utils/url';
 ---
@@ -25,6 +28,11 @@ import { url } from '../utils/url';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Подстраховка: обычно теги ставит компонент SEO, но если страница его
+         не подключила, заголовок всё равно не должен потеряться. -->
+    {!hasSEO && <title>{title}</title>}
+    {!hasSEO && <meta name="description" content={description} />}
     
     <!-- Иконки вкладки и мобильного экрана -->
     <link rel="icon" href={url('/favicon.ico')} sizes="any" />

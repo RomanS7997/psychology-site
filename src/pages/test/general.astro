@@ -395,6 +395,9 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
 <style>
   /* ---------- полоса страницы ---------- */
   .band { padding: 96px 0; background: var(--canvas); }
+  /* На этих страницах нет крошек, поэтому отступ под закреплённой
+     шапкой держит первая полоса — иначе прогресс уезжает под неё. */
+  .test-band { padding-top: 128px; }
   .test-band { min-height: 100vh; }
   .inner { max-width: 720px; margin: 0 auto; }
 
@@ -549,7 +552,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
   }
   .field-input {
     width: 100%; padding: 13px 16px;
-    font-family: inherit; font-size: 15px; color: var(--ink);
+    font-family: inherit; font-size: 16px  /* меньше 16px — и Safari на iPhone зумит страницу */; color: var(--ink);
     background: var(--taupe);
     border: 1px solid var(--stone);
     border-radius: 14px;
@@ -574,6 +577,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
   /* ---------- адаптив ---------- */
   @media (max-width: 767px) {
     .band { padding: 56px 0; }
+    .test-band { padding-top: 120px; }
     .test-card { padding: 26px 20px; border-radius: var(--r-card); }
     .panel { padding: 22px 20px; }
     .actions { flex-wrap: wrap; }

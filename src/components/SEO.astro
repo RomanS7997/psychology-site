@@ -1,6 +1,9 @@
 ---
 // src/components/SEO.astro
-// Компонент для SEO и Schema.org разметки
+// Мета-теги и разметка Schema.org.
+// Все адреса собираются из настроек Astro (astro.config.mjs), а не пишутся строкой:
+// при переезде на julialyapina.ru достаточно поменять SITE_URL — здесь править нечего.
+import { url } from '../utils/url';
 
 interface Props {
   title: string;
@@ -10,160 +13,187 @@ interface Props {
   keywords?: string;
   image?: string;
   url?: string;
+  /** Дата публикации статьи в виде 2025-01-15. Только для schema="article". */
+  published?: string;
+  /** Дата последней правки статьи. Если не задана — берётся дата публикации. */
+  modified?: string;
 }
 
-const { 
-  title, 
-  description, 
+const {
+  title,
+  description,
   type = 'website',
   schema,
   keywords,
   image = '/images/og-image.jpg',
-  url
+  url: urlProp,
+  published,
+  modified,
 } = Astro.props;
 
-const canonicalURL = url || new URL(Astro.url.pathname, Astro.site);
+// Полный адрес страницы и картинки — с учётом домена и базового пути
+const absolute = (path: string) => new URL(url(path), Astro.site).href;
+
+// Главная приходит как /psychology-site без косой черты на конце, а живёт по адресу
+// с чертой — канонический адрес должен совпадать с настоящим, иначе это два адреса.
+const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const canonicalURL = urlProp || new URL(pathname, Astro.site).href;
+const imageURL = absolute(image);
+const logoURL = absolute('/images/logo.png');
+const siteURL = new URL(url('/'), Astro.site).href;
+
 const fullTitle = title.includes('|') ? title : `${title} | Кабинет психолога Ляпина Юлия`;
 
-// Schema.org разметка
-let schemaData = null;
+const ORG_NAME = 'Кабинет психолога Ляпина Юлия';
+const PHONE = '+7-915-195-51-32';
+const EMAIL = 'lyapina_sorokina@mail.ru';
+
+// Адрес указан ровно с той точностью, что и на странице контактов:
+// точное место кабинета сообщается при записи, поэтому улицы и индекса здесь нет.
+const ADDRESS = {
+  '@type': 'PostalAddress',
+  addressLocality: 'Одинцово, Лесной городок',
+  addressRegion: 'Московская область',
+  addressCountry: 'RU',
+};
+
+let schemaData: Record<string, unknown> | null = null;
 
 if (schema === 'organization') {
   schemaData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Кабинет психолога Ляпина Юлия",
-    "description": "Профессиональная психологическая помощь в Одинцово и Лесном городке",
-    "url": "https://julialyapina.ru",
-    "logo": "https://julialyapina.ru/images/logo.png",
-    "telephone": "+7-915-195-51-32",
-    "email": "lyapina_sorokina@mail.ru",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Одинцово",
-      "addressRegion": "Московская область",
-      "addressCountry": "RU"
-    },
-    "sameAs": []
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: ORG_NAME,
+    description: 'Профессиональная психологическая помощь в Одинцово и Лесном городке',
+    url: siteURL,
+    logo: logoURL,
+    telephone: PHONE,
+    email: EMAIL,
+    address: ADDRESS,
+    sameAs: [],
   };
 }
 
 if (schema === 'localbusiness') {
   schemaData = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Кабинет психолога Ляпина Юлия",
-    "image": "https://julialyapina.ru/images/logo.png",
-    "telephone": "+7-915-195-51-32",
-    "email": "lyapina_sorokina@mail.ru",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Лесной городок",
-      "addressLocality": "Одинцово",
-      "addressRegion": "Московская область",
-      "postalCode": "143000",
-      "addressCountry": "RU"
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: ORG_NAME,
+    image: logoURL,
+    telephone: PHONE,
+    email: EMAIL,
+    address: ADDRESS,
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: '55.634',
+      longitude: '37.193',
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "55.634",
-      "longitude": "37.193"
+    url: siteURL,
+    // Часы совпадают с тем, что написано человеку на странице контактов
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
+      ],
+      opens: '09:00',
+      closes: '21:00',
     },
-    "url": "https://julialyapina.ru",
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      "opens": "09:00",
-      "closes": "20:00"
-    }
   };
 }
 
 if (schema === 'service') {
   schemaData = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": "Психологическое консультирование",
-    "provider": {
-      "@type": "Organization",
-      "name": "Кабинет психолога Ляпина Юлия",
-      "telephone": "+7-915-195-51-32"
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    serviceType: 'Психологическое консультирование',
+    provider: {
+      '@type': 'Organization',
+      name: ORG_NAME,
+      telephone: PHONE,
     },
-    "areaServed": {
-      "@type": "Place",
-      "name": "Одинцово, Лесной городок"
+    areaServed: {
+      '@type': 'Place',
+      name: 'Одинцово, Лесной городок',
     },
-    "availableChannel": {
-      "@type": "ServiceChannel",
-      "serviceUrl": "https://julialyapina.ru"
-    }
+    availableChannel: {
+      '@type': 'ServiceChannel',
+      serviceUrl: canonicalURL,
+    },
   };
 }
 
 if (schema === 'person') {
   schemaData = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Юлия Ляпина",
-    "jobTitle": "Клинический психолог",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "Кабинет психолога Ляпина Юлия"
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Юлия Ляпина',
+    // Ровно та формулировка, что стоит в карточке на странице специалистов
+    jobTitle: 'Психолог, специалист по работе с детьми и взрослыми',
+    worksFor: {
+      '@type': 'Organization',
+      name: ORG_NAME,
     },
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Одинцово",
-      "addressCountry": "RU"
-    }
+    address: ADDRESS,
   };
 }
 
 if (schema === 'article') {
   schemaData = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": title,
-    "description": description,
-    "image": `https://julialyapina.ru${image}`,
-    "author": {
-      "@type": "Organization",
-      "name": "Кабинет психолога Ляпина Юлия"
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description,
+    image: imageURL,
+    mainEntityOfPage: canonicalURL,
+    author: {
+      '@type': 'Organization',
+      name: ORG_NAME,
     },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Кабинет психолога Ляпина Юлия",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://julialyapina.ru/images/logo.png"
-      }
+    publisher: {
+      '@type': 'Organization',
+      name: ORG_NAME,
+      logo: {
+        '@type': 'ImageObject',
+        url: logoURL,
+      },
     },
-    "datePublished": new Date().toISOString()
+    // Дату передаёт сама статья. Без неё поля нет вовсе — иначе при каждой
+    // пересборке все статьи объявляли бы себя опубликованными сегодня.
+    ...(published ? { datePublished: published } : {}),
+    ...(published ? { dateModified: modified || published } : {}),
   };
 }
 ---
 
-<!-- Primary Meta Tags -->
+<!-- Основные теги -->
 <title>{fullTitle}</title>
-<meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
 {keywords && <meta name="keywords" content={keywords} />}
 <link rel="canonical" href={canonicalURL} />
 
-<!-- Open Graph / Facebook -->
+<!-- Open Graph -->
 <meta property="og:type" content={type} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={`https://julialyapina.ru${image}`} />
-<meta property="og:site_name" content="Кабинет психолога Ляпина Юлия" />
+<meta property="og:image" content={imageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Юлия Ляпина — кабинет психолога в Одинцово" />
+<meta property="og:site_name" content={ORG_NAME} />
 <meta property="og:locale" content="ru_RU" />
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={fullTitle} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={`https://julialyapina.ru${image}`} />
+<!-- Карточка ссылки в X: спецификация требует name, а не property -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
 
 <!-- Schema.org -->
 {schemaData && (

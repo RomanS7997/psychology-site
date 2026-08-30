@@ -1,10 +1,14 @@
-// Собирает public/sitemap.xml из реально существующих страниц сайта.
+// Собирает dist/sitemap.xml и dist/robots.txt из реально существующих страниц.
 // Запускается после astro build (см. package.json).
-// Адрес берётся из SITE_URL, по умолчанию — боевой домен.
+// Домен и базовый путь берутся ОТТУДА ЖЕ, ОТКУДА ИХ БЕРЁТ ASTRO (astro.config.mjs),
+// иначе карта сайта окажется на одном домене, а сам сайт — на другом,
+// и поисковики отбросят её целиком.
 import { readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 
-const SITE = (process.env.SITE_URL || 'https://julialyapina.ru').replace(/\/$/, '');
+const SITE = (process.env.SITE_URL || 'https://romans7997.github.io').replace(/\/$/, '');
+const BASE = (process.env.SITE_BASE || '/psychology-site').replace(/\/$/, '');
+const ORIGIN = `${SITE}${BASE}`;
 const DIST = 'dist';
 
 // какие разделы важнее для поиска
@@ -35,7 +39,7 @@ const urls = pages.map((page) => {
   const rule = PRIORITY.find(([re]) => re.test(page));
   const priority = rule ? rule[1] : '0.5';
   const changefreq = rule ? rule[2] : 'monthly';
-  const loc = page === '' ? `${SITE}/` : `${SITE}/${page}/`;
+  const loc = page === '' ? `${ORIGIN}/` : `${ORIGIN}/${page}/`;
   return `  <url>
     <loc>${loc}</loc>
     <lastmod>${today}</lastmod>
@@ -51,4 +55,22 @@ ${urls.join('\n')}
 `;
 
 writeFileSync(join(DIST, 'sitemap.xml'), xml, 'utf8');
-console.log(`sitemap.xml: ${pages.length} страниц, домен ${SITE}`);
+
+// robots.txt пишем здесь же, чтобы ссылка на карту сайта не разъехалась с доменом.
+// Важно: на GitHub Pages роботы читают только корень хоста, поэтому файл заработает
+// после переезда на свой домен — там он окажется по адресу /robots.txt.
+const robots = `User-agent: *
+Allow: /
+
+Sitemap: ${ORIGIN}/sitemap.xml
+
+# Служебные каталоги
+Disallow: ${BASE}/_astro/
+Disallow: ${BASE}/.well-known/
+
+Crawl-delay: 1
+`;
+
+writeFileSync(join(DIST, 'robots.txt'), robots, 'utf8');
+console.log(`sitemap.xml: ${pages.length} страниц, адрес ${ORIGIN}`);
+console.log(`robots.txt: карта сайта ${ORIGIN}/sitemap.xml`);

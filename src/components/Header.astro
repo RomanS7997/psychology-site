@@ -283,6 +283,24 @@ const { site, contacts, menu } = global;
   }
   .nav-messenger:hover { background: var(--ink); color: #fff; transform: translateY(-1px); }
 
-  .mobile-menu { background: var(--canvas); border-top: 1px solid var(--stone); }
+  .mobile-menu {
+    background: var(--canvas);
+    border-top: 1px solid var(--stone);
+    /* Меню лежит внутри закреплённой шапки: без этого всё, что не влезло
+       в высоту экрана, оказывалось за краем и доскроллить было нельзя. */
+    max-height: calc(100vh - 96px);
+    max-height: calc(100dvh - 96px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* Зона касания в мобильном меню и в раскрытом списке услуг */
+  .mobile-menu .nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .mobile-menu nav { gap: 2px; }
+  #mobile-services-menu { margin-top: 0; }
   .mobile-contacts { border-bottom: 1px solid var(--stone); }
 </style>
