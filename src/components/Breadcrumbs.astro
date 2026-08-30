@@ -24,7 +24,7 @@ const { items } = Astro.props;
           {item.href ? (
             <a 
               href={item.href} 
-              class="text-gray-600 hover:text-[#d9797d] transition-colors"
+              class="crumb-link"
             >
               {item.label}
             </a>
@@ -38,3 +38,11 @@ const { items } = Astro.props;
     </ol>
   </div>
 </nav>
+
+<style>
+  .crumb-link {
+    color: var(--smoke);
+    transition: color .2s ease;
+  }
+  .crumb-link:hover { color: var(--ink); }
+</style>

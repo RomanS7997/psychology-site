@@ -28,28 +28,28 @@ const sliderId = `slider-${Math.random().toString(36).substr(2, 9)}`;
 // Цветовые схемы для разных акцентов
 const colorSchemes = {
   blue: {
-    gradient: 'from-[#4894B2] to-[#18698F]',
-    text: 'text-[#4894B2]',
-    bg: 'bg-[#4894B2]',
-    hover: 'hover:bg-[#18698F]'
+    gradient: 'from-[#1f5a6d] to-[#4c5b87]',
+    text: 'text-[#276579]',
+    bg: 'bg-[#276579]',
+    hover: 'hover:bg-[#1f5a6d]'
   },
   pink: {
-    gradient: 'from-[#4894B2] to-[#18698F]',
-    text: 'text-[#4894B2]',
-    bg: 'bg-[#4894B2]',
-    hover: 'hover:bg-[#18698F]'
+    gradient: 'from-[#1f5a6d] to-[#4c5b87]',
+    text: 'text-[#276579]',
+    bg: 'bg-[#276579]',
+    hover: 'hover:bg-[#1f5a6d]'
   },
   purple: {
-    gradient: 'from-[#4894B2] to-[#18698F]',
-    text: 'text-[#4894B2]',
-    bg: 'bg-[#4894B2]',
-    hover: 'hover:bg-[#18698F]'
+    gradient: 'from-[#1f5a6d] to-[#4c5b87]',
+    text: 'text-[#276579]',
+    bg: 'bg-[#276579]',
+    hover: 'hover:bg-[#1f5a6d]'
   },
   orange: {
-    gradient: 'from-[#4894B2] to-[#18698F]',
-    text: 'text-[#4894B2]',
-    bg: 'bg-[#4894B2]',
-    hover: 'hover:bg-[#18698F]'
+    gradient: 'from-[#1f5a6d] to-[#4c5b87]',
+    text: 'text-[#276579]',
+    bg: 'bg-[#276579]',
+    hover: 'hover:bg-[#1f5a6d]'
   }
 };
 
@@ -249,7 +249,7 @@ const colors = colorSchemes[accentColor as keyof typeof colorSchemes] || colorSc
           indicator.classList.remove('bg-white/60');
           // Добавляем цвет в зависимости от акцента
           const colorClass = indicator.className.match(/bg-\w+-\d+/)?.[0];
-          if (!colorClass) indicator.className += ' bg-[#4894B2]';
+          if (!colorClass) indicator.className += ' bg-[var(--spark-deep)]';
         } else {
           indicator.classList.remove('w-8');
           indicator.classList.add('bg-white/60');
