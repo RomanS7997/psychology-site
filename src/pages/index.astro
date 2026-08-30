@@ -14,7 +14,7 @@ const requests = [
     icon: 'calm',
     title: 'Тревожное расстройство',
     items: ['Панические атаки', 'Тревога', 'Навязчивые мысли и постоянное беспокойство', 'Специфические фобии'],
-    text: 'Использую когнитивно-поведенческую терапию (КПТ), дыхательные техники и ДПДГ — эффективные методы работы с тревожными расстройствами. Результат заметен уже через 4–6 сессий.',
+    text: 'Использую когнитивно-поведенческую терапию (КПТ), дыхательные техники и ДПДГ. Первые изменения обычно заметны после 3–4 встреч.',
   },
   {
     icon: 'bond',
@@ -48,7 +48,7 @@ const requests = [
       '«Умники и умницы», 4–6 лет',
       '«Азбука общения», 5–9 лет',
       '«Подготовка к школе», 6–7 лет',
-      'Группы до 8 детей, занятия ведут педагоги',
+      'Малые группы, занятия ведут педагоги',
     ],
     text: 'Занятия проходят в малых группах до 8 детей. Программу подбираю под возраст и готовность ребёнка.',
   },
@@ -195,13 +195,15 @@ const posts = [
               data-reveal
             >
               <div class="card-inner">
-                <button class="card-head" type="button" aria-expanded="false">
-                  <span class="card-icon"><Icon name={item.icon} size={22} /></span>
-                  <span class="card-title">{item.title}</span>
+                <h3 class="card-heading">
+                  <button class="card-head" type="button" aria-expanded="false">
+                    <span class="card-icon"><Icon name={item.icon} size={22} /></span>
+                    <span class="card-title">{item.title}</span>
                   <svg class="accordion-icon chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
+                    </svg>
+                  </button>
+                </h3>
 
                 <ul class="card-preview">
                   {item.items.slice(0, 2).map((li) => <li>{li}</li>)}
@@ -213,7 +215,7 @@ const posts = [
                   </ul>
                   <p class="card-text">{item.text}</p>
                   <button
-                    onclick="openBookingModal(); event.stopPropagation();"
+                    onclick="openBookingModal()"
                     class={`pill ${item.featured ? 'pill-light' : 'pill-solid'} card-cta`}
                     type="button"
                   >
@@ -440,7 +442,7 @@ const posts = [
         },
         {
           question: "Сколько сессий мне потребуется?",
-          answer: "Это зависит от запроса. Часть вопросов решается за 3-5 встреч, более глубокие требуют больше времени. Моя задача — не держать вас в терапии годами, а научить справляться самостоятельно. Примерную длительность назову уже на первой консультации."
+          answer: "Это зависит от запроса. Первые изменения обычно после 3-4 встреч, работа с конкретным запросом занимает 8-12 сессий. Примерную длительность назову уже на первой консультации."
         },
         {
           question: "Чем психолог отличается от психотерапевта и психиатра?",
@@ -456,7 +458,7 @@ const posts = [
         },
         {
           question: "Можно ли прийти с ребенком?",
-          answer: "Да, у нас работают детские психологи. Для детей до 7 лет консультация проходит в формате игры. С детьми 8-12 лет психолог может работать как вместе с родителем, так и наедине. Подростки 13+ обычно приходят сами."
+          answer: "Да. С детьми до 7 лет работаю в формате игры, с 8-12 — вместе с родителем или наедине, как ребёнку спокойнее. Подростки 13+ обычно приходят сами."
         }
       ]}
     />
@@ -537,6 +539,7 @@ const posts = [
       if (modal && video) {
         modal.classList.remove('hidden');
         modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
         video.volume = 0.1;
         video.play();
       }
@@ -553,6 +556,7 @@ const posts = [
       if (modal && video) {
         modal.classList.remove('flex');
         modal.classList.add('hidden');
+        document.body.style.overflow = '';
         video.pause();
         video.currentTime = 0;
       }
@@ -573,6 +577,12 @@ const posts = [
         var content = card.querySelector('.accordion-content');
         if (!head || !content || head.dataset.bound) return;
         head.dataset.bound = '1';
+
+        // по тексту секции карточка кликабельна целиком, поэтому ловим клик и мимо шапки
+        card.addEventListener('click', function (e) {
+          if (e.target.closest('.card-head') || e.target.closest('.card-cta')) return;
+          head.click();
+        });
 
         head.addEventListener('click', function () {
           var isOpen = card.classList.contains('is-open');
@@ -646,14 +656,17 @@ const posts = [
     gap: 24px; flex-wrap: wrap;
   }
 
-  .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .cards-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .cards-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .cards-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
 
   /* ---------- карточка запроса ---------- */
-  /* Соседи по строке не тянутся за раскрытой карточкой */
-  .cards-3 { align-items: start; }
+  /* Соседи по строке не тянутся за раскрытой карточкой.
+     Только в блоке запросов: в программах и статьях карточки должны быть равной высоты. */
+  #services .cards-3 { align-items: start; }
 
   .card-inner { padding: 28px; display: flex; flex-direction: column; height: 100%; }
+
+  .card-heading { margin: 0; }
 
   /* Заголовок — настоящая кнопка: открывается и с клавиатуры */
   .card-head {
@@ -664,6 +677,9 @@ const posts = [
   .card-head:focus-visible {
     outline: 2px solid var(--spark-deep); outline-offset: 6px; border-radius: 8px;
   }
+  .accordion-card { transition: border-color .25s ease; cursor: pointer; }
+  .accordion-card:hover { border-color: var(--ash); }
+  .accordion-card:hover .chevron { color: var(--graphite); }
   .card-icon {
     flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
@@ -672,8 +688,8 @@ const posts = [
   .gradient-card .card-icon { background: rgba(255, 255, 255, .2); color: #fff; }
   .card-title {
     flex: 1; font-size: 19px; line-height: 1.3; font-weight: 400; letter-spacing: -0.01em;
-    padding-top: 7px;
   }
+  .card-head .card-title { padding-top: 7px; }
   .gradient-card .card-title { color: #fff; }
 
   /* Два пункта видно сразу: карточка читается как содержание, а не как строка меню */
@@ -739,7 +755,7 @@ const posts = [
   /* ---------- первая встреча ---------- */
   .steps {
     list-style: none; margin: 0; padding: 0;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;
   }
   .step {
     background: var(--canvas);
@@ -873,10 +889,10 @@ const posts = [
   .closing-notes {
     display: flex; gap: 24px; flex-wrap: wrap;
     margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--stone);
-    font-size: 13px; color: var(--smoke);
+    font-size: 13px; color: var(--graphite);
   }
   .closing-notes span { display: inline-flex; align-items: center; gap: 8px; }
-  .closing-notes :global(svg) { color: var(--ash); }
+  .closing-notes :global(svg) { color: var(--graphite); }
 
   /* ---------- адаптив ---------- */
   @media (max-width: 1023px) {

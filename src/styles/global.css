@@ -281,9 +281,9 @@
     border-radius: var(--r-card);
     background: linear-gradient(
       155deg,
-      var(--spark-deep-visual),
-      var(--spark-water) 46%,
-      var(--spark-lilac) 96%
+      #1f5a6d,
+      #2b7288 52%,
+      #4c5b87 100%
     );
     overflow: hidden;
   }
@@ -293,12 +293,14 @@
     position: absolute;
     inset: 0;
     z-index: 0;
+    /* Блики приглушены и уведены в углы: раньше они осветляли карточку целиком
+       и белый текст падал до 2:1 */
     background: radial-gradient(
-        60% 45% at 78% 22%,
-        rgba(233, 168, 140, 0.85),
-        transparent 70%
+        46% 34% at 88% 10%,
+        rgba(233, 168, 140, 0.24),
+        transparent 72%
       ),
-      radial-gradient(55% 40% at 18% 84%, rgba(127, 196, 192, 0.8), transparent 72%);
+      radial-gradient(42% 32% at 8% 94%, rgba(127, 196, 192, 0.24), transparent 74%);
     animation: orb-sheen 20s ease-in-out infinite alternate;
   }
 
@@ -365,10 +367,10 @@
 @keyframes orb-sheen {
   from {
     transform: scale(1) translate3d(0, 0, 0);
-    opacity: 0.9;
+    opacity: 0.85;
   }
   to {
-    transform: scale(1.12) translate3d(-3%, 4%, 0);
+    transform: scale(1.08) translate3d(-2%, 3%, 0);
     opacity: 1;
   }
 }

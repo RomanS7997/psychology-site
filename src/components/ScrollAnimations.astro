@@ -11,14 +11,27 @@
       rootMargin: '0px 0px -50px 0px'
     };
 
+    var observerFired = false;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // соседи внутри одной сетки выходят по очереди, а не одним пластом
+          observerFired = true;
+          // Соседи внутри одной сетки выходят по очереди.
+          // Считаем только среди таких же анимируемых и снимаем задержку после показа,
+          // иначе она остаётся на элементе и тормозит наведение.
           var el = entry.target;
           if (!el.style.transitionDelay && el.parentElement) {
-            var idx = Array.prototype.indexOf.call(el.parentElement.children, el);
-            if (idx > 0 && idx < 8) el.style.transitionDelay = (idx * 70) + 'ms';
+            var siblings = Array.prototype.filter.call(
+              el.parentElement.children,
+              function (n) { return n.hasAttribute('data-reveal') || n.hasAttribute('data-animate'); }
+            );
+            var idx = siblings.indexOf(el);
+            if (idx > 0 && idx < 8) {
+              el.style.transitionDelay = (idx * 70) + 'ms';
+              el.addEventListener('transitionend', function clear() {
+                el.style.transitionDelay = '';
+              }, { once: true });
+            }
           }
           el.classList.add('animate-in', 'shown');
           
@@ -69,6 +82,7 @@
     // фоновая отрисовка, старый браузер) — через полторы секунды показываем всё,
     // что уже находится в пределах экрана. Страница не должна остаться пустой.
     setTimeout(function () {
+      if (observerFired) return;
       document.querySelectorAll('[data-reveal]:not(.shown), [data-animate]:not(.animate-in)').forEach(function (el) {
         if (el.getBoundingClientRect().top < window.innerHeight * 1.5) {
           el.classList.add('animate-in', 'shown');

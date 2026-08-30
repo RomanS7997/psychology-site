@@ -27,7 +27,14 @@ const { site, contacts, menu } = global;
         <nav class="flex items-center gap-6">
           <!-- Выпадающее меню Услуги -->
           <div class="relative group">
-            <button class="nav-link flex items-center gap-1">
+            <button
+              id="services-toggle"
+              class="nav-link flex items-center gap-1"
+              type="button"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="services-menu"
+            >
               {menu.servicesLabel}
               <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
@@ -35,7 +42,10 @@ const { site, contacts, menu } = global;
             </button>
 
             <!-- Dropdown -->
-            <div class="nav-dropdown absolute left-0 top-full mt-2 w-96 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            <div
+              id="services-menu"
+              class="nav-dropdown absolute left-0 top-full mt-2 w-96 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200"
+            >
               <div class="py-2">
                 {menu.services.map((item, i) => (
                   <a
@@ -169,6 +179,37 @@ const { site, contacts, menu } = global;
 </header>
 
 <script>
+  // Выпадающее меню «Услуги»: наведение работало и раньше,
+  // здесь добавлена работа с клавиатуры
+  const servicesToggle = document.getElementById('services-toggle');
+  const servicesMenu = document.getElementById('services-menu');
+  const servicesGroup = servicesToggle?.closest('.group');
+
+  function setServicesOpen(open) {
+    if (!servicesGroup || !servicesToggle || !servicesMenu) return;
+    servicesGroup.classList.toggle('is-open', open);
+    servicesMenu.classList.toggle('opacity-0', !open);
+    servicesMenu.classList.toggle('invisible', !open);
+    servicesToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  servicesToggle?.addEventListener('click', () => {
+    setServicesOpen(servicesToggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (servicesToggle?.getAttribute('aria-expanded') === 'true') {
+      setServicesOpen(false);
+      servicesToggle.focus();
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!servicesGroup || !(e.target instanceof Node)) return;
+    if (!servicesGroup.contains(e.target)) setServicesOpen(false);
+  });
+
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
 
@@ -212,6 +253,11 @@ const { site, contacts, menu } = global;
   .nav-phone:hover { opacity: 0.7; }
 
   .nav-divider { width: 1px; height: 32px; background: var(--stone); }
+
+  .group.is-open .nav-dropdown {
+    opacity: 1;
+    visibility: visible;
+  }
 
   .nav-dropdown {
     background: var(--canvas);

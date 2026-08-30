@@ -32,7 +32,7 @@ const uniqueId = `faq-${Math.random().toString(36).substr(2, 9)}`;
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </button>
-            <div class="faq-content overflow-hidden transition-all duration-300 ease-in-out" style="max-height: 0;">
+            <div class="faq-content overflow-hidden transition-all duration-300 ease-in-out" style="max-height: 0;" inert>
               <div class="px-6 pb-6">
                 <p class="faq-answer">{item.answer}</p>
               </div>
@@ -73,6 +73,7 @@ const uniqueId = `faq-${Math.random().toString(36).substr(2, 9)}`;
             if (otherButton && otherContent && otherIcon) {
               otherButton.setAttribute('aria-expanded', 'false');
               otherContent.style.maxHeight = '0';
+              otherContent.setAttribute('inert', '');
               otherIcon.style.transform = 'rotate(0deg)';
               otherItem.classList.remove('is-open');
             }
@@ -83,16 +84,29 @@ const uniqueId = `faq-${Math.random().toString(36).substr(2, 9)}`;
         if (isOpen) {
           button.setAttribute('aria-expanded', 'false');
           content.style.maxHeight = '0';
+          content.setAttribute('inert', '');
           icon.style.transform = 'rotate(0deg)';
           item.classList.remove('is-open');
         } else {
           button.setAttribute('aria-expanded', 'true');
+          content.removeAttribute('inert');
           content.style.maxHeight = content.scrollHeight + 'px';
           icon.style.transform = 'rotate(180deg)';
           item.classList.add('is-open');
         }
       });
     });
+  });
+
+  // высота открытого ответа пересчитывается при смене ширины окна
+  var faqResizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(faqResizeTimer);
+    faqResizeTimer = setTimeout(function () {
+      document.querySelectorAll('.faq-item.is-open .faq-content').forEach(function (c) {
+        c.style.maxHeight = c.scrollHeight + 'px';
+      });
+    }, 150);
   });
 </script>
 
