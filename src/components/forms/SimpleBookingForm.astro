@@ -4,7 +4,7 @@
 import { url } from '../../utils/url';
 ---
 
-<div class="booking-modal-overlay" id="booking-modal">
+<div class="booking-modal-overlay" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">
   <div class="booking-modal-content max-w-2xl">
     <button class="modal-close" onclick="closeBookingModal()" aria-label="Закрыть">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -13,7 +13,7 @@ import { url } from '../../utils/url';
     </button>
     
     <div class="booking-content">
-      <h2 class="text-3xl font-bold text-gray-900 mb-2">Записаться</h2>
+      <h2 id="booking-modal-title" class="text-3xl font-bold text-gray-900 mb-2">Записаться</h2>
       <p class="text-gray-600 mb-8">Заполните форму, и мы свяжемся с вами для подтверждения записи</p>
 
       <!-- Экран успеха (скрыт по умолчанию) -->
@@ -157,8 +157,9 @@ import { url } from '../../utils/url';
     font-size: 15px;
     transition: border-color .2s ease;
   }
-  .form-field:focus {
-    outline: none;
+  .form-field:focus-visible {
+    outline: 2px solid var(--spark-deep);
+    outline-offset: 2px;
     border-color: var(--spark-water);
   }
 
@@ -430,12 +431,44 @@ import { url } from '../../utils/url';
     }
   }
 
+  // фокус: запоминаем, куда вернуть, и замыкаем перебор внутри окна
+  let bookingReturnFocus = null;
+
+  function focusablesIn(root) {
+    return Array.prototype.filter.call(
+      root.querySelectorAll('a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'),
+      function (el) { return el.offsetParent !== null; }
+    );
+  }
+
+  function trapBookingFocus(e) {
+    const modal = document.getElementById('booking-modal');
+    if (!modal || !modal.classList.contains('active') || e.key !== 'Tab') return;
+    const items = focusablesIn(modal);
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  document.addEventListener('keydown', trapBookingFocus);
+
   function openBookingModal() {
+    bookingReturnFocus = document.activeElement;
     const modal = document.getElementById('booking-modal');
     if (modal) {
       resetBookingView();
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
+      // переводим фокус внутрь окна, иначе он остаётся на странице позади
+      const first = focusablesIn(modal)[0];
+      if (first) setTimeout(function () { first.focus(); }, 40);
     }
   }
 
@@ -444,6 +477,11 @@ import { url } from '../../utils/url';
     if (modal) {
       modal.classList.remove('active');
       document.body.style.overflow = '';
+      // возвращаем фокус туда, откуда окно открыли
+      if (bookingReturnFocus && typeof bookingReturnFocus.focus === 'function') {
+        bookingReturnFocus.focus();
+        bookingReturnFocus = null;
+      }
     }
   }
 

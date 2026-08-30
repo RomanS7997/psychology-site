@@ -4,7 +4,7 @@
 import Icon from '../Icon.astro';
 ---
 
-<div class="exit-popup-overlay" id="exit-popup">
+<div class="exit-popup-overlay" role="dialog" aria-modal="true" id="exit-popup">
   <div class="exit-popup-content">
     <button class="exit-popup-close" onclick="closeExitPopup()" aria-label="Закрыть">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
@@ -113,7 +113,7 @@ import Icon from '../Icon.astro';
     border: none;
     background: transparent;
     font-size: 1.5rem;
-    color: #94a3b8;
+    color: var(--smoke);
     cursor: pointer;
     transition: color 0.2s ease;
     display: flex;
@@ -123,8 +123,8 @@ import Icon from '../Icon.astro';
   }
   
   .exit-popup-close:hover {
-    color: #475569;
-    background: #f1f5f9;
+    color: var(--graphite);
+    background: var(--taupe);
   }
   
   .exit-popup-header {
@@ -147,13 +147,13 @@ import Icon from '../Icon.astro';
   .exit-popup-title {
     font-size: 2rem;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--ink);
     margin-bottom: 0.75rem;
   }
   
   .exit-popup-subtitle {
     font-size: 1.125rem;
-    color: #475569;
+    color: var(--graphite);
     line-height: 1.6;
   }
   
@@ -173,14 +173,15 @@ import Icon from '../Icon.astro';
   .form-input {
     width: 100%;
     padding: 1rem;
-    border: 2px solid #e2e8f0;
+    border: 2px solid var(--stone);
     border-radius: 0.75rem;
     font-size: 1rem;
     transition: all 0.2s ease;
   }
   
   .form-input:focus {
-    outline: none;
+    outline: 2px solid var(--spark-deep);
+    outline-offset: 2px;
     border-color: var(--spark-deep);
     box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
   }
@@ -207,7 +208,7 @@ import Icon from '../Icon.astro';
     text-align: center;
     margin-top: 1rem;
     font-size: 0.875rem;
-    color: #64748b;
+    color: var(--smoke);
   }
   
   .form-note strong {
@@ -219,7 +220,7 @@ import Icon from '../Icon.astro';
     justify-content: center;
     gap: 2rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--stone);
   }
   
   .guarantee-item {
@@ -227,7 +228,7 @@ import Icon from '../Icon.astro';
     align-items: center;
     gap: 0.5rem;
     font-size: 0.875rem;
-    color: #64748b;
+    color: var(--smoke);
   }
   
   .guarantee-icon {
@@ -300,13 +301,13 @@ import Icon from '../Icon.astro';
   .exit-success-title {
     font-size: 1.75rem;
     font-weight: 700;
-    color: #0f172a;
+    color: var(--ink);
     margin-bottom: 0.75rem;
     animation: exitSuccessPop 0.4s 0.65s ease-out both;
   }
 
   .exit-success-text {
-    color: #475569;
+    color: var(--graphite);
     line-height: 1.6;
     margin-bottom: 1.75rem;
     animation: exitSuccessPop 0.4s 0.8s ease-out both;

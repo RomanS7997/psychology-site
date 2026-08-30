@@ -121,6 +121,13 @@
     document.querySelectorAll('[data-counter]').forEach(function (el) {
       el.textContent = el.getAttribute('data-counter') + (el.getAttribute('data-suffix') || '');
     });
+    // полоски и линии прогресса тоже должны оказаться в конечном состоянии
+    document.querySelectorAll('[data-progress-bar]').forEach(function (el) {
+      el.style.width = el.getAttribute('data-progress-bar') + '%';
+    });
+    document.querySelectorAll('[data-progress-line]').forEach(function (el) {
+      el.style.height = '100%';
+    });
   }
 
   // Анимация прогресс-баров

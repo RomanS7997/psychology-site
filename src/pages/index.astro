@@ -69,6 +69,7 @@ const programs = [
     note: 'Раз в неделю',
     items: ['Эмоциональный интеллект', 'Навыки общения', 'Уверенность в себе', 'Ролевые игры'],
     href: '/programs/azbuka',
+    photo: '/images/gallery/azbuka/4.jpg',
     featured: true,
   },
   {
@@ -734,7 +735,15 @@ const posts = [
   /* ---------- программы ---------- */
   .program-card { display: flex; flex-direction: column; overflow: hidden; }
   .program-card .card-inner { min-height: 300px; }
-  .program-photo { aspect-ratio: 16 / 9; overflow: hidden; }
+  .program-photo { position: relative; aspect-ratio: 16 / 9; overflow: hidden; }
+
+  /* В выделенной карточке кадр уводим в её же цвет, иначе фото спорит с градиентом */
+  .gradient-card .program-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(31, 90, 109, .58), rgba(76, 91, 135, .52));
+  }
   .program-photo img {
     width: 100%; height: 100%; object-fit: cover; display: block;
     transition: transform .5s cubic-bezier(.2,.7,.3,1);
