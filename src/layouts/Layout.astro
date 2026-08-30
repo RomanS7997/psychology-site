@@ -40,6 +40,19 @@ import { url } from '../utils/url';
     <link rel="icon" type="image/png" sizes="16x16" href={url('/favicon-16.png')} />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
     
+    <!-- Без JS блоки с data-reveal остались бы прозрачными: показываем их сразу -->
+    <noscript>
+      <style>
+        [data-reveal],
+        [data-animate],
+        [data-stagger] > * {
+          opacity: 1 !important;
+          transform: none !important;
+          transition: none !important;
+        }
+      </style>
+    </noscript>
+
     <!-- Preconnect для шрифтов -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

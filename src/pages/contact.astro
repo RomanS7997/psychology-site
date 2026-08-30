@@ -116,6 +116,16 @@ import { url } from '../utils/url';
                 ></textarea>
               </div>
 
+              <div class="consent-box">
+                <label>
+                  <input type="checkbox" name="privacy" id="contact-privacy" required>
+                  <span class="consent-text">
+                    Я согласен(а) на обработку персональных данных в соответствии с
+                    <a href={url('/privacy')} target="_blank" rel="noopener">Политикой конфиденциальности</a>
+                  </span>
+                </label>
+              </div>
+
               <button type="submit" class="pill pill-solid form-submit">
                 Отправить сообщение
               </button>
@@ -444,6 +454,23 @@ import { url } from '../utils/url';
   textarea.form-field { resize: none; }
 
   .form-submit { width: 100%; margin-top: 6px; }
+
+  .consent-box {
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+  }
+  .consent-box label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .consent-box input { margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--spark-deep); }
+  .consent-text { font-size: 13px; line-height: 1.55; color: var(--smoke); }
+  .consent-text a { color: var(--spark-deep); text-decoration: underline; }
 
   .form-status {
     margin-top: 16px;

@@ -58,7 +58,9 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
                     src={image.src}
                     alt={image.alt}
                     class="slide-img"
-                    loading={index < 2 ? 'eager' : 'lazy'}
+                    loading="lazy"
+                    width="1000"
+                    height="420"
                     decoding="async"
                   />
                 </button>

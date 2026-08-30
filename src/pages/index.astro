@@ -839,7 +839,7 @@ const posts = [
   .video-preview:hover .video-play { transform: scale(1.06); }
   .video-preview:focus-visible { outline: 2px solid var(--spark-deep); outline-offset: 3px; }
 
-  .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+  .check-list { list-style: none; padding: 0; display: grid; gap: 11px; }
   .check-list li {
     position: relative; padding-left: 26px; font-size: 15px; color: var(--graphite);
   }
@@ -932,6 +932,12 @@ const posts = [
   .closing-notes :global(svg) { color: var(--graphite); }
 
   /* ---------- адаптив ---------- */
+  /* На 1024-1279 карточка специалиста всего 225px, и две кнопки в ряд
+     не помещаются — ставим их в столбик. */
+  @media (max-width: 1279px) {
+    .person-actions { flex-direction: column; }
+  }
+
   @media (max-width: 1023px) {
     .cards-3 { grid-template-columns: repeat(2, 1fr); }
     .steps { grid-template-columns: repeat(2, 1fr); }

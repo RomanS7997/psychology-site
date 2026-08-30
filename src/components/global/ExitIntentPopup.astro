@@ -2,6 +2,7 @@
 // src/components/global/ExitIntentPopup.astro
 // Exit-intent popup - показывается когда пользователь хочет уйти с сайта
 import Icon from '../Icon.astro';
+import { url } from '../../utils/url';
 ---
 
 <div class="exit-popup-overlay" role="dialog" aria-modal="true"
@@ -45,6 +46,16 @@ import Icon from '../Icon.astro';
         >
       </div>
       
+      <div class="consent-box">
+        <label>
+          <input type="checkbox" name="privacy" id="exit-privacy" required>
+          <span class="consent-text">
+            Согласен(а) на обработку персональных данных —
+            <a href={url('/privacy')} target="_blank" rel="noopener">политика</a>
+          </span>
+        </label>
+      </div>
+
       <button type="submit" class="form-submit">
         Получить консультацию
       </button>
@@ -68,6 +79,24 @@ import Icon from '../Icon.astro';
 </div>
 
 <style>
+  .consent-box {
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+  }
+  .consent-box label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .consent-box input { margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--spark-deep); }
+  .consent-text { font-size: 13px; line-height: 1.55; color: var(--smoke); }
+  .consent-text a { color: var(--spark-deep); text-decoration: underline; }
+
+
   .exit-popup-overlay {
     position: fixed;
     top: 0;

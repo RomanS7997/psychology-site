@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "Кабинет психолога Ляпина Юлия",
-    "copyright": "© 2025 Кабинет психолога Ляпина Юлия. Все права защищены."
+    "copyright": "Кабинет психолога Ляпина Юлия. Все права защищены."
   },
   "contacts": {
     "phone": "+7 (915) 195-51-32",
@@ -46,20 +46,52 @@
       }
     ],
     "links": [
-      { "href": "/specialists", "title": "Специалисты" },
-      { "href": "/about", "title": "Обо мне" },
-      { "href": "/blog", "title": "Блог" },
-      { "href": "/contact", "title": "Контакты" }
+      {
+        "href": "/specialists",
+        "title": "Специалисты"
+      },
+      {
+        "href": "/about",
+        "title": "Обо мне"
+      },
+      {
+        "href": "/blog",
+        "title": "Блог"
+      },
+      {
+        "href": "/contact",
+        "title": "Контакты"
+      }
     ],
     "bookButton": "Записаться"
   },
   "footer": {
     "aboutTitle": "Обо мне",
     "aboutLinks": [
-      { "href": "/about", "title": "О кабинете" },
-      { "href": "/specialists", "title": "Моя команда" },
-      { "href": "/blog", "title": "Блог" },
-      { "href": "/contact", "title": "Контакты" }
+      {
+        "href": "/about",
+        "title": "О кабинете"
+      },
+      {
+        "href": "/specialists",
+        "title": "Моя команда"
+      },
+      {
+        "href": "/test/general",
+        "title": "Тест: нужна ли консультация"
+      },
+      {
+        "href": "/test/children",
+        "title": "Тест для родителей"
+      },
+      {
+        "href": "/blog",
+        "title": "Блог"
+      },
+      {
+        "href": "/contact",
+        "title": "Контакты"
+      }
     ],
     "servicesTitle": "Услуги",
     "servicesLinks": [
@@ -97,7 +129,10 @@
     "contactsTitle": "Контакты",
     "infoTitle": "Информация",
     "infoLinks": [
-      { "href": "/privacy", "title": "Политика конфиденциальности" }
+      {
+        "href": "/privacy",
+        "title": "Политика конфиденциальности"
+      }
     ]
   },
   "bookingForm": {

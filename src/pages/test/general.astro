@@ -151,6 +151,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
               </label>
             </div>
 
+
             <div class="actions">
               <button data-action="prev" class="pill pill-outline" type="button">
                 Назад
@@ -332,6 +333,16 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
               </div>
             </div>
 
+            <div class="consent-box">
+              <label>
+                <input type="checkbox" name="privacy" required>
+                <span class="consent-text">
+                  Я согласен(а) на обработку персональных данных, включая мои ответы на тесте в соответствии с
+                  <a href={url('/privacy')} target="_blank" rel="noopener">Политикой конфиденциальности</a>
+                </span>
+              </label>
+            </div>
+
             <div class="actions">
               <button data-action="prev" class="pill pill-outline" type="button">
                 Назад
@@ -447,6 +458,23 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
     width: 56px; height: 56px; border-radius: 16px; margin-bottom: 22px;
     background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
   }
+  .consent-box {
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+  }
+  .consent-box label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .consent-box input { margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--spark-deep); }
+  .consent-text { font-size: 13px; line-height: 1.55; color: var(--smoke); }
+  .consent-text a { color: var(--spark-deep); text-decoration: underline; }
+
   .send-note {
     margin-top: 14px;
     font-size: 14px;
@@ -703,14 +731,23 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
         return;
       }
 
+      // Кнопка теста не отправляет форму, поэтому required у чекбокса
+      // браузер не проверит — проверяем сами.
+      const consent = document.querySelector('.step.active input[name="privacy"]');
+      if (consent && !consent.checked) {
+        alert('Пожалуйста, подтвердите согласие на обработку персональных данных');
+        consent.focus();
+        return;
+      }
+
       testData.name = name;
       testData.phone = phone;
       testData.email = email;
       testData.comment = comment;
 
       // Раньше ответы и телефон уходили в консоль браузера и терялись.
-      sendTest(testData);
       nextStep();
+      sendTest(testData);
     }
 
     // Добавляем обработчики на все кнопки

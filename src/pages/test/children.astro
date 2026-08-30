@@ -45,7 +45,6 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
               <p class="lede intro-lede">
                 Узнайте, какая программа лучше всего подойдёт вашему ребёнку
               </p>
-              <p id="test-send-note" class="send-note" role="status" aria-live="polite"></p>
             </div>
 
             <div class="panel">
@@ -109,6 +108,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
                 </div>
               </label>
             </div>
+
 
             <div class="actions">
               <button data-action="prev" class="pill pill-outline" type="button">
@@ -317,6 +317,16 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
               </div>
             </div>
 
+            <div class="consent-box">
+              <label>
+                <input type="checkbox" name="privacy" required>
+                <span class="consent-text">
+                  Я согласен(а) на обработку персональных данных, включая ответы о ребёнке в соответствии с
+                  <a href={url('/privacy')} target="_blank" rel="noopener">Политикой конфиденциальности</a>
+                </span>
+              </label>
+            </div>
+
             <div class="actions">
               <button data-action="prev" class="pill pill-outline" type="button">
                 Назад
@@ -337,6 +347,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
               <p class="lede intro-lede">
                 Мы свяжемся с вами в течение 15 минут и расскажем о наших рекомендациях
               </p>
+              <p id="test-send-note" class="send-note" role="status" aria-live="polite"></p>
             </div>
 
             <div class="panel">
@@ -430,6 +441,23 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
     width: 56px; height: 56px; border-radius: 16px; margin-bottom: 22px;
     background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
   }
+  .consent-box {
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+  }
+  .consent-box label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .consent-box input { margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0; accent-color: var(--spark-deep); }
+  .consent-text { font-size: 13px; line-height: 1.55; color: var(--smoke); }
+  .consent-text a { color: var(--spark-deep); text-decoration: underline; }
+
   .send-note {
     margin-top: 14px;
     font-size: 14px;
@@ -632,7 +660,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
 
     async function sendTest(data) {
       const answers = Object.entries(data)
-        .filter(([k]) => !['name', 'phone', 'email', 'comment'].includes(k))
+        .filter(([k]) => !['name', 'parentName', 'childName', 'phone', 'email', 'comment'].includes(k))
         .map(([k, v]) => `${k}: ${v}`)
         .join('; ');
 
@@ -644,7 +672,8 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
             _subject: 'Результат теста с сайта — родитель',
             _template: 'table',
             _captcha: 'false',
-            'Имя': data.name || '—',
+            'Имя родителя': data.parentName || data.name || '—',
+            'Имя ребёнка': data.childName || '—',
             'Телефон': data.phone || '—',
             'Email': data.email || '—',
             'Комментарий': data.comment || '—',
@@ -666,7 +695,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
       }
     }
 
-    function submitTest() {
+    async function submitTest() {
       const name = document.getElementById('parent-name')?.value;
       const phone = document.getElementById('parent-phone')?.value;
       const childName = document.getElementById('child-name')?.value;
@@ -676,13 +705,26 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
         return;
       }
 
+      // Кнопка теста не отправляет форму, поэтому required у чекбокса
+      // браузер не проверит — проверяем сами.
+      const consent = document.querySelector('.step.active input[name="privacy"]');
+      if (consent && !consent.checked) {
+        alert('Пожалуйста, подтвердите согласие на обработку персональных данных');
+        consent.focus();
+        return;
+      }
+
+      // name читается отправкой как имя родителя: раньше поле оставалось пустым,
+      // и в письме «Имя» всегда было прочерком, а имена ехали внутри строки ответов.
+      testData.name = name;
       testData.parentName = name;
       testData.phone = phone;
       testData.childName = childName;
 
-      // Раньше ответы и телефон уходили в консоль браузера и терялись.
-      sendTest(testData);
+      // Сначала показываем экран благодарности, потом ждём ответ сервиса:
+      // если он откажет, плашка с телефоном появится уже на видимом экране.
       nextStep();
+      await sendTest(testData);
     }
 
     // Добавляем обработчики на все кнопки
