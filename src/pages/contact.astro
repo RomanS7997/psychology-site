@@ -4,292 +4,282 @@ import Layout from '../layouts/Layout.astro';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
+import Icon from '../components/Icon.astro';
+import { url } from '../utils/url';
 ---
 
-<SEO 
+<SEO
   title="Контакты - Кабинет психолога в Одинцово | Записаться на прием"
   description="Контакты психологического центра в Одинцово. Адрес, телефон, email, карта проезда. Записаться на консультацию онлайн или по телефону."
   keywords="контакты психолога Одинцово, адрес центра, записаться к психологу"
   schema="localbusiness"
 />
 
-<Layout 
+<Layout
   title="Контакты - Кабинет психолога в Одинцово | Записаться на прием"
   description="Контакты психологического центра в Одинцово."
 >
 
-  <Breadcrumbs 
+  <Breadcrumbs
     items={[
-      { label: 'Главная', href: '/' },
+      { label: 'Главная', href: url('/') },
       { label: 'Контакты' }
     ]}
   />
 
-  <!-- Hero -->
-  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#F2F7FD] via-white to-[#F2F7FD]" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
-          Свяжитесь с нами
-        </h1>
-        <p class="text-xl text-gray-700 mb-8">
-          Ответим на все ваши вопросы и поможем записаться на консультацию
-        </p>
+  <!-- Шапка страницы -->
+  <section class="page-hero">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div data-reveal>
+          <h1 class="display mb-5">Свяжитесь с нами</h1>
+          <p class="lede max-w-[52ch]">
+            Ответим на все ваши вопросы и поможем записаться на консультацию
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Основной контент: Форма + Контакты -->
-  <section class="py-20 bg-white" data-animate="slide-up">
+  <section id="contact-form" class="band band-top-tight">
     <div class="container mx-auto px-4 lg:px-8">
-      <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-        
-        <!-- Форма обратной связи -->
-        <div class="bg-gray-50 rounded-3xl p-8 shadow-lg">
-          <h2 class="text-3xl font-bold text-gray-900 mb-6">Напишите нам</h2>
-          
-          <form class="space-y-4" onsubmit="handleFormSubmit(event)">
-            
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2">Ваше имя *</label>
-              <input 
-                type="text" 
-                name="name"
-                required
-                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#4894B2] focus:outline-none transition"
-                placeholder="Введите ваше имя"
-              >
-            </div>
+      <div class="inner">
+        <div class="contact-grid">
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2">Телефон *</label>
-              <input 
-                type="tel" 
-                name="phone"
-                required
-                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#4894B2] focus:outline-none transition"
-                placeholder="+7 (___) ___-__-__"
-              >
-            </div>
+          <!-- Форма обратной связи -->
+          <div class="surface-lg form-card" data-reveal>
+            <h2 class="heading-sm mb-7">Напишите нам</h2>
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
-              <input 
-                type="email" 
-                name="email"
-                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#4894B2] focus:outline-none transition"
-                placeholder="your@email.com"
-              >
-            </div>
+            <form onsubmit="handleFormSubmit(event)">
 
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2">Тема обращения</label>
-              <select 
-                name="subject"
-                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#4894B2] focus:outline-none transition"
-              >
-                <option>Выберите тему</option>
-                <option>Запись на консультацию</option>
-                <option>Вопрос о программах</option>
-                <option>Вопрос о стоимости</option>
-                <option>Сотрудничество</option>
-                <option>Другое</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2">Ваше сообщение *</label>
-              <textarea 
-                name="message"
-                required
-                rows="5"
-                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-[#4894B2] focus:outline-none transition resize-none"
-                placeholder="Расскажите о вашем запросе..."
-              ></textarea>
-            </div>
-
-            <button 
-              type="submit"
-              class="w-full px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-bold transition shadow-lg hover:shadow-xl"
-            >
-              Отправить сообщение
-            </button>
-
-          </form>
-          
-          <p class="text-sm text-gray-600 mt-4 text-center">
-            ⏱️ Мы ответим в течение 15 минут в рабочее время
-          </p>
-        </div>
-        
-        <!-- Контактная информация -->
-        <div class="space-y-8">
-          
-          <div>
-            <h2 class="text-3xl font-bold text-gray-900 mb-8">Контактная информация</h2>
-          </div>
-
-          <!-- Телефон -->
-          <div class="flex gap-4 items-start">
-            <div class="flex-shrink-0 w-14 h-14 rounded-full bg-teal-100 text-[#4894B2] flex items-center justify-center text-2xl">
-              📞
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-gray-900 mb-2">Телефон</h3>
-              <a href="tel:+79151955132" class="text-2xl font-bold text-[#4894B2] hover:text-teal-700 transition">
-                +7 (915) 195-51-32
-              </a>
-              <p class="text-sm text-gray-600 mt-1">Ежедневно с 9:00 до 21:00</p>
-            </div>
-          </div>
-          
-          <!-- Email -->
-          <div class="flex gap-4 items-start">
-            <div class="flex-shrink-0 w-14 h-14 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-2xl">
-              ✉️
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-gray-900 mb-2">Email</h3>
-              <a href="mailto:lyapina_sorokina@mail.ru" class="text-xl text-[#4894B2] hover:text-[#4894B2] transition">
-                lyapina_sorokina@mail.ru
-              </a>
-            </div>
-          </div>
-          
-          <!-- Адрес -->
-          <div class="flex gap-4 items-start">
-            <div class="flex-shrink-0 w-14 h-14 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-2xl">
-              📍
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-gray-900 mb-2">Адрес</h3>
-              <p class="text-lg text-gray-700 mb-1">
-                Одинцово, Лесной городок
-              </p>
-              <p class="text-sm text-gray-600 mb-2">
-                Точный адрес кабинета сообщим при записи
-              </p>
-              <a href="#map" class="text-[#4894B2] hover:text-teal-700 font-semibold inline-flex items-center gap-2 transition">
-                Как добраться →
-              </a>
-            </div>
-          </div>
-          
-          <!-- Мессенджеры -->
-          <div class="flex gap-4 items-start">
-            <div class="flex-shrink-0 w-14 h-14 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-2xl">
-              💬
-            </div>
-            <div>
-              <h3 class="text-lg font-bold text-gray-900 mb-3">Мессенджеры</h3>
-              <div class="flex gap-3 flex-wrap">
-                <a
-                  href="https://wa.me/79151955132"
-                  target="_blank"
-                  class="px-4 py-2 bg-[#25D366] hover:bg-[#20BA5A] text-white rounded-full font-semibold transition shadow-md hover:shadow-lg flex items-center gap-2"
+              <div class="field">
+                <label class="field-label" for="contact-name">Ваше имя *</label>
+                <input
+                  type="text"
+                  id="contact-name"
+                  name="name"
+                  required
+                  class="form-field"
+                  placeholder="Введите ваше имя"
                 >
-                  <span>📱</span>
-                  WhatsApp
-                </a>
-                <a
-                  href="https://t.me/+79151955132"
-                  target="_blank"
-                  class="px-4 py-2 bg-[#2AABEE] hover:bg-[#1c95d4] text-white rounded-full font-semibold transition shadow-md hover:shadow-lg flex items-center gap-2"
-                >
-                  <span>✈️</span>
-                  Telegram
-                </a>
-                <a
-                  href="tel:+79151955132"
-                  class="px-4 py-2 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-md hover:shadow-lg flex items-center gap-2"
-                >
-                  <span>📞</span>
-                  Позвонить
-                </a>
               </div>
+
+              <div class="field">
+                <label class="field-label" for="contact-phone">Телефон *</label>
+                <input
+                  type="tel"
+                  id="contact-phone"
+                  name="phone"
+                  required
+                  class="form-field"
+                  placeholder="+7 (___) ___-__-__"
+                >
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="contact-email">Email</label>
+                <input
+                  type="email"
+                  id="contact-email"
+                  name="email"
+                  class="form-field"
+                  placeholder="your@email.com"
+                >
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="contact-subject">Тема обращения</label>
+                <select
+                  id="contact-subject"
+                  name="subject"
+                  class="form-field"
+                >
+                  <option>Выберите тему</option>
+                  <option>Запись на консультацию</option>
+                  <option>Вопрос о программах</option>
+                  <option>Вопрос о стоимости</option>
+                  <option>Сотрудничество</option>
+                  <option>Другое</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="contact-message">Ваше сообщение *</label>
+                <textarea
+                  id="contact-message"
+                  name="message"
+                  required
+                  rows="5"
+                  class="form-field"
+                  placeholder="Расскажите о вашем запросе..."
+                ></textarea>
+              </div>
+
+              <button type="submit" class="pill pill-solid form-submit">
+                Отправить сообщение
+              </button>
+
+            </form>
+
+            <p class="form-note">
+              <Icon name="clock" size={16} />
+              Мы ответим в течение 15 минут в рабочее время
+            </p>
+          </div>
+
+          <!-- Контактная информация -->
+          <div>
+            <h2 class="heading-sm mb-7" data-reveal>Контактная информация</h2>
+
+            <div class="contact-list">
+
+              <!-- Телефон -->
+              <div class="contact-item" data-reveal>
+                <span class="contact-icon"><Icon name="phone" size={20} /></span>
+                <div class="contact-body">
+                  <p class="contact-title">Телефон</p>
+                  <a href="tel:+79151955132" class="contact-value">+7 (915) 195-51-32</a>
+                  <p class="contact-sub">Ежедневно с 9:00 до 21:00</p>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="contact-item" data-reveal>
+                <span class="contact-icon"><Icon name="mail" size={20} /></span>
+                <div class="contact-body">
+                  <p class="contact-title">Email</p>
+                  <a href="mailto:lyapina_sorokina@mail.ru" class="contact-value contact-value-sm">
+                    lyapina_sorokina@mail.ru
+                  </a>
+                </div>
+              </div>
+
+              <!-- Адрес -->
+              <div class="contact-item" data-reveal>
+                <span class="contact-icon"><Icon name="pin" size={20} /></span>
+                <div class="contact-body">
+                  <p class="contact-title">Адрес</p>
+                  <p class="contact-value contact-value-sm">Одинцово, Лесной городок</p>
+                  <p class="contact-sub">Точный адрес кабинета сообщим при записи</p>
+                  <a href="#map" class="contact-link">
+                    Как добраться
+                    <Icon name="arrow" size={16} />
+                  </a>
+                </div>
+              </div>
+
+              <!-- Мессенджеры -->
+              <div class="contact-item" data-reveal>
+                <span class="contact-icon"><Icon name="chat" size={20} /></span>
+                <div class="contact-body">
+                  <p class="contact-title">Мессенджеры</p>
+                  <div class="messengers">
+                    <a
+                      href="https://wa.me/79151955132"
+                      target="_blank"
+                      rel="noopener"
+                      class="pill pill-outline messenger-btn"
+                    >
+                      <Icon name="chat" size={16} />
+                      WhatsApp
+                    </a>
+                    <a
+                      href="https://t.me/+79151955132"
+                      target="_blank"
+                      rel="noopener"
+                      class="pill pill-outline messenger-btn"
+                    >
+                      <Icon name="send" size={16} />
+                      Telegram
+                    </a>
+                    <a
+                      href="tel:+79151955132"
+                      class="pill pill-outline messenger-btn"
+                    >
+                      <Icon name="phone" size={16} />
+                      Позвонить
+                    </a>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
-          
+
         </div>
-        
       </div>
     </div>
   </section>
 
   <!-- Карта -->
-  <section id="map" class="py-20 bg-gray-50" data-animate="fade">
+  <section id="map" class="band band-taupe">
     <div class="container mx-auto px-4 lg:px-8">
-      
-      <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Как нас найти</h2>
-      
-      <!-- Яндекс.Карты -->
-      <div class="max-w-6xl mx-auto mb-12">
-        <div class="rounded-3xl overflow-hidden shadow-2xl">
-          <div id="yandex-map" style="width: 100%; height: 500px;"></div>
+      <div class="inner">
+
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Адрес</p>
+          <h2 class="heading">Как нас найти</h2>
         </div>
-      </div>
-      
-      <!-- Инструкции как добраться -->
-      <div class="max-w-6xl mx-auto">
-        <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">Как добраться:</h3>
-        
-        <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+
+        <!-- Яндекс.Карты -->
+        <div class="map-frame" data-reveal>
+          <div id="yandex-map">
+            <div class="map-fallback" id="map-fallback">
+              <span class="contact-icon"><Icon name="pin" size={20} /></span>
+              <p class="map-fallback-title">Одинцово, Лесной городок</p>
+              <p class="map-fallback-text">Точный адрес кабинета сообщим при записи</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Инструкции как добраться -->
+        <h3 class="heading-sm routes-head" data-reveal>Как добраться:</h3>
+
+        <div class="routes">
 
           <!-- На электричке -->
-          <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
-            <div class="w-16 h-16 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-3xl mx-auto mb-4">
-              🚆
-            </div>
-            <h4 class="text-xl font-bold text-gray-900 mb-3 text-center">На электричке</h4>
-            <p class="text-gray-700 text-center">
+          <div class="surface route-card lift" data-reveal>
+            <span class="contact-icon"><Icon name="pin" size={20} /></span>
+            <h4 class="route-title">На электричке</h4>
+            <p class="route-text">
               С Белорусского вокзала до станции «Лесной Городок» или «Одинцово». Точный маршрут сообщим при записи.
             </p>
           </div>
 
           <!-- На машине -->
-          <div class="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition">
-            <div class="w-16 h-16 rounded-full bg-[#F2F7FD] text-[#4894B2] flex items-center justify-center text-3xl mx-auto mb-4">
-              🚗
-            </div>
-            <h4 class="text-xl font-bold text-gray-900 mb-3 text-center">На машине</h4>
-            <p class="text-gray-700 text-center">
+          <div class="surface route-card lift" data-reveal>
+            <span class="contact-icon"><Icon name="compass" size={20} /></span>
+            <h4 class="route-title">На машине</h4>
+            <p class="route-text">
               По Минскому или Можайскому шоссе. Парковка рядом с кабинетом. Маршрут сообщим при записи.
             </p>
           </div>
 
         </div>
+
       </div>
-      
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white relative overflow-hidden" data-animate="slide-up">
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-4xl md:text-5xl font-bold mb-6">
-          Готовы записаться на консультацию?
-        </h2>
-        <p class="text-xl mb-8 opacity-90">
-          Позвоните нам или заполните форму — мы свяжемся с вами в ближайшее время
-        </p>
-        
-        <div class="flex flex-wrap gap-4 justify-center">
-          <a 
-            href="tel:+79151955132"
-            class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition shadow-xl hover:shadow-2xl text-lg"
-          >
-            Позвонить сейчас
-          </a>
-          <button 
-            onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
-            class="px-12 py-5 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-bold transition text-lg"
-          >
-            Заполнить форму
-          </button>
+  <!-- Финальный призыв -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <p class="eyebrow eyebrow-center mb-4">Запись</p>
+          <h2 class="heading mb-4">Готовы записаться на консультацию?</h2>
+          <p class="lede closing-lede">
+            Позвоните нам или заполните форму — мы свяжемся с вами в ближайшее время
+          </p>
+          <div class="closing-actions">
+            <a href="tel:+79151955132" class="pill pill-solid pill-lg">
+              Позвонить сейчас
+            </a>
+            <a href="#contact-form" class="pill pill-outline pill-lg">
+              Заполнить форму
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -299,9 +289,9 @@ import SEO from '../components/SEO.astro';
 </Layout>
 
 <!-- Яндекс.Карты API -->
-<script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU" type="text/javascript"></script>
+<script is:inline src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU"></script>
 
-<script>
+<script is:inline>
   // Обработка формы
   function handleFormSubmit(event) {
     event.preventDefault();
@@ -317,6 +307,12 @@ import SEO from '../components/SEO.astro';
     }
 
     ymaps.ready(function () {
+      // Пока карта не загрузилась, в контейнере лежит адрес — убираем его
+      var fallback = document.getElementById('map-fallback');
+      if (fallback && fallback.parentNode) {
+        fallback.parentNode.removeChild(fallback);
+      }
+
       // Координаты Лесной городок, Одинцово
       const map = new ymaps.Map('yandex-map', {
         center: [55.634, 37.193],
@@ -329,7 +325,7 @@ import SEO from '../components/SEO.astro';
         hintContent: 'Кабинет психолога'
       }, {
         preset: 'islands#blueMedicalIcon',
-        iconColor: '#0d9488'
+        iconColor: '#276579'
       });
 
       map.geoObjects.add(placemark);
@@ -346,3 +342,201 @@ import SEO from '../components/SEO.astro';
     initYandexMap();
   }
 </script>
+
+<style>
+  /* ---------- ритм секций ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .band-top-tight { padding-top: 0; }
+  .band-tight { padding: 24px 0 96px; }
+
+  /* Шапка сайта закреплена сверху — хлебные крошки не должны уезжать под неё */
+
+  .page-hero { padding: 40px 0 64px; background: var(--canvas); }
+
+  /* ---------- форма и контакты ---------- */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.02fr 0.98fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .form-card { padding: 36px; }
+
+  .field { margin-bottom: 18px; }
+
+  .field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: var(--graphite);
+    margin-bottom: 7px;
+  }
+
+  .form-field {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--stone);
+    border-radius: 10px;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.5;
+    transition: border-color 0.2s ease;
+  }
+  .form-field::placeholder { color: var(--ash); }
+  .form-field:hover { border-color: var(--ash); }
+  .form-field:focus-visible {
+    outline: 2px solid var(--spark-deep);
+    outline-offset: 2px;
+    border-color: var(--spark-water);
+  }
+  textarea.form-field { resize: none; }
+
+  .form-submit { width: 100%; margin-top: 6px; }
+
+  .form-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--smoke);
+    text-align: center;
+  }
+  .form-note :global(svg) { color: var(--ash); flex-shrink: 0; }
+
+  /* ---------- контактная колонка ---------- */
+  .contact-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 22px 0;
+    border-top: 1px solid var(--stone);
+  }
+
+  .contact-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(47, 125, 150, 0.1);
+    color: var(--spark-deep);
+  }
+
+  .contact-body { min-width: 0; }
+
+  .contact-title {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 9px;
+  }
+
+  .contact-value {
+    display: inline-block;
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    color: var(--ink);
+    text-decoration: none;
+    word-break: break-word;
+    transition: color 0.2s ease;
+  }
+  a.contact-value:hover { color: var(--spark-deep); }
+  .contact-value-sm { font-size: 19px; }
+
+  .contact-sub {
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--smoke);
+    margin-top: 7px;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .contact-link :global(svg) { transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1); }
+  .contact-link:hover :global(svg) { transform: translateX(3px); }
+
+  .messengers { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .messenger-btn { padding: 10px 18px; font-size: 13.5px; }
+
+  /* ---------- карта ---------- */
+  .map-frame {
+    border: 1px solid var(--stone);
+    border-radius: var(--r-large);
+    overflow: hidden;
+    background: var(--canvas);
+  }
+
+  #yandex-map { width: 100%; height: 460px; }
+
+  /* Пока карта не подгрузилась, в рамке остаётся адрес */
+  .map-fallback {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px;
+    text-align: center;
+  }
+  .map-fallback-title { font-size: 19px; font-weight: 300; letter-spacing: -0.02em; color: var(--ink); }
+  .map-fallback-text { font-size: 13.5px; color: var(--smoke); }
+
+  .routes-head { margin: 56px 0 24px; }
+
+  .routes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .route-card { padding: 28px; background: var(--canvas); }
+  .route-card .contact-icon { margin-bottom: 16px; }
+  .route-title { font-size: 17px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 8px; }
+  .route-text { font-size: 14px; line-height: 1.6; color: var(--smoke); }
+
+  /* ---------- финальный призыв ---------- */
+  .closing-band { padding: 56px 48px; text-align: center; }
+  .closing-lede { margin: 0 auto 32px; max-width: 52ch; }
+  .closing-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 1023px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 44px; }
+  }
+
+  @media (max-width: 767px) {
+    .band { padding: 64px 0; }
+    .band-top-tight { padding-top: 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .page-hero { padding: 28px 0 44px; }
+    .form-card { padding: 26px; }
+    .routes { grid-template-columns: 1fr; }
+    .routes-head { margin: 40px 0 20px; }
+    #yandex-map { height: 340px; }
+    .contact-value { font-size: 22px; }
+    .contact-value-sm { font-size: 17px; }
+    .closing-band { padding: 32px 24px; }
+  }
+</style>

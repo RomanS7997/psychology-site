@@ -4,10 +4,11 @@ import Layout from '../../layouts/Layout.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
+import Icon from '../../components/Icon.astro';
 import { url } from '../../utils/url';
 ---
 
-<SEO 
+<SEO
   title="Что делать, если ребенок не слушается | Советы детского психолога"
   description="Практические советы что делать если ребенок не слушается. Рекомендации детского психолога из Одинцово. Воспитание, дисциплина, понимание."
   keywords="ребенок не слушается, детский психолог, воспитание детей"
@@ -15,337 +16,420 @@ import { url } from '../../utils/url';
   type="article"
 />
 
-<Layout 
+<Layout
   title="Что делать, если ребенок не слушается | Советы детского психолога"
   description="Практические советы что делать если ребенок не слушается."
 >
 
-  <Breadcrumbs 
+  <Breadcrumbs
     items={[
-      { label: 'Главная', href: '/' },
-      { label: 'Блог', href: '/blog' },
+      { label: 'Главная', href: url('/') },
+      { label: 'Блог', href: url('/blog') },
       { label: 'Что делать, если ребенок не слушается' }
     ]}
   />
 
-  <!-- Breadcrumbs -->
-  <section class="pt-24 pb-6 bg-gray-50">
+  <!-- ============ Шапка статьи ============ -->
+  <section class="page-hero">
     <div class="container mx-auto px-4 lg:px-8">
-      <div class="flex items-center gap-2 text-sm text-gray-600">
-        <a href={url('/')} class="hover:text-[#4894B2] transition">Главная</a>
-        <span>→</span>
-        <a href={url('/blog')} class="hover:text-[#4894B2] transition">Блог</a>
-        <span>→</span>
-        <span class="text-gray-900">Что делать, если ребенок не слушается</span>
-      </div>
-    </div>
-  </section>
+      <div class="column">
 
-  <!-- Hero Article -->
-  <section class="py-12 bg-gray-50">
-    <div class="container mx-auto px-4 lg:px-8">
-      <div class="max-w-4xl mx-auto">
-        
-        <div class="flex items-center gap-4 mb-6">
-          <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] text-sm font-semibold rounded-full">
-            Детская психология
-          </span>
-          <span class="text-gray-600">12 января 2025</span>
-          <span class="text-gray-600">• 10 мин чтения</span>
-        </div>
-        
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-          Что делать, если ребенок не слушается: 7 стратегий для родителей
-        </h1>
-        
-        <p class="text-xl text-gray-700 mb-8">
-          Почему дети перестают слушаться и как восстановить контакт без криков 
-          и наказаний. Проверенные методы от детского психолога.
-        </p>
-        
-        <div class="flex items-center gap-4 mb-8 pb-8 border-b border-gray-200">
-          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center text-3xl">
-            👨‍⚕️
+        <div data-reveal>
+          <div class="post-meta">
+            <span class="post-cat">Детская психология</span>
+            <span>12 января 2025</span>
+            <span class="sep" aria-hidden="true">·</span>
+            <span>10 мин чтения</span>
           </div>
-          <div>
-            <div class="font-bold text-gray-900">Детский психолог центра</div>
-            <div class="text-sm text-gray-600">Специалист по работе с детьми и подростками</div>
-          </div>
-        </div>
-        
-        <div class="flex items-center justify-center mb-12">
-          <img class="rounded-3xl w-full h-full object-cover" src={url('/images/blog/child-behavior.jpg')} alt="Что делать если ребенок не слушается" loading="lazy" decoding="async">
-        </div>
-        
-      </div>
-    </div>
-  </section>
 
-  <!-- Содержание статьи -->
-  <section class="py-12 bg-white">
-    <div class="container mx-auto px-4 lg:px-8">
-      <div class="max-w-4xl mx-auto prose prose-lg">
-        
-        <h2>Почему ребенок не слушается?</h2>
-        <p>
-          Прежде чем говорить о стратегиях, важно понять причины непослушания. 
-          Чаще всего дети "не слушаются" не из вредности, а потому что:
-        </p>
-        <ul>
-          <li><strong>Не понимают, чего от них хотят</strong> — инструкции слишком сложные или абстрактные</li>
-          <li><strong>Проверяют границы</strong> — это нормальный этап развития</li>
-          <li><strong>Хотят внимания</strong> — даже негативное внимание лучше, чем никакого</li>
-          <li><strong>Устали или голодны</strong> — физиологические потребности влияют на поведение</li>
-          <li><strong>Переживают стресс</strong> — развод, переезд, проблемы в школе</li>
-        </ul>
-        
-        <h2>7 стратегий для родителей</h2>
-        
-        <h3>1. Давайте четкие и конкретные инструкции</h3>
-        <p>
-          <strong>Неэффективно:</strong> "Веди себя хорошо", "Не балуйся"
-        </p>
-        <p>
-          <strong>Эффективно:</strong> "Сядь на стул и раскрась эту картинку", 
-          "Положи игрушки в эту коробку"
-        </p>
-        <p>
-          Дети лучше реагируют на конкретные действия, а не на абстрактные понятия. 
-          Формулируйте просьбы позитивно: говорите, что нужно делать, а не что нельзя.
-        </p>
-        
-        <h3>2. Используйте правило "сначала-потом"</h3>
-        <p>
-          Это помогает мотивировать ребенка выполнять неприятные задачи:
-        </p>
-        <ul>
-          <li>"Сначала уберешь игрушки, потом пойдем гулять"</li>
-          <li>"Сначала сделаешь уроки, потом поиграешь на планшете"</li>
-          <li>"Сначала почистишь зубы, потом я почитаю тебе сказку"</li>
-        </ul>
-        <p>
-          Важно: всегда выполняйте обещания. Если сказали "потом пойдем гулять" — 
-          идите гулять, иначе ребенок перестанет вам доверять.
-        </p>
-        
-        <h3>3. Предоставляйте выбор (иллюзию контроля)</h3>
-        <p>
-          Дети сопротивляются, когда чувствуют, что их контролируют. 
-          Давайте выбор между двумя приемлемыми вариантами:
-        </p>
-        <ul>
-          <li>"Ты будешь чистить зубы сам или с моей помощью?"</li>
-          <li>"Ты наденешь красную футболку или синюю?"</li>
-          <li>"Мы сделаем уроки сейчас или через 10 минут?"</li>
-        </ul>
-        <p>
-          Это создает ощущение контроля, но в рамках, которые установили вы.
-        </p>
-        
-        <h3>4. Используйте естественные последствия</h3>
-        <p>
-          Позвольте ребенку столкнуться с последствиями своих действий 
-          (если это безопасно):
-        </p>
-        <ul>
-          <li>Не хочет надеть куртку → замерзнет и в следующий раз оденется</li>
-          <li>Не хочет есть → проголодается к следующему приему пищи</li>
-          <li>Не убрал игрушки → не может их найти, когда они нужны</li>
-        </ul>
-        <p>
-          Не спасайте ребенка от естественных последствий. Это лучший учитель.
-        </p>
-        
-        <h3>5. Установите четкие правила и последствия</h3>
-        <p>
-          У ребенка должна быть ясность: что можно, что нельзя, и что будет, 
-          если нарушить правило.
-        </p>
-        <p>
-          <strong>Пример:</strong>
-        </p>
-        <ul>
-          <li><strong>Правило:</strong> "Мы не бьем других людей"</li>
-          <li><strong>Последствие:</strong> "Если ударишь брата, игра закончится и ты пойдешь в свою комнату на 5 минут"</li>
-        </ul>
-        <p>
-          Важно: последствия должны быть логичными, выполнимыми и применяться 
-          последовательно. Не угрожайте тем, что не сможете выполнить.
-        </p>
-        
-        <h3>6. Ловите ребенка "на хорошем"</h3>
-        <p>
-          Замечайте и хвалите хорошее поведение в 3-4 раза чаще, чем 
-          ругаете за плохое:
-        </p>
-        <ul>
-          <li>"Как здорово, что ты убрал игрушки без напоминания!"</li>
-          <li>"Молодец, что поделился с сестрой!"</li>
-          <li>"Я заметила, что ты сам почистил зубы — супер!"</li>
-        </ul>
-        <p>
-          Дети повторяют поведение, которое получает внимание. Хвалите 
-          конкретно за конкретные действия.
-        </p>
-        
-        <h3>7. Подключайтесь к ребенку эмоционально</h3>
-        <p>
-          Прежде чем требовать, установите контакт:
-        </p>
-        <ol>
-          <li>Присядьте на уровень глаз ребенка</li>
-          <li>Назовите его эмоцию: "Я вижу, ты расстроен..."</li>
-          <li>Дайте понять, что вы на его стороне: "Я понимаю, это сложно..."</li>
-          <li>Только после этого давайте инструкцию</li>
-        </ol>
-        <p>
-          Дети лучше слушаются, когда чувствуют, что их понимают.
-        </p>
-        
-        <h2>Чего НЕ нужно делать</h2>
-        <ul>
-          <li><strong>Кричать</strong> — крик учит ребенка кричать в ответ</li>
-          <li><strong>Угрожать невыполнимыми последствиями</strong> — "Больше никогда не куплю игрушку!"</li>
-          <li><strong>Сравнивать с другими детьми</strong> — "Вот Маша слушается, а ты..."</li>
-          <li><strong>Навешивать ярлыки</strong> — "Ты плохой мальчик", "Ты непослушная"</li>
-          <li><strong>Наказывать физически</strong> — это учит насилию и разрушает доверие</li>
-        </ul>
-        
-        <div class="bg-[#F2F7FD] border-l-4 border-purple-600 p-6 my-8">
-          <p class="font-semibold text-[#4894B2] mb-2">💡 Важно понимать:</p>
-          <p class="text-[#4894B2]">
-            Непослушание — это не атака на вас лично. Это часть нормального 
-            развития ребенка. Ваша задача — не сломить волю ребенка, 
-            а научить его регулировать свое поведение.
+          <h1 class="display mb-5">
+            Что делать, если ребенок не слушается: 7 стратегий для родителей
+          </h1>
+
+          <p class="lede post-lede">
+            Почему дети перестают слушаться и как восстановить контакт без криков
+            и наказаний. Проверенные методы от детского психолога.
           </p>
+
+          <div class="post-author">
+            <span class="author-mark"><Icon name="team" size={20} /></span>
+            <span class="author-lines">
+              <span class="author-name">Детский психолог центра</span>
+              <span class="author-role">Специалист по работе с детьми и подростками</span>
+            </span>
+          </div>
         </div>
-        
-        <h2>Возрастные особенности</h2>
-        
-        <h3>2-3 года</h3>
-        <p>
-          Это возраст кризиса "Я сам!". Ребенок отстаивает свою независимость. 
-          Давайте больше выбора и возможностей делать что-то самостоятельно.
-        </p>
-        
-        <h3>4-6 лет</h3>
-        <p>
-          Дети учатся следовать правилам. Важны четкие границы и последствия. 
-          Используйте игру для обучения правилам.
-        </p>
-        
-        <h3>7-10 лет</h3>
-        <p>
-          Ребенок начинает понимать логику и справедливость. Объясняйте причины 
-          правил. Привлекайте к обсуждению семейных правил.
-        </p>
-        
-        <h2>Когда нужна помощь специалиста?</h2>
-        <p>
-          Обратитесь к детскому психологу, если:
-        </p>
-        <ul>
-          <li>Непослушание мешает учебе и социальной жизни ребенка</li>
-          <li>Ребенок проявляет агрессию к себе или другим</li>
-          <li>Вы чувствуете, что теряете контроль и срываетесь на ребенка</li>
-          <li>Поведение резко изменилось после стрессового события</li>
-        </ul>
-        
-        <h2>Заключение</h2>
-        <p>
-          Воспитание — это марафон, а не спринт. Изменения в поведении ребенка 
-          не происходят за один день. Будьте терпеливы, последовательны и 
-          помните: ваша цель — не идеальный ребенок, а доверительные отношения, 
-          в которых ребенок учится самоконтролю.
-        </p>
-        
-        <p>
-          Применяйте эти стратегии регулярно, и вы заметите, что конфликтов 
-          становится меньше, а взаимопонимания — больше.
-        </p>
-        
+
+        <figure class="post-cover" data-reveal>
+          <img
+            src={url('/images/blog/child-behavior.jpg')}
+            alt="Что делать если ребенок не слушается"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-4xl md:text-5xl font-bold mb-6">
-          Нужна помощь с воспитанием?
-        </h2>
-        <p class="text-xl mb-8 opacity-90">
-          Запишитесь на консультацию к детскому психологу
-        </p>
-        
-        <div class="flex flex-wrap gap-4 justify-center">
-          <a 
-            href={url('/services/children')}
-            class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition shadow-xl hover:shadow-2xl text-lg"
-          >
-            Консультация для детей
-          </a>
-          <a 
-            href={url('/blog')}
-            class="px-12 py-5 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-bold transition text-lg"
-          >
-            Все статьи блога
-          </a>
+  <!-- ============ Текст статьи ============ -->
+  <section class="band band-text">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="column">
+        <div class="prose" data-reveal>
+
+          <h2>Почему ребенок не слушается?</h2>
+          <p>
+            Прежде чем говорить о стратегиях, важно понять причины непослушания.
+            Чаще всего дети "не слушаются" не из вредности, а потому что:
+          </p>
+          <ul>
+            <li><strong>Не понимают, чего от них хотят</strong> — инструкции слишком сложные или абстрактные</li>
+            <li><strong>Проверяют границы</strong> — это нормальный этап развития</li>
+            <li><strong>Хотят внимания</strong> — даже негативное внимание лучше, чем никакого</li>
+            <li><strong>Устали или голодны</strong> — физиологические потребности влияют на поведение</li>
+            <li><strong>Переживают стресс</strong> — развод, переезд, проблемы в школе</li>
+          </ul>
+
+          <h2>7 стратегий для родителей</h2>
+
+          <h3>1. Давайте четкие и конкретные инструкции</h3>
+          <p>
+            <strong>Неэффективно:</strong> "Веди себя хорошо", "Не балуйся"
+          </p>
+          <p>
+            <strong>Эффективно:</strong> "Сядь на стул и раскрась эту картинку",
+            "Положи игрушки в эту коробку"
+          </p>
+          <p>
+            Дети лучше реагируют на конкретные действия, а не на абстрактные понятия.
+            Формулируйте просьбы позитивно: говорите, что нужно делать, а не что нельзя.
+          </p>
+
+          <h3>2. Используйте правило "сначала-потом"</h3>
+          <p>
+            Это помогает мотивировать ребенка выполнять неприятные задачи:
+          </p>
+          <ul>
+            <li>"Сначала уберешь игрушки, потом пойдем гулять"</li>
+            <li>"Сначала сделаешь уроки, потом поиграешь на планшете"</li>
+            <li>"Сначала почистишь зубы, потом я почитаю тебе сказку"</li>
+          </ul>
+          <p>
+            Важно: всегда выполняйте обещания. Если сказали "потом пойдем гулять" —
+            идите гулять, иначе ребенок перестанет вам доверять.
+          </p>
+
+          <h3>3. Предоставляйте выбор (иллюзию контроля)</h3>
+          <p>
+            Дети сопротивляются, когда чувствуют, что их контролируют.
+            Давайте выбор между двумя приемлемыми вариантами:
+          </p>
+          <ul>
+            <li>"Ты будешь чистить зубы сам или с моей помощью?"</li>
+            <li>"Ты наденешь красную футболку или синюю?"</li>
+            <li>"Мы сделаем уроки сейчас или через 10 минут?"</li>
+          </ul>
+          <p>
+            Это создает ощущение контроля, но в рамках, которые установили вы.
+          </p>
+
+          <h3>4. Используйте естественные последствия</h3>
+          <p>
+            Позвольте ребенку столкнуться с последствиями своих действий
+            (если это безопасно):
+          </p>
+          <ul>
+            <li>Не хочет надеть куртку → замерзнет и в следующий раз оденется</li>
+            <li>Не хочет есть → проголодается к следующему приему пищи</li>
+            <li>Не убрал игрушки → не может их найти, когда они нужны</li>
+          </ul>
+          <p>
+            Не спасайте ребенка от естественных последствий. Это лучший учитель.
+          </p>
+
+          <h3>5. Установите четкие правила и последствия</h3>
+          <p>
+            У ребенка должна быть ясность: что можно, что нельзя, и что будет,
+            если нарушить правило.
+          </p>
+          <p>
+            <strong>Пример:</strong>
+          </p>
+          <ul>
+            <li><strong>Правило:</strong> "Мы не бьем других людей"</li>
+            <li><strong>Последствие:</strong> "Если ударишь брата, игра закончится и ты пойдешь в свою комнату на 5 минут"</li>
+          </ul>
+          <p>
+            Важно: последствия должны быть логичными, выполнимыми и применяться
+            последовательно. Не угрожайте тем, что не сможете выполнить.
+          </p>
+
+          <h3>6. Ловите ребенка "на хорошем"</h3>
+          <p>
+            Замечайте и хвалите хорошее поведение в 3-4 раза чаще, чем
+            ругаете за плохое:
+          </p>
+          <ul>
+            <li>"Как здорово, что ты убрал игрушки без напоминания!"</li>
+            <li>"Молодец, что поделился с сестрой!"</li>
+            <li>"Я заметила, что ты сам почистил зубы — супер!"</li>
+          </ul>
+          <p>
+            Дети повторяют поведение, которое получает внимание. Хвалите
+            конкретно за конкретные действия.
+          </p>
+
+          <h3>7. Подключайтесь к ребенку эмоционально</h3>
+          <p>
+            Прежде чем требовать, установите контакт:
+          </p>
+          <ol>
+            <li>Присядьте на уровень глаз ребенка</li>
+            <li>Назовите его эмоцию: "Я вижу, ты расстроен..."</li>
+            <li>Дайте понять, что вы на его стороне: "Я понимаю, это сложно..."</li>
+            <li>Только после этого давайте инструкцию</li>
+          </ol>
+          <p>
+            Дети лучше слушаются, когда чувствуют, что их понимают.
+          </p>
+
+          <h2>Чего НЕ нужно делать</h2>
+          <ul>
+            <li><strong>Кричать</strong> — крик учит ребенка кричать в ответ</li>
+            <li><strong>Угрожать невыполнимыми последствиями</strong> — "Больше никогда не куплю игрушку!"</li>
+            <li><strong>Сравнивать с другими детьми</strong> — "Вот Маша слушается, а ты..."</li>
+            <li><strong>Навешивать ярлыки</strong> — "Ты плохой мальчик", "Ты непослушная"</li>
+            <li><strong>Наказывать физически</strong> — это учит насилию и разрушает доверие</li>
+          </ul>
+
+          <aside class="note">
+            <span class="note-mark"><Icon name="note" size={18} /></span>
+            <div>
+              <p class="note-title">Важно понимать:</p>
+              <p class="note-text">
+                Непослушание — это не атака на вас лично. Это часть нормального
+                развития ребенка. Ваша задача — не сломить волю ребенка,
+                а научить его регулировать свое поведение.
+              </p>
+            </div>
+          </aside>
+
+          <h2>Возрастные особенности</h2>
+
+          <h3>2-3 года</h3>
+          <p>
+            Это возраст кризиса "Я сам!". Ребенок отстаивает свою независимость.
+            Давайте больше выбора и возможностей делать что-то самостоятельно.
+          </p>
+
+          <h3>4-6 лет</h3>
+          <p>
+            Дети учатся следовать правилам. Важны четкие границы и последствия.
+            Используйте игру для обучения правилам.
+          </p>
+
+          <h3>7-10 лет</h3>
+          <p>
+            Ребенок начинает понимать логику и справедливость. Объясняйте причины
+            правил. Привлекайте к обсуждению семейных правил.
+          </p>
+
+          <h2>Когда нужна помощь специалиста?</h2>
+          <p>
+            Обратитесь к детскому психологу, если:
+          </p>
+          <ul>
+            <li>Непослушание мешает учебе и социальной жизни ребенка</li>
+            <li>Ребенок проявляет агрессию к себе или другим</li>
+            <li>Вы чувствуете, что теряете контроль и срываетесь на ребенка</li>
+            <li>Поведение резко изменилось после стрессового события</li>
+          </ul>
+
+          <h2>Заключение</h2>
+          <p>
+            Воспитание — это марафон, а не спринт. Изменения в поведении ребенка
+            не происходят за один день. Будьте терпеливы, последовательны и
+            помните: ваша цель — не идеальный ребенок, а доверительные отношения,
+            в которых ребенок учится самоконтролю.
+          </p>
+
+          <p>
+            Применяйте эти стратегии регулярно, и вы заметите, что конфликтов
+            становится меньше, а взаимопонимания — больше.
+          </p>
+
         </div>
       </div>
     </div>
   </section>
 
-
-  <!-- CTA: Записаться на консультацию -->
-  <section class="py-16 bg-gradient-to-r from-[#4894B2] to-[#18698F] text-white">
-    <div class="container mx-auto px-4 lg:px-8 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">
-        Нужна помощь психолога?
-      </h2>
-      <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-        Если вам нужна профессиональная психологическая помощь — запишитесь на консультацию
-      </p>
-      <button 
-        onclick="openBookingModal()"
-        class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition shadow-xl text-lg"
-      >
-        Записаться на консультацию
-      </button>
+  <!-- ============ Призыв по теме статьи ============ -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <p class="eyebrow eyebrow-center mb-4">Запись</p>
+          <h2 class="heading mb-4">Нужна помощь с воспитанием?</h2>
+          <p class="lede cta-lede mb-8">
+            Запишитесь на консультацию к детскому психологу
+          </p>
+          <div class="cta-actions">
+            <a href={url('/services/children')} class="pill pill-solid pill-lg">
+              Консультация для детей
+            </a>
+            <a href={url('/blog')} class="pill pill-outline pill-lg">
+              Все статьи блога
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- ============ Запись на консультацию ============ -->
+  <section class="band band-taupe band-quiet">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="closing-row" data-reveal>
+          <div>
+            <h2 class="heading-sm mb-3">Нужна помощь психолога?</h2>
+            <p class="closing-text">
+              Если вам нужна профессиональная психологическая помощь — запишитесь на консультацию
+            </p>
+          </div>
+          <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            Записаться на консультацию
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ScrollAnimations />
+</Layout>
 
 <style>
-  .prose {
-    @apply text-gray-700;
+  /* ---------- ритм секций ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .band-tight { padding: 24px 0 96px; }
+  .band-quiet { padding: 56px 0; }
+  .band-text { padding: 56px 0 88px; }
+
+  /* Колонка чтения: одна ширина у шапки, обложки и текста */
+  .column { max-width: 780px; margin: 0 auto; }
+
+  /* Шапка сайта закреплена (высота 96px) — крошки не должны уходить под неё */
+
+  /* ---------- шапка статьи ---------- */
+  .page-hero { padding: 28px 0 0; background: var(--canvas); }
+
+  .post-meta {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+    font-size: 13px; color: var(--ash); margin-bottom: 22px;
   }
-  
+  .post-cat {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.02em;
+    padding: 5px 12px; border-radius: var(--r-pill);
+    background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
+  }
+  .post-meta .sep { color: var(--stone); }
+
+  .post-lede { max-width: 62ch; }
+
+  .post-author {
+    display: flex; align-items: center; gap: 14px;
+    margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--stone);
+  }
+  .author-mark {
+    flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
+  }
+  .author-lines { display: grid; gap: 2px; }
+  .author-name { font-size: 15px; font-weight: 500; color: var(--ink); }
+  .author-role { font-size: 13px; color: var(--smoke); }
+
+  .post-cover {
+    margin: 40px 0 0; aspect-ratio: 16 / 9; overflow: hidden;
+    border: 1px solid var(--stone); border-radius: var(--r-large);
+    background: var(--taupe);
+  }
+  .post-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ---------- текст статьи ---------- */
+  .prose { color: var(--graphite); font-size: 16.5px; line-height: 1.75; }
+
   .prose h2 {
-    @apply text-3xl font-bold text-gray-900 mt-12 mb-6;
+    font-size: clamp(23px, 2.6vw, 29px); font-weight: 300;
+    line-height: 1.2; letter-spacing: -0.02em; color: var(--ink);
+    margin: 52px 0 18px;
   }
-  
+  .prose h2:first-child { margin-top: 0; }
+
   .prose h3 {
-    @apply text-2xl font-bold text-gray-900 mt-8 mb-4;
+    font-size: 19px; font-weight: 500; line-height: 1.35;
+    letter-spacing: -0.01em; color: var(--ink); margin: 34px 0 12px;
   }
-  
-  .prose p {
-    @apply mb-6 leading-relaxed;
-  }
-  
+
+  .prose p { margin: 0 0 18px; }
+
   .prose ul, .prose ol {
-    @apply mb-6 space-y-2;
+    list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px;
   }
-  
-  .prose li {
-    @apply leading-relaxed;
+  .prose ol { counter-reset: li; }
+  .prose li { position: relative; padding-left: 26px; }
+  .prose ul > li::before {
+    content: ""; position: absolute; left: 4px; top: 11px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
   }
-  
-  .prose strong {
-    @apply text-gray-900 font-semibold;
+  .prose ol > li { counter-increment: li; }
+  .prose ol > li::before {
+    content: counter(li) "."; position: absolute; left: 0; top: 0;
+    font-size: 14px; font-weight: 500; color: var(--spark-deep);
+    font-variant-numeric: tabular-nums;
+  }
+  .prose li > ul, .prose li > ol { margin: 10px 0 0; }
+
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- врезка ---------- */
+  .note {
+    display: flex; gap: 14px; margin: 36px 0;
+    padding: 24px; background: var(--taupe);
+    border: 1px solid var(--stone); border-radius: var(--r-card);
+  }
+  .note-mark {
+    flex-shrink: 0; width: 36px; height: 36px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
+  }
+  .note-title { font-size: 15px; font-weight: 500; color: var(--ink); margin: 0 0 6px; }
+  .note-text { font-size: 15px; line-height: 1.65; color: var(--smoke); margin: 0; }
+
+  /* ---------- призыв ---------- */
+  .closing-band { padding: 64px 48px; text-align: center; }
+  .closing-band .eyebrow { justify-content: center; }
+  .cta-lede { max-width: 46ch; margin-inline: auto; }
+  .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  .closing-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 28px; flex-wrap: wrap;
+  }
+  .closing-text { font-size: 15px; line-height: 1.65; color: var(--smoke); max-width: 52ch; }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 767px) {
+    .band { padding: 64px 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .band-quiet { padding: 44px 0; }
+    .band-text { padding: 40px 0 64px; }
+    .page-hero { padding: 20px 0 0; }
+    .post-cover { margin-top: 32px; aspect-ratio: 4 / 3; }
+    .closing-band { padding: 40px 26px; }
+    .prose { font-size: 16px; }
+    .prose h2 { margin-top: 40px; }
   }
 </style>

@@ -6,6 +6,8 @@ import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import FAQ from '../../components/FAQ.astro';
+import Icon from '../../components/Icon.astro';
+import { url } from '../../utils/url';
 
 // Фото галереи: файлы 1..10 в /images/gallery/umniky/
 const galleryPhotos = [
@@ -26,334 +28,423 @@ const galleryImages = galleryPhotos.map(({ n, caption }) => ({
   alt: `Занятие Умники и умницы — ${caption.toLowerCase()}`,
   caption
 }));
-import { url } from '../../utils/url';
+
+// Что входит в программу — тексты заказчицы, менялось только оформление
+const heroPoints = [
+  'Нейропсихологические игры',
+  'Обучение чтению и развитие речи',
+  'Постановка руки к письму',
+  'Основы математики',
+  'Еженедельные тематические познавательные занятия',
+  'Творческие задания',
+  'Психологическая подготовка к школе',
+];
+
+const skills = [
+  {
+    icon: 'book',
+    title: 'Обучение чтению',
+    text: 'От букв к словам и предложениям. Учим читать осмысленно, понимать прочитанное.',
+  },
+  {
+    icon: 'send',
+    title: 'Письмо',
+    text: 'Правильная постановка руки, графомоторные навыки.',
+  },
+  {
+    icon: 'check',
+    title: 'Математика и логика',
+    text: 'Состав числа, счет, решение задач. Развиваем логическое мышление.',
+  },
+  {
+    icon: 'compass',
+    title: 'Окружающий мир',
+    text: 'Расширяем кругозор, формируем представления о мире. Каждую неделю новая тема.',
+  },
+  {
+    icon: 'chat',
+    title: 'Развитие речи',
+    text: 'Учим выражать мысли, составлять рассказы, пересказывать. Расширяем словарный запас, работаем над дикцией.',
+  },
+  {
+    icon: 'note',
+    title: 'Память и внимание',
+    text: 'Тренируем все виды памяти и внимания. Учим концентрироваться, запоминать и воспроизводить информацию.',
+  },
+];
+
+const results = [
+  { icon: 'check', title: 'Готовность к школе и уверенность в себе' },
+  { icon: 'book', title: 'Навыки чтения, письма и счета' },
+  { icon: 'worth', title: 'Развитая память, внимание и мотивация' },
+];
+
+const lessonFormat = [
+  { label: 'Длительность', value: 'с 9:00 до 13:00' },
+  { label: 'Размер группы', value: 'до 8 детей' },
+  { label: 'Возраст', value: '4-6 лет' },
+  { label: 'Частота', value: 'ежедневно, будние дни' },
+];
+
+const methods = [
+  'Методика Зайцева',
+  'Нейроупражнения',
+  'Мнемотехника',
+  'Индивидуальный подход к каждому ребенку',
+];
 ---
 
-<SEO 
+<SEO
   title="Умники и умницы - Подготовка к школе в Одинцово | Для детей 4-6 лет"
   description="Программа Умники и умницы в Одинцово. Развитие эмоционального интеллекта для детей 4-6 лет. Умение общаться, дружить, понимать эмоции."
   keywords="подготовка к школе Одинцово, занятия для дошкольников, развитие детей 4-6 лет, занятия для детей Одинцово"
   schema="service"
 />
 
-<Layout 
+<Layout
   title="Умники и умницы - Подготовка к школе в Одинцово | Для детей 4-6 лет"
   description="Психологический курс для детей 4-6 лет. Развитие эмоционального интеллекта, работа со страхами, навыки общения. Группы до 8 детей."
 >
 
-  
-
-
-
-  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#F2F7FD] via-white to-[#F2F7FD]" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="grid md:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
-        
-        <!-- Текст -->
-        <div>
-          <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
-            «Умники и умницы»
-          </h1>
-
-          <p class="text-xl text-gray-700 mb-6 font-semibold">
-            Ежедневные комплексно-развивающие занятия для детей 4-6 лет
-          </p>
-
-          <ul class="space-y-2 mb-8 text-gray-700">
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Нейропсихологические игры</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Обучение чтению и развитие речи</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Постановка руки к письму</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Основы математики</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Еженедельные тематические познавательные занятия</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Творческие задания</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Психологическая подготовка к школе</span></li>
-          </ul>
-
-          <div class="flex flex-wrap gap-4 mb-8">
-            <button
-              onclick="openBookingModal()"
-              class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
-            >
-              Записаться на занятие
-            </button>
-          </div>
-        </div>
-        
-          <!-- Изображение -->
-        <div class="flex justify-center lg:justify-end " >
-        <div class="relative w-full max-w-md">
-          <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-            <img 
-              src={url('/images/gallery/umniky/hero.jpg')}
-              alt="Консультация психолога" 
-              class="w-full h-auto" loading="eager" fetchpriority="high" decoding="async" />
-          
-          <!-- Декоративные элементы -->
-          <div class="absolute -top-6 -right-6 w-24 h-24 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>
-          <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>
-        </div>
-        
-      </div>
-    </div>
-  </section>
-<Breadcrumbs 
+  <Breadcrumbs
     items={[
-      { label: 'Главная', href: '/' },
-      { label: 'Программы', href: '/#programs' },
+      { label: 'Главная', href: url('/') },
+      { label: 'Программы', href: url('/#programs') },
       { label: 'Умники и умницы' }
     ]}
   />
-  </div><!-- 
-  Что ребенок развивает -->
-  <section class="py-20 bg-white" data-animate="slide-up">
+
+  <!-- ============ Первый экран ============ -->
+  <section class="page-hero">
     <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
-        Что будет изучать ваш ребенок
-      </h2>
-      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-        Программа разработана с учетом требований ФГОС для подготовки к школе
-      </p>
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        
-        <!-- Навык 1 -->
-        <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-8 hover:shadow-xl transition">
-          <div class="w-16 h-16 bg-[#4894B2] rounded-2xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">Обучение чтению</h3>
-          <p class="text-gray-700 leading-relaxed">
-            От букв к словам и предложениям. Учим читать осмысленно, понимать прочитанное.
+      <div class="hero-grid">
+
+        <div>
+          <p class="eyebrow mb-4">Для детей 4–6 лет</p>
+          <h1 class="display mb-5">«Умники и умницы»</h1>
+
+          <p class="lede mb-8 max-w-[46ch]">
+            Ежедневные комплексно-развивающие занятия для детей 4-6 лет
           </p>
+
+          <ul class="check-list mb-9">
+            {heroPoints.map((point) => <li>{point}</li>)}
+          </ul>
+
+          <div class="flex flex-wrap gap-3">
+            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+              Записаться на занятие
+            </button>
+            <a href="#program" class="pill pill-outline pill-lg">Что входит в программу</a>
+          </div>
         </div>
 
-        <!-- Навык 2 -->
-        <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-8 hover:shadow-xl transition">
-          <div class="w-16 h-16 bg-[#4894B2] rounded-2xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">Письмо</h3>
-          <p class="text-gray-700 leading-relaxed">
-            Правильная постановка руки, графомоторные навыки.
-          </p>
+        <div class="hero-visual orb surface-lg">
+          <img
+            src={url('/images/gallery/umniky/hero.jpg')}
+            alt="Занятие по программе «Умники и умницы»"
+            class="hero-photo"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
         </div>
 
-        <!-- Навык 3 -->
-        <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-8 hover:shadow-xl transition">
-          <div class="w-16 h-16 bg-[#4894B2] rounded-2xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">Математика и логика</h3>
-          <p class="text-gray-700 leading-relaxed">
-            Состав числа, счет, решение задач. Развиваем логическое мышление.
-          </p>
-        </div>
-
-        <!-- Навык 4 -->
-        <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-8 hover:shadow-xl transition">
-          <div class="w-16 h-16 bg-[#4894B2] rounded-2xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">Окружающий мир</h3>
-          <p class="text-gray-700 leading-relaxed">
-            Расширяем кругозор, формируем представления о мире. Каждую неделю новая тема.
-          </p>
-        </div>
-
-        <!-- Навык 5 -->
-        <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-8 hover:shadow-xl transition">
-          <div class="w-16 h-16 bg-[#4894B2] rounded-2xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">Развитие речи</h3>
-          <p class="text-gray-700 leading-relaxed">
-            Учим выражать мысли, составлять рассказы, пересказывать. 
-            Расширяем словарный запас, работаем над дикцией.
-          </p>
-        </div>
-
-        <!-- Навык 6 -->
-        <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-8 hover:shadow-xl transition">
-          <div class="w-16 h-16 bg-[#4894B2] rounded-2xl flex items-center justify-center mb-6">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
-            </svg>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-3">Память и внимание</h3>
-          <p class="text-gray-700 leading-relaxed">
-            Тренируем все виды памяти и внимания. Учим концентрироваться, 
-            запоминать и воспроизводить информацию.
-          </p>
-        </div>
-        
-      </div>
-
-      <!-- Особенность программы -->
-      <div class="mt-16 bg-gradient-to-r from-[#4894B2] to-[#18698F] rounded-3xl p-10 text-white text-center max-w-4xl mx-auto">
-        <div class="text-5xl mb-4">✨</div>
-        <h3 class="text-3xl font-bold mb-4">Особенность программы</h3>
-        <p class="text-xl opacity-90">
-          Мы не просто учим читать и считать — мы формируем учебную мотивацию и психологическую 
-          готовность к школе. Ребенок научится самостоятельно работать, слушать педагога и 
-          взаимодействовать с другими детьми.
-        </p>
       </div>
     </div>
   </section>
-  <!-- НОВАЯ ГАЛЕРЕЯ: Автослайдер с 30 фото -->
-  <AutoGallerySlider 
+
+  <!-- ============ Что будет изучать ребёнок ============ -->
+  <section id="program" class="band">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Программа</p>
+          <h2 class="heading mb-4">Что будет изучать ваш ребенок</h2>
+          <p class="lede max-w-[56ch]">
+            Программа разработана с учетом требований ФГОС для подготовки к школе
+          </p>
+        </div>
+
+        <div class="cards-3">
+          {skills.map((skill) => (
+            <article class="feature surface lift" data-reveal>
+              <span class="card-icon"><Icon name={skill.icon} size={22} /></span>
+              <h3 class="card-title">{skill.title}</h3>
+              <p class="card-text">{skill.text}</p>
+            </article>
+          ))}
+        </div>
+
+        <!-- Особенность программы -->
+        <article class="gradient-card highlight" data-reveal>
+          <div class="highlight-inner">
+            <span class="card-icon"><Icon name="worth" size={22} /></span>
+            <h3 class="heading-sm highlight-title">Особенность программы</h3>
+            <p class="highlight-text">
+              Мы не просто учим читать и считать — мы формируем учебную мотивацию и психологическую
+              готовность к школе. Ребенок научится самостоятельно работать, слушать педагога и
+              взаимодействовать с другими детьми.
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <AutoGallerySlider
     images={galleryImages}
     title="Как проходят наши занятия"
     subtitle="Смотрите, как проходят наши занятия"
-    accentColor="pink"
+    accentColor="blue"
     autoplayDelay={4500}
   />
-  <!-- Результаты программы -->
-  <section class="py-20 bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)]" data-animate="fade">
+
+  <!-- ============ Результаты программы ============ -->
+  <section class="band band-taupe">
     <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
-        Результаты программы
-      </h2>
-      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-        Как меняются дети после курса "Умники и умницы"
-      </p>
-      
-      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto" data-stagger>
-        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-4xl mb-3">🎯</div>
-          <div class="text-gray-700 font-semibold">Готовность к школе и уверенность в себе</div>
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Результат</p>
+          <h2 class="heading mb-4">Результаты программы</h2>
+          <p class="lede max-w-[56ch]">
+            Как меняются дети после курса «Умники и умницы»
+          </p>
         </div>
-        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-4xl mb-3">📚</div>
-          <div class="text-gray-700 font-semibold">Навыки чтения, письма и счета</div>
-        </div>
-        <div class="bg-white rounded-2xl p-8 text-center shadow-lg">
-          <div class="text-4xl mb-3">🧠</div>
-          <div class="text-gray-700 font-semibold">Развитая память, внимание и мотивация</div>
+
+        <div class="cards-3">
+          {results.map((item) => (
+            <div class="result-card" data-reveal>
+              <span class="card-icon"><Icon name={item.icon} size={22} /></span>
+              <p class="result-title">{item.title}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Расписание и формат -->
-  <section class="py-20 bg-white" data-animate="slide-up">
+  <!-- ============ Расписание и формат ============ -->
+  <section class="band">
     <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
-        Расписание и формат занятий
-      </h2>
-      
-      <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-        
-        <!-- Расписание -->
-        <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-3xl p-10">
-          <div class="text-6xl mb-6 text-center">📅</div>
-          <h3 class="text-3xl font-bold text-white mb-8 text-center">Ежедневные занятия</h3>
-
-          <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
-            <h4 class="font-bold text-gray-900 mb-4">Формат занятий:</h4>
-            <ul class="space-y-3">
-              <li class="flex items-center gap-3">
-                <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Длительность:</strong> с 9:00 до 13:00</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Размер группы:</strong> до 8 детей</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Возраст:</strong> 4-6 лет</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Частота:</strong> ежедневно, будние дни</span>
-              </li>
-            </ul>
-          </div>
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Расписание</p>
+          <h2 class="heading">Расписание и формат занятий</h2>
         </div>
 
-        <!-- Методы работы -->
-        <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-10">
-          <div class="text-6xl mb-6 text-center">🎭</div>
-          <h3 class="text-3xl font-bold text-gray-900 mb-6 text-center">Методы работы</h3>
+        <div class="split">
 
-          <div class="space-y-4">
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-5">
-              <h4 class="font-bold text-gray-900">Методика Зайцева</h4>
+          <article class="gradient-card schedule" data-reveal>
+            <div class="schedule-inner">
+              <span class="card-icon"><Icon name="clock" size={22} /></span>
+              <h3 class="heading-sm schedule-days">Ежедневные занятия</h3>
+
+              <div class="glass-card schedule-slot">
+                <h4 class="slot-title">Формат занятий:</h4>
+                <ul class="slot-list">
+                  {lessonFormat.map((row) => (
+                    <li><strong>{row.label}:</strong> {row.value}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-5">
-              <h4 class="font-bold text-gray-900">Нейроупражнения</h4>
+          </article>
+
+          <article class="surface methods" data-reveal>
+            <div class="methods-inner">
+              <span class="card-icon"><Icon name="flask" size={22} /></span>
+              <h3 class="heading-sm mb-6">Методы работы</h3>
+
+              <ul class="methods-list">
+                {methods.map((method) => <li>{method}</li>)}
+              </ul>
             </div>
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-5">
-              <h4 class="font-bold text-gray-900">Мнемотехника</h4>
-            </div>
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-5">
-              <h4 class="font-bold text-gray-900">Индивидуальный подход к каждому ребенку</h4>
-            </div>
-          </div>
+          </article>
+
         </div>
-        
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white relative overflow-hidden" data-animate="slide-up">
-    <div class="container mx-auto px-4 lg:px-8 relative z-10 text-center">
-      <h2 class="text-4xl md:text-5xl font-bold mb-6">
-        Записаться на занятие
-      </h2>
-      <p class="text-xl opacity-90 mb-10 max-w-2xl mx-auto">
-        Расскажу подробнее о программе и подберу удобное расписание
-      </p>
-      <button
-        onclick="openBookingModal()"
-        class="px-12 py-6 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition-all shadow-2xl text-2xl"
-      >
-        💬 Записаться
-      </button>
+  <!-- ============ Финальный призыв ============ -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <div class="closing-inner">
+            <p class="eyebrow mb-4">Запись</p>
+            <h2 class="heading mb-4">Записаться на занятие</h2>
+            <p class="lede mb-8 max-w-[48ch]">
+              Расскажу подробнее о программе и подберу удобное расписание
+            </p>
+
+            <div class="closing-actions">
+              <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+                <Icon name="chat" size={18} />
+                Записаться
+              </button>
+            </div>
+
+            <div class="closing-notes">
+              <span><Icon name="team" size={16} />Группы до 8 детей</span>
+              <span><Icon name="clock" size={16} />Ежедневно, будние дни</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <div data-animate="fade">
-
-    <FAQ 
-    title="Часто задаваемые вопросы"
-    subtitle="Ответы на популярные вопросы о программе"
-    items={[
-      {
-        question: "С какого возраста можно начинать?",
-        answer: "Программа рассчитана на детей 4-6 лет. Учитываю возрастные особенности и адаптирую задания под каждого ребёнка."
-      },
-      {
-        question: "Когда проходят занятия?",
-        answer: "Занятия проходят ежедневно. Точное расписание уточняйте при записи."
-      },
-      {
-        question: "Можно ли посетить пробное занятие?",
-        answer: "Вы можете записаться на первое занятие, чтобы познакомиться с педагогами и увидеть, как проходят занятия."
-      },
-      {
-        question: "Нужны ли какие-то материалы?",
-        answer: "Все материалы для занятий предоставляются: рабочие тетради, карандаши, краски, пластилин и т.д. Вам ничего не нужно покупать."
-      },
-      {
-        question: "Будет ли ребёнок готов к школе после программы?",
-        answer: "Да! 100% выпускников успешно поступают в желаемые школы, в том числе в лицеи и гимназии. Программа даёт как академические знания, так и психологическую готовность к школе."
-      }
-    ]}
-  />
+  <!-- ============ Вопросы ============ -->
+  <div data-reveal>
+    <FAQ
+      title="Часто задаваемые вопросы"
+      subtitle="Ответы на популярные вопросы о программе"
+      items={[
+        {
+          question: "С какого возраста можно начинать?",
+          answer: "Программа рассчитана на детей 4-6 лет. Учитываю возрастные особенности и адаптирую задания под каждого ребёнка."
+        },
+        {
+          question: "Когда проходят занятия?",
+          answer: "Занятия проходят ежедневно. Точное расписание уточняйте при записи."
+        },
+        {
+          question: "Можно ли посетить пробное занятие?",
+          answer: "Вы можете записаться на первое занятие, чтобы познакомиться с педагогами и увидеть, как проходят занятия."
+        },
+        {
+          question: "Нужны ли какие-то материалы?",
+          answer: "Все материалы для занятий предоставляются: рабочие тетради, карандаши, краски, пластилин и т.д. Вам ничего не нужно покупать."
+        },
+        {
+          question: "Будет ли ребёнок готов к школе после программы?",
+          answer: "Да! 100% выпускников успешно поступают в желаемые школы, в том числе в лицеи и гимназии. Программа даёт как академические знания, так и психологическую готовность к школе."
+        }
+      ]}
+    />
+  </div>
 
   <ScrollAnimations />
 </Layout>
+
+<style>
+  /* ---------- ритм секций ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .band-tight { padding: 24px 0 96px; }
+
+  .split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+
+  /* ---------- первый экран ---------- */
+  .page-hero { padding: 28px 0 96px; background: var(--canvas); }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 64px;
+    align-items: center; max-width: 1180px; margin: 0 auto;
+  }
+  .hero-visual { aspect-ratio: 1 / 1.02; }
+  .hero-photo {
+    position: absolute; inset: 10% 9% 0 9%; z-index: 2;
+    width: 82%; height: 90%; object-fit: cover; object-position: center 30%;
+    border-radius: 18px 18px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.55); border-bottom: 0;
+  }
+
+  /* ---------- список с галочками ---------- */
+  .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+  .check-list li {
+    position: relative; padding-left: 26px; font-size: 15px; line-height: 1.55; color: var(--graphite);
+  }
+  .check-list li::before {
+    content: ""; position: absolute; left: 0; top: 8px;
+    width: 13px; height: 7px;
+    border-left: 1.6px solid var(--spark-water);
+    border-bottom: 1.6px solid var(--spark-water);
+    transform: rotate(-45deg);
+  }
+
+  /* ---------- карточки навыков ---------- */
+  .card-icon {
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
+    background: rgba(47, 125, 150, .1); color: var(--spark-deep);
+  }
+  .gradient-card .card-icon { background: rgba(255, 255, 255, .2); color: #fff; }
+
+  .feature { padding: 28px; }
+  .feature .card-icon { margin-bottom: 18px; }
+  .card-title { font-size: 18px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.3; margin-bottom: 10px; }
+  .card-text { font-size: 14px; line-height: 1.6; color: var(--smoke); }
+
+  /* ---------- особенность программы ---------- */
+  .highlight { margin-top: 20px; }
+  .highlight-inner { padding: 40px; max-width: 760px; }
+  .highlight-inner .card-icon { margin-bottom: 20px; }
+  .highlight-title { color: #fff; margin-bottom: 12px; }
+  .highlight-text { font-size: 16px; line-height: 1.65; color: rgba(255, 255, 255, 0.88); }
+
+  /* ---------- результаты ---------- */
+  .result-card {
+    background: var(--canvas); border: 1px solid var(--stone); border-radius: var(--r-card);
+    padding: 28px; display: flex; align-items: center; gap: 16px;
+  }
+  .result-title { font-size: 16px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink); }
+
+  /* ---------- расписание ---------- */
+  .schedule-inner { padding: 36px; }
+  .schedule-inner .card-icon { margin-bottom: 20px; }
+  .schedule-days { color: #fff; margin-bottom: 26px; }
+  .schedule-slot { padding: 24px; }
+  .slot-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 14px; }
+  .slot-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .slot-list li {
+    position: relative; padding-left: 20px; font-size: 14px; line-height: 1.55; color: var(--smoke);
+  }
+  .slot-list li strong { font-weight: 500; color: var(--ink); }
+  .slot-list li::before {
+    content: ""; position: absolute; left: 3px; top: 9px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
+  }
+
+  /* ---------- методы работы ---------- */
+  .methods-inner { padding: 36px; }
+  .methods-inner .card-icon { margin-bottom: 20px; }
+  .methods-list { list-style: none; margin: 0; padding: 0; display: grid; }
+  .methods-list li {
+    padding: 18px 0; border-top: 1px solid var(--stone);
+    font-size: 16px; font-weight: 500; letter-spacing: -0.01em; color: var(--ink);
+  }
+  .methods-list li:last-child { padding-bottom: 0; }
+
+  /* ---------- финальный призыв ---------- */
+  .closing-band { padding: 56px 48px; }
+  .closing-inner { max-width: 640px; }
+  .closing-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .closing-notes {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--stone);
+    font-size: 13px; color: var(--graphite);
+  }
+  .closing-notes span { display: inline-flex; align-items: center; gap: 8px; }
+  .closing-notes :global(svg) { color: var(--graphite); }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 1023px) {
+    .page-hero { padding: 20px 0 72px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+    .hero-visual { max-width: 440px; width: 100%; margin-inline: auto; }
+    .cards-3 { grid-template-columns: repeat(2, 1fr); }
+    .split { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 767px) {
+    .band { padding: 64px 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .cards-3 { grid-template-columns: 1fr; }
+    .feature, .result-card { padding: 24px; }
+    .highlight-inner { padding: 26px; }
+    .schedule-inner, .methods-inner { padding: 26px; }
+    .schedule-slot { padding: 20px; }
+    .closing-band { padding: 28px; }
+  }
+</style>

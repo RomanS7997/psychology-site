@@ -4,192 +4,190 @@ import Layout from '../../layouts/Layout.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
+import Icon from '../../components/Icon.astro';
+import { url } from '../../utils/url';
 
+// Обложка: если фотографии для статьи нет, ставим тихую плашку с линейной иконкой.
 const posts = [
   {
     slug: 'kak-spravitsya-s-panicheskimi-atakami',
     title: 'Как справиться с паническими атаками: практические техники',
     excerpt: '5 проверенных техник, которые помогут остановить паническую атаку и предотвратить ее в будущем. Практические упражнения от клинического психолога.',
     category: 'Тревожность',
-    categoryColor: 'teal',
     date: '15 января 2025',
-    emoji: '😰',
-    gradient: 'from-blue-100 to-teal-100',
-    readTime: '8 мин'
+    readTime: '8 мин',
+    image: '/images/blog/panic-attacks.jpg',
+    icon: 'calm',
   },
   {
     slug: 'chto-delat-esli-rebenok-ne-slushaetsya',
     title: 'Что делать, если ребенок не слушается: 7 стратегий для родителей',
     excerpt: 'Почему дети перестают слушаться и как восстановить контакт без криков и наказаний. Проверенные методы от детского психолога.',
     category: 'Детская психология',
-    categoryColor: 'purple',
     date: '12 января 2025',
-    emoji: '🧒',
-    gradient: 'from-purple-100 to-pink-100',
-    readTime: '10 мин'
+    readTime: '10 мин',
+    image: '/images/blog/child-behavior.jpg',
+    icon: 'child',
   },
   {
     slug: 'kak-uluchshit-otnosheniya-s-partnerom',
     title: 'Как улучшить отношения с партнером: 5 упражнений на каждый день',
     excerpt: 'Простые но эффективные упражнения для пар, которые хотят вернуть близость и понимание. Практики от семейного терапевта.',
     category: 'Отношения',
-    categoryColor: 'pink',
     date: '10 января 2025',
-    emoji: '💕',
-    gradient: 'from-pink-100 to-red-100',
-    readTime: '7 мин'
+    readTime: '7 мин',
+    image: '/images/blog/relationships.jpg',
+    icon: 'bond',
   },
   {
     slug: 'kak-borotsya-s-vygoraniem',
+    soon: true,   // страницы пока нет — карточка без ссылки
     title: 'Как бороться с выгоранием: признаки и способы восстановления',
     excerpt: 'Эмоциональное выгорание — это не просто усталость. Узнайте, как распознать первые признаки и что делать для восстановления.',
     category: 'Стресс',
-    categoryColor: 'orange',
     date: '8 января 2025',
-    emoji: '🔥',
-    gradient: 'from-orange-100 to-yellow-100',
-    readTime: '9 мин'
+    readTime: '9 мин',
+    image: null,
+    icon: 'flask',
   },
   {
     slug: 'kak-povysit-samoocenku',
+    soon: true,   // страницы пока нет — карточка без ссылки
     title: 'Как повысить самооценку: 10 упражнений от психолога',
     excerpt: 'Низкая самооценка мешает жить полной жизнью. Практические упражнения, которые помогут полюбить себя и поверить в свои силы.',
     category: 'Саморазвитие',
-    categoryColor: 'blue',
     date: '5 января 2025',
-    emoji: '🌟',
-    gradient: 'from-[#4894B2] to-[#18698F]',
-    readTime: '12 мин'
+    readTime: '12 мин',
+    image: null,
+    icon: 'worth',
   },
   {
     slug: 'kak-perezhit-razryv-otnosheniy',
+    soon: true,   // страницы пока нет — карточка без ссылки
     title: 'Как пережить разрыв отношений: этапы и практики',
     excerpt: 'Расставание — это всегда больно. Разбираем этапы проживания разрыва и даём практические советы для восстановления.',
     category: 'Отношения',
-    categoryColor: 'pink',
     date: '3 января 2025',
-    emoji: '💔',
-    gradient: 'from-red-100 to-pink-100',
-    readTime: '11 мин'
-  }
+    readTime: '11 мин',
+    image: null,
+    icon: 'compass',
+  },
 ];
+
+// Кнопки фильтра собираем из самих статей — список не разъезжается с сеткой.
+const categories = Array.from(new Set(posts.map((post) => post.category)));
 ---
 
-<SEO 
+<SEO
   title="Блог - Статьи о психологии | Кабинет психолога в Одинцово"
   description="Полезные статьи о психологии, воспитании детей, отношениях, тревоге и саморазвитии. Советы от психолога из Одинцово."
   keywords="блог психолога, статьи о психологии, советы психолога"
   type="website"
 />
 
-<Layout 
+<Layout
   title="Блог - Статьи о психологии | Кабинет психолога в Одинцово"
   description="Полезные статьи о психологии от профессиональных психологов."
 >
 
-  <Breadcrumbs 
+  <Breadcrumbs
     items={[
-      { label: 'Главная', href: '/' },
+      { label: 'Главная', href: url('/') },
       { label: 'Блог' }
     ]}
   />
 
-  <!-- Hero -->
-  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#F2F7FD] via-white to-[#F2F7FD]" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
-          Блог о психологии
-        </h1>
-        <p class="text-xl text-gray-700 mb-8">
-          Экспертные материалы о ментальном здоровье,
-          отношениях и саморазвитии
-        </p>
+  <!-- ============ Шапка страницы ============ -->
+  <section class="page-hero">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="hero-head" data-reveal>
+          <p class="eyebrow mb-3">Блог</p>
+          <h1 class="display mb-5">Блог о психологии</h1>
+          <p class="lede max-w-[56ch]">
+            Экспертные материалы о ментальном здоровье,
+            отношениях и саморазвитии
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Категории / Фильтры -->
-  <section class="py-8 bg-white border-b border-gray-200" data-animate="slide-up">
+  <!-- ============ Категории / Фильтры ============ -->
+  <section class="filter-band">
     <div class="container mx-auto px-4 lg:px-8">
-      <div class="flex items-center justify-center gap-4 flex-wrap">
-        <button class="category-filter active px-6 py-3 rounded-full font-semibold transition-all" data-category="all">
-          Все статьи
-        </button>
-        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Тревожность">
-          Тревожность
-        </button>
-        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Детская психология">
-          Детская психология
-        </button>
-        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Отношения">
-          Отношения
-        </button>
-        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Стресс">
-          Стресс
-        </button>
-        <button class="category-filter px-6 py-3 rounded-full font-semibold transition-all" data-category="Саморазвитие">
-          Саморазвитие
-        </button>
+      <div class="inner">
+        <div class="filters" role="group" aria-label="Фильтр статей по темам" data-reveal>
+          <button class="category-filter active" type="button" data-category="all" aria-pressed="true">
+            Все статьи
+          </button>
+          {categories.map((category) => (
+            <button class="category-filter" type="button" data-category={category} aria-pressed="false">
+              {category}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Сетка статей -->
-  <section class="py-20 bg-gray-50" data-animate="fade">
+  <!-- ============ Сетка статей ============ -->
+  <section class="band band-taupe">
     <div class="container mx-auto px-4 lg:px-8">
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="posts-grid">
-        
-        {posts.map(post => (
-          <article 
-            class="post-card bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
-            data-category={post.category}
-          >
-            <a href={`/blog/${post.slug}`}>
-              <div class={`h-48 bg-gradient-to-br ${post.gradient} flex items-center justify-center`}>
-                <span class="text-6xl">{post.emoji}</span>
-              </div>
-              
-              <div class="p-6">
-                <div class="flex items-center justify-between mb-3">
-                  <span class={`px-3 py-1 bg-${post.categoryColor}-100 text-${post.categoryColor}-700 text-xs font-semibold rounded-full`}>
-                    {post.category}
-                  </span>
-                  <span class="text-xs text-gray-500">{post.readTime}</span>
+      <div class="inner">
+
+        <div class="cards-3" id="posts-grid">
+          {posts.map((post) => {
+            // Статья ещё не написана — карточка остаётся, но никуда не ведёт
+            const Card = post.soon ? 'div' : 'a';
+            return (
+            <article class="post-card" data-category={post.category} data-reveal>
+              <Card
+                class:list={['post', post.soon ? 'post-soon' : 'lift']}
+                href={post.soon ? undefined : url(`/blog/${post.slug}`)}
+              >
+                {post.image ? (
+                  <div class="post-photo">
+                    <img src={url(post.image)} alt={post.title} loading="lazy" decoding="async" />
+                  </div>
+                ) : (
+                  <div class="post-photo post-photo-mark">
+                    <span class="post-mark"><Icon name={post.icon} size={40} /></span>
+                  </div>
+                )}
+
+                <div class="post-body">
+                  <div class="post-meta">
+                    <span class="post-cat">{post.category}</span>
+                    <span>{post.readTime}</span>
+                  </div>
+
+                  <h2 class="post-title">{post.title}</h2>
+                  <p class="post-excerpt">{post.excerpt}</p>
+
+                  <div class="post-foot">
+                    <span class="post-date">{post.date}</span>
+                    {post.soon ? (
+                      <span class="post-soon-label">Скоро</span>
+                    ) : (
+                      <span class="post-more">Читать <Icon name="arrow" size={16} /></span>
+                    )}
+                  </div>
                 </div>
-                
-                <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-[#4894B2] transition">
-                  {post.title}
-                </h3>
-                
-                <p class="text-gray-600 text-sm mb-4">
-                  {post.excerpt}
-                </p>
-                
-                <div class="flex items-center justify-between">
-                  <span class="text-xs text-gray-500">{post.date}</span>
-                  <span class="text-[#4894B2] hover:text-teal-700 font-semibold text-sm inline-flex items-center group">
-                    Читать
-                    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                  </span>
-                </div>
-              </div>
-            </a>
-          </article>
-        ))}
-        
+              </Card>
+            </article>
+            );
+          })}
+        </div>
+
+        <!-- Пустое состояние при фильтрации -->
+        <div id="empty-state" class="empty hidden">
+          <span class="empty-icon"><Icon name="note" size={24} /></span>
+          <h2 class="heading-sm empty-title">Статей в этой категории пока нет</h2>
+          <p class="muted">Попробуйте выбрать другую категорию</p>
+        </div>
+
       </div>
-      
-      <!-- Пустое состояние при фильтрации -->
-      <div id="empty-state" class="hidden text-center py-20">
-        <div class="text-6xl mb-4">📝</div>
-        <h3 class="text-2xl font-bold text-gray-900 mb-2">Статей в этой категории пока нет</h3>
-        <p class="text-gray-600">Попробуйте выбрать другую категорию</p>
-      </div>
-      
     </div>
   </section>
 
@@ -197,38 +195,166 @@ const posts = [
 </Layout>
 
 <style>
+  /* ---------- ритм страницы ---------- */
+  .page-hero { padding: 28px 0 56px; background: var(--canvas); }
+  .hero-head { max-width: 760px; }
+  .band { padding: 72px 0 96px; background: var(--canvas); }
+
+  /* ---------- фильтр по темам ---------- */
+  .filter-band {
+    padding: 0 0 32px;
+    background: var(--canvas);
+    border-bottom: 1px solid var(--stone);
+  }
+  .filters { display: flex; flex-wrap: wrap; gap: 10px; }
+
   .category-filter {
-    @apply bg-gray-100 text-gray-700 hover:bg-[#F2F7FD] hover:text-[#4894B2];
+    border-radius: var(--r-pill);
+    border: 1px solid var(--stone);
+    background: transparent;
+    color: var(--graphite);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 11px 20px;
+    cursor: pointer;
+    transition: background-color .25s ease, color .25s ease, border-color .25s ease;
   }
-  
+  .category-filter:hover {
+    color: var(--ink);
+    border-color: var(--graphite);
+    background: rgba(20, 24, 28, .04);
+  }
   .category-filter.active {
-    @apply bg-[#4894B2] text-white shadow-lg;
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
   }
-  
-  .post-card {
-    @apply transition-all duration-300;
+  .category-filter:focus-visible {
+    outline: 2px solid var(--spark-deep);
+    outline-offset: 3px;
   }
-  
-  
+
+  /* ---------- карточка статьи ---------- */
+  /* На .post-card не задаём display: иначе утилита hidden не сможет её спрятать */
+  .post-card { min-width: 0; }
+
+  .post {
+    display: flex; flex-direction: column; height: 100%;
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-card);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+  .post-photo { aspect-ratio: 16 / 10; overflow: hidden; border-bottom: 1px solid var(--stone); }
+  .post-photo img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .5s cubic-bezier(.2, .7, .3, 1);
+  }
+  .post:hover .post-photo img { transform: scale(1.03); }
+
+  /* Обложка без фотографии: тихая плашка с иконкой темы */
+  .post-photo-mark {
+    position: relative;
+    background: var(--taupe);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .post-photo-mark::after {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(44% 60% at 22% 20%, rgba(127, 196, 192, .28), transparent 72%),
+      radial-gradient(46% 62% at 82% 84%, rgba(169, 163, 214, .24), transparent 74%);
+  }
+  .post-mark { position: relative; z-index: 1; color: var(--spark-deep); }
+
+  .post-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+  .post-meta {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; font-size: 12px; color: var(--ash); margin-bottom: 12px;
+  }
+  .post-cat { color: var(--spark-deep); font-weight: 500; }
+  .post-title {
+    font-size: 17px; font-weight: 400; line-height: 1.35;
+    letter-spacing: -0.01em; margin-bottom: 10px;
+  }
+  .post-excerpt { font-size: 14px; line-height: 1.6; color: var(--smoke); margin-bottom: 18px; }
+  .post-foot {
+    margin-top: auto; padding-top: 16px; border-top: 1px solid var(--stone);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .post-date { font-size: 12px; color: var(--ash); }
+  .post-soon { cursor: default; }
+  .post-soon .post-photo { opacity: .55; }
+  .post-soon .post-title { color: var(--graphite); }
+
+  .post-soon-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--stone);
+    font-size: 12px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+
+  .post-more {
+    font-size: 14px; font-weight: 500; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .post-more :global(svg) { transition: transform .3s cubic-bezier(.2, .7, .3, 1); }
+  .post:hover .post-more :global(svg) { transform: translateX(3px); }
+
+  /* ---------- пустое состояние ---------- */
+  /* display тоже не задаём — прячет утилита hidden */
+  .empty { text-align: center; padding: 72px 0 8px; }
+  .empty-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 52px; height: 52px; border-radius: 16px;
+    background: var(--canvas); border: 1px solid var(--stone);
+    color: var(--spark-deep); margin-bottom: 20px;
+  }
+  .empty-title { margin-bottom: 8px; }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 1023px) {
+    .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 767px) {
+    .page-hero { padding: 20px 0 40px; }
+    .band { padding: 56px 0 72px; }
+    .cards-3 { grid-template-columns: 1fr; }
+    .filters { gap: 8px; }
+    .category-filter { padding: 10px 16px; font-size: 13px; }
+  }
 </style>
 
 <script>
   // Фильтрация по категориям
-  const filterButtons = document.querySelectorAll('.category-filter');
-  const posts = document.querySelectorAll('.post-card');
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('.category-filter');
+  const posts = document.querySelectorAll<HTMLElement>('.post-card');
   const emptyState = document.getElementById('empty-state');
-  
-  filterButtons.forEach(button => {
+
+  filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
-      // Убрать active у всех
-      filterButtons.forEach(btn => btn.classList.remove('active'));
-      // Добавить active к нажатой
+      // Активная кнопка всегда одна
+      filterButtons.forEach((btn) => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+      });
       button.classList.add('active');
-      
+      button.setAttribute('aria-pressed', 'true');
+
       const category = button.dataset.category;
       let visibleCount = 0;
-      
-      posts.forEach(post => {
+
+      posts.forEach((post) => {
         if (category === 'all' || post.dataset.category === category) {
           post.classList.remove('hidden');
           visibleCount++;
@@ -236,7 +362,7 @@ const posts = [
           post.classList.add('hidden');
         }
       });
-      
+
       // Показать/скрыть пустое состояние
       if (visibleCount === 0) {
         emptyState?.classList.remove('hidden');

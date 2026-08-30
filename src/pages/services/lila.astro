@@ -1,8 +1,19 @@
 ---
+// src/pages/services/lila.astro
 import Layout from '../../layouts/Layout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
+import Icon from '../../components/Icon.astro';
+import { url } from '../../utils/url';
+
+// Кому подходит игра — формулировки заказчицы, менялось только оформление
+const fitItems = [
+  { icon: 'compass', text: 'Есть конкретный запрос или ситуация, с которой хочется разобраться' },
+  { icon: 'worth', text: 'Хочется посмотреть на себя и свою жизнь под новым углом' },
+  { icon: 'send', text: 'Нужен импульс к изменениям и принятию решений' },
+  { icon: 'play', text: 'Интересен формат работы через игру и метафору' },
+];
 ---
 
 <SEO
@@ -16,64 +27,158 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
   title="Трансформационная игра «Лила»"
   description="Трансформационная игра «Лила» с психологом."
 >
+
   <Breadcrumbs
     items={[
-      { label: 'Главная', href: '/' },
-      { label: 'Услуги', href: '/#services' },
+      { label: 'Главная', href: url('/') },
+      { label: 'Услуги', href: url('/#services') },
       { label: 'Трансформационная игра «Лила»' }
     ]}
   />
 
-  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#F2F7FD] via-white to-[#F2F7FD]" data-animate="fade">
+  <!-- ============ Первый экран ============ -->
+  <section class="page-hero">
     <div class="container mx-auto px-4 lg:px-8">
-      <div class="max-w-3xl mx-auto text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
+      <div class="hero-inner">
+        <p class="eyebrow eyebrow-center mb-4 rise">Игра-медитация</p>
+
+        <h1 class="display mb-5 rise rise-2">
           Трансформационная игра «Лила»
         </h1>
 
-        <p class="text-xl text-gray-700 mb-8 leading-relaxed">
+        <p class="lede mb-9 mx-auto max-w-[54ch] rise rise-3">
           Древняя индийская игра-медитация, которая помогает взглянуть на свой запрос
           с новой стороны, увидеть скрытые причины и найти ресурсы для изменений.
         </p>
 
-        <button
-          onclick="openBookingModal()"
-          class="px-10 py-5 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105 text-lg"
-        >
-          Записаться на игру
-        </button>
+        <div class="hero-actions rise rise-4">
+          <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            Записаться на игру
+          </button>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="py-20 bg-white" data-animate="slide-up">
+  <!-- ============ Для кого подходит ============ -->
+  <section class="band band-taupe">
     <div class="container mx-auto px-4 lg:px-8">
-      <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
-          Для кого подходит «Лила»
-        </h2>
+      <div class="inner">
+        <div class="band-head band-head-center" data-reveal>
+          <p class="eyebrow eyebrow-center mb-3">Кому подойдёт</p>
+          <h2 class="heading">Для кого подходит «Лила»</h2>
+        </div>
 
-        <ul class="space-y-4 text-lg text-gray-700">
-          <li class="flex items-start gap-3">
-            <span class="text-[#4894B2] text-2xl mt-0.5">✓</span>
-            <span>Есть конкретный запрос или ситуация, с которой хочется разобраться</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="text-[#4894B2] text-2xl mt-0.5">✓</span>
-            <span>Хочется посмотреть на себя и свою жизнь под новым углом</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="text-[#4894B2] text-2xl mt-0.5">✓</span>
-            <span>Нужен импульс к изменениям и принятию решений</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="text-[#4894B2] text-2xl mt-0.5">✓</span>
-            <span>Интересен формат работы через игру и метафору</span>
-          </li>
-        </ul>
+        <div class="cards-2">
+          {fitItems.map((item) => (
+            <article class="fit-card" data-reveal>
+              <span class="card-icon"><Icon name={item.icon} size={21} /></span>
+              <p class="fit-text">{item.text}</p>
+            </article>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Финальный призыв ============ -->
+  <section class="band">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <p class="eyebrow eyebrow-center mb-4">Запись</p>
+          <h2 class="heading mb-4">Хотите попробовать?</h2>
+          <p class="lede mb-8">Запишитесь на игру — обсудим ваш запрос и подберём удобное время</p>
+
+          <div class="cta-actions">
+            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+              Записаться на игру
+            </button>
+          </div>
+
+          <p class="cta-phone">
+            <Icon name="phone" size={16} />
+            <span>Или позвоните: <a href="tel:+79151955132">+7 (915) 195-51-32</a></span>
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <ScrollAnimations />
 </Layout>
+
+<style>
+  /* ---------- ритм секций ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .band-head-center { text-align: center; }
+
+  .cards-2 {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;
+    max-width: 900px; margin: 0 auto;
+  }
+
+  /* ---------- первый экран ---------- */
+  /* Крошки идут первыми, поэтому отступ под закреплённой шапкой задаём им */
+
+  .page-hero { padding: 28px 0 88px; background: var(--canvas); }
+  .hero-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+  .hero-actions { display: flex; justify-content: center; }
+
+  /* Появление первого экрана — чистый CSS, без наблюдателя:
+     что бы ни случилось со скриптами, текст будет виден */
+  .rise { animation: hero-rise .6s cubic-bezier(.2, .7, .3, 1) both; }
+  .rise-2 { animation-delay: .07s; }
+  .rise-3 { animation-delay: .14s; }
+  .rise-4 { animation-delay: .21s; }
+
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise { animation: none; }
+  }
+
+  /* ---------- кому подходит ---------- */
+  .fit-card {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 26px 28px;
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-card);
+  }
+  .card-icon {
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
+    background: rgba(47, 125, 150, .1); color: var(--spark-deep);
+  }
+  .fit-text { font-size: 15px; line-height: 1.6; color: var(--graphite); padding-top: 8px; }
+
+  /* ---------- финальный призыв ---------- */
+  .closing-band { padding: 56px 48px; text-align: center; }
+  .closing-band .lede { max-width: 44ch; margin-inline: auto; }
+  .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .cta-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--stone);
+    font-size: 14px;
+    color: var(--graphite);
+  }
+  .cta-phone a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 767px) {
+    .page-hero { padding: 20px 0 64px; }
+    .band { padding: 64px 0; }
+    .cards-2 { grid-template-columns: 1fr; }
+    .fit-card { padding: 22px 24px; }
+    .closing-band { padding: 32px 24px; }
+  }
+</style>

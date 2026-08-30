@@ -344,6 +344,52 @@
     box-shadow: var(--whisper);
     backdrop-filter: blur(6px);
   }
+
+  /* ---------- Каркас секции ----------
+     Общий ритм всех страниц. Странице достаточно написать
+     <section class="band"> … <div class="inner">, ничего дублировать не нужно.
+     Локальное отклонение задаётся в <style> страницы — оно перебивает
+     эти правила, потому что стили Astro не лежат в слое. */
+  .band {
+    padding: 96px 0;
+    background: var(--canvas);
+  }
+  .band-taupe { background: var(--taupe); }
+  .band-tight { padding: 72px 0; }
+
+  .inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .inner-narrow {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .band-head { margin-bottom: 44px; }
+
+  .cards-3 {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .cards-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  @media (max-width: 1023px) {
+    .cards-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 767px) {
+    .band { padding: 64px 0; }
+    .band-tight { padding: 56px 0; }
+    .band-head { margin-bottom: 32px; }
+    .cards-3,
+    .cards-2 { grid-template-columns: 1fr; }
+  }
 }
 
 @keyframes orb-drift-a {

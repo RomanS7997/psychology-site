@@ -1,405 +1,530 @@
 ---
-// src/pages/services/adult.astro
+// src/pages/services/adult.astro — консультирование взрослых
 import Layout from '../../layouts/Layout.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
+import Icon from '../../components/Icon.astro';
 import { url } from '../../utils/url';
+
+// Как проходит первая консультация — пять шагов встречи
+const steps = [
+  {
+    icon: 'chat',
+    title: 'Знакомство',
+    text: 'Психолог расскажет о себе, своем подходе и правилах работы. Вы познакомитесь и оцените, комфортно ли вам с этим специалистом.',
+  },
+  {
+    icon: 'note',
+    title: 'Запрос и история',
+    text: 'Вы расскажете, что привело вас к психологу, какие трудности испытываете. Психолог задаст уточняющие вопросы о вашей истории.',
+  },
+  {
+    icon: 'compass',
+    title: 'Диагностика',
+    text: 'Психолог оценит ваше состояние, при необходимости предложит пройти тестирование (шкалы тревоги).',
+  },
+  {
+    icon: 'check',
+    title: 'План терапии',
+    text: 'Психолог предложит план работы: какие методы будут использоваться, сколько примерно потребуется сессий, какие результаты ожидать.',
+  },
+  {
+    icon: 'arrow',
+    title: 'Вопросы и следующие шаги',
+    text: 'Вы можете задать любые вопросы о терапии. Если решите продолжить, договоритесь о следующей встрече.',
+  },
+];
+
+const formatItems = [
+  'Работа один на один с психологом',
+  'Онлайн или офлайн',
+  'Полная конфиденциальность',
+  'Индивидуальный план терапии',
+];
+
+const related = [
+  {
+    icon: 'child',
+    title: 'Консультирование детей',
+    text: 'Помощь детям и подросткам в развитии и преодолении трудностей',
+    href: url('/services/children'),
+  },
+  {
+    icon: 'book',
+    title: 'Умники и умницы',
+    text: 'Комплексная подготовка к школе для детей 4-7 лет',
+    href: url('/programs/umniky'),
+  },
+  {
+    icon: 'note',
+    title: 'Как справиться с паническими атаками',
+    text: 'Полезная статья в моём блоге',
+    href: url('/blog/kak-spravitsya-s-panicheskimi-atakami'),
+  },
+];
 ---
 
-<SEO 
+<SEO
   title="Психолог для взрослых в Одинцово и Лесном городке | Консультации онлайн"
   description="Помощь психолога взрослым в Одинцово. Работа с тревогой, прокрастинацией, кризисами, отношениями. Консультации онлайн и офлайн. Запись по телефону."
   keywords="психолог для взрослых Одинцово, психотерапия, консультация психолога онлайн, работа с тревогой"
   schema="service"
 />
 
-<Layout 
+<Layout
   title="Психолог для взрослых в Одинцово и Лесном городке | Консультации онлайн"
   description="Помощь психолога взрослым в Одинцово. Работа с тревогой, прокрастинацией, кризисами, отношениями."
 >
 
-  
-
-  <!-- Hero секция -->
-  <section class="relative pt-32 pb-20 overflow-hidden" data-animate="fade">
-    <!-- Фоновый градиент -->
-    <div class="absolute inset-0 bg-gradient-to-br from-[#F2F7FD] via-blue-50 to-purple-50 opacity-50"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        
-        <!-- Текст -->
-        <div>
-          <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
-            Психологическое консультирование для взрослых
-          </h1>
-          
-          <p class="text-xl text-gray-700 mb-6 leading-relaxed">
-            Помогу разобраться в себе, преодолеть трудности и найти внутренние ресурсы
-            для счастливой жизни
-          </p>
-
-          <div class="flex flex-wrap gap-4">
-            <button
-              onclick="openBookingModal()"
-              class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
-            >
-              Записаться на консультацию
-            </button>
-          </div>
-
-          <!-- Быстрые факты -->
-          <div class="grid grid-cols-2 gap-6 mt-12" data-stagger>
-            <div class="text-center">
-              <div class="text-4xl font-bold text-[#4894B2] mb-2">55 мин</div>
-              <div class="text-sm text-gray-600">длительность<br/>сессии</div>
-            </div>
-            <div class="text-center">
-              <div class="text-4xl font-bold text-[#4894B2] mb-2">6000 ₽</div>
-              <div class="text-sm text-gray-600">стоимость<br/>консультации</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Изображение -->
-        <div class="flex justify-center lg:justify-end " >
-        <div class="relative w-full max-w-md">
-          <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-            <img 
-              src={url('/images/services/adult-consulting.jpg')} 
-              alt="Консультация психолога" 
-              class="w-full h-auto" loading="lazy" decoding="async" />
-            
-          </div>
-          </div>
-          <!-- Декоративные элементы -->
-          <div class="absolute -top-6 -right-6 w-24 h-24 bg-teal-400 rounded-full opacity-20 blur-2xl"></div>
-          <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-[#F2F7FD] rounded-full opacity-20 blur-2xl"></div>
-        </div>
-        
-      </div>
-    </div>
-  </section>
-<Breadcrumbs 
+  <Breadcrumbs
     items={[
-      { label: 'Главная', href: '/' },
-      { label: 'Услуги', href: '/#services' },
+      { label: 'Главная', href: url('/') },
+      { label: 'Услуги', href: url('/#services') },
       { label: 'Консультирование взрослых' }
     ]}
   />
 
-  <!-- Как проходит консультация -->
-  <section class="py-20 bg-white" data-animate="slide-up">
+  <!-- ============ Первый экран ============ -->
+  <section class="page-hero">
     <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
-        Как проходит первая консультация
-      </h2>
-      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-        Подробный план вашей первой встречи с психологом
-      </p>
-      
-      <!-- Timeline -->
-      <div class="max-w-4xl mx-auto relative">
-        <!-- Вертикальная линия -->
-        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-br from-[#4894B2] to-[#18698F] transition-all duration-2000" data-progress-line style="height: 0%"></div>
-        
-        <div class="space-y-8" data-stagger>
-          
-          <div class="flex gap-6 relative">
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
-              1
+      <div class="inner hero-grid">
+
+        <div>
+          <p class="eyebrow mb-4 rise">Консультирование взрослых</p>
+
+          <h1 class="display mb-5 rise rise-2">
+            Психологическое консультирование для взрослых
+          </h1>
+
+          <p class="lede mb-8 max-w-[46ch] rise rise-3">
+            Помогу разобраться в себе, преодолеть трудности и найти внутренние ресурсы
+            для счастливой жизни
+          </p>
+
+          <div class="flex flex-wrap gap-3 mb-11 rise rise-4">
+            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+              Записаться на консультацию
+            </button>
+          </div>
+
+          <div class="hairline pt-6 hero-facts rise rise-4">
+            <div>
+              <div class="hero-figure">55 мин</div>
+              <div class="hero-label">длительность сессии</div>
             </div>
-            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <h3 class="text-2xl font-bold text-gray-900 mb-3">Знакомство</h3>
-              <p class="text-gray-700 leading-relaxed">
-                Психолог расскажет о себе, своем подходе и правилах работы. 
-                Вы познакомитесь и оцените, комфортно ли вам с этим специалистом.
-              </p>
+            <div>
+              <div class="hero-figure">6000 ₽</div>
+              <div class="hero-label">стоимость консультации</div>
             </div>
           </div>
-          
-          <div class="flex gap-6 relative">
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
-              2
-            </div>
-            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <h3 class="text-2xl font-bold text-gray-900 mb-3">Запрос и история</h3>
-              <p class="text-gray-700 leading-relaxed">
-                Вы расскажете, что привело вас к психологу, какие трудности испытываете. 
-                Психолог задаст уточняющие вопросы о вашей истории.
-              </p>
-            </div>
-          </div>
-          
-          <div class="flex gap-6 relative">
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
-              3
-            </div>
-            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <h3 class="text-2xl font-bold text-gray-900 mb-3">Диагностика</h3>
-              <p class="text-gray-700 leading-relaxed">
-                Психолог оценит ваше состояние, при необходимости предложит пройти 
-                тестирование (шкалы тревоги).
-              </p>
-            </div>
-          </div>
-          
-          <div class="flex gap-6 relative">
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
-              4
-            </div>
-            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <h3 class="text-2xl font-bold text-gray-900 mb-3">План терапии</h3>
-              <p class="text-gray-700 leading-relaxed">
-                Психолог предложит план работы: какие методы будут использоваться, 
-                сколько примерно потребуется сессий, какие результаты ожидать.
-              </p>
-            </div>
-          </div>
-          
-          <div class="flex gap-6 relative">
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F]  rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
-              5
-            </div>
-            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <h3 class="text-2xl font-bold text-gray-900 mb-3">Вопросы и следующие шаги</h3>
-              <p class="text-gray-700 leading-relaxed">
-                Вы можете задать любые вопросы о терапии. Если решите продолжить, 
-                договоритесь о следующей встрече.
-              </p>
-            </div>
-          </div>
-          
+        </div>
+
+        <div class="hero-visual orb surface-lg rise rise-2">
+          <img
+            src={url('/images/services/adult-consulting.jpg')}
+            alt="Консультация психолога"
+            class="hero-portrait"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Как проходит первая консультация ============ -->
+  <section class="band">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Первая встреча</p>
+          <h2 class="heading mb-4">Как проходит первая консультация</h2>
+          <p class="lede max-w-[56ch]">Подробный план вашей первой встречи с психологом</p>
+        </div>
+
+        <div class="timeline" data-reveal>
+          <span class="timeline-track" aria-hidden="true"></span>
+          <span class="timeline-line" data-progress-line style="height: 0%" aria-hidden="true"></span>
+
+          <ol class="timeline-list">
+            {steps.map((step, i) => (
+              <li class="tl-item" data-reveal>
+                <span class="tl-num">0{i + 1}</span>
+                <div class="tl-card surface">
+                  <h3 class="tl-title">
+                    <span class="tl-icon"><Icon name={step.icon} size={19} /></span>
+                    {step.title}
+                  </h3>
+                  <p class="tl-text">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
-      
     </div>
   </section>
 
-  <!-- Формат консультации -->
-  <section class="py-20 bg-gradient-to-br from-[#F2F7FD] to-white" data-animate="fade">
+  <!-- ============ Формат консультации ============ -->
+  <section class="band band-taupe">
     <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
-        Формат консультации
-      </h2>
-      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-        Индивидуальный подход к каждому клиенту
-      </p>
-
-      <div class="max-w-lg mx-auto">
-
-        <!-- Индивидуальная консультация -->
-        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-10 shadow-xl border-2 border-[#4894B2]/30 text-center">
-          <h3 class="text-2xl font-bold text-gray-900 mb-6">Индивидуальная консультация</h3>
-          <div class="mb-6">
-            <div class="text-gray-600 text-lg">Длительность — 55 минут</div>
+      <div class="inner">
+        <div class="format-grid">
+          <div data-reveal>
+            <p class="eyebrow mb-3">Формат</p>
+            <h2 class="heading mb-4">Формат консультации</h2>
+            <p class="lede max-w-[42ch]">Индивидуальный подход к каждому клиенту</p>
           </div>
 
-          <ul class="space-y-3 mb-8 text-left max-w-sm mx-auto">
-            <li class="flex items-start gap-2 text-gray-700">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span>Работа один на один с психологом</span>
-            </li>
-            <li class="flex items-start gap-2 text-gray-700">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span>Онлайн или офлайн</span>
-            </li>
-            <li class="flex items-start gap-2 text-gray-700">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span>Полная конфиденциальность</span>
-            </li>
-            <li class="flex items-start gap-2 text-gray-700">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span>Индивидуальный план терапии</span>
-            </li>
-          </ul>
+          <div class="format-card" data-reveal>
+            <h3 class="format-title">Индивидуальная консультация</h3>
+            <p class="format-note">Длительность — 55 минут</p>
+            <ul class="check-list">
+              {formatItems.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
         </div>
-        
       </div>
     </div>
   </section>
 
-  <!-- FAQ для взрослых -->
-  <div data-animate="fade">
-    <FAQ 
-    title="Часто задаваемые вопросы"
-    subtitle="Ответы на вопросы о консультировании взрослых"
-    items={[
-      {
-        question: "Как понять, нужен ли мне психолог?",
-        answer: "Если вы испытываете постоянный дискомфорт, трудности в отношениях, тревогу, апатию или просто хотите лучше понять себя — это уже достаточная причина обратиться к психологу. Не обязательно ждать серьезного кризиса."
-      },
-      {
-        question: "Сколько сессий мне понадобится?",
-        answer: "Это индивидуально. При работе с конкретным запросом (например, тревогой) может быть достаточно 8-12 сессий. Глубинная работа с личностными паттернами может занять 6-12 месяцев. Первые изменения вы заметите уже после 3-4 встреч."
-      },
-      {
-        question: "В чем разница между психологом и психотерапевтом?",
-        answer: "Психолог — это специалист с психологическим образованием. Психотерапевт — психолог с дополнительной подготовкой в определённом методе терапии (например, КПТ, арт-терапия). Имею дополнительную подготовку в нескольких методах психотерапии."
-      },
-      {
-        question: "Можно ли проводить консультации онлайн?",
-        answer: "Да, провожу как очные, так и онлайн-консультации. Эффективность онлайн-терапии не уступает очной, если у вас есть стабильный интернет и комфортное место для разговора."
-      },
-      {
-        question: "Гарантируется ли конфиденциальность?",
-        answer: "Абсолютно. Всё, что вы говорите на сессии, останется между вами и мной. Это зафиксировано в этическом кодексе психолога."
-      },
-      {
-        question: "Что делать, если не подошел психолог?",
-        answer: "Это нормально и случается редко. Контакт с психологом — важная часть терапии. На первичной консультации вы сможете понять, подходит ли вам мой стиль работы. Если почувствуете, что хотели бы другого специалиста — порекомендую проверенных коллег."
-      }
-    ]}
-  />
+  <!-- ============ Вопросы ============ -->
+  <div data-reveal>
+    <FAQ
+      title="Часто задаваемые вопросы"
+      subtitle="Ответы на вопросы о консультировании взрослых"
+      items={[
+        {
+          question: "Как понять, нужен ли мне психолог?",
+          answer: "Если вы испытываете постоянный дискомфорт, трудности в отношениях, тревогу, апатию или просто хотите лучше понять себя — это уже достаточная причина обратиться к психологу. Не обязательно ждать серьезного кризиса."
+        },
+        {
+          question: "Сколько сессий мне понадобится?",
+          answer: "Это индивидуально. При работе с конкретным запросом (например, тревогой) может быть достаточно 8-12 сессий. Глубинная работа с личностными паттернами может занять 6-12 месяцев. Первые изменения вы заметите уже после 3-4 встреч."
+        },
+        {
+          question: "В чем разница между психологом и психотерапевтом?",
+          answer: "Психолог — это специалист с психологическим образованием. Психотерапевт — психолог с дополнительной подготовкой в определённом методе терапии (например, КПТ, арт-терапия). Имею дополнительную подготовку в нескольких методах психотерапии."
+        },
+        {
+          question: "Можно ли проводить консультации онлайн?",
+          answer: "Да, провожу как очные, так и онлайн-консультации. Эффективность онлайн-терапии не уступает очной, если у вас есть стабильный интернет и комфортное место для разговора."
+        },
+        {
+          question: "Гарантируется ли конфиденциальность?",
+          answer: "Абсолютно. Всё, что вы говорите на сессии, останется между вами и мной. Это зафиксировано в этическом кодексе психолога."
+        },
+        {
+          question: "Что делать, если не подошел психолог?",
+          answer: "Это нормально и случается редко. Контакт с психологом — важная часть терапии. На первичной консультации вы сможете понять, подходит ли вам мой стиль работы. Если почувствуете, что хотели бы другого специалиста — порекомендую проверенных коллег."
+        }
+      ]}
+    />
+  </div>
 
-  <!-- Финальный CTA -->
-  <section class="py-20 relative overflow-hidden" data-animate="fade">
-    <!-- Градиентный фон -->
-    <div class="absolute inset-0 bg-gradient-to-br from-[#4894B2] to-[#18698F]"></div>
-    
-    <!-- Декоративные элементы -->
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center text-white">
-        <h2 class="text-4xl md:text-5xl font-bold mb-6">
-          Готовы начать работу над собой?
-        </h2>
-        <p class="text-xl mb-8 opacity-90">
-          Запишитесь на консультацию прямо сейчас
-        </p>
-        
-        <div class="flex flex-wrap gap-4 justify-center">
-          <button 
-            onclick="openBookingModal()"
-            class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-semibold transition shadow-xl hover:shadow-2xl text-lg"
-          >
-            Записаться на консультацию
-          </button>
-        </div>
-        
-        <p class="mt-8 text-sm opacity-75">
-          📞 Или позвоните: <a href="tel:+79151955132" class="underline hover:no-underline">+7 (915) 195-51-32</a>
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Перелинковка: Смотрите также -->
-  <section class="py-16 bg-gray-50" data-animate="fade" >
+  <!-- ============ Финальный призыв ============ -->
+  <section class="band band-tight">
     <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">
-        Вам также может быть интересно
-      </h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        <a href={url('/services/children')} class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
-          <div class="text-4xl mb-4">🧒</div>
-          <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Консультирование детей</h3>
-          <p class="text-gray-600">Помощь детям и подросткам в развитии и преодолении трудностей</p>
-        </a>
-        
-        <a href={url('/programs/umniky')} class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
-          <div class="text-4xl mb-4">📚</div>
-          <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Умники и умницы</h3>
-          <p class="text-gray-600">Комплексная подготовка к школе для детей 4-7 лет</p>
-        </a>
-        
-        <a href={url('/blog/kak-spravitsya-s-panicheskimi-atakami')} class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
-          <div class="text-4xl mb-4">📰</div>
-          <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Как справиться с паническими атаками</h3>
-          <p class="text-gray-600">Полезная статья в моём блоге</p>
-        </a>
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <p class="eyebrow eyebrow-center mb-4">Запись</p>
+          <h2 class="heading mb-4">Готовы начать работу над собой?</h2>
+          <p class="lede mb-8">Запишитесь на консультацию прямо сейчас</p>
+
+          <div class="cta-actions">
+            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+              Записаться на консультацию
+            </button>
+          </div>
+
+          <p class="cta-phone">
+            <Icon name="phone" size={16} />
+            <span>Или позвоните: <a href="tel:+79151955132">+7 (915) 195-51-32</a></span>
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- ============ Смотрите также ============ -->
+  <section class="band band-taupe">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Ещё по теме</p>
+          <h2 class="heading">Вам также может быть интересно</h2>
+        </div>
 
-  <!-- Accordion для карточек проблем -->
-  <script is:inline>
-    function initProblemAccordion() {
-      const cards = document.querySelectorAll('.accordion-card');
-      
-      cards.forEach(card => {
-        // Находим элементы внутри карточки
-        const title = card.querySelector('h3');
-        const firstP = card.querySelector('p');
-        
-        // Всё остальное после первого параграфа - скрытый контент
-        const allContent = Array.from(card.children);
-        const visibleContent = [card.children[0], title, firstP]; // emoji, h3, first p
-        
-        // Создаём контейнер для скрытого контента
-        const hiddenContent = document.createElement('div');
-        hiddenContent.className = 'accordion-content';
-        hiddenContent.style.maxHeight = '0';
-        hiddenContent.style.overflow = 'hidden';
-        hiddenContent.style.transition = 'max-height 0.3s ease-out';
-        
-        // Переносим всё кроме видимого в скрытый контейнер
-        allContent.forEach((child, index) => {
-          if (index > 2) { // Пропускаем emoji, h3, первый p
-            hiddenContent.appendChild(child.cloneNode(true));
-            child.remove();
-          }
-        });
-        
-        // Добавляем иконку стрелки после заголовка
-        const arrow = document.createElement('span');
-        arrow.className = 'accordion-icon';
-        arrow.innerHTML = '▼';
-        arrow.style.cssText = 'display: inline-block; margin-left: 8px; transition: transform 0.3s ease; font-size: 16px;';
-        title.appendChild(arrow);
-        
-        // Добавляем скрытый контент в карточку
-        card.appendChild(hiddenContent);
-        
-        // Обработчик клика
-        card.addEventListener('click', function(e) {
-          if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
-            return;
-          }
-          
-          const isOpen = hiddenContent.style.maxHeight && hiddenContent.style.maxHeight !== '0px';
-          
-          // Закрываем все остальные
-          document.querySelectorAll('.accordion-card').forEach(otherCard => {
-            if (otherCard !== card) {
-              const otherContent = otherCard.querySelector('.accordion-content');
-              const otherIcon = otherCard.querySelector('.accordion-icon');
-              if (otherContent) otherContent.style.maxHeight = '0px';
-              if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-              otherCard.classList.remove('ring-2', 'ring-[#4894B2]');
-            }
-          });
-          
-          // Переключаем текущую
-          if (isOpen) {
-            hiddenContent.style.maxHeight = '0px';
-            arrow.style.transform = 'rotate(0deg)';
-            card.classList.remove('ring-2', 'ring-[#4894B2]');
-          } else {
-            hiddenContent.style.maxHeight = hiddenContent.scrollHeight + 'px';
-            arrow.style.transform = 'rotate(180deg)';
-            card.classList.add('ring-2', 'ring-[#4894B2]');
-          }
-        });
-      });
-    }
-    
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initProblemAccordion);
-    } else {
-      initProblemAccordion();
-    }
-    
-    document.addEventListener('astro:page-load', initProblemAccordion);
-  </script>
+        <div class="cards-3">
+          {related.map((item) => (
+            <a href={url(item.href)} class="rel-card lift" data-reveal>
+              <span class="rel-icon"><Icon name={item.icon} size={22} /></span>
+              <h3 class="rel-title">{item.title}</h3>
+              <p class="rel-text">{item.text}</p>
+              <span class="rel-more">Подробнее <Icon name="arrow" size={16} /></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
 
   <ScrollAnimations />
 </Layout>
 
-<script>
-</script>
+<style>
+  /* ---------- ритм секций ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .band-tight { padding: 24px 0 96px; }
+
+
+  /* ---------- первый экран ---------- */
+  /* Крошки идут первыми, поэтому отступ под закреплённой шапкой задаём им */
+
+  .page-hero { padding: 28px 0 88px; background: var(--canvas); }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.02fr 0.98fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  /* Появление первого экрана — чистый CSS, без наблюдателя:
+     что бы ни случилось со скриптами, текст будет виден */
+  .rise { animation: hero-rise .6s cubic-bezier(.2, .7, .3, 1) both; }
+  .rise-2 { animation-delay: .07s; }
+  .rise-3 { animation-delay: .14s; }
+  .rise-4 { animation-delay: .21s; }
+
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise { animation: none; }
+  }
+
+  .hero-facts { display: flex; flex-wrap: wrap; gap: 40px; }
+  .hero-figure {
+    font-size: 27px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 2px;
+    color: var(--ink);
+  }
+  .hero-label { font-size: 13px; line-height: 1.45; color: var(--smoke); max-width: 15ch; }
+
+  .hero-visual { aspect-ratio: 1 / 1.02; }
+
+  /* Фото стоит на нижней кромке оправы, градиент светится вокруг */
+  .hero-portrait {
+    position: absolute;
+    inset: 12% 10% 0 10%;
+    z-index: 2;
+    width: 80%;
+    height: 88%;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: 18px 18px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-bottom: 0;
+  }
+
+  /* ---------- таймлайн первой встречи ---------- */
+  .timeline { position: relative; max-width: 880px; }
+
+  /* Тонкая дорожка видна всегда, поверх неё нарастает цветная линия */
+  .timeline-track,
+  .timeline-line {
+    position: absolute;
+    left: 21px;
+    top: 10px;
+    width: 1px;
+  }
+  .timeline-track { bottom: 10px; background: var(--stone); }
+  .timeline-line {
+    height: 0;
+    max-height: calc(100% - 20px);
+    background: linear-gradient(180deg, var(--spark-water), var(--spark-deep-visual));
+    transition: height 1.6s cubic-bezier(.2, .7, .3, 1);
+  }
+
+  .timeline-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+    position: relative;
+  }
+
+  .tl-item { display: flex; gap: 22px; align-items: flex-start; }
+
+  .tl-num {
+    flex-shrink: 0;
+    width: 43px;
+    height: 43px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    color: var(--ash);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tl-card { flex: 1; padding: 24px 26px; }
+
+  .tl-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .tl-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(47, 125, 150, .1);
+    color: var(--spark-deep);
+  }
+  .tl-text { font-size: 14.5px; line-height: 1.65; color: var(--smoke); }
+
+  /* ---------- формат консультации ---------- */
+  .format-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .format-card {
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-large);
+    padding: 34px 36px;
+  }
+  .format-title { font-size: 20px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 6px; }
+  .format-note {
+    font-size: 14px;
+    color: var(--ash);
+    padding-bottom: 20px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--stone);
+  }
+
+  .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .check-list li {
+    position: relative;
+    padding-left: 26px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--graphite);
+  }
+  .check-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 13px;
+    height: 7px;
+    border-left: 1.6px solid var(--spark-water);
+    border-bottom: 1.6px solid var(--spark-water);
+    transform: rotate(-45deg);
+  }
+
+  /* ---------- финальный призыв ---------- */
+  .closing-band { padding: 56px 48px; text-align: center; }
+  .closing-band .lede { max-width: 44ch; margin-inline: auto; }
+  .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .cta-phone {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid var(--stone);
+    font-size: 14px;
+    color: var(--graphite);
+  }
+  .cta-phone :global(svg) { color: var(--graphite); flex-shrink: 0; }
+  .cta-phone a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .cta-phone a:hover { text-decoration: none; }
+
+  /* ---------- смотрите также ---------- */
+  .rel-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-card);
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .3s cubic-bezier(.2,.7,.3,1), border-color .25s ease;
+  }
+  .rel-card:hover { border-color: var(--ash); }
+
+  .rel-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(47, 125, 150, .1);
+    color: var(--spark-deep);
+    margin-bottom: 18px;
+  }
+  .rel-title { font-size: 18px; font-weight: 400; line-height: 1.35; letter-spacing: -0.01em; margin-bottom: 9px; }
+  .rel-text { font-size: 14px; line-height: 1.6; color: var(--smoke); margin-bottom: 18px; }
+  .rel-more {
+    margin-top: auto;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .rel-more :global(svg) { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
+  .rel-card:hover .rel-more :global(svg) { transform: translateX(3px); }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 1023px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+    .hero-visual { max-width: 440px; width: 100%; margin-inline: auto; }
+    .format-grid { grid-template-columns: 1fr; gap: 36px; }
+    .cards-3 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 767px) {
+    .band { padding: 64px 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .page-hero { padding: 20px 0 64px; }
+    .cards-3 { grid-template-columns: 1fr; }
+    .hero-facts { gap: 28px; }
+    .tl-item { gap: 14px; }
+    .tl-card { padding: 22px; }
+    .format-card { padding: 26px 24px; }
+    .closing-band { padding: 32px 24px; }
+  }
+</style>

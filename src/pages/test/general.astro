@@ -3,6 +3,8 @@
 import Layout from '../../layouts/Layout.astro';
 import { url } from '../../utils/url';
 import SEO from '../../components/SEO.astro';
+import Icon from '../../components/Icon.astro';
+import ScrollAnimations from '../../components/ScrollAnimations.astro';
 ---
 
 <SEO
@@ -10,141 +12,150 @@ import SEO from '../../components/SEO.astro';
   description="Пройдите короткий тест и получите рекомендации психолога по вашей ситуации."
 />
 
-<Layout 
+<Layout
   title="Бесплатный психологический тест - Психологический центр"
   description="Пройдите бесплатный тест и получите рекомендации от психолога."
 >
 
-  <section class="min-h-screen py-24 bg-gradient-to-br from-teal-50 via-blue-50 to-purple-50">
+  <section class="band band-taupe test-band">
     <div class="container mx-auto px-4 lg:px-8">
-      <div class="max-w-3xl mx-auto">
-        
-        <!-- Прогресс-бар -->
-        <div class="mb-8">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-sm font-semibold text-gray-700">Шаг <span id="current-step">1</span> из <span id="total-steps">5</span></span>
-            <span class="text-sm font-semibold text-[#4894B2]"><span id="progress-percent">0</span>%</span>
+      <div class="inner">
+
+        <!-- Прогресс -->
+        <div class="progress" data-reveal>
+          <div class="progress-row">
+            <span class="progress-step">Шаг <span id="current-step">1</span> из <span id="total-steps">6</span></span>
+            <span class="progress-percent"><span id="progress-percent">0</span>%</span>
           </div>
-          <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
-            <div id="progress-bar" class="h-full bg-gradient-to-r from-[#4894B2] to-[#18698F] rounded-full transition-all duration-500" style="width: 0%"></div>
+          <div class="progress-track" aria-hidden="true">
+            <div id="progress-bar" class="progress-fill" style="width: 0%"></div>
           </div>
         </div>
 
         <!-- Форма теста -->
-        <div class="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-          
+        <div class="test-card" data-reveal>
+
           <!-- Шаг 0: Приветствие -->
           <div class="step active" data-step="0">
-            <div class="text-center mb-8">
-              <div class="text-7xl mb-6">🧠</div>
-              <h1 class="text-4xl font-bold text-gray-900 mb-4">
+            <div class="intro">
+              <span class="intro-icon"><Icon name="compass" size={26} /></span>
+              <h1 class="display mb-4">
                 Бесплатный психологический тест
               </h1>
-              <p class="text-xl text-gray-700 mb-6">
+              <p class="lede intro-lede">
                 Узнайте, что вас беспокоит, и получите рекомендации психолога
-              </p>
-              
-              <div class="text-left bg-gray-50 rounded-xl p-6 mb-8">
-                <p class="text-gray-700 mb-4">
-                  <strong>Тест займёт всего 2-3 минуты</strong> и поможет:
-                </p>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-start gap-2">
-                    <span class="text-[#4894B2] mt-1">✓</span>
-                    <span>Определить, с чем вы столкнулись</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-[#4894B2] mt-1">✓</span>
-                    <span>Понять степень ситуации</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-[#4894B2] mt-1">✓</span>
-                    <span>Получить персональные рекомендации</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <span class="text-[#4894B2] mt-1">✓</span>
-                    <span>Подобрать подходящего специалиста</span>
-                  </li>
-                </ul>
-              </div>
-
-              <p class="text-sm text-gray-500 mb-6">
-                Все ответы конфиденциальны и используются только для подбора рекомендаций
               </p>
             </div>
 
-            <button data-action="next" class="w-full px-8 py-4 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-bold transition shadow-lg hover:shadow-xl text-lg">
+            <div class="panel">
+              <p class="panel-lead">
+                <strong>Тест займёт всего 2-3 минуты</strong> и поможет:
+              </p>
+              <ul class="check-list">
+                <li>Определить, с чем вы столкнулись</li>
+                <li>Понять степень ситуации</li>
+                <li>Получить персональные рекомендации</li>
+                <li>Подобрать подходящего специалиста</li>
+              </ul>
+            </div>
+
+            <p class="fine">
+              Все ответы конфиденциальны и используются только для подбора рекомендаций
+            </p>
+
+            <button data-action="next" class="pill pill-solid pill-lg btn-wide" type="button">
               Начать тест
             </button>
           </div>
 
           <!-- Шаг 1: Что беспокоит -->
           <div class="step" data-step="1">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Что вас беспокоит больше всего?</h2>
-            
-            <div class="space-y-3">
-              <label class="answer-option block">
-                <input type="radio" name="concern" value="anxiety" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">😰 Тревога и страхи</div>
-                  <div class="text-sm text-gray-600">Постоянное беспокойство, панические атаки, фобии</div>
-                </div>
-              </label>
-              
-              <label class="answer-option block">
-                <input type="radio" name="concern" value="depression" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">😔 Депрессия и апатия</div>
-                  <div class="text-sm text-gray-600">Потеря интереса к жизни, грусть, нет сил</div>
-                </div>
-              </label>
-              
-              <label class="answer-option block">
-                <input type="radio" name="concern" value="relationships" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">💔 Проблемы в отношениях</div>
-                  <div class="text-sm text-gray-600">Конфликты с партнёром, семьёй, друзьями</div>
+            <h2 class="heading-sm q-title">Что вас беспокоит больше всего?</h2>
+
+            <div class="answers">
+              <label class="answer-option">
+                <input type="radio" name="concern" value="anxiety" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Тревога и страхи</span>
+                    <span class="answer-text">Постоянное беспокойство, панические атаки, фобии</span>
+                  </span>
                 </div>
               </label>
 
-              <label class="answer-option block">
-                <input type="radio" name="concern" value="stress" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">🔥 Стресс и выгорание</div>
-                  <div class="text-sm text-gray-600">Переутомление, нет энергии, эмоциональное истощение</div>
+              <label class="answer-option">
+                <input type="radio" name="concern" value="depression" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Депрессия и апатия</span>
+                    <span class="answer-text">Потеря интереса к жизни, грусть, нет сил</span>
+                  </span>
                 </div>
               </label>
 
-              <label class="answer-option block">
-                <input type="radio" name="concern" value="self-esteem" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">🪞 Низкая самооценка</div>
-                  <div class="text-sm text-gray-600">Неуверенность в себе, самокритика, комплексы</div>
+              <label class="answer-option">
+                <input type="radio" name="concern" value="relationships" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Проблемы в отношениях</span>
+                    <span class="answer-text">Конфликты с партнёром, семьёй, друзьями</span>
+                  </span>
                 </div>
               </label>
 
-              <label class="answer-option block">
-                <input type="radio" name="concern" value="trauma" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">💥 Травматический опыт</div>
-                  <div class="text-sm text-gray-600">Последствия тяжёлых событий, потерь, насилия</div>
+              <label class="answer-option">
+                <input type="radio" name="concern" value="stress" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Стресс и выгорание</span>
+                    <span class="answer-text">Переутомление, нет энергии, эмоциональное истощение</span>
+                  </span>
                 </div>
               </label>
 
-              <label class="answer-option block">
-                <input type="radio" name="concern" value="other" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">🤔 Другое</div>
-                  <div class="text-sm text-gray-600">Хочу разобраться в себе, личностный рост</div>
+              <label class="answer-option">
+                <input type="radio" name="concern" value="self-esteem" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Низкая самооценка</span>
+                    <span class="answer-text">Неуверенность в себе, самокритика, комплексы</span>
+                  </span>
+                </div>
+              </label>
+
+              <label class="answer-option">
+                <input type="radio" name="concern" value="trauma" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Травматический опыт</span>
+                    <span class="answer-text">Последствия тяжёлых событий, потерь, насилия</span>
+                  </span>
+                </div>
+              </label>
+
+              <label class="answer-option">
+                <input type="radio" name="concern" value="other" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Другое</span>
+                    <span class="answer-text">Хочу разобраться в себе, личностный рост</span>
+                  </span>
                 </div>
               </label>
             </div>
 
-            <div class="flex gap-4 mt-8">
-              <button data-action="prev" class="flex-1 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-semibold transition">
+            <div class="actions">
+              <button data-action="prev" class="pill pill-outline" type="button">
                 Назад
               </button>
-              <button data-action="next" class="flex-1 px-8 py-3 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-bold transition shadow-lg">
+              <button data-action="next" class="pill pill-solid" type="button">
                 Далее
               </button>
             </div>
@@ -152,47 +163,59 @@ import SEO from '../../components/SEO.astro';
 
           <!-- Шаг 2: Как долго беспокоит -->
           <div class="step" data-step="2">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Как долго вас это беспокоит?</h2>
-            
-            <div class="space-y-3">
-              <label class="answer-option block">
-                <input type="radio" name="duration" value="recent" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">Недавно (до 1 месяца)</div>
-                  <div class="text-sm text-gray-600">Это началось совсем недавно</div>
-                </div>
-              </label>
-              
-              <label class="answer-option block">
-                <input type="radio" name="duration" value="months" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">Несколько месяцев (1-6 месяцев)</div>
-                  <div class="text-sm text-gray-600">Уже какое-то время меня это беспокоит</div>
-                </div>
-              </label>
-              
-              <label class="answer-option block">
-                <input type="radio" name="duration" value="year" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">Больше года</div>
-                  <div class="text-sm text-gray-600">Это длится уже давно</div>
+            <h2 class="heading-sm q-title">Как долго вас это беспокоит?</h2>
+
+            <div class="answers">
+              <label class="answer-option">
+                <input type="radio" name="duration" value="recent" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Недавно (до 1 месяца)</span>
+                    <span class="answer-text">Это началось совсем недавно</span>
+                  </span>
                 </div>
               </label>
 
-              <label class="answer-option block">
-                <input type="radio" name="duration" value="always" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">Всю жизнь или очень давно</div>
-                  <div class="text-sm text-gray-600">Я помню это с детства / очень давно</div>
+              <label class="answer-option">
+                <input type="radio" name="duration" value="months" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Несколько месяцев (1-6 месяцев)</span>
+                    <span class="answer-text">Уже какое-то время меня это беспокоит</span>
+                  </span>
+                </div>
+              </label>
+
+              <label class="answer-option">
+                <input type="radio" name="duration" value="year" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Больше года</span>
+                    <span class="answer-text">Это длится уже давно</span>
+                  </span>
+                </div>
+              </label>
+
+              <label class="answer-option">
+                <input type="radio" name="duration" value="always" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Всю жизнь или очень давно</span>
+                    <span class="answer-text">Я помню это с детства / очень давно</span>
+                  </span>
                 </div>
               </label>
             </div>
 
-            <div class="flex gap-4 mt-8">
-              <button data-action="prev" class="flex-1 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-semibold transition">
+            <div class="actions">
+              <button data-action="prev" class="pill pill-outline" type="button">
                 Назад
               </button>
-              <button data-action="next" class="flex-1 px-8 py-3 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-bold transition shadow-lg">
+              <button data-action="next" class="pill pill-solid" type="button">
                 Далее
               </button>
             </div>
@@ -200,47 +223,59 @@ import SEO from '../../components/SEO.astro';
 
           <!-- Шаг 3: Степень влияния на жизнь -->
           <div class="step" data-step="3">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Насколько это влияет на вашу жизнь?</h2>
-            
-            <div class="space-y-3">
-              <label class="answer-option block">
-                <input type="radio" name="severity" value="low" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">😊 Слегка беспокоит</div>
-                  <div class="text-sm text-gray-600">Могу справляться, но хочу улучшить ситуацию</div>
-                </div>
-              </label>
-              
-              <label class="answer-option block">
-                <input type="radio" name="severity" value="medium" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">😐 Заметно мешает</div>
-                  <div class="text-sm text-gray-600">Влияет на работу, отношения или самочувствие</div>
-                </div>
-              </label>
-              
-              <label class="answer-option block">
-                <input type="radio" name="severity" value="high" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">😟 Сильно мешает жить</div>
-                  <div class="text-sm text-gray-600">Трудно справляться, снижает качество жизни</div>
+            <h2 class="heading-sm q-title">Насколько это влияет на вашу жизнь?</h2>
+
+            <div class="answers">
+              <label class="answer-option">
+                <input type="radio" name="severity" value="low" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Слегка беспокоит</span>
+                    <span class="answer-text">Могу справляться, но хочу улучшить ситуацию</span>
+                  </span>
                 </div>
               </label>
 
-              <label class="answer-option block">
-                <input type="radio" name="severity" value="critical" class="hidden">
-                <div class="answer-card p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition hover:border-teal-400 hover:bg-[#F2F7FD]">
-                  <div class="font-semibold mb-1">😰 Критическая ситуация</div>
-                  <div class="text-sm text-gray-600">Не могу справиться самостоятельно, нужна срочная помощь</div>
+              <label class="answer-option">
+                <input type="radio" name="severity" value="medium" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Заметно мешает</span>
+                    <span class="answer-text">Влияет на работу, отношения или самочувствие</span>
+                  </span>
+                </div>
+              </label>
+
+              <label class="answer-option">
+                <input type="radio" name="severity" value="high" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Сильно мешает жить</span>
+                    <span class="answer-text">Трудно справляться, снижает качество жизни</span>
+                  </span>
+                </div>
+              </label>
+
+              <label class="answer-option">
+                <input type="radio" name="severity" value="critical" class="answer-input">
+                <div class="answer-card">
+                  <span class="answer-mark" aria-hidden="true"></span>
+                  <span class="answer-body">
+                    <span class="answer-title">Критическая ситуация</span>
+                    <span class="answer-text">Не могу справиться самостоятельно, нужна срочная помощь</span>
+                  </span>
                 </div>
               </label>
             </div>
 
-            <div class="flex gap-4 mt-8">
-              <button data-action="prev" class="flex-1 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-semibold transition">
+            <div class="actions">
+              <button data-action="prev" class="pill pill-outline" type="button">
                 Назад
               </button>
-              <button data-action="next" class="flex-1 px-8 py-3 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-bold transition shadow-lg">
+              <button data-action="next" class="pill pill-solid" type="button">
                 Далее
               </button>
             </div>
@@ -248,60 +283,60 @@ import SEO from '../../components/SEO.astro';
 
           <!-- Шаг 4: Контактные данные -->
           <div class="step" data-step="4">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Ваши контактные данные</h2>
-            <p class="text-gray-600 mb-6">
+            <h2 class="heading-sm q-title">Ваши контактные данные</h2>
+            <p class="q-note">
               Мы свяжемся с вами и расскажем о рекомендациях на основе ваших ответов
             </p>
-            
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Ваше имя *</label>
-                <input 
-                  type="text" 
+
+            <div class="fields">
+              <div class="field">
+                <label class="field-label" for="user-name">Ваше имя *</label>
+                <input
+                  type="text"
                   id="user-name"
                   required
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-teal-500 focus:outline-none transition"
+                  class="field-input"
                   placeholder="Как к вам обращаться?"
                 >
               </div>
 
-              <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Телефон *</label>
-                <input 
-                  type="tel" 
+              <div class="field">
+                <label class="field-label" for="user-phone">Телефон *</label>
+                <input
+                  type="tel"
                   id="user-phone"
                   required
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-teal-500 focus:outline-none transition"
+                  class="field-input"
                   placeholder="+7 (___) ___-__-__"
                 >
               </div>
 
-              <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Email (необязательно)</label>
-                <input 
-                  type="email" 
+              <div class="field">
+                <label class="field-label" for="user-email">Email (необязательно)</label>
+                <input
+                  type="email"
                   id="user-email"
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-teal-500 focus:outline-none transition"
+                  class="field-input"
                   placeholder="your@email.com"
                 >
               </div>
 
-              <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Комментарий (необязательно)</label>
-                <textarea 
+              <div class="field">
+                <label class="field-label" for="user-comment">Комментарий (необязательно)</label>
+                <textarea
                   id="user-comment"
                   rows="3"
-                  class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-teal-500 focus:outline-none transition resize-none"
+                  class="field-input field-area"
                   placeholder="Если хотите что-то добавить..."
                 ></textarea>
               </div>
             </div>
 
-            <div class="flex gap-4 mt-8">
-              <button data-action="prev" class="flex-1 px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-semibold transition">
+            <div class="actions">
+              <button data-action="prev" class="pill pill-outline" type="button">
                 Назад
               </button>
-              <button data-action="submit" class="flex-1 px-8 py-3 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-bold transition shadow-lg">
+              <button data-action="submit" class="pill pill-solid" type="button">
                 Получить рекомендации
               </button>
             </div>
@@ -309,42 +344,42 @@ import SEO from '../../components/SEO.astro';
 
           <!-- Шаг 5: Финальный экран -->
           <div class="step" data-step="5">
-            <div class="text-center">
-              <div class="text-7xl mb-6">🎉</div>
-              <h2 class="text-3xl font-bold text-gray-900 mb-4">
+            <div class="intro">
+              <span class="intro-icon"><Icon name="check" size={26} /></span>
+              <h2 class="heading mb-4">
                 Спасибо за прохождение теста!
               </h2>
-              <p class="text-xl text-gray-700 mb-8">
+              <p class="lede intro-lede">
                 Мы свяжемся с вами в течение 15 минут и дадим персональные рекомендации
               </p>
+            </div>
 
-              <div class="text-left bg-gray-50 rounded-xl p-6 mb-8">
-                <p class="font-semibold text-gray-900 mb-4">Что дальше?</p>
-                <ul class="space-y-3 text-gray-700">
-                  <li class="flex items-start gap-3">
-                    <span class="text-2xl">1️⃣</span>
-                    <span>Наш психолог свяжется с вами по телефону</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-2xl">2️⃣</span>
-                    <span>Расскажет о рекомендациях на основе ваших ответов</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-2xl">3️⃣</span>
-                    <span>Подберём подходящего специалиста</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-2xl">4️⃣</span>
-                    <span>Запишем вас на удобное время</span>
-                  </li>
-                </ul>
-              </div>
+            <div class="panel">
+              <p class="panel-lead">Что дальше?</p>
+              <ol class="next-steps">
+                <li>
+                  <span class="next-num">01</span>
+                  <span>Наш психолог свяжется с вами по телефону</span>
+                </li>
+                <li>
+                  <span class="next-num">02</span>
+                  <span>Расскажет о рекомендациях на основе ваших ответов</span>
+                </li>
+                <li>
+                  <span class="next-num">03</span>
+                  <span>Подберём подходящего специалиста</span>
+                </li>
+                <li>
+                  <span class="next-num">04</span>
+                  <span>Запишем вас на удобное время</span>
+                </li>
+              </ol>
+            </div>
 
-              <div class="flex justify-center">
-                <a href={url('/')} class="px-10 py-3 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-teal-700 hover:to-blue-700 text-white rounded-full font-bold transition shadow-lg text-center">
-                  Вернуться на главную
-                </a>
-              </div>
+            <div class="actions actions-center">
+              <a href={url('/')} class="pill pill-solid pill-lg">
+                Вернуться на главную
+              </a>
             </div>
           </div>
 
@@ -354,31 +389,196 @@ import SEO from '../../components/SEO.astro';
     </div>
   </section>
 
+  <ScrollAnimations />
 </Layout>
 
 <style>
-  .step {
-    display: none;
+  /* ---------- полоса страницы ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .test-band { min-height: 100vh; }
+  .inner { max-width: 720px; margin: 0 auto; }
+
+  /* ---------- прогресс ---------- */
+  .progress { margin-bottom: 24px; }
+  .progress-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px; font-size: 13px; letter-spacing: 0.02em;
   }
-  
-  .step.active {
-    display: block;
-    animation: fadeIn 0.5s ease-in-out;
+  .progress-step { color: var(--graphite); }
+  .progress-percent { color: var(--smoke); font-variant-numeric: tabular-nums; }
+  .progress-track {
+    height: 4px; border-radius: var(--r-pill); overflow: hidden;
+    background: var(--stone);
   }
-  
+  .progress-fill {
+    height: 100%; border-radius: var(--r-pill);
+    background: linear-gradient(90deg, var(--spark-deep-visual), var(--spark-water));
+    transition: width 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+
+  /* ---------- карточка теста ---------- */
+  .test-card {
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-large);
+    padding: 40px;
+  }
+
+  .step { display: none; }
+  .step.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+
   @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-  
-  .answer-option input:checked + .answer-card {
-    @apply border-[#4894B2] bg-[#F2F7FD];
+
+  @media (prefers-reduced-motion: reduce) {
+    .step.active { animation: none; }
+  }
+
+  /* ---------- вступление и финал ---------- */
+  .intro { text-align: center; margin-bottom: 32px; }
+  .intro-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 56px; height: 56px; border-radius: 16px; margin-bottom: 22px;
+    background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
+  }
+  .intro-lede { max-width: 48ch; margin: 0 auto; }
+
+  /* ---------- панель со списком ---------- */
+  .panel {
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-card);
+    padding: 26px 28px;
+    margin-bottom: 24px;
+  }
+  .panel-lead { font-size: 15px; color: var(--graphite); margin-bottom: 16px; }
+  .panel-lead strong { font-weight: 500; color: var(--ink); }
+
+  .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+  .check-list li {
+    position: relative; padding-left: 26px; font-size: 15px; line-height: 1.5; color: var(--graphite);
+  }
+  .check-list li::before {
+    content: ""; position: absolute; left: 0; top: 6px;
+    width: 13px; height: 7px;
+    border-left: 1.6px solid var(--spark-water);
+    border-bottom: 1.6px solid var(--spark-water);
+    transform: rotate(-45deg);
+  }
+
+  .next-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .next-steps li {
+    display: flex; align-items: flex-start; gap: 14px;
+    font-size: 15px; line-height: 1.5; color: var(--graphite); text-align: left;
+  }
+  .next-num {
+    flex-shrink: 0; font-size: 12px; font-weight: 500; letter-spacing: 0.1em;
+    color: var(--ash); font-variant-numeric: tabular-nums; padding-top: 3px;
+  }
+
+  .fine {
+    font-size: 13px; line-height: 1.55; color: var(--smoke);
+    text-align: center; margin-bottom: 26px;
+  }
+
+  /* ---------- вопрос ---------- */
+  .q-title { margin-bottom: 8px; }
+  .q-note { font-size: 15px; line-height: 1.6; color: var(--smoke); margin-bottom: 24px; }
+  .q-title + .answers, .q-title + .fields { margin-top: 24px; }
+
+  /* ---------- варианты ответа ---------- */
+  .answers { display: grid; gap: 10px; }
+  .answer-option { display: block; cursor: pointer; }
+
+  /* поле остаётся в потоке для клавиатуры, но невидимо */
+  .answer-input {
+    position: absolute; width: 1px; height: 1px;
+    margin: -1px; padding: 0; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  .answer-card {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 18px;
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+    border-radius: 14px;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+  }
+  .answer-option:hover .answer-card { border-color: var(--ash); }
+
+  .answer-mark {
+    flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px;
+    border-radius: 50%; border: 1px solid var(--ash);
+    background: var(--canvas);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .answer-body { display: block; }
+  .answer-title {
+    display: block; font-size: 15px; font-weight: 500;
+    letter-spacing: -0.01em; color: var(--ink);
+  }
+  .answer-text {
+    display: block; margin-top: 4px;
+    font-size: 13.5px; line-height: 1.5; color: var(--smoke);
+  }
+  /* у коротких ответов подписи нет — заголовок один и звучит крупнее */
+  .answer-title:only-child { font-size: 16px; }
+
+  .answer-input:checked + .answer-card {
+    border-color: var(--spark-deep);
+    background: rgba(47, 125, 150, 0.07);
+  }
+  .answer-input:checked + .answer-card .answer-mark {
+    border-color: var(--spark-deep);
+    box-shadow: inset 0 0 0 4px var(--spark-deep);
+  }
+  .answer-input:focus-visible + .answer-card {
+    outline: 2px solid var(--spark-deep);
+    outline-offset: 3px;
+  }
+
+  /* ---------- поля формы ---------- */
+  .fields { display: grid; gap: 18px; }
+  .field-label {
+    display: block; margin-bottom: 8px;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.01em; color: var(--graphite);
+  }
+  .field-input {
+    width: 100%; padding: 13px 16px;
+    font-family: inherit; font-size: 15px; color: var(--ink);
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+    border-radius: 14px;
+    transition: border-color 0.25s ease, background-color 0.25s ease;
+  }
+  .field-input::placeholder { color: var(--ash); }
+  .field-input:hover { border-color: var(--ash); }
+  .field-input:focus {
+    outline: none;
+    border-color: var(--spark-deep);
+    background: var(--canvas);
+  }
+  .field-area { resize: none; line-height: 1.55; }
+
+  /* ---------- кнопки шага ---------- */
+  .actions { display: flex; gap: 12px; margin-top: 32px; }
+  .actions .pill { flex: 1; }
+  .actions-center { justify-content: center; }
+  .actions-center .pill { flex: 0 0 auto; }
+  .btn-wide { width: 100%; }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 767px) {
+    .band { padding: 56px 0; }
+    .test-card { padding: 26px 20px; border-radius: var(--r-card); }
+    .panel { padding: 22px 20px; }
+    .actions { flex-wrap: wrap; }
+    .actions .pill { flex: 1 1 100%; }
+    .actions-center .pill { flex: 1 1 100%; }
   }
 </style>
 
@@ -399,20 +599,20 @@ import SEO from '../../components/SEO.astro';
     function nextStep() {
       const currentStepEl = document.querySelector(`.step[data-step="${currentStep}"]`);
       const selectedAnswer = currentStepEl?.querySelector('input[type="radio"]:checked');
-      
+
       if (currentStep > 0 && currentStep < 4 && !selectedAnswer) {
         alert('Пожалуйста, выберите ответ');
         return;
       }
-      
+
       if (selectedAnswer) {
         testData[selectedAnswer.name] = selectedAnswer.value;
       }
-      
+
       document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.remove('active');
       currentStep++;
       document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.add('active');
-      
+
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -421,7 +621,7 @@ import SEO from '../../components/SEO.astro';
       document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.remove('active');
       currentStep--;
       document.querySelector(`.step[data-step="${currentStep}"]`)?.classList.add('active');
-      
+
       updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -431,17 +631,17 @@ import SEO from '../../components/SEO.astro';
       const phone = document.getElementById('user-phone')?.value;
       const email = document.getElementById('user-email')?.value;
       const comment = document.getElementById('user-comment')?.value;
-      
+
       if (!name || !phone) {
         alert('Пожалуйста, заполните обязательные поля');
         return;
       }
-      
+
       testData.name = name;
       testData.phone = phone;
       testData.email = email;
       testData.comment = comment;
-      
+
       console.log('Test data:', testData);
       nextStep();
     }
@@ -450,11 +650,11 @@ import SEO from '../../components/SEO.astro';
     document.querySelectorAll('[data-action="next"]').forEach(btn => {
       btn.addEventListener('click', nextStep);
     });
-    
+
     document.querySelectorAll('[data-action="prev"]').forEach(btn => {
       btn.addEventListener('click', prevStep);
     });
-    
+
     document.querySelectorAll('[data-action="submit"]').forEach(btn => {
       btn.addEventListener('click', submitTest);
     });

@@ -13,8 +13,8 @@ import { url } from '../../utils/url';
     </button>
     
     <div class="booking-content">
-      <h2 id="booking-modal-title" class="text-3xl font-bold text-gray-900 mb-2">Записаться</h2>
-      <p class="text-gray-600 mb-8">Заполните форму, и мы свяжемся с вами для подтверждения записи</p>
+      <h2 id="booking-modal-title" class="heading-sm mb-2">Записаться</h2>
+      <p class="muted mb-8">Заполните форму, и мы свяжемся с вами для подтверждения записи</p>
 
       <!-- Экран успеха (скрыт по умолчанию) -->
       <div id="booking-success" class="booking-success hidden" aria-hidden="true">
@@ -38,15 +38,17 @@ import { url } from '../../utils/url';
 
       <!-- Инлайн-ошибка (скрыта по умолчанию) -->
       <div id="booking-error" class="booking-error hidden" role="alert" aria-hidden="true">
-        <span class="error-icon" aria-hidden="true">⚠️</span>
-        <span>Не удалось отправить заявку. Позвоните нам: <a href="tel:+79151955132" class="underline font-semibold">+7 (915) 195-51-32</a></span>
+        <svg class="error-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path>
+        </svg>
+        <span>Не удалось отправить заявку. Позвоните нам: <a href="tel:+79151955132" class="error-phone">+7 (915) 195-51-32</a></span>
       </div>
 
       <form id="booking-form" class="space-y-6">
 
         <!-- Имя -->
         <div>
-          <label for="name" class="block text-sm font-semibold text-gray-900 mb-2">
+          <label for="name" class="field-label">
             Ваше имя <span style="color: var(--spark-deep)">*</span>
           </label>
           <input 
@@ -61,7 +63,7 @@ import { url } from '../../utils/url';
 
         <!-- Телефон -->
         <div>
-          <label for="phone" class="block text-sm font-semibold text-gray-900 mb-2">
+          <label for="phone" class="field-label">
             Телефон <span style="color: var(--spark-deep)">*</span>
           </label>
           <input 
@@ -76,7 +78,7 @@ import { url } from '../../utils/url';
 
         <!-- Email -->
         <div>
-          <label for="email" class="block text-sm font-semibold text-gray-900 mb-2">
+          <label for="email" class="field-label">
             Email
           </label>
           <input 
@@ -90,7 +92,7 @@ import { url } from '../../utils/url';
 
         <!-- Комментарий -->
         <div>
-          <label for="comment" class="block text-sm font-semibold text-gray-900 mb-2">
+          <label for="comment" class="field-label">
             Комментарий
           </label>
           <textarea 
@@ -103,7 +105,7 @@ import { url } from '../../utils/url';
         </div>
 
         <!-- Согласие на обработку данных -->
-        <div class="bg-gray-50 p-4 rounded-xl">
+        <div class="consent-box">
           <label class="flex items-start gap-3 cursor-pointer">
             <input 
               type="checkbox" 
@@ -111,7 +113,7 @@ import { url } from '../../utils/url';
               required
               class="mt-1 w-5 h-5 rounded" style="accent-color: var(--spark-deep)"
             >
-            <span class="text-sm text-gray-700">
+            <span class="consent-text">
               Я согласен(а) на обработку персональных данных в соответствии с 
               <a href={url('/privacy')} target="_blank" style="color: var(--spark-deep)" class="underline">
                 Политикой конфиденциальности
@@ -138,7 +140,7 @@ import { url } from '../../utils/url';
         </div>
 
         <!-- Инфо -->
-        <p class="text-sm text-gray-500 text-center">
+        <p class="form-note">
           После отправки заявки мы свяжемся с вами в ближайшее время для подтверждения записи
         </p>
       </form>
@@ -147,6 +149,33 @@ import { url } from '../../utils/url';
 </div>
 
 <style>
+  .field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--graphite);
+    margin-bottom: 8px;
+  }
+
+  .consent-box {
+    padding: 16px;
+    border-radius: 14px;
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+  }
+
+  .consent-text {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--smoke);
+  }
+
+  .form-note {
+    font-size: 13px;
+    text-align: center;
+    color: var(--ash);
+  }
+
   .form-field {
     width: 100%;
     padding: 12px 16px;
@@ -184,14 +213,15 @@ import { url } from '../../utils/url';
   }
 
   .booking-modal-content {
-    background: white;
-    border-radius: 24px;
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-large);
     width: 100%;
     max-width: 600px;
     position: relative;
     padding: 2.5rem;
     margin: auto;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 24px 60px -24px rgba(20, 24, 28, .28);
     animation: modalSlideIn 0.3s ease-out;
   }
 
@@ -213,8 +243,8 @@ import { url } from '../../utils/url';
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #f3f4f6;
-    color: #6b7280;
+    background: var(--taupe);
+    color: var(--smoke);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -225,8 +255,8 @@ import { url } from '../../utils/url';
   }
 
   .modal-close:hover {
-    background: #e5e7eb;
-    color: #374151;
+    background: var(--stone);
+    color: var(--ink);
     transform: rotate(90deg);
   }
 
@@ -256,7 +286,6 @@ import { url } from '../../utils/url';
     display: inline-flex;
     color: var(--spark-deep);
     margin-bottom: 1.25rem;
-    filter: drop-shadow(0 8px 20px rgba(72, 148, 178, 0.35));
   }
 
   .success-icon svg { overflow: visible; }
@@ -283,15 +312,16 @@ import { url } from '../../utils/url';
   }
 
   .success-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #0f172a;
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: -.02em;
+    color: var(--ink);
     margin-bottom: 0.75rem;
     animation: successPop 0.4s 0.65s ease-out both;
   }
 
   .success-text {
-    color: #475569;
+    color: var(--smoke);
     line-height: 1.6;
     margin-bottom: 1.75rem;
     animation: successPop 0.4s 0.8s ease-out both;
@@ -304,21 +334,20 @@ import { url } from '../../utils/url';
 
   .success-btn {
     padding: 0.875rem 2.5rem;
-    background: linear-gradient(135deg, var(--spark-deep) 0%, var(--spark-lilac) 100%);
-    color: white;
+    background: var(--ink);
+    color: var(--canvas);
     border: none;
-    border-radius: 0.75rem;
-    font-size: 1rem;
-    font-weight: 600;
+    border-radius: var(--r-pill);
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 6px 20px rgba(72, 148, 178, 0.35);
+    transition: transform 0.2s ease, background 0.2s ease;
     animation: successPop 0.4s 0.95s ease-out both;
   }
 
   .success-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(72, 148, 178, 0.45);
+    background: var(--graphite);
   }
 
   /* Конфетти */
@@ -342,18 +371,18 @@ import { url } from '../../utils/url';
 
   .success-confetti span:nth-child(1)  { background: var(--spark-water); --tx:  -160px; --ty: -120px; --r: -40deg; }
   .success-confetti span:nth-child(2)  { background: var(--spark-powder); --tx:   140px; --ty: -140px; --r:  50deg; }
-  .success-confetti span:nth-child(3)  { background: #f2b134; --tx:  -220px; --ty:  -40px; --r: -80deg; }
-  .success-confetti span:nth-child(4)  { background: #7fb685; --tx:   220px; --ty:  -20px; --r:  90deg; }
+  .success-confetti span:nth-child(3)  { background: var(--spark-mint); --tx:  -220px; --ty:  -40px; --r: -80deg; }
+  .success-confetti span:nth-child(4)  { background: var(--spark-lilac); --tx:   220px; --ty:  -20px; --r:  90deg; }
   .success-confetti span:nth-child(5)  { background: var(--spark-water); --tx:   -80px; --ty: -180px; --r: -20deg; border-radius: 50%; }
   .success-confetti span:nth-child(6)  { background: var(--spark-powder); --tx:    80px; --ty: -180px; --r:  20deg; border-radius: 50%; }
   .success-confetti span:nth-child(7)  { background: var(--spark-lilac); --tx:  -260px; --ty:   40px; --r: -110deg; }
-  .success-confetti span:nth-child(8)  { background: #f2b134; --tx:   260px; --ty:   60px; --r:  110deg; }
-  .success-confetti span:nth-child(9)  { background: #7fb685; --tx:  -120px; --ty:  -80px; --r: -60deg; border-radius: 50%; }
+  .success-confetti span:nth-child(8)  { background: var(--spark-mint); --tx:   260px; --ty:   60px; --r:  110deg; }
+  .success-confetti span:nth-child(9)  { background: var(--spark-lilac); --tx:  -120px; --ty:  -80px; --r: -60deg; border-radius: 50%; }
   .success-confetti span:nth-child(10) { background: var(--spark-water); --tx:   120px; --ty:  -90px; --r:  60deg; border-radius: 50%; }
   .success-confetti span:nth-child(11) { background: var(--spark-powder); --tx:  -200px; --ty:  120px; --r: -140deg; }
   .success-confetti span:nth-child(12) { background: var(--spark-lilac); --tx:   200px; --ty:  140px; --r:  140deg; }
-  .success-confetti span:nth-child(13) { background: #f2b134; --tx:   -40px; --ty: -220px; --r:   10deg; border-radius: 50%; }
-  .success-confetti span:nth-child(14) { background: #7fb685; --tx:    40px; --ty: -220px; --r:  -10deg; border-radius: 50%; }
+  .success-confetti span:nth-child(13) { background: var(--spark-mint); --tx:   -40px; --ty: -220px; --r:   10deg; border-radius: 50%; }
+  .success-confetti span:nth-child(14) { background: var(--spark-lilac); --tx:    40px; --ty: -220px; --r:  -10deg; border-radius: 50%; }
   .success-confetti span:nth-child(15) { background: var(--spark-water); --tx:     0px; --ty: -260px; --r:   30deg; }
 
   @keyframes confettiBurst {
@@ -375,9 +404,9 @@ import { url } from '../../utils/url';
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    color: #991b1b;
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+    color: var(--ink);
     padding: 1rem 1.25rem;
     border-radius: 0.75rem;
     margin-bottom: 1rem;
@@ -386,7 +415,8 @@ import { url } from '../../utils/url';
 
   .booking-error.hidden { display: none; }
 
-  .booking-error .error-icon { font-size: 1.25rem; flex-shrink: 0; }
+  .booking-error .error-icon { flex-shrink: 0; color: var(--spark-deep); }
+  .error-phone { color: var(--spark-deep); text-decoration: underline; }
 
   @keyframes errorShake {
     0%, 100% { transform: translateX(0); }

@@ -4,10 +4,11 @@ import Layout from '../../layouts/Layout.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
+import Icon from '../../components/Icon.astro';
 import { url } from '../../utils/url';
 ---
 
-<SEO 
+<SEO
   title="Как справиться с паническими атаками | Советы психолога из Одинцово"
   description="Эффективные методы борьбы с паническими атаками. Советы психолога из Одинцово. Техники, дыхание, помощь при панике."
   keywords="панические атаки, как справиться с паникой, психолог Одинцово"
@@ -15,298 +16,376 @@ import { url } from '../../utils/url';
   type="article"
 />
 
-<Layout 
+<Layout
   title="Как справиться с паническими атаками | Советы психолога"
   description="Эффективные методы борьбы с паническими атаками."
 >
 
-  <Breadcrumbs 
+  <Breadcrumbs
     items={[
-      { label: 'Главная', href: '/' },
-      { label: 'Блог', href: '/blog' },
+      { label: 'Главная', href: url('/') },
+      { label: 'Блог', href: url('/blog') },
       { label: 'Как справиться с паническими атаками' }
     ]}
   />
 
-  <!-- Breadcrumbs -->
-  <section class="pt-24 pb-6 bg-gray-50">
+  <!-- ============ Шапка статьи ============ -->
+  <section class="page-hero">
     <div class="container mx-auto px-4 lg:px-8">
-      <div class="flex items-center gap-2 text-sm text-gray-600">
-        <a href={url('/')} class="hover:text-[#4894B2] transition">Главная</a>
-        <span>→</span>
-        <a href={url('/blog')} class="hover:text-[#4894B2] transition">Блог</a>
-        <span>→</span>
-        <span class="text-gray-900">Как справиться с паническими атаками</span>
-      </div>
-    </div>
-  </section>
+      <div class="column">
 
-  <!-- Hero Article -->
-  <section class="py-12 bg-gray-50">
-    <div class="container mx-auto px-4 lg:px-8">
-      <div class="max-w-4xl mx-auto">
-        
-        <!-- Категория и дата -->
-        <div class="flex items-center gap-4 mb-6">
-          <span class="px-4 py-2 bg-teal-100 text-teal-700 text-sm font-semibold rounded-full">
-            Тревожность
-          </span>
-          <span class="text-gray-600">15 января 2025</span>
-          <span class="text-gray-600">• 8 мин чтения</span>
-        </div>
-        
-        <!-- Заголовок -->
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-          Как справиться с паническими атаками: практические техники
-        </h1>
-        
-        <!-- Подзаголовок -->
-        <p class="text-xl text-gray-700 mb-8">
-          5 проверенных техник, которые помогут остановить паническую атаку 
-          и предотвратить ее в будущем. Практические упражнения от клинического психолога.
-        </p>
-        
-        <!-- Автор -->
-        <div class="flex items-center gap-4 mb-8 pb-8 border-b border-gray-200">
-          <div class="w-16 h-16 rounded-full bg-gradient-to-br from-teal-100 to-blue-100 flex items-center justify-center text-3xl">
-            👩‍⚕️
+        <div data-reveal>
+          <div class="post-meta">
+            <span class="post-cat">Тревожность</span>
+            <span>15 января 2025</span>
+            <span class="sep" aria-hidden="true">·</span>
+            <span>8 мин чтения</span>
           </div>
-          <div>
-            <div class="font-bold text-gray-900">Юлия Ляпина</div>
-            <div class="text-sm text-gray-600">Клинический психолог, КПТ-терапевт</div>
-          </div>
-        </div>
-        
-        <!-- Основное изображение -->
-        <div class="flex items-center justify-center mb-12">
-          <img class="rounded-3xl w-full h-full object-cover" src={url('/images/blog/panic-attacks.jpg')} alt="Как справиться с паническими атаками" loading="lazy" decoding="async">
-        </div>
-        
-      </div>
-    </div>
-  </section>
 
-  <!-- Содержание статьи -->
-  <section class="py-12 bg-white">
-    <div class="container mx-auto px-4 lg:px-8">
-      <div class="max-w-4xl mx-auto prose prose-lg">
-        
-        <h2>Что такое паническая атака?</h2>
-        <p>
-          Паническая атака — это внезапный приступ интенсивного страха или дискомфорта, 
-          который достигает пика в течение нескольких минут. Во время приступа человек 
-          может испытывать учащенное сердцебиение, потливость, дрожь, одышку, 
-          ощущение удушья и страх смерти.
-        </p>
-        
-        <p>
-          Важно понимать: <strong>паническая атака не опасна для жизни</strong>, 
-          хотя ощущения могут быть очень пугающими. Это реакция вегетативной нервной 
-          системы на воспринимаемую угрозу, даже если реальной опасности нет.
-        </p>
-        
-        <h2>Признаки панической атаки</h2>
-        <ul>
-          <li><strong>Физические симптомы:</strong> учащенное сердцебиение, потливость, дрожь, одышка</li>
-          <li><strong>Эмоциональные симптомы:</strong> сильный страх, ощущение нереальности происходящего</li>
-          <li><strong>Когнитивные симптомы:</strong> страх потерять контроль, страх смерти</li>
-          <li><strong>Поведенческие симптомы:</strong> желание убежать, избегание определенных мест</li>
-        </ul>
-        
-        <h2>5 техник для остановки панической атаки</h2>
-        
-        <h3>1. Техника дыхания 4-7-8</h3>
-        <p>
-          Это одна из самых эффективных техник для быстрого снижения тревоги:
-        </p>
-        <ol>
-          <li>Вдохните через нос на счет 4</li>
-          <li>Задержите дыхание на счет 7</li>
-          <li>Выдохните через рот на счет 8</li>
-          <li>Повторите 3-4 раза</li>
-        </ol>
-        <p>
-          Эта техника активирует парасимпатическую нервную систему, 
-          которая отвечает за расслабление организма.
-        </p>
-        
-        <h3>2. Заземление через 5-4-3-2-1</h3>
-        <p>
-          Техника помогает вернуться в настоящий момент и отвлечься от пугающих мыслей:
-        </p>
-        <ul>
-          <li><strong>5</strong> — назовите 5 вещей, которые вы видите</li>
-          <li><strong>4</strong> — назовите 4 вещи, которые вы можете потрогать</li>
-          <li><strong>3</strong> — назовите 3 звука, которые вы слышите</li>
-          <li><strong>2</strong> — назовите 2 запаха</li>
-          <li><strong>1</strong> — назовите 1 вкус</li>
-        </ul>
-        
-        <h3>3. Мышечная релаксация</h3>
-        <p>
-          Последовательно напрягайте и расслабляйте разные группы мышц:
-        </p>
-        <ol>
-          <li>Сожмите кулаки на 5 секунд, затем расслабьте</li>
-          <li>Напрягите мышцы рук, затем расслабьте</li>
-          <li>Поднимите плечи к ушам, затем опустите</li>
-          <li>Напрягите мышцы живота, затем расслабьте</li>
-          <li>Напрягите ноги, затем расслабьте</li>
-        </ol>
-        
-        <h3>4. Холодная вода</h3>
-        <p>
-          Простой но эффективный способ:
-        </p>
-        <ul>
-          <li>Умойте лицо холодной водой</li>
-          <li>Подержите кубик льда в руке</li>
-          <li>Выпейте стакан холодной воды маленькими глотками</li>
-        </ul>
-        <p>
-          Холод активирует "рефлекс ныряния", который замедляет сердцебиение 
-          и помогает успокоиться.
-        </p>
-        
-        <h3>5. Когнитивная переоценка</h3>
-        <p>
-          Работа с мыслями, которые усиливают панику:
-        </p>
-        <ul>
-          <li>Скажите себе: "Это паническая атака, она не опасна"</li>
-          <li>Напомните себе: "Это временно, скоро пройдет"</li>
-          <li>Повторяйте: "Я в безопасности, мое тело реагирует на ложную тревогу"</li>
-        </ul>
-        
-        <h2>Профилактика панических атак</h2>
-        <p>
-          Чтобы снизить частоту приступов:
-        </p>
-        <ul>
-          <li><strong>Регулярная физическая активность</strong> — спорт помогает "сжигать" избыток адреналина</li>
-          <li><strong>Режим сна</strong> — спите 7-8 часов, недосып усиливает тревогу</li>
-          <li><strong>Ограничение кофеина и алкоголя</strong> — они могут провоцировать приступы</li>
-          <li><strong>Медитация и йога</strong> — помогают научиться управлять тревогой</li>
-          <li><strong>Работа с психологом</strong> — КПТ-терапия очень эффективна при панических атаках</li>
-        </ul>
-        
-        <h2>Когда нужна помощь специалиста?</h2>
-        <p>
-          Обратитесь к психологу, если:
-        </p>
-        <ul>
-          <li>Панические атаки происходят регулярно (чаще 1 раза в месяц)</li>
-          <li>Вы начали избегать мест или ситуаций из-за страха приступа</li>
-          <li>Атаки значительно снижают качество вашей жизни</li>
-          <li>У вас появились депрессивные симптомы</li>
-        </ul>
-        
-        <div class="bg-[#F2F7FD] border-l-4 border-teal-600 p-6 my-8">
-          <p class="font-semibold text-teal-900 mb-2">💡 Важно помнить:</p>
-          <p class="text-teal-800">
-            Паническая атака — это не признак слабости или сумасшествия. 
-            Это распространенное состояние, которое хорошо поддается лечению. 
-            С правильными техниками и профессиональной помощью вы можете 
-            научиться контролировать тревогу и жить полноценной жизнью.
+          <h1 class="display mb-5">
+            Как справиться с паническими атаками: практические техники
+          </h1>
+
+          <p class="lede post-lede">
+            5 проверенных техник, которые помогут остановить паническую атаку
+            и предотвратить ее в будущем. Практические упражнения от клинического психолога.
           </p>
+
+          <div class="post-author">
+            <span class="author-mark"><Icon name="team" size={20} /></span>
+            <span class="author-lines">
+              <span class="author-name">Юлия Ляпина</span>
+              <span class="author-role">Клинический психолог, КПТ-терапевт</span>
+            </span>
+          </div>
         </div>
-        
-        <h2>Заключение</h2>
-        <p>
-          Панические атаки — это пугающий, но управляемый опыт. Используйте 
-          предложенные техники при первых признаках приступа. Помните, что 
-          практика делает эти методы более эффективными — чем чаще вы их 
-          используете, тем лучше они работают.
-        </p>
-        
-        <p>
-          Если панические атаки мешают вашей жизни, не откладывайте обращение 
-          к специалисту. Когнитивно-поведенческая терапия показывает отличные 
-          результаты в лечении панического расстройства.
-        </p>
-        
+
+        <figure class="post-cover" data-reveal>
+          <img
+            src={url('/images/blog/panic-attacks.jpg')}
+            alt="Как справиться с паническими атаками"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+
       </div>
     </div>
   </section>
 
-  <!-- CTA для записи -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white relative overflow-hidden">
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-4xl md:text-5xl font-bold mb-6">
-          Нужна помощь с паническими атаками?
-        </h2>
-        <p class="text-xl mb-8 opacity-90">
-          Запишитесь на консультацию к нашему специалисту
-        </p>
-        
-        <div class="flex flex-wrap gap-4 justify-center">
-          <a 
-            href={url('/contact')}
-            class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition shadow-xl hover:shadow-2xl text-lg"
-          >
+  <!-- ============ Текст статьи ============ -->
+  <section class="band band-text">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="column">
+        <div class="prose" data-reveal>
+
+          <h2>Что такое паническая атака?</h2>
+          <p>
+            Паническая атака — это внезапный приступ интенсивного страха или дискомфорта,
+            который достигает пика в течение нескольких минут. Во время приступа человек
+            может испытывать учащенное сердцебиение, потливость, дрожь, одышку,
+            ощущение удушья и страх смерти.
+          </p>
+
+          <p>
+            Важно понимать: <strong>паническая атака не опасна для жизни</strong>,
+            хотя ощущения могут быть очень пугающими. Это реакция вегетативной нервной
+            системы на воспринимаемую угрозу, даже если реальной опасности нет.
+          </p>
+
+          <h2>Признаки панической атаки</h2>
+          <ul>
+            <li><strong>Физические симптомы:</strong> учащенное сердцебиение, потливость, дрожь, одышка</li>
+            <li><strong>Эмоциональные симптомы:</strong> сильный страх, ощущение нереальности происходящего</li>
+            <li><strong>Когнитивные симптомы:</strong> страх потерять контроль, страх смерти</li>
+            <li><strong>Поведенческие симптомы:</strong> желание убежать, избегание определенных мест</li>
+          </ul>
+
+          <h2>5 техник для остановки панической атаки</h2>
+
+          <h3>1. Техника дыхания 4-7-8</h3>
+          <p>
+            Это одна из самых эффективных техник для быстрого снижения тревоги:
+          </p>
+          <ol>
+            <li>Вдохните через нос на счет 4</li>
+            <li>Задержите дыхание на счет 7</li>
+            <li>Выдохните через рот на счет 8</li>
+            <li>Повторите 3-4 раза</li>
+          </ol>
+          <p>
+            Эта техника активирует парасимпатическую нервную систему,
+            которая отвечает за расслабление организма.
+          </p>
+
+          <h3>2. Заземление через 5-4-3-2-1</h3>
+          <p>
+            Техника помогает вернуться в настоящий момент и отвлечься от пугающих мыслей:
+          </p>
+          <ul>
+            <li><strong>5</strong> — назовите 5 вещей, которые вы видите</li>
+            <li><strong>4</strong> — назовите 4 вещи, которые вы можете потрогать</li>
+            <li><strong>3</strong> — назовите 3 звука, которые вы слышите</li>
+            <li><strong>2</strong> — назовите 2 запаха</li>
+            <li><strong>1</strong> — назовите 1 вкус</li>
+          </ul>
+
+          <h3>3. Мышечная релаксация</h3>
+          <p>
+            Последовательно напрягайте и расслабляйте разные группы мышц:
+          </p>
+          <ol>
+            <li>Сожмите кулаки на 5 секунд, затем расслабьте</li>
+            <li>Напрягите мышцы рук, затем расслабьте</li>
+            <li>Поднимите плечи к ушам, затем опустите</li>
+            <li>Напрягите мышцы живота, затем расслабьте</li>
+            <li>Напрягите ноги, затем расслабьте</li>
+          </ol>
+
+          <h3>4. Холодная вода</h3>
+          <p>
+            Простой, но эффективный способ:
+          </p>
+          <ul>
+            <li>Умойте лицо холодной водой</li>
+            <li>Подержите кубик льда в руке</li>
+            <li>Выпейте стакан холодной воды маленькими глотками</li>
+          </ul>
+          <p>
+            Холод активирует "рефлекс ныряния", который замедляет сердцебиение
+            и помогает успокоиться.
+          </p>
+
+          <h3>5. Когнитивная переоценка</h3>
+          <p>
+            Работа с мыслями, которые усиливают панику:
+          </p>
+          <ul>
+            <li>Скажите себе: "Это паническая атака, она не опасна"</li>
+            <li>Напомните себе: "Это временно, скоро пройдет"</li>
+            <li>Повторяйте: "Я в безопасности, мое тело реагирует на ложную тревогу"</li>
+          </ul>
+
+          <h2>Профилактика панических атак</h2>
+          <p>
+            Чтобы снизить частоту приступов:
+          </p>
+          <ul>
+            <li><strong>Регулярная физическая активность</strong> — спорт помогает "сжигать" избыток адреналина</li>
+            <li><strong>Режим сна</strong> — спите 7-8 часов, недосып усиливает тревогу</li>
+            <li><strong>Ограничение кофеина и алкоголя</strong> — они могут провоцировать приступы</li>
+            <li><strong>Медитация и йога</strong> — помогают научиться управлять тревогой</li>
+            <li><strong>Работа с психологом</strong> — КПТ-терапия очень эффективна при панических атаках</li>
+          </ul>
+
+          <h2>Когда нужна помощь специалиста?</h2>
+          <p>
+            Обратитесь к психологу, если:
+          </p>
+          <ul>
+            <li>Панические атаки происходят регулярно (чаще 1 раза в месяц)</li>
+            <li>Вы начали избегать мест или ситуаций из-за страха приступа</li>
+            <li>Атаки значительно снижают качество вашей жизни</li>
+            <li>У вас появились депрессивные симптомы</li>
+          </ul>
+
+          <aside class="note">
+            <span class="note-mark"><Icon name="note" size={18} /></span>
+            <div>
+              <p class="note-title">Важно помнить:</p>
+              <p class="note-text">
+                Паническая атака — это не признак слабости или сумасшествия.
+                Это распространенное состояние, которое хорошо поддается лечению.
+                С правильными техниками и профессиональной помощью вы можете
+                научиться контролировать тревогу и жить полноценной жизнью.
+              </p>
+            </div>
+          </aside>
+
+          <h2>Заключение</h2>
+          <p>
+            Панические атаки — это пугающий, но управляемый опыт. Используйте
+            предложенные техники при первых признаках приступа. Помните, что
+            практика делает эти методы более эффективными — чем чаще вы их
+            используете, тем лучше они работают.
+          </p>
+
+          <p>
+            Если панические атаки мешают вашей жизни, не откладывайте обращение
+            к специалисту. Когнитивно-поведенческая терапия показывает отличные
+            результаты в лечении панического расстройства.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Призыв по теме статьи ============ -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <p class="eyebrow eyebrow-center mb-4">Запись</p>
+          <h2 class="heading mb-4">Нужна помощь с паническими атаками?</h2>
+          <p class="lede cta-lede mb-8">
+            Запишитесь на консультацию к нашему специалисту
+          </p>
+          <div class="cta-actions">
+            <a href={url('/contact')} class="pill pill-solid pill-lg">
+              Записаться на консультацию
+            </a>
+            <a href={url('/blog')} class="pill pill-outline pill-lg">
+              Все статьи блога
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Запись на консультацию ============ -->
+  <section class="band band-taupe band-quiet">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="closing-row" data-reveal>
+          <div>
+            <h2 class="heading-sm mb-3">Нужна помощь психолога?</h2>
+            <p class="closing-text">
+              Если вам нужна профессиональная психологическая помощь — запишитесь на консультацию
+            </p>
+          </div>
+          <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
             Записаться на консультацию
-          </a>
-          <a 
-            href={url('/blog')}
-            class="px-12 py-5 bg-transparent hover:bg-white/10 text-white border-2 border-white rounded-full font-bold transition text-lg"
-          >
-            Все статьи блога
-          </a>
+          </button>
         </div>
       </div>
     </div>
   </section>
 
-
-  <!-- CTA: Записаться на консультацию -->
-  <section class="py-16 bg-gradient-to-r from-[#4894B2] to-[#18698F] text-white">
-    <div class="container mx-auto px-4 lg:px-8 text-center">
-      <h2 class="text-3xl md:text-4xl font-bold mb-4">
-        Нужна помощь психолога?
-      </h2>
-      <p class="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-        Если вам нужна профессиональная психологическая помощь — запишитесь на консультацию
-      </p>
-      <button 
-        onclick="openBookingModal()"
-        class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition shadow-xl text-lg"
-      >
-        Записаться на консультацию
-      </button>
-    </div>
-  </section>
-
+  <ScrollAnimations />
+</Layout>
 
 <style>
-  .prose {
-    @apply text-gray-700;
+  /* ---------- ритм секций ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .band-tight { padding: 24px 0 96px; }
+  .band-quiet { padding: 56px 0; }
+  .band-text { padding: 56px 0 88px; }
+
+  /* Колонка чтения: одна ширина у шапки, обложки и текста */
+  .column { max-width: 780px; margin: 0 auto; }
+
+  /* Шапка сайта закреплена (высота 96px) — крошки не должны уходить под неё */
+
+  /* ---------- шапка статьи ---------- */
+  .page-hero { padding: 28px 0 0; background: var(--canvas); }
+
+  .post-meta {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 12px;
+    font-size: 13px; color: var(--ash); margin-bottom: 22px;
   }
-  
+  .post-cat {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.02em;
+    padding: 5px 12px; border-radius: var(--r-pill);
+    background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
+  }
+  .post-meta .sep { color: var(--stone); }
+
+  .post-lede { max-width: 62ch; }
+
+  .post-author {
+    display: flex; align-items: center; gap: 14px;
+    margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--stone);
+  }
+  .author-mark {
+    flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
+  }
+  .author-lines { display: grid; gap: 2px; }
+  .author-name { font-size: 15px; font-weight: 500; color: var(--ink); }
+  .author-role { font-size: 13px; color: var(--smoke); }
+
+  .post-cover {
+    margin: 40px 0 0; aspect-ratio: 16 / 9; overflow: hidden;
+    border: 1px solid var(--stone); border-radius: var(--r-large);
+    background: var(--taupe);
+  }
+  .post-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ---------- текст статьи ---------- */
+  .prose { color: var(--graphite); font-size: 16.5px; line-height: 1.75; }
+
   .prose h2 {
-    @apply text-3xl font-bold text-gray-900 mt-12 mb-6;
+    font-size: clamp(23px, 2.6vw, 29px); font-weight: 300;
+    line-height: 1.2; letter-spacing: -0.02em; color: var(--ink);
+    margin: 52px 0 18px;
   }
-  
+  .prose h2:first-child { margin-top: 0; }
+
   .prose h3 {
-    @apply text-2xl font-bold text-gray-900 mt-8 mb-4;
+    font-size: 19px; font-weight: 500; line-height: 1.35;
+    letter-spacing: -0.01em; color: var(--ink); margin: 34px 0 12px;
   }
-  
-  .prose p {
-    @apply mb-6 leading-relaxed;
-  }
-  
+
+  .prose p { margin: 0 0 18px; }
+
   .prose ul, .prose ol {
-    @apply mb-6 space-y-2;
+    list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px;
   }
-  
-  .prose li {
-    @apply leading-relaxed;
+  .prose ol { counter-reset: li; }
+  .prose li { position: relative; padding-left: 26px; }
+  .prose ul > li::before {
+    content: ""; position: absolute; left: 4px; top: 11px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
   }
-  
-  .prose strong {
-    @apply text-gray-900 font-semibold;
+  .prose ol > li { counter-increment: li; }
+  .prose ol > li::before {
+    content: counter(li) "."; position: absolute; left: 0; top: 0;
+    font-size: 14px; font-weight: 500; color: var(--spark-deep);
+    font-variant-numeric: tabular-nums;
+  }
+  .prose li > ul, .prose li > ol { margin: 10px 0 0; }
+
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  /* ---------- врезка ---------- */
+  .note {
+    display: flex; gap: 14px; margin: 36px 0;
+    padding: 24px; background: var(--taupe);
+    border: 1px solid var(--stone); border-radius: var(--r-card);
+  }
+  .note-mark {
+    flex-shrink: 0; width: 36px; height: 36px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
+  }
+  .note-title { font-size: 15px; font-weight: 500; color: var(--ink); margin: 0 0 6px; }
+  .note-text { font-size: 15px; line-height: 1.65; color: var(--smoke); margin: 0; }
+
+  /* ---------- призыв ---------- */
+  .closing-band { padding: 64px 48px; text-align: center; }
+  .closing-band .eyebrow { justify-content: center; }
+  .cta-lede { max-width: 46ch; margin-inline: auto; }
+  .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  .closing-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 28px; flex-wrap: wrap;
+  }
+  .closing-text { font-size: 15px; line-height: 1.65; color: var(--smoke); max-width: 52ch; }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 767px) {
+    .band { padding: 64px 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .band-quiet { padding: 44px 0; }
+    .band-text { padding: 40px 0 64px; }
+    .page-hero { padding: 20px 0 0; }
+    .post-cover { margin-top: 32px; aspect-ratio: 4 / 3; }
+    .closing-band { padding: 40px 26px; }
+    .prose { font-size: 16px; }
+    .prose h2 { margin-top: 40px; }
   }
 </style>

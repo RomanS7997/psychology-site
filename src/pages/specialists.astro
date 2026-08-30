@@ -4,620 +4,522 @@ import Layout from '../layouts/Layout.astro';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
+import Icon from '../components/Icon.astro';
 import { url } from '../utils/url';
+
+// Карточки специалистов. Блоки идут в том же порядке, что и раньше:
+// list — перечисление с точкой, checks — с галочкой, tags — пилюли,
+// figures — цифры опыта, text — абзацы.
+const specialists = [
+  {
+    id: 'specialist-1',
+    categories: 'adult family',
+    name: 'Юлия Ляпина',
+    role: 'Психолог, специалист по работе с детьми и взрослыми',
+    photo: '/images/specialists/julia-lyapina.jpg',
+    badges: ['Психолог', '15+ лет опыта'],
+    cta: 'Записаться к Юлии Ляпиной',
+    blocks: [
+      {
+        type: 'list',
+        icon: 'book',
+        title: 'Образование:',
+        items: [
+          'СГУ им. Н.Г. Чернышевского, факультет психологии',
+          'Факультет коррекционной педагогики и специальной психологии',
+          'Ассоциация монтессори-педагогов',
+          'Ассоциация сказкотерапевтов России',
+          'Институт психотерапии и клинической психологии',
+        ],
+      },
+      {
+        type: 'tags',
+        title: 'Специализация:',
+        items: ['Психолог-консультант', 'Семейный психолог', 'Детский психолог', 'Коррекционный педагог'],
+      },
+      {
+        type: 'checks',
+        title: 'Методы работы:',
+        items: [
+          'Арт-терапия',
+          'Когнитивно-поведенческая терапия (КПТ)',
+          'МАК (метафорические ассоциативные карты)',
+          'ДПДГ, расстановки',
+          'Системный подход в семейной терапии',
+        ],
+      },
+      {
+        type: 'figures',
+        items: [{ value: '15', label: 'лет практики' }],
+      },
+      {
+        type: 'text',
+        title: 'О себе:',
+        items: [
+          'Я работаю с клиентами более 15 лет. Использую научно-обоснованные методы. Моя задача — не держать клиентов годами в терапии, а научить самостоятельно справляться с трудностями.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'specialist-2',
+    categories: 'children',
+    name: 'Власихина Людмила Степановна',
+    role: 'Монтессори-педагог, 3–6 лет',
+    photo: '/images/specialists/vlasihina-lyudmila.jpg',
+    badges: ['Монтессори-педагог', '20+ лет опыта'],
+    cta: 'Записать ребёнка',
+    blocks: [
+      {
+        type: 'list',
+        icon: 'book',
+        title: 'Образование:',
+        items: ['Ассоциация Монтессори-педагогов России'],
+      },
+      {
+        type: 'tags',
+        title: 'Специализация:',
+        items: ['Дети 3–6 лет', 'Монтессори-методика', 'Подготовка к школе', 'Дошкольное развитие'],
+      },
+      {
+        type: 'checks',
+        title: 'Направления работы:',
+        items: [
+          'Математика и обучение чтению',
+          'Сенсорика и развитие логики',
+          'Творческие навыки',
+          'Подготовка к школе',
+        ],
+      },
+      {
+        type: 'checks',
+        title: 'Методы работы:',
+        items: ['Методика Монтессори', 'Кубики Зайцева', 'Авторские наработки из личного опыта'],
+      },
+      {
+        type: 'text',
+        title: 'О себе:',
+        items: [
+          'Работаю с детьми дошкольного возраста. Готовлю детей к школе: математика, чтение, сенсорика, развитие логики и творческие навыки. Применяю методику кубиков Зайцева, Монтессори и личный опыт.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'specialist-3',
+    categories: 'children',
+    name: 'Евграфова Наталья Викторовна',
+    role: 'Учитель-логопед, учитель русского языка и литературы',
+    photo: '/images/specialists/evgrafova-natalia.jpg',
+    badges: ['Логопед', 'Учитель русского языка'],
+    cta: 'Записать ребёнка',
+    blocks: [
+      {
+        type: 'list',
+        icon: 'book',
+        title: 'Образование:',
+        items: [
+          'РГПУ им. А.И. Герцена — высшее, филологический факультет',
+          'ФГБНУ «ИСиО РАО» — высшее, логопедический факультет',
+        ],
+      },
+      {
+        type: 'list',
+        icon: 'note',
+        title: 'Дополнительное образование:',
+        items: [
+          'Курсы Пятибратовой Н.В. по инновационным методикам',
+          'Курсы Поневежской Т.Ю. — нейропсихологический подход к пониманию и преодолению школьных трудностей',
+          'АНО ДПО «Северо-Западная академия профессионального образования и профессионального обучения» — «Нарушение письма у школьников»',
+          'Учебный центр «Профи» — «Педагог по скорочтению и развитию памяти у младших школьников»',
+          'Курсы Светланы Томилиной «Логопедический массаж»',
+          'Курсы Ангелины Сыщенко «Запуск речи и ССС»',
+        ],
+      },
+      {
+        type: 'tags',
+        title: 'Специализация:',
+        items: [
+          'Дети 4–18 лет',
+          'Логопедия',
+          'Русский язык и литература',
+          'Подготовка к ВПР, ОГЭ, ЕГЭ',
+          'Скорочтение и развитие памяти',
+        ],
+      },
+      {
+        type: 'checks',
+        title: 'Направления работы логопеда:',
+        items: [
+          'Постановка звуков и коррекция произношения',
+          'Развитие речи и грамматики',
+          'Артикуляционная моторика',
+          'Развитие фонематического слуха',
+        ],
+      },
+      {
+        type: 'text',
+        title: 'Навыки:',
+        items: [
+          'Владение грамотной речью и современными методами подачи знаний, навыки репетиторства, умение организовать учебный процесс, индивидуальный подход к учащимся. Опыт работы с детьми от 4 до 18 лет. Многолетний опыт подготовки учащихся к ВПР, ОГЭ и ЕГЭ.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'specialist-4',
+    categories: 'children',
+    name: 'Стрижкова Наталья Петровна',
+    role: 'Педагог, репетитор',
+    photo: '/images/specialists/strizhkova-natalia.jpg',
+    badges: ['Педагог, репетитор', '26+ лет опыта'],
+    cta: 'Записать ребёнка',
+    blocks: [
+      {
+        type: 'list',
+        icon: 'book',
+        title: 'Образование:',
+        items: ['Оренбургский государственный университет — высшее (1999)'],
+      },
+      {
+        type: 'tags',
+        title: 'Специализация:',
+        items: [
+          'Дети 4–6 лет',
+          'Школьники 1–6 класса',
+          'Подготовка к школе',
+          'Домашние задания',
+          'Коррекционная работа',
+        ],
+      },
+      {
+        type: 'checks',
+        title: 'Направления работы:',
+        items: [
+          'Подготовка детей 4–6 лет к школе',
+          'Помощь в освоении учебного материала (1–6 класс)',
+          'Выполнение домашних заданий',
+          'Нейрогимнастика и упражнения для развития личности',
+        ],
+      },
+      {
+        type: 'figures',
+        items: [
+          { value: '18', label: 'лет в школе' },
+          { value: '8', label: 'лет репетитором' },
+        ],
+      },
+      {
+        type: 'text',
+        title: 'О себе:',
+        items: [
+          'Активная и позитивная, доброжелательная, но строгая. Нахожу контакт и с детьми, и с их родителями. В группах работаю с применением современных технологий, нейрогимнастики и различных упражнений для развития личности. Применяю индивидуальный подход в освоении учебного материала — в зависимости от способностей ребёнка.',
+          'Есть печатные работы по обучению коррекционных детей, по этике, эстетике и нравственному воспитанию. Проводила обучающие семинары для учителей.',
+        ],
+      },
+    ],
+  },
+];
 ---
 
-<SEO 
+<SEO
   title="Моя команда - Специалисты в Одинцово | Кабинет психолога"
   description="Психолог и педагоги в Одинцово. Квалифицированная помощь взрослым и детям. Познакомьтесь с моей командой."
   keywords="психолог Одинцово, специалисты, команда педагогов"
   schema="person"
 />
 
-<Layout 
+<Layout
   title="Моя команда - Специалисты в Одинцово | Кабинет психолога"
   description="Психолог и педагоги в Одинцово."
 >
 
-  <Breadcrumbs 
+  <Breadcrumbs
     items={[
-      { label: 'Главная', href: '/' },
+      { label: 'Главная', href: url('/') },
       { label: 'Специалисты' }
     ]}
   />
 
-  <!-- Hero -->
-  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-teal-50 via-blue-50 to-purple-50" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
-          Моя команда профессионалов
-        </h1>
-        <p class="text-xl text-gray-700 mb-8">
-          Познакомьтесь со мной и моей командой педагогов — опытными специалистами, 
-          которые помогут вам и вашим детям
-        </p>
-        
-        <!-- Статистика команды -->
-        <div class="grid grid-cols-2 gap-8 max-w-md mx-auto" data-stagger>
-          <div class="text-center">
-            <div class="text-4xl font-bold text-[#4894B2] mb-2">4</div>
-            <div class="text-sm text-gray-600">специалиста</div>
-          </div>
-          <div class="text-center">
-            <div class="text-4xl font-bold text-[#4894B2] mb-2" data-counter="15" data-suffix="+">0</div>
-            <div class="text-sm text-gray-600">лет опыта</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Сетка специалистов -->
-  <section class="py-20 bg-gray-50" data-animate="slide-up">
+  <!-- ============ Шапка страницы ============ -->
+  <section class="page-hero">
     <div class="container mx-auto px-4 lg:px-8">
-      <div class="space-y-20">
-        
-        <!-- Специалист 1: Юлия Ляпина -->
-        <div id="specialist-1" class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="adult family">
-          <div class="grid md:grid-cols-5 gap-0">
-            
-            <!-- Фото -->
-            <div class="md:col-span-2 relative flex flex-col">
-              <div class="aspect-[3/4] relative overflow-hidden">
-                <img src={url('/images/specialists/julia-lyapina.jpg')} alt="Юлия Ляпина" class="w-full h-full object-cover object-top" loading="lazy" decoding="async" />
+      <div class="inner">
+        <div class="hero-head" data-reveal>
+          <p class="eyebrow mb-3">Команда</p>
+          <h1 class="display mb-5">Моя команда профессионалов</h1>
+          <p class="lede max-w-[58ch]">
+            Познакомьтесь со мной и моей командой педагогов — опытными специалистами,
+            которые помогут вам и вашим детям
+          </p>
 
-              </div>
-              <!-- Бейджи под фото -->
-              <div class="flex-1 flex flex-col items-center justify-center gap-3 p-6 bg-gradient-to-b from-white to-[#F2F7FD]">
-                <span class="px-5 py-2.5 bg-[#4894B2] text-white text-sm font-bold rounded-full shadow-md">
-                  Психолог
-                </span>
-                <span class="px-5 py-2.5 bg-white text-[#4894B2] text-sm font-bold rounded-full shadow-md border-2 border-[#4894B2]">
-                  15+ лет опыта
-                </span>
-              </div>
+          <div class="hero-figures hairline">
+            <div>
+              <div class="figure-value">4</div>
+              <div class="figure-label">специалиста</div>
             </div>
-            
-            <!-- Детали -->
-            <div class="md:col-span-3 p-10">
-              
-              <h2 class="text-4xl font-bold text-gray-900 mb-2">Юлия Ляпина</h2>
-              <p class="text-xl text-[#4894B2] mb-8">Психолог, специалист по работе с детьми и взрослыми</p>
-              
-              <!-- Образование -->
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <span class="text-2xl">🎓</span>
-                  Образование:
-                </h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>СГУ им. Н.Г. Чернышевского, факультет психологии</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Факультет коррекционной педагогики и специальной психологии</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Ассоциация монтессори-педагогов</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Ассоциация сказкотерапевтов России</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Институт психотерапии и клинической психологии</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <!-- Специализация -->
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Специализация:</h3>
-                <div class="flex flex-wrap gap-2">
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-teal-700 rounded-full text-sm font-semibold">Психолог-консультант</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Семейный психолог</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Детский психолог</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Коррекционный педагог</span>
-                </div>
-              </div>
-              
-              <!-- Методы работы -->
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Методы работы:</h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Арт-терапия</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Когнитивно-поведенческая терапия (КПТ)</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>МАК (метафорические ассоциативные карты)</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>ДПДГ, расстановки</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Системный подход в семейной терапии</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <!-- Статистика -->
-              <div class="grid grid-cols-2 gap-6 mb-8 bg-[#F2F7FD] rounded-2xl p-6">
-                <div class="text-center">
-                  <div class="text-3xl font-bold text-[#4894B2] mb-1">15</div>
-                  <div class="text-sm text-gray-600">лет практики</div>
-                </div>
-                <div class="text-center">
-                  <div class="text-3xl font-bold text-[#4894B2] mb-1">100%</div>
-                  <div class="text-sm text-gray-600">результат</div>
-                </div>
-              </div>
-              
-              <!-- О себе -->
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">О себе:</h3>
-                <p class="text-gray-700 leading-relaxed">
-                  Я работаю с клиентами более 15 лет. Использую научно-обоснованные методы.
-                  Моя задача — не держать клиентов годами в терапии, а научить самостоятельно
-                  справляться с трудностями.
-                </p>
-              </div>
-              
-              <!-- CTA -->
-              <div class="flex flex-col sm:flex-row gap-4">
-                <button
-                  onclick="openBookingModal()"
-                  class="flex-1 px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
-                >
-                  Записаться к Юлии Ляпиной
-                </button>
-              </div>
-              
+            <div>
+              <div class="figure-value" data-counter="15" data-suffix="+">0</div>
+              <div class="figure-label">лет опыта</div>
             </div>
           </div>
-        </div>
-
-        <!-- Специалист 2: Власихина Людмила Степановна -->
-        <div id="specialist-2" class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="children">
-          <div class="grid md:grid-cols-5 gap-0">
-            
-            <div class="md:col-span-2 relative flex flex-col">
-              <div class="aspect-[3/4] relative overflow-hidden">
-                <img src={url('/images/specialists/vlasihina-lyudmila.jpg')} alt="Власихина Людмила Степановна" class="w-full h-full object-cover object-top" loading="lazy" decoding="async" />
-
-              </div>
-              <div class="flex-1 flex flex-col items-center justify-center gap-3 p-6 bg-gradient-to-b from-white to-[#F2F7FD]">
-                <span class="px-5 py-2.5 bg-[#4894B2] text-white text-sm font-bold rounded-full shadow-md">
-                  Монтессори-педагог
-                </span>
-                <span class="px-5 py-2.5 bg-white text-[#4894B2] text-sm font-bold rounded-full shadow-md border-2 border-[#4894B2]">
-                  20+ лет опыта
-                </span>
-              </div>
-            </div>
-            
-            <div class="md:col-span-3 p-10">
-              
-              <h2 class="text-4xl font-bold text-gray-900 mb-2">Власихина Людмила Степановна</h2>
-              <p class="text-xl text-[#4894B2] mb-8">Монтессори-педагог, 3–6 лет</p>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <span class="text-2xl">🎓</span>
-                  Образование:
-                </h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Ассоциация Монтессори-педагогов России</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Специализация:</h3>
-                <div class="flex flex-wrap gap-2">
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Дети 3–6 лет</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Монтессори-методика</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Подготовка к школе</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Дошкольное развитие</span>
-                </div>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Направления работы:</h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Математика и обучение чтению</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Сенсорика и развитие логики</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Творческие навыки</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Подготовка к школе</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Методы работы:</h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Методика Монтессори</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Кубики Зайцева</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Авторские наработки из личного опыта</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">О себе:</h3>
-                <p class="text-gray-700 leading-relaxed">
-                  Работаю с детьми дошкольного возраста. Готовлю детей к школе:
-                  математика, чтение, сенсорика, развитие логики и творческие навыки.
-                  Применяю методику кубиков Зайцева, Монтессори и личный опыт.
-                </p>
-              </div>
-              
-              <div class="flex flex-col sm:flex-row gap-4">
-                <button 
-                  onclick="openBookingModal()"
-                  class="flex-1 px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
-                >
-                  Записать ребёнка
-                </button>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-
-        <!-- Специалист 3: Евграфова Наталья Викторовна -->
-        <div id="specialist-3" class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="children">
-          <div class="grid md:grid-cols-5 gap-0">
-
-            <div class="md:col-span-2 relative flex flex-col">
-              <div class="aspect-[3/4] relative overflow-hidden">
-                <img src={url('/images/specialists/evgrafova-natalia.jpg')} alt="Евграфова Наталья Викторовна" class="w-full h-full object-cover object-top" loading="lazy" decoding="async" />
-              </div>
-              <div class="flex-1 flex flex-col items-center justify-center gap-3 p-6 bg-gradient-to-b from-white to-[#F2F7FD]">
-                <span class="px-5 py-2.5 bg-[#4894B2] text-white text-sm font-bold rounded-full shadow-md">
-                  Логопед
-                </span>
-                <span class="px-5 py-2.5 bg-white text-[#4894B2] text-sm font-bold rounded-full shadow-md border-2 border-[#4894B2]">
-                  Учитель русского языка
-                </span>
-              </div>
-            </div>
-
-            <div class="md:col-span-3 p-10">
-
-              <h2 class="text-4xl font-bold text-gray-900 mb-2">Евграфова Наталья Викторовна</h2>
-              <p class="text-xl text-[#4894B2] mb-8">Учитель-логопед, учитель русского языка и литературы</p>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <span class="text-2xl">🎓</span>
-                  Образование:
-                </h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>РГПУ им. А.И. Герцена — высшее, филологический факультет</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>ФГБНУ «ИСиО РАО» — высшее, логопедический факультет</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <span class="text-2xl">📘</span>
-                  Дополнительное образование:
-                </h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Курсы Пятибратовой Н.В. по инновационным методикам</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Курсы Поневежской Т.Ю. — нейропсихологический подход к пониманию и преодолению школьных трудностей</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>АНО ДПО «Северо-Западная академия профессионального образования и профессионального обучения» — «Нарушение письма у школьников»</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Учебный центр «Профи» — «Педагог по скорочтению и развитию памяти у младших школьников»</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Курсы Светланы Томилиной «Логопедический массаж»</span>
-                  </li>
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Курсы Ангелины Сыщенко «Запуск речи и ССС»</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Специализация:</h3>
-                <div class="flex flex-wrap gap-2">
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Дети 4–18 лет</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Логопедия</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Русский язык и литература</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Подготовка к ВПР, ОГЭ, ЕГЭ</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Скорочтение и развитие памяти</span>
-                </div>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Направления работы логопеда:</h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Постановка звуков и коррекция произношения</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Развитие речи и грамматики</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Артикуляционная моторика</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Развитие фонематического слуха</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Навыки:</h3>
-                <p class="text-gray-700 leading-relaxed">
-                  Владение грамотной речью и современными методами подачи знаний,
-                  навыки репетиторства, умение организовать учебный процесс,
-                  индивидуальный подход к учащимся. Опыт работы с детьми от 4 до 18 лет.
-                  Многолетний опыт подготовки учащихся к ВПР, ОГЭ и ЕГЭ.
-                </p>
-              </div>
-
-              <div class="flex flex-col sm:flex-row gap-4">
-                <button
-                  onclick="openBookingModal()"
-                  class="flex-1 px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
-                >
-                  Записать ребёнка
-                </button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- Специалист 4: Стрижкова Наталья Петровна -->
-        <div id="specialist-4" class="specialist-card bg-white rounded-3xl shadow-2xl overflow-hidden" data-categories="children">
-          <div class="grid md:grid-cols-5 gap-0">
-
-            <div class="md:col-span-2 relative flex flex-col">
-              <div class="aspect-[3/4] relative overflow-hidden">
-                <img src={url('/images/specialists/strizhkova-natalia.jpg')} alt="Стрижкова Наталья Петровна" class="w-full h-full object-cover object-top" loading="lazy" decoding="async" />
-              </div>
-              <div class="flex-1 flex flex-col items-center justify-center gap-3 p-6 bg-gradient-to-b from-white to-[#F2F7FD]">
-                <span class="px-5 py-2.5 bg-[#4894B2] text-white text-sm font-bold rounded-full shadow-md">
-                  Педагог, репетитор
-                </span>
-                <span class="px-5 py-2.5 bg-white text-[#4894B2] text-sm font-bold rounded-full shadow-md border-2 border-[#4894B2]">
-                  26+ лет опыта
-                </span>
-              </div>
-            </div>
-
-            <div class="md:col-span-3 p-10">
-
-              <h2 class="text-4xl font-bold text-gray-900 mb-2">Стрижкова Наталья Петровна</h2>
-              <p class="text-xl text-[#4894B2] mb-8">Педагог, репетитор</p>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <span class="text-2xl">🎓</span>
-                  Образование:
-                </h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-start gap-3">
-                    <span class="text-[#4894B2] mt-1">•</span>
-                    <span>Оренбургский государственный университет — высшее (1999)</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Специализация:</h3>
-                <div class="flex flex-wrap gap-2">
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Дети 4–6 лет</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Школьники 1–6 класса</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Подготовка к школе</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Домашние задания</span>
-                  <span class="px-4 py-2 bg-[#F2F7FD] text-[#4894B2] rounded-full text-sm font-semibold">Коррекционная работа</span>
-                </div>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">Направления работы:</h3>
-                <ul class="space-y-2 text-gray-700">
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Подготовка детей 4–6 лет к школе</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Помощь в освоении учебного материала (1–6 класс)</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Выполнение домашних заданий</span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span class="text-[#4894B2]">✓</span>
-                    <span>Нейрогимнастика и упражнения для развития личности</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="grid grid-cols-2 gap-6 mb-8 bg-[#F2F7FD] rounded-2xl p-6">
-                <div class="text-center">
-                  <div class="text-3xl font-bold text-[#4894B2] mb-1">18</div>
-                  <div class="text-sm text-gray-600">лет в школе</div>
-                </div>
-                <div class="text-center">
-                  <div class="text-3xl font-bold text-[#4894B2] mb-1">8</div>
-                  <div class="text-sm text-gray-600">лет репетитором</div>
-                </div>
-              </div>
-
-              <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-900 mb-4">О себе:</h3>
-                <p class="text-gray-700 leading-relaxed mb-4">
-                  Активная и позитивная, доброжелательная, но строгая. Нахожу контакт
-                  и с детьми, и с их родителями. В группах работаю с применением
-                  современных технологий, нейрогимнастики и различных упражнений
-                  для развития личности. Применяю индивидуальный подход в освоении
-                  учебного материала — в зависимости от способностей ребёнка.
-                </p>
-                <p class="text-gray-700 leading-relaxed">
-                  Есть печатные работы по обучению коррекционных детей, по этике,
-                  эстетике и нравственному воспитанию. Проводила обучающие семинары
-                  для учителей.
-                </p>
-              </div>
-
-              <div class="flex flex-col sm:flex-row gap-4">
-                <button
-                  onclick="openBookingModal()"
-                  class="flex-1 px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
-                >
-                  Записать ребёнка
-                </button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA внизу страницы -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F]
- text-white relative overflow-hidden" data-animate="fade">
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center">
-        <h2 class="text-4xl md:text-5xl font-bold mb-6">
-          Не знаете, какой специалист вам подойдёт?
-        </h2>
-        <p class="text-xl mb-8 opacity-90">
-          Оставьте заявку, и мы поможем подобрать специалиста под ваш запрос
-        </p>
-
-        <div class="flex flex-wrap gap-4 justify-center">
-          <button
-            onclick="openBookingModal()"
-            class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition shadow-xl hover:shadow-2xl text-lg"
-          >
-            Записаться на консультацию
-          </button>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- ============ Специалисты ============ -->
+  <section class="band band-taupe">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="specialists-stack">
+          {specialists.map((person) => (
+            <article
+              id={person.id}
+              class="specialist-card"
+              data-categories={person.categories}
+              data-reveal
+            >
+              <div class="specialist-grid">
 
-  <!-- JS для слайдера дипломов -->
-  <script is:inline>
-    function initCertificateSliders() {
-      document.querySelectorAll('.certificates-slider').forEach(slider => {
-        const track = slider.querySelector('.certificates-track');
-        const prevBtn = slider.querySelector('.cert-prev');
-        const nextBtn = slider.querySelector('.cert-next');
-        
-        if (!track || !prevBtn || !nextBtn) return;
-        
-        prevBtn.addEventListener('click', () => {
-          track.scrollBy({ left: -320, behavior: 'smooth' });
-        });
-        
-        nextBtn.addEventListener('click', () => {
-          track.scrollBy({ left: 320, behavior: 'smooth' });
-        });
-      });
-    }
-    
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCertificateSliders);
-    } else {
-      initCertificateSliders();
-    }
-    
-    document.addEventListener('astro:page-load', initCertificateSliders);
-  </script>
+                <!-- Фото и бейджи -->
+                <div class="specialist-aside">
+                  <div class="specialist-photo">
+                    <img
+                      src={url(person.photo)}
+                      alt={person.name}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <div class="specialist-badges">
+                    <span class="badge badge-accent">{person.badges[0]}</span>
+                    <span class="badge badge-plain">{person.badges[1]}</span>
+                  </div>
+                </div>
 
+                <!-- Описание -->
+                <div class="specialist-body">
+                  <h2 class="heading-sm mb-2">{person.name}</h2>
+                  <p class="specialist-role">{person.role}</p>
+
+                  {person.blocks.map((block) => (
+                    <div class="block">
+                      {block.title && (
+                        <h3 class="block-title">
+                          {block.icon && <Icon name={block.icon} size={18} />}
+                          {block.title}
+                        </h3>
+                      )}
+
+                      {block.type === 'list' && (
+                        <ul class="dot-list">
+                          {block.items.map((li) => <li>{li}</li>)}
+                        </ul>
+                      )}
+
+                      {block.type === 'checks' && (
+                        <ul class="check-list">
+                          {block.items.map((li) => <li>{li}</li>)}
+                        </ul>
+                      )}
+
+                      {block.type === 'tags' && (
+                        <div class="tag-row">
+                          {block.items.map((tag) => <span class="tag">{tag}</span>)}
+                        </div>
+                      )}
+
+                      {block.type === 'figures' && (
+                        <div class="figure-row hairline">
+                          {block.items.map((fig) => (
+                            <div>
+                              <div class="figure-value">{fig.value}</div>
+                              <div class="figure-label">{fig.label}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {block.type === 'text' && (
+                        <div class="block-text">
+                          {block.items.map((p) => <p>{p}</p>)}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  <button onclick="openBookingModal()" class="pill pill-solid specialist-cta" type="button">
+                    {person.cta}
+                  </button>
+                </div>
+
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Финальный призыв ============ -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <p class="eyebrow eyebrow-center mb-4">Запись</p>
+          <h2 class="heading mb-4">Не знаете, какой специалист вам подойдёт?</h2>
+          <p class="lede mb-8">
+            Оставьте заявку, и мы поможем подобрать специалиста под ваш запрос
+          </p>
+          <div class="closing-actions">
+            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+              Записаться на консультацию
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <ScrollAnimations />
 </Layout>
 
 <style>
+  /* ---------- ритм страницы ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .band-tight { padding: 24px 0 96px; }
+
+  .page-hero { padding: 28px 0 72px; background: var(--canvas); }
+  .hero-head { max-width: 760px; }
+
+  /* ---------- цифры опыта ---------- */
+  .hero-figures {
+    display: flex; flex-wrap: wrap; gap: 40px;
+    margin-top: 36px; padding-top: 24px;
+  }
+  .figure-value {
+    font-size: 27px; font-weight: 300; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums; color: var(--ink); margin-bottom: 2px;
+  }
+  .figure-label { font-size: 13px; color: var(--smoke); }
+
+  .figure-row {
+    display: flex; flex-wrap: wrap; gap: 40px; padding-top: 18px;
+  }
+  .figure-row .figure-value { font-size: 24px; }
+
+  /* ---------- карточка специалиста ---------- */
+  .specialists-stack { display: grid; gap: 24px; }
+
   .specialist-card {
-    @apply transition-all duration-300;
-    scroll-margin-top: 120px;
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-large);
+    overflow: hidden;
   }
-  
-  /* Скрыть scrollbar в слайдере сертификатов */
-  .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+
+  .specialist-grid {
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    gap: 0;
   }
-  
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
+
+  .specialist-aside {
+    display: flex; flex-direction: column;
+    background: var(--taupe);
+    border-right: 1px solid var(--stone);
   }
-  
-  /* Плавный скроллинг для слайдера */
-  .certificates-track {
-    scroll-behavior: smooth;
+
+  .specialist-photo { aspect-ratio: 3 / 4; overflow: hidden; }
+  .specialist-photo img {
+    width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block;
+  }
+
+  /* Бейджи стоят сразу под фото, а не плавают в середине пустой колонки */
+  .specialist-badges {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 10px; padding: 22px 20px 26px;
+  }
+
+  .badge {
+    font-size: 13px; font-weight: 500; letter-spacing: 0.01em;
+    padding: 8px 16px; border-radius: var(--r-pill);
+    text-align: center;
+  }
+  .badge-accent { background: rgba(47, 125, 150, 0.1); color: var(--spark-deep); }
+  .badge-plain { border: 1px solid var(--stone); color: var(--graphite); }
+
+  .specialist-body { padding: 40px 44px; }
+  .specialist-role { font-size: 15px; color: var(--smoke); margin-bottom: 32px; }
+
+  /* ---------- блоки внутри карточки ---------- */
+  .block { margin-bottom: 30px; }
+  .block:last-of-type { margin-bottom: 34px; }
+
+  .block-title {
+    display: flex; align-items: center; gap: 9px;
+    font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+    color: var(--ink); margin-bottom: 14px;
+  }
+  .block-title :global(svg) { color: var(--spark-deep); flex-shrink: 0; }
+
+  /* Строка не должна разъезжаться на всю ширину карточки — читать тяжело */
+  .dot-list, .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; max-width: 64ch; }
+
+  .dot-list li {
+    position: relative; padding-left: 20px;
+    font-size: 14.5px; line-height: 1.6; color: var(--smoke);
+  }
+  .dot-list li::before {
+    content: ""; position: absolute; left: 3px; top: 9px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
+  }
+
+  .check-list li {
+    position: relative; padding-left: 26px;
+    font-size: 14.5px; line-height: 1.6; color: var(--smoke);
+  }
+  .check-list li::before {
+    content: ""; position: absolute; left: 0; top: 7px;
+    width: 12px; height: 6px;
+    border-left: 1.6px solid var(--spark-water);
+    border-bottom: 1.6px solid var(--spark-water);
+    transform: rotate(-45deg);
+  }
+
+  .tag-row { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag {
+    font-size: 12.5px; padding: 6px 13px; border-radius: var(--r-pill);
+    background: rgba(47, 125, 150, 0.09); color: var(--spark-deep);
+  }
+
+  .block-text { max-width: 64ch; }
+  .block-text p { font-size: 14.5px; line-height: 1.7; color: var(--smoke); }
+  .block-text p + p { margin-top: 12px; }
+
+  .specialist-cta { align-self: flex-start; }
+
+  /* ---------- финальный призыв ---------- */
+  .closing-band { padding: 56px 48px; text-align: center; }
+  .closing-band .lede { max-width: 48ch; margin-inline: auto; }
+  .closing-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 1023px) {
+    .specialist-grid { grid-template-columns: 280px minmax(0, 1fr); }
+    .specialist-body { padding: 32px; }
+  }
+
+  @media (max-width: 767px) {
+    .band { padding: 64px 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .page-hero { padding: 20px 0 56px; }
+    .specialist-grid { grid-template-columns: 1fr; }
+    .specialist-aside { border-right: 0; border-bottom: 1px solid var(--stone); }
+    .specialist-photo { aspect-ratio: 4 / 3; }
+    .specialist-body { padding: 28px 24px; }
+    .specialist-cta { width: 100%; }
+    .hero-figures { gap: 28px; }
+    .closing-band { padding: 32px 24px; }
   }
 </style>

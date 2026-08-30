@@ -6,6 +6,9 @@ import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import FAQ from '../../components/FAQ.astro';
+import Icon from '../../components/Icon.astro';
+import { url } from '../../utils/url';
+
 // Фото галереи: файлы 1..10 в /images/gallery/azbuka/
 const galleryPhotos = [
   { n: 1,  caption: 'Учимся договариваться' },
@@ -25,368 +28,406 @@ const galleryImages = galleryPhotos.map(({ n, caption }) => ({
   alt: `Занятие Азбука общения — ${caption.toLowerCase()}`,
   caption
 }));
-import { url } from '../../utils/url';
+
+// Чему научатся дети — формулировки заказчицы, менялось только оформление
+const heroPoints = [
+  'Раскрыться, научиться говорить о своих чувствах, проявлять и реагировать на них',
+  'Выстраивать границы и чувствовать их у других',
+  'Избавиться от страхов, переживаний и обид',
+  'Играть по правилам, уметь достойно проигрывать и выигрывать',
+  'Работать в команде, быть лидером и её частью',
+];
+
+const skills = [
+  {
+    icon: 'worth',
+    title: 'Уверенность в себе',
+    items: ['Повышение самооценки', 'Развитие самостоятельности', 'Умение принимать решения', 'Вера в свои силы'],
+  },
+  {
+    icon: 'child',
+    title: 'Позитивное отношение',
+    items: ['Принятие себя', 'Дружелюбие к сверстникам', 'Оптимистичный взгляд', 'Благодарность'],
+  },
+  {
+    icon: 'bond',
+    title: 'Эмпатия',
+    items: ['Понимание чувств других', 'Умение сопереживать', 'Поддержка друзей', 'Забота о близких'],
+  },
+  {
+    icon: 'lock',
+    title: 'Личные границы',
+    items: ['Выстраивание своих границ', 'Уважение границ других', 'Умение говорить «нет»', 'Защита своих интересов'],
+  },
+  {
+    icon: 'compass',
+    title: 'Работа с эмоциями',
+    items: ['Распознавание эмоций', 'Управление страхами', 'Работа с тревогой', 'Преодоление обид'],
+  },
+  {
+    icon: 'team',
+    title: 'Социальные навыки',
+    items: ['Игра по правилам', 'Умение проигрывать', 'Работа в команде', 'Лидерские качества'],
+  },
+];
+
+const lessonFormat = [
+  { label: 'Длительность', value: '60 минут' },
+  { label: 'Размер группы', value: 'до 8 детей' },
+  { label: 'Возраст', value: '5-9 лет' },
+];
+
+const methods = [
+  { icon: 'play', title: 'Игротерапия', text: 'Проработка эмоций через игру и ролевые ситуации' },
+  { icon: 'note', title: 'Арт-терапия', text: 'Выражение чувств через рисование и творчество' },
+];
 ---
 
-<SEO 
+<SEO
   title="Азбука общения - Развитие EQ в Одинцово | Для детей 5-9 лет"
   description="Программа Азбука общения в Одинцово. Развитие эмоционального интеллекта для детей 5-9 лет. Умение общаться, дружить, понимать эмоции."
   keywords="эмоциональный интеллект детей, развитие EQ, занятия для детей Одинцово"
   schema="service"
 />
 
-<Layout 
+<Layout
   title="Азбука общения - Развитие EQ в Одинцово | Для детей 5-9 лет"
   description="Психологический курс для детей 5-9 лет. Развитие эмоционального интеллекта, работа со страхами, навыки общения. Группы до 8 детей."
 >
 
-  
+  <Breadcrumbs
+    items={[
+      { label: 'Главная', href: url('/') },
+      { label: 'Программы', href: url('/#programs') },
+      { label: 'Азбука общения' }
+    ]}
+  />
 
-  <section class="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#F2F7FD] via-white to-[#F2F7FD]" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="grid md:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
-        
-        <!-- Текст -->
+  <!-- ============ Первый экран ============ -->
+  <section class="page-hero">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="hero-grid">
+
         <div>
-          <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
-            «Азбука общения»
-          </h1>
+          <p class="eyebrow mb-4">Для детей 5–9 лет</p>
+          <h1 class="display mb-5">«Азбука общения»</h1>
 
-          <p class="text-xl text-gray-700 mb-4 font-semibold leading-relaxed">
+          <p class="lede mb-6 max-w-[48ch]">
             Уникальный психологический курс, который сочетает в себе все необходимые
             компоненты для гармоничного развития детей!
           </p>
 
-          <p class="text-lg text-gray-700 mb-6">
-            Занятия раз в неделю. Дети научатся:
-          </p>
+          <p class="hero-note mb-5">Занятия раз в неделю. Дети научатся:</p>
 
-          <ul class="space-y-2 mb-8 text-gray-700">
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Раскрыться, научиться говорить о своих чувствах, проявлять и реагировать на них</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Выстраивать границы и чувствовать их у других</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Избавиться от страхов, переживаний и обид</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Играть по правилам, уметь достойно проигрывать и выигрывать</span></li>
-            <li class="flex items-start gap-2"><span class="text-[#4894B2] mt-1">✅</span><span>Работать в команде, быть лидером и её частью</span></li>
+          <ul class="check-list mb-9">
+            {heroPoints.map((point) => <li>{point}</li>)}
           </ul>
 
-          <div class="flex flex-wrap gap-4 mb-8">
-            <button
-              onclick="openBookingModal()"
-              class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105"
-            >
+          <div class="flex flex-wrap gap-3">
+            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
               Записаться на занятие
             </button>
+            <a href="#skills" class="pill pill-outline pill-lg">Что развивает программа</a>
           </div>
         </div>
-        
-          <!-- Изображение -->
-        <div class="flex justify-center lg:justify-end " >
-        <div class="relative w-full max-w-md">
-          <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-            <img 
-              src={url('/images/gallery/azbuka/hero.jpg')} 
-              alt="Консультация психолога" 
-              class="w-full h-auto" loading="eager" fetchpriority="high" decoding="async" />
-          
-          <!-- Декоративные элементы -->
-          <div class="absolute -top-6 -right-6 w-24 h-24 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>
-          <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>
+
+        <div class="hero-visual orb surface-lg">
+          <img
+            src={url('/images/gallery/azbuka/hero.jpg')}
+            alt="Занятие «Азбука общения»"
+            class="hero-photo"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
         </div>
-        
+
       </div>
     </div>
   </section>
-<Breadcrumbs 
-    items={[
-      { label: 'Главная', href: '/' },
-      { label: 'Программы', href: '/#programs' },
-      { label: 'Азбука общения' }
-    ]}
-  />
-  </div><!-- 
-  Что ребенок развивает -->
-  <section class="py-20 bg-white" data-animate="slide-up">
+
+  <!-- ============ Что развивает программа ============ -->
+  <section id="skills" class="band">
     <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
-        Что ребенок развивает на занятиях
-      </h2>
-      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-        Формирование высокого эмоционального интеллекта — важнейший фактор успешного общения
-      </p>
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        
-        <!-- Навык 1 -->
-        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
-          <div class="text-5xl mb-4 text-center">💪</div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Уверенность в себе</h3>
-          <ul class="space-y-2 text-sm text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Повышение самооценки</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Развитие самостоятельности</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Умение принимать решения</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Вера в свои силы</span>
-            </li>
-          </ul>
-        </div>
-        
-        <!-- Навык 2 -->
-        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
-          <div class="text-5xl mb-4 text-center">🌟</div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Позитивное отношение</h3>
-          <ul class="space-y-2 text-sm text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Принятие себя</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Дружелюбие к сверстникам</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Оптимистичный взгляд</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Благодарность</span>
-            </li>
-          </ul>
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Навыки</p>
+          <h2 class="heading mb-4">Что ребенок развивает на занятиях</h2>
+          <p class="lede max-w-[56ch]">
+            Формирование высокого эмоционального интеллекта — важнейший фактор успешного общения
+          </p>
         </div>
 
-        <!-- Навык 3 -->
-        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
-          <div class="text-5xl mb-4 text-center">💖</div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Эмпатия</h3>
-          <ul class="space-y-2 text-sm text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Понимание чувств других</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Умение сопереживать</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Поддержка друзей</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Забота о близких</span>
-            </li>
-          </ul>
+        <div class="cards-3">
+          {skills.map((skill) => (
+            <article class="feature surface lift" data-reveal>
+              <span class="card-icon"><Icon name={skill.icon} size={22} /></span>
+              <h3 class="card-title">{skill.title}</h3>
+              <ul class="card-list">
+                {skill.items.map((li) => <li>{li}</li>)}
+              </ul>
+            </article>
+          ))}
         </div>
 
-        <!-- Навык 4 -->
-        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
-          <div class="text-5xl mb-4 text-center">🛡️</div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Личные границы</h3>
-          <ul class="space-y-2 text-sm text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Выстраивание своих границ</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Уважение границ других</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Умение говорить "нет"</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Защита своих интересов</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Навык 5 -->
-        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
-          <div class="text-5xl mb-4 text-center">🌈</div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Работа с эмоциями</h3>
-          <ul class="space-y-2 text-sm text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Распознавание эмоций</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Управление страхами</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Работа с тревогой</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Преодоление обид</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Навык 6 -->
-        <div class="bg-gradient-to-br from-[#F2F7FD] to-white rounded-2xl p-8 hover:shadow-xl transition-all duration-300">
-          <div class="text-5xl mb-4 text-center">🎯</div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Социальные навыки</h3>
-          <ul class="space-y-2 text-sm text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Игра по правилам</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Умение проигрывать</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Работа в команде</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">•</span>
-              <span>Лидерские качества</span>
-            </li>
-          </ul>
-        </div>
-        
-      </div>
-
-      <!-- Особенность программы -->
-      <div class="mt-16 bg-gradient-to-r from-[#4894B2] to-[#18698F] rounded-3xl p-10 text-white text-center max-w-4xl mx-auto">
-        <div class="text-5xl mb-4">🧘</div>
-        <h3 class="text-3xl font-bold mb-4">Релаксация и саморегуляция</h3>
-        <p class="text-xl opacity-90">
-          Дети знакомятся с техниками релаксации и саморегуляции, с помощью которых 
-          легко управлять своим эмоциональным состоянием и повышать эмоциональную устойчивость.
-        </p>
+        <!-- Особенность программы -->
+        <article class="gradient-card highlight" data-reveal>
+          <div class="highlight-inner">
+            <span class="card-icon"><Icon name="calm" size={22} /></span>
+            <h3 class="heading-sm highlight-title">Релаксация и саморегуляция</h3>
+            <p class="highlight-text">
+              Дети знакомятся с техниками релаксации и саморегуляции, с помощью которых
+              легко управлять своим эмоциональным состоянием и повышать эмоциональную устойчивость.
+            </p>
+          </div>
+        </article>
       </div>
     </div>
   </section>
-  <!-- НОВАЯ ГАЛЕРЕЯ: Автослайдер с 48 фото -->
-  <AutoGallerySlider 
+
+  <AutoGallerySlider
     images={galleryImages}
     title="Как проходят наши занятия"
     subtitle="Смотрите, как дети учатся понимать эмоции и общаться друг с другом"
-    accentColor="pink"
+    accentColor="blue"
     autoplayDelay={4500}
   />
-  <!-- Расписание и формат -->
-  <section class="py-20 bg-white" data-animate="slide-up">
+
+  <!-- ============ Расписание и формат ============ -->
+  <section class="band band-taupe">
     <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
-        Расписание и формат занятий
-      </h2>
-      
-      <div class="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
-        
-        <!-- Расписание -->
-        <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-3xl p-10">
-          <div class="text-6xl mb-6 text-center">📅</div>
-          <h3 class="text-3xl font-bold text-white mb-6 text-center">Занятия раз в неделю</h3>
-
-          <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
-            <h4 class="font-bold text-gray-900 mb-4">Формат занятий:</h4>
-            <ul class="space-y-3">
-              <li class="flex items-center gap-3">
-                <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Длительность:</strong> 60 минут</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Размер группы:</strong> до 8 детей</span>
-              </li>
-              <li class="flex items-center gap-3">
-                <span class="text-[#4894B2] text-xl">✓</span>
-                <span><strong>Возраст:</strong> 5-9 лет</span>
-              </li>
-            </ul>
-          </div>
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Расписание</p>
+          <h2 class="heading">Расписание и формат занятий</h2>
         </div>
 
-        <!-- Методы работы -->
-        <div class="bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)] rounded-3xl p-10">
-          <div class="text-6xl mb-6 text-center">🎭</div>
-          <h3 class="text-3xl font-bold text-gray-900 mb-6 text-center">Методы работы</h3>
-          
-          <div class="space-y-6">
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
-              <h4 class="font-bold text-gray-900 mb-2">Игротерапия</h4>
-              <p class="text-gray-700">Проработка эмоций через игру и ролевые ситуации</p>
-            </div>
+        <div class="split">
 
-            <div class="bg-white/70 backdrop-blur-sm rounded-2xl p-6">
-              <h4 class="font-bold text-gray-900 mb-2">Арт-терапия</h4>
-              <p class="text-gray-700">Выражение чувств через рисование и творчество</p>
+          <article class="gradient-card schedule" data-reveal>
+            <div class="schedule-inner">
+              <span class="card-icon"><Icon name="clock" size={22} /></span>
+              <h3 class="heading-sm schedule-days">Занятия раз в неделю</h3>
+
+              <div class="glass-card schedule-slot">
+                <h4 class="slot-title">Формат занятий:</h4>
+                <ul class="slot-list">
+                  {lessonFormat.map((row) => (
+                    <li><strong>{row.label}:</strong> {row.value}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
+          </article>
+
+          <article class="surface methods" data-reveal>
+            <div class="methods-inner">
+              <h3 class="heading-sm mb-6">Методы работы</h3>
+              <div class="method-list">
+                {methods.map((item) => (
+                  <div class="method-item">
+                    <h4 class="method-title"><Icon name={item.icon} size={19} />{item.title}</h4>
+                    <p class="method-text">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </article>
+
         </div>
-        
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-20 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white relative overflow-hidden" data-animate="slide-up">
-    <div class="container mx-auto px-4 lg:px-8 relative z-10 text-center">
-      <h2 class="text-4xl md:text-5xl font-bold mb-6">
-        Записаться на программу
-      </h2>
-      <p class="text-xl opacity-90 mb-10 max-w-2xl mx-auto">
-        Расскажу подробнее о курсе и подберу удобное расписание
-      </p>
-      <button
-        onclick="openBookingModal()"
-        class="px-12 py-6 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-bold transition-all shadow-2xl text-2xl"
-      >
-        💬 Записаться
-      </button>
+  <!-- ============ Вопросы ============ -->
+  <div data-reveal>
+    <FAQ
+      title="Часто задаваемые вопросы"
+      subtitle="Ответы на популярные вопросы о программе"
+      items={[
+        {
+          question: "Подойдет ли программа моему ребенку?",
+          answer: "Программа подходит для детей 5-9 лет с любым уровнем развития эмоционального интеллекта. Особенно полезна детям, которые стесняются, замкнуты, имеют трудности в общении или не умеют выражать свои эмоции."
+        },
+        {
+          question: "Как быстро будут видны результаты?",
+          answer: "Первые изменения родители замечают уже после 3-4 занятий. Ребенок начинает лучше понимать свои эмоции и говорить о них. Стабильные результаты видны через 2-3 месяца регулярных занятий."
+        },
+        {
+          question: "Когда начинаются занятия?",
+          answer: "Занятия проходят раз в неделю. Точное расписание уточняйте при записи."
+        },
+        {
+          question: "Можно ли посетить пробное занятие?",
+          answer: "Вы можете записаться на первое занятие, чтобы ребёнок познакомился с психологом и другими детьми, попробовал формат занятий."
+        },
+        {
+          question: "Что если ребенок пропустит занятие?",
+          answer: "При болезни (по справке) занятие можно перенести на другой день или получить возврат средств. При пропуске по другим причинам — возможна отработка в индивидуальном формате."
+        }
+      ]}
+    />
+  </div>
+
+  <!-- ============ Финальный призыв ============ -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <div class="closing-inner">
+            <p class="eyebrow mb-4">Запись</p>
+            <h2 class="heading mb-4">Записаться на программу</h2>
+            <p class="lede mb-8 max-w-[48ch]">
+              Расскажу подробнее о курсе и подберу удобное расписание
+            </p>
+
+            <div class="closing-actions">
+              <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+                Записаться
+              </button>
+              <a href="https://wa.me/79151955132" target="_blank" rel="noopener" class="pill pill-outline pill-lg">
+                Написать в WhatsApp
+              </a>
+            </div>
+
+            <div class="closing-notes">
+              <span>
+                <Icon name="phone" size={16} />
+                <a href="tel:+79151955132">+7 (915) 195-51-32</a>
+              </span>
+              <span><Icon name="team" size={16} />Группы до 8 детей</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <div data-animate="fade">
-
-    <div data-animate="fade">
-
-
-      <FAQ 
-    title="Часто задаваемые вопросы"
-    subtitle="Ответы на популярные вопросы о программе"
-    items={[
-      {
-        question: "Подойдет ли программа моему ребенку?",
-        answer: "Программа подходит для детей 5-9 лет с любым уровнем развития эмоционального интеллекта. Особенно полезна детям, которые стесняются, замкнуты, имеют трудности в общении или не умеют выражать свои эмоции."
-      },
-      {
-        question: "Как быстро будут видны результаты?",
-        answer: "Первые изменения родители замечают уже после 3-4 занятий. Ребенок начинает лучше понимать свои эмоции и говорить о них. Стабильные результаты видны через 2-3 месяца регулярных занятий."
-      },
-      {
-        question: "Когда начинаются занятия?",
-        answer: "Занятия проходят раз в неделю. Точное расписание уточняйте при записи."
-      },
-      {
-        question: "Можно ли посетить пробное занятие?",
-        answer: "Вы можете записаться на первое занятие, чтобы ребёнок познакомился с психологом и другими детьми, попробовал формат занятий."
-      },
-      {
-        question: "Что если ребенок пропустит занятие?",
-        answer: "При болезни (по справке) занятие можно перенести на другой день или получить возврат средств. При пропуске по другим причинам — возможна отработка в индивидуальном формате."
-      }
-    ]}
-  />
-  </div>
-
   <ScrollAnimations />
 </Layout>
+
+<style>
+  /* ---------- ритм секций ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .band-tight { padding: 24px 0 96px; }
+
+  .split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+
+  /* ---------- первый экран ---------- */
+  .page-hero { padding: 28px 0 96px; background: var(--canvas); }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 64px;
+    align-items: center; max-width: 1180px; margin: 0 auto;
+  }
+  .hero-note { font-size: 15px; color: var(--graphite); }
+  .hero-visual { aspect-ratio: 1 / 1.02; }
+  .hero-photo {
+    position: absolute; inset: 10% 9% 0 9%; z-index: 2;
+    width: 82%; height: 90%; object-fit: cover; object-position: center 30%;
+    border-radius: 18px 18px 0 0;
+    border: 1px solid rgba(255, 255, 255, 0.55); border-bottom: 0;
+  }
+
+  /* ---------- список с галочками ---------- */
+  .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+  .check-list li {
+    position: relative; padding-left: 26px; font-size: 15px; line-height: 1.55; color: var(--graphite);
+  }
+  .check-list li::before {
+    content: ""; position: absolute; left: 0; top: 8px;
+    width: 13px; height: 7px;
+    border-left: 1.6px solid var(--spark-water);
+    border-bottom: 1.6px solid var(--spark-water);
+    transform: rotate(-45deg);
+  }
+
+  /* ---------- карточки навыков ---------- */
+  .card-icon {
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
+    background: rgba(47, 125, 150, .1); color: var(--spark-deep);
+  }
+  .gradient-card .card-icon { background: rgba(255, 255, 255, .2); color: #fff; }
+
+  .feature { padding: 28px; }
+  .feature .card-icon { margin-bottom: 18px; }
+  .card-title { font-size: 18px; font-weight: 400; letter-spacing: -0.01em; line-height: 1.3; margin-bottom: 12px; }
+
+  .card-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+  .card-list li {
+    position: relative; padding-left: 20px; font-size: 14px; line-height: 1.5; color: var(--smoke);
+  }
+  .card-list li::before {
+    content: ""; position: absolute; left: 3px; top: 9px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
+  }
+
+  /* ---------- особенность программы ---------- */
+  .highlight { margin-top: 20px; }
+  .highlight-inner { padding: 40px; max-width: 720px; }
+  .highlight-inner .card-icon { margin-bottom: 20px; }
+  .highlight-title { color: #fff; margin-bottom: 12px; }
+  .highlight-text { font-size: 15px; line-height: 1.65; color: rgba(255, 255, 255, 0.88); }
+
+  /* ---------- расписание ---------- */
+  .schedule-inner { padding: 36px; }
+  .schedule-inner .card-icon { margin-bottom: 20px; }
+  .schedule-days { color: #fff; margin-bottom: 26px; }
+  .schedule-slot { padding: 24px; }
+  .slot-title { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 14px; }
+  .slot-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .slot-list li {
+    position: relative; padding-left: 20px; font-size: 14px; line-height: 1.55; color: var(--smoke);
+  }
+  .slot-list li strong { font-weight: 500; color: var(--ink); }
+  .slot-list li::before {
+    content: ""; position: absolute; left: 3px; top: 9px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
+  }
+
+  /* ---------- методы работы ---------- */
+  .methods-inner { padding: 36px; }
+  .method-list { display: grid; }
+  .method-item { padding: 20px 0; border-top: 1px solid var(--stone); }
+  .method-item:last-child { padding-bottom: 0; }
+  .method-title {
+    font-size: 16px; font-weight: 500; letter-spacing: -0.01em; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 10px; color: var(--ink);
+  }
+  .method-title :global(svg) { color: var(--spark-deep); flex-shrink: 0; }
+  .method-text { padding-left: 29px; font-size: 14px; line-height: 1.6; color: var(--smoke); }
+
+  /* ---------- финальный призыв ---------- */
+  .closing-band { padding: 56px 48px; }
+  .closing-inner { max-width: 640px; }
+  .closing-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .closing-notes {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--stone);
+    font-size: 13px; color: var(--graphite);
+  }
+  .closing-notes span { display: inline-flex; align-items: center; gap: 8px; }
+  .closing-notes :global(svg) { color: var(--graphite); }
+  .closing-notes a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--stone); }
+  .closing-notes a:hover { border-bottom-color: var(--graphite); }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 1023px) {
+    .page-hero { padding: 20px 0 72px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+    .hero-visual { max-width: 440px; width: 100%; margin-inline: auto; }
+    .cards-3 { grid-template-columns: repeat(2, 1fr); }
+    .split { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 767px) {
+    .band { padding: 64px 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .cards-3 { grid-template-columns: 1fr; }
+    .feature { padding: 24px; }
+    .highlight-inner { padding: 26px; }
+    .schedule-inner, .methods-inner { padding: 26px; }
+    .schedule-slot { padding: 20px; }
+    .closing-band { padding: 28px; }
+  }
+</style>

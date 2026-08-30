@@ -5,1053 +5,928 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
+import Icon from '../../components/Icon.astro';
 import { url } from '../../utils/url';
+
+// Частые запросы. Карточка раскрывается по клику.
+const requests = [
+  {
+    icon: 'calm',
+    title: 'Страхи, тревожность, фобии',
+    lead: 'Детские страхи бывают возрастными, ситуативными, фобиями, социальными и ночными — и подход к каждому типу я выстраиваю с учётом особенностей ребёнка.',
+    items: [
+      { label: 'Выяснение причины страха:', text: 'разбираю ситуацию вместе с родителями, чтобы понять, когда и в каких условиях тревога проявляется сильнее всего' },
+      { label: 'Объяснение родителям, что делать:', text: 'рассказываю, где норма, а где нужна поддержка, и даю понятные ориентиры' },
+      { label: 'Подбор подходящих методов:', text: 'в работе использую игры, сказки, техники дыхания и арт-терапию — ребёнок «проживает» пугающее в безопасной форме' },
+      { label: 'Обучение ребёнка справляться с напряжением:', text: 'учу простым приёмам саморегуляции, которые реально работают в моменте' },
+      { label: 'Рекомендации родителям:', text: 'даю чёткие, практичные советы, как вести себя в тревожных ситуациях и поддерживать ребёнка без усиления страха' },
+    ],
+  },
+  {
+    icon: 'child',
+    title: 'Агрессия, истерики, непослушание',
+    lead: 'Агрессия, истерики и непослушание — не просто «плохое поведение», а сигнал о перегрузке: ребёнок не справляется с эмоциями и не владеет другими способами донести своё состояние.',
+    items: [
+      { label: 'Выяснение причин:', text: 'определяю с родителями триггеры вспышек (усталость, страх, непонимание требований)' },
+      { label: 'Объяснение родителям:', text: 'отделяем намеренную «вредность» от реакции на перегрузку, обозначаем, где нужна поддержка' },
+      { label: 'Подбор методов:', text: 'использую игры, дыхательные приёмы и способы вербального выражения злости' },
+      { label: 'Обучение ребёнка:', text: 'даю простые инструменты для момента — назвать чувство, сделать паузу, уйти в «уголок тишины»' },
+      { label: 'Рекомендации родителям:', text: 'чёткие шаги по выстраиванию границ и поддержке без усиления конфликта' },
+    ],
+  },
+  {
+    icon: 'book',
+    title: 'Проблемы в школе, с учёбой',
+    lead: 'Ребёнок не хочет идти в школу, возникают конфликты с учителями и одноклассниками, неуспеваемость. Школьные трудности возникают из-за нагрузки или адаптации, а также из-за тревоги, непонимания или нехватки опоры. Работаю с ребёнком и семьёй, чтобы вернуть ощущение «я справляюсь».',
+    items: [
+      { label: 'Выяснение причин:', text: 'вместе с родителями определяем, что именно мешает: страх ошибки, перегруз, пробелы в материале, конфликты, сложности с вниманием' },
+      { label: 'Объяснение родителям:', text: 'показываю, где это типичные этапы адаптации, а где нужны дополнительные ресурсы и щадящий режим' },
+      { label: 'Подбор методов:', text: 'использую пошаговые алгоритмы для домашних заданий, визуальные опоры и чек-листы, игровые форматы отработки тем, техники снижения тревожности' },
+      { label: 'Обучение ребёнка:', text: 'даю простые инструменты для самоорганизации и самоконтроля' },
+      { label: 'Рекомендации родителям:', text: 'чёткие способы поддержки без выполнения заданий за ребёнка, правила «тихой зоны» для уроков, формулировки обратной связи, которые сохраняют мотивацию' },
+    ],
+  },
+  {
+    icon: 'bond',
+    title: 'Замкнутость, трудности в общении',
+    lead: 'Ребёнок избегает общения, не играет с другими детьми, стесняется, предпочитает одиночество, боится оценки. Помогаю ребёнку почувствовать себя увереннее в общении и найти простые способы вступать в контакт.',
+    items: [
+      { label: 'Выяснение причин:', text: 'определяем, где и когда ребёнку тяжелее и какие сигналы тревоги он испытывает' },
+      { label: 'Объяснение родителям:', text: 'разбираем, где застенчивость, а где социальная тревога, и какие шаги сейчас уместны' },
+      { label: 'Подбор методов:', text: 'ролевые сценки, карточки с фразами, «лестница смелости», техники дыхания, игры на коммуникацию' },
+      { label: 'Обучение ребёнка:', text: 'фразы для знакомства, правило «одного шага», техники саморегуляции' },
+      { label: 'Рекомендации родителям:', text: 'поддерживать без давления, не отвечать за ребёнка, хвалить малейшие попытки контакта' },
+    ],
+  },
+  {
+    icon: 'worth',
+    title: 'Низкая самооценка, неуверенность',
+    lead: '«Я плохой», «У меня не получится» — ребёнок боится пробовать новое, считает себя хуже других. Помогу ребёнку вернуть опору в себе: увидеть свои сильные стороны и научиться не обесценивать успехи.',
+    items: [
+      { label: 'Выяснение причин:', text: 'разбираем, где и когда появляется неуверенность и какие мысли её усиливают' },
+      { label: 'Объяснение родителям:', text: 'показываю, как привычные фразы и ожидания могут незаметно снижать самооценку, как правильно поддерживать и давать опору' },
+      { label: 'Подбор методов:', text: 'использую дневник, шкалу уверенности, работу с «мыслями-ловушками», упражнения на формулирование сильных качеств и безопасные пробы нового' },
+      { label: 'Обучение ребёнка:', text: 'даю простые инструменты — фраза «я учусь, а не должен сразу уметь», правило «одной попытки», способ замечать 1–2 своих успеха в день; учу верить в себя и справляться с неудачами' },
+      { label: 'Рекомендации родителям:', text: 'как давать обратную связь, которая укрепляет, а не ранит; как делить большие задачи на шаги и хвалить процесс, а не только результат; как избегать сравнений и поддерживать право на ошибку' },
+    ],
+  },
+  {
+    icon: 'compass',
+    title: 'Развод родителей, семейные кризисы',
+    lead: 'Помощь ребёнку в переживании развода, адаптация к новым условиям, работа с виной и тревогой. Помогаю сохранить чувство безопасности.',
+    items: [
+      { label: 'Выяснение напряжения:', text: 'определяем, что сильнее всего тревожит ребёнка — чувство вины, страх потерять контакт с родителем, ссоры, переезд, новые правила' },
+      { label: 'Объяснение родителям:', text: 'показываю, как слова и конфликты взрослых усиливают тревогу ребёнка, и как дать ему единое спокойное послание («мы оба тебя любим»)' },
+      { label: 'Подбор методов:', text: 'сказкотерапия, «книга перемен» с ответами на частые вопросы, арт- и игровая терапия, ритуалы перехода между домами, техники снижения напряжения' },
+      { label: 'Обучение ребёнка:', text: 'даю простые слова для тяжёлых чувств и способы самопомощи (дыхание, «коробка грусти», безопасное место), учу отделять «взрослые проблемы» от своих переживаний' },
+      { label: 'Рекомендации родителям:', text: 'как говорить о переменах по возрасту, не втягивать ребёнка в конфликт, сохранять рутину, выстраивать понятный график встреч и замечать признаки перегрузки' },
+    ],
+  },
+];
+
+// Методы работы
+const methods = [
+  {
+    icon: 'play',
+    title: 'Игротерапия',
+    text: 'Ребёнок проигрывает свои переживания через игру. Это помогает ему выразить и отреагировать то, что сложно сказать словами.',
+    items: ['Страхах и тревоге', 'Агрессии', 'Травмах', 'Проблемах в семье'],
+  },
+  {
+    icon: 'note',
+    title: 'Арт-терапия',
+    text: 'Рисование, лепка, создание коллажей. Через творчество ребенок выражает свои эмоции и учится с ними справляться.',
+    items: ['Эмоциональных проблемах', 'Низкой самооценке', 'Замкнутости', 'Психосоматике'],
+  },
+  {
+    icon: 'book',
+    title: 'Сказкотерапия',
+    text: 'Работа через сказки и истории. Ребёнок учится решать проблемы вместе с героями, находит выход из сложных ситуаций.',
+    items: ['Страхах и тревоге', 'Низкой самооценке', 'Проблемах в общении', 'Развитии воображения'],
+  },
+  {
+    icon: 'compass',
+    title: 'МАК (метафорические карты)',
+    text: 'Работа с картинками-образами. Ребёнку проще рассказать о себе через картинку, чем прямым вопросом — так мы находим то, что тревожит на самом деле.',
+    items: ['Трудностях с выражением чувств', 'Скрытых переживаниях', 'Работе с подростками', 'Семейных конфликтах'],
+  },
+  {
+    icon: 'calm',
+    title: 'Песочная терапия',
+    text: 'Ребёнок строит свой мир в песочнице. Через фигурки и сюжеты он проживает то, что его волнует, и снимает внутреннее напряжение.',
+    items: ['Тревоге и напряжении', 'Переживании перемен', 'Страхах', 'Работе с младшими детьми'],
+  },
+];
+
+// Авторские программы
+const programs = [
+  {
+    name: 'Умники и умницы',
+    age: 'Для детей 5-7 лет',
+    text: 'Комплексно-развивающие занятия по подготовке к школе. С помощью современных методик ребенок легко учится читать, писать, считать, развивает память, речь и расширяет кругозор.',
+    listTitle: 'Что включено:',
+    list: [
+      { label: 'Мнемотехника', text: ' — обучение легко и быстро запоминать' },
+      { label: 'Нейропсихологические игры', text: ' — развитие межполушарного взаимодействия' },
+      { label: 'Тренировка чтения и письма', text: ' правильной техники' },
+      { label: 'Расширение кругозора', text: ' на ежедневных занятиях' },
+      { label: 'Творческие занятия', text: ' — развитие воображения, фантазии, мелкой моторики' },
+      { label: 'Занятия с логопедом', text: ' — становление речи' },
+      { label: 'Работа с психологом', text: ' — развитие эмоциональной сферы и подготовка к школе' },
+    ],
+    formatTitle: 'Формат занятий:',
+    format: [
+      'Малые группы до 8 детей',
+      'Индивидуальный подход к каждому',
+      'Возрастная диагностика при записи',
+      'С детьми работают: педагог, логопед, психолог',
+    ],
+    result: 'Готовность к школе и уверенность ребенка',
+    href: url('/programs/umniky'),
+  },
+  {
+    name: 'Азбука общения',
+    age: 'Для детей 5-9 лет',
+    badge: 'Набор открыт',
+    featured: true,
+    text: 'Психологический курс, который знакомит детей со сложным миром человеческих эмоций. Дети учатся понимать, проявлять и реагировать на свои и чужие эмоции.',
+    listTitle: 'Что ребенок развивает:',
+    list: [
+      { label: 'Уверенность в себе', text: ' и самостоятельность' },
+      { label: 'Позитивное отношение', text: ' к себе и сверстникам' },
+      { label: 'Эмпатию и сопереживание', text: ' — понимание чувств других' },
+      { label: 'Выстраивание границ', text: ' и умение чувствовать их у других' },
+      { label: 'Работу со страхами', text: ', тревогами и обидами' },
+      { label: 'Игра по правилам', text: ' — умение достойно проигрывать и выигрывать' },
+      { label: 'Работу в команде', text: ' и лидерство' },
+    ],
+    formatTitle: 'Особенности курса:',
+    format: [
+      'Знакомство с релаксацией и саморегуляцией',
+      'Управление эмоциональным состоянием',
+      'Повышение эмоциональной устойчивости',
+      'Формирование высокого EQ (эмоционального интеллекта)',
+    ],
+    result: 'Развитый эмоциональный интеллект и навыки общения',
+    href: url('/programs/azbuka'),
+  },
+];
+
+// Как проходит консультация
+const steps = [
+  {
+    title: 'Беседа с родителями',
+    text: 'Психолог беседует с вами без ребенка: узнает запрос, историю, особенности развития. Вы можете задать все вопросы.',
+  },
+  {
+    title: 'Знакомство с ребенком',
+    text: 'Психолог показывает ребенку игровую комнату, рассказывает о правилах. Важно, чтобы ребенок почувствовал себя в безопасности.',
+  },
+  {
+    title: 'Игра и диагностика',
+    text: 'Психолог играет с ребенком, предлагает порисовать или полепить. В процессе оценивает эмоциональное состояние и особенности.',
+  },
+  {
+    title: 'Обратная связь родителям',
+    text: 'Психолог делится первыми впечатлениями, предлагает план работы, отвечает на вопросы. Вы решаете, продолжать ли терапию.',
+  },
+];
+
+// Форматы работы
+const formats = [
+  {
+    title: 'Разовая консультация',
+    items: ['Обсуждение запроса', 'Диагностика при необходимости', 'Рекомендации родителям', 'Онлайн или офлайн'],
+    cta: 'Записаться',
+    mode: 'single',
+  },
+  {
+    title: 'Системная работа',
+    note: 'Серия встреч по плану терапии',
+    badge: 'Рекомендуем',
+    featured: true,
+    items: ['Глубокая проработка запроса', 'Индивидуальный план', 'Видимый результат'],
+    cta: 'Записаться',
+    mode: 'package',
+  },
+  {
+    title: 'Групповые занятия',
+    items: ['Группы до 8 человек', 'Развитие социальных навыков', 'Игровые программы', '1 раз в неделю'],
+    cta: 'Записаться в группу',
+    mode: 'group',
+  },
+];
+
+// Перелинковка
+const related = [
+  { icon: 'book', title: 'Умники и умницы', text: 'Комплексная подготовка к школе для детей 5-7 лет', href: url('/programs/umniky') },
+  { icon: 'chat', title: 'Азбука общения', text: 'Развитие эмоционального интеллекта для детей 5-9 лет', href: url('/programs/azbuka') },
+  { icon: 'note', title: 'Подготовка к школе', text: 'Знания и навыки для успешного старта в школе', href: url('/services/school-prep') },
+];
 ---
 
-<SEO 
+<SEO
   title="Детский психолог в Одинцово и Лесном городке | Консультации онлайн"
   description="Детский психолог в Одинцово. Помощь детям и подросткам. Работа с истериками, агрессией, страхами, школьными проблемами. Запись онлайн."
   keywords="детский психолог Одинцово, психолог для ребенка, детская психология"
   schema="service"
 />
 
-<Layout 
+<Layout
   title="Детский психолог в Одинцово и Лесном городке | Консультации онлайн"
   description="Детский психолог в Одинцово. Помощь детям и подросткам."
 >
 
- 
-  <!-- Hero секция -->
-  <section class="relative pt-32 pb-20 overflow-hidden" data-animate="fade">
-    <!-- Фоновый градиент -->
-    <div class="absolute inset-0 bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)]"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="grid md:grid-cols-2 gap-12 items-center">
-        
-        <!-- Текст -->
-        <div>
-          <div class="inline-block px-4 py-2 bg-[#F2F7FD] text-gray-900 rounded-full font-semibold mb-4">
-            Для родителей
-          </div>
-          
-          <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4894B2] to-[#18698F] bg-clip-text text-transparent">
-            Индивидуальные занятия с детьми
-          </h1>
+  <Breadcrumbs
+    items={[
+      { label: 'Главная', href: url('/') },
+      { label: 'Услуги', href: url('/#services') },
+      { label: 'Занятия с детьми' }
+    ]}
+  />
 
-          <p class="text-xl text-gray-700 mb-6 leading-relaxed">
+  <!-- ============ Первый экран ============ -->
+  <section class="page-hero">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="hero-grid">
+
+        <div>
+          <p class="eyebrow mb-4 rise">Для родителей</p>
+
+          <h1 class="display mb-5 rise">Индивидуальные занятия с детьми</h1>
+
+          <p class="lede mb-8 max-w-[46ch] rise rise-2">
             Помогу ребенку понять свои эмоции, справиться со страхами и наладить отношения с окружающими
           </p>
 
-          <div class="flex flex-wrap gap-4 mb-8">
-            <button onclick="openBookingModal()" class="px-8 py-4 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition shadow-lg hover:shadow-xl hover:scale-105">
+          <div class="flex flex-wrap gap-3 mb-11 rise rise-3">
+            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+              Записаться на консультацию
+            </button>
+            <a href="#what-we-help" class="pill pill-outline pill-lg">Частые запросы</a>
+          </div>
+
+          <div class="hairline pt-6 flex flex-wrap gap-10 rise rise-4">
+            <div>
+              <div class="hero-figure">5–18</div>
+              <div class="text-[13px] muted">возраст детей</div>
+            </div>
+            <div>
+              <div class="hero-figure">55 мин</div>
+              <div class="text-[13px] muted">длительность сессии</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual rise rise-2">
+          <img
+            src={url('/images/services/child-therapy.jpg')}
+            alt="Консультация детского психолога"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Частые запросы ============ -->
+  <section id="what-we-help" class="band">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">С чем работаю</p>
+          <h2 class="heading mb-4">Частые запросы</h2>
+          <p class="lede max-w-[56ch]">Возможно, среди них ваш</p>
+        </div>
+
+        <div class="cards-2">
+          {requests.map((item) => (
+            <article class="accordion-card surface" data-reveal>
+              <div class="card-inner">
+                <h3 class="card-heading">
+                  <button class="card-head" type="button" aria-expanded="false">
+                    <span class="card-icon"><Icon name={item.icon} size={22} /></span>
+                    <span class="card-title">{item.title}</span>
+                    <svg class="accordion-icon chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </h3>
+
+                <p class="card-lead">{item.lead}</p>
+
+                <div class="accordion-content" inert>
+                  <ul class="card-list">
+                    {item.items.map((li) => (
+                      <li><strong>{li.label}</strong> {li.text}</li>
+                    ))}
+                  </ul>
+                  <button onclick="openBookingModal()" class="pill pill-solid card-cta" type="button">
+                    Записаться
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Методы и авторские программы ============ -->
+  <section class="band band-taupe">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Методы</p>
+          <h2 class="heading mb-4">Как я работаю с детьми</h2>
+        </div>
+
+        <div class="cards-3">
+          {methods.map((method) => (
+            <article class="method" data-reveal>
+              <span class="method-icon"><Icon name={method.icon} size={22} /></span>
+              <h3 class="method-title">{method.title}</h3>
+              <p class="method-text">{method.text}</p>
+              <div class="method-panel">
+                <h4 class="panel-title">Эффективно при:</h4>
+                <ul class="check-list">
+                  {method.items.map((li) => <li>{li}</li>)}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div class="band-head programs-head" data-reveal>
+          <p class="eyebrow mb-3">Мои уникальные программы</p>
+          <h2 class="heading mb-4">Авторские развивающие курсы</h2>
+          <p class="lede max-w-[56ch]">Разработанные мной программы для комплексного развития детей</p>
+        </div>
+
+        <div class="cards-2">
+          {programs.map((program) => (
+            <article class={`program ${program.featured ? 'gradient-card' : 'program-plain'}`} data-reveal>
+              <div class="program-inner">
+                {program.badge && <span class="program-badge">{program.badge}</span>}
+
+                <h3 class="program-name">{program.name}</h3>
+                <p class="program-age">{program.age}</p>
+                <p class="program-text">{program.text}</p>
+
+                <div class="program-panel">
+                  <h4 class="panel-title">{program.listTitle}</h4>
+                  <ul class="program-list">
+                    {program.list.map((li) => (
+                      <li><strong>{li.label}</strong>{li.text}</li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div class="program-panel">
+                  <h4 class="panel-title">{program.formatTitle}</h4>
+                  <ul class="program-format">
+                    {program.format.map((li) => <li>{li}</li>)}
+                  </ul>
+                </div>
+
+                <div class="program-result">
+                  <span class="result-label">Результат программы</span>
+                  <span class="result-value">{program.result}</span>
+                </div>
+
+                <a href={url(program.href)} class={`pill ${program.featured ? 'pill-light' : 'pill-solid'} program-link`}>
+                  Подробнее о программе
+                  <Icon name="arrow" size={16} />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Как проходит консультация ============ -->
+  <section class="band">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Первая встреча</p>
+          <h2 class="heading mb-4">Как проходит консультация</h2>
+          <p class="lede max-w-[56ch]">Первая встреча: психолог знакомится с ребенком и родителями</p>
+        </div>
+
+        <div class="timeline-wrap" data-reveal>
+          <span class="tl-track" aria-hidden="true"></span>
+          <span class="tl-fill" data-progress-line style="height: 0%" aria-hidden="true"></span>
+
+          <ol class="timeline">
+            {steps.map((step, i) => (
+              <li class="tl-item">
+                <span class="tl-num">0{i + 1}</span>
+                <div class="tl-body">
+                  <h3 class="tl-title">{step.title}</h3>
+                  <p class="tl-text">{step.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Форматы работы ============ -->
+  <section class="band band-taupe">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Форматы</p>
+          <h2 class="heading mb-4">Форматы работы с ребёнком</h2>
+          <p class="lede max-w-[56ch]">Выбираем подход под запрос семьи</p>
+        </div>
+
+        <div class="cards-3 formats">
+          {formats.map((format) => (
+            <article class={`format-card ${format.featured ? 'gradient-card' : 'format-plain'}`} data-reveal>
+              <div class="format-inner">
+                {format.badge && <span class="format-badge">{format.badge}</span>}
+                <h3 class="format-title">{format.title}</h3>
+                {format.note && <p class="format-note">{format.note}</p>}
+                <ul class="check-list format-list">
+                  {format.items.map((li) => <li>{li}</li>)}
+                </ul>
+                <button
+                  onclick={`openBookingModal('${format.mode}')`}
+                  class={`pill ${format.featured ? 'pill-light' : 'pill-solid'} format-btn`}
+                  type="button"
+                >
+                  {format.cta}
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Вопросы родителей ============ -->
+  <div data-reveal>
+    <FAQ
+      title="Вопросы родителей"
+      subtitle="Ответы на частые вопросы о детском психологе"
+      items={[
+        {
+          question: "С какого возраста можно водить ребенка к психологу?",
+          answer: "С 5 лет. В этом возрасте ребёнок уже может участвовать в игровой терапии. Чем раньше начать работу с проблемой, тем легче и быстрее она решается."
+        },
+        {
+          question: "Будет ли ребенок рассказывать мне о том, что происходит на сессии?",
+          answer: "Содержание сессий конфиденциально — это важно для доверия между психологом и ребенком. Но после каждой встречи психолог дает вам общую обратную связь: что происходит, какой прогресс, что делать дома."
+        },
+        {
+          question: "Сколько сессий понадобится?",
+          answer: "В среднем 8-12 встреч для решения конкретного запроса (страхи, агрессия). Первые изменения обычно видны после 3-4 сессий. Точнее скажем после первой встречи."
+        },
+        {
+          question: "Что если ребенок не хочет идти к психологу?",
+          answer: "Это нормально. Расскажите, что вы идете 'поиграть с добрым взрослым', посмотреть игрушки. После первой встречи дети обычно с радостью идут снова — ведь психолог не ругает и не учит, а просто играет."
+        },
+        {
+          question: "Можно ли присутствовать на сессии?",
+          answer: "На первой встрече — да, если ребенку так комфортнее. Дальше лучше, если ребенок остается с психологом один на один — так он чувствует себя свободнее и открывается быстрее."
+        },
+        {
+          question: "Чем детский психолог отличается от взрослого?",
+          answer: "Детский психолог владеет игровыми методами — не беседует, а играет с ребёнком. Знает возрастную психологию, умеет работать с детскими проблемами. Имею специализацию по детской психологии."
+        }
+      ]}
+    />
+  </div>
+
+  <!-- ============ Финальный призыв ============ -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <p class="eyebrow mb-4">Запись</p>
+          <h2 class="heading mb-4">Запишите ребенка к детскому психологу</h2>
+          <p class="lede mb-8 max-w-[52ch]">
+            Чем раньше начнем работу, тем быстрее ваш ребенок станет счастливее
+          </p>
+
+          <div class="closing-actions">
+            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
               Записаться на консультацию
             </button>
           </div>
 
-          <!-- Быстрые факты -->
-          <div class="grid grid-cols-2 gap-6" data-stagger>
-            <div class="text-center">
-              <div class="text-4xl font-bold text-[#4894B2] mb-2">5–18</div>
-              <div class="text-sm text-gray-600">возраст<br/>детей</div>
-            </div>
-            <div class="text-center">
-              <div class="text-4xl font-bold text-[#4894B2] mb-2">55 мин</div>
-              <div class="text-sm text-gray-600">длительность<br/>сессии</div>
-            </div>
+          <div class="closing-notes">
+            <span>
+              <Icon name="phone" size={16} />
+              <a href="tel:+79151955132" class="closing-link">+7 (915) 195-51-32</a>
+            </span>
+            <span><Icon name="chat" size={16} />WhatsApp / Telegram</span>
           </div>
         </div>
-        
-       <!-- Изображение -->
-        <div class="flex justify-center lg:justify-end " >
-        <div class="relative w-full max-w-md">
-          <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-            <img 
-              src={url('/images/services/child-therapy.jpg')} 
-              alt="Консультация психолога" 
-              class="w-full h-auto" loading="lazy" decoding="async" />
-          
-          <!-- Декоративные элементы -->
-          <div class="absolute -top-6 -right-6 w-24 h-24 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>
-          <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-[#F2F7FD] rounded-full opacity-30 blur-2xl"></div>
-        </div>
-        
       </div>
     </div>
   </section>
 
- <Breadcrumbs 
-    items={[
-      { label: 'Главная', href: '/' },
-      { label: 'Услуги', href: '/#services' },
-      { label: 'Занятия с детьми' }
-    ]}
-  />
-  </div><!-- 
-  С чем мы работаем -->
-  <section id="what-we-help" class="py-20 bg-white" data-animate="fade">
+  <!-- ============ Перелинковка ============ -->
+  <section class="band band-taupe">
     <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-3">
-        Частые запросы
-      </h2>
-      <p class="text-center text-gray-500 text-sm mb-16">
-        Возможно, среди них ваш
-      </p>
-
-      <!-- Сетка запросов -->
-      <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-
-        <!-- Страхи и тревоги -->
-        <div class="bg-white accordion-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-          <div class="text-5xl mb-4">😨</div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Страхи, тревожность, фобии</h3>
-
-          <p class="text-gray-700 mb-6 leading-relaxed">
-            Детские страхи бывают возрастными, ситуативными, фобиями, социальными и ночными —
-            и подход к каждому типу я выстраиваю с учётом особенностей ребёнка.
-          </p>
-
-          <ul class="space-y-3 text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Выяснение причины страха:</strong> разбираю ситуацию вместе с родителями, чтобы понять, когда и в каких условиях тревога проявляется сильнее всего</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Объяснение родителям, что делать:</strong> рассказываю, где норма, а где нужна поддержка, и даю понятные ориентиры</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Подбор подходящих методов:</strong> в работе использую игры, сказки, техники дыхания и арт-терапию — ребёнок «проживает» пугающее в безопасной форме</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Обучение ребёнка справляться с напряжением:</strong> учу простым приёмам саморегуляции, которые реально работают в моменте</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Рекомендации родителям:</strong> даю чёткие, практичные советы, как вести себя в тревожных ситуациях и поддерживать ребёнка без усиления страха</span>
-            </li>
-          </ul>
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Смотрите также</p>
+          <h2 class="heading">Вам также может быть интересно</h2>
         </div>
 
-        <!-- Агрессия и истерики -->
-        <div class="bg-white accordion-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-          <div class="text-5xl mb-4">😡</div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Агрессия, истерики, непослушание</h3>
-
-          <p class="text-gray-700 mb-6 leading-relaxed">
-            Агрессия, истерики и непослушание — не просто «плохое поведение», а сигнал о перегрузке:
-            ребёнок не справляется с эмоциями и не владеет другими способами донести своё состояние.
-          </p>
-
-          <ul class="space-y-3 text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Выяснение причин:</strong> определяю с родителями триггеры вспышек (усталость, страх, непонимание требований)</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Объяснение родителям:</strong> отделяем намеренную «вредность» от реакции на перегрузку, обозначаем, где нужна поддержка</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Подбор методов:</strong> использую игры, дыхательные приёмы и способы вербального выражения злости</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Обучение ребёнка:</strong> даю простые инструменты для момента — назвать чувство, сделать паузу, уйти в «уголок тишины»</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Рекомендации родителям:</strong> чёткие шаги по выстраиванию границ и поддержке без усиления конфликта</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Проблемы в школе -->
-        <div class="bg-white accordion-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-          <div class="text-5xl mb-4">🎒</div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Проблемы в школе, с учёбой</h3>
-
-          <p class="text-gray-700 mb-6 leading-relaxed">
-            Ребёнок не хочет идти в школу, возникают конфликты с учителями и одноклассниками,
-            неуспеваемость. Школьные трудности возникают из-за нагрузки или адаптации, а также
-            из-за тревоги, непонимания или нехватки опоры. Работаю с ребёнком и семьёй, чтобы
-            вернуть ощущение «я справляюсь».
-          </p>
-
-          <ul class="space-y-3 text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Выяснение причин:</strong> вместе с родителями определяем, что именно мешает: страх ошибки, перегруз, пробелы в материале, конфликты, сложности с вниманием</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Объяснение родителям:</strong> показываю, где это типичные этапы адаптации, а где нужны дополнительные ресурсы и щадящий режим</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Подбор методов:</strong> использую пошаговые алгоритмы для домашних заданий, визуальные опоры и чек-листы, игровые форматы отработки тем, техники снижения тревожности</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Обучение ребёнка:</strong> даю простые инструменты для самоорганизации и самоконтроля</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Рекомендации родителям:</strong> чёткие способы поддержки без выполнения заданий за ребёнка, правила «тихой зоны» для уроков, формулировки обратной связи, которые сохраняют мотивацию</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Замкнутость и трудности в общении -->
-        <div class="bg-white accordion-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-          <div class="text-5xl mb-4">🤐</div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Замкнутость, трудности в общении</h3>
-
-          <p class="text-gray-700 mb-6 leading-relaxed">
-            Ребёнок избегает общения, не играет с другими детьми, стесняется, предпочитает
-            одиночество, боится оценки. Помогаю ребёнку почувствовать себя увереннее в общении
-            и найти простые способы вступать в контакт.
-          </p>
-
-          <ul class="space-y-3 text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Выяснение причин:</strong> определяем, где и когда ребёнку тяжелее и какие сигналы тревоги он испытывает</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Объяснение родителям:</strong> разбираем, где застенчивость, а где социальная тревога, и какие шаги сейчас уместны</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Подбор методов:</strong> ролевые сценки, карточки с фразами, «лестница смелости», техники дыхания, игры на коммуникацию</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Обучение ребёнка:</strong> фразы для знакомства, правило «одного шага», техники саморегуляции</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Рекомендации родителям:</strong> поддерживать без давления, не отвечать за ребёнка, хвалить малейшие попытки контакта</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Низкая самооценка -->
-        <div class="bg-white accordion-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-          <div class="text-5xl mb-4">😔</div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Низкая самооценка, неуверенность</h3>
-
-          <p class="text-gray-700 mb-6 leading-relaxed">
-            «Я плохой», «У меня не получится» — ребёнок боится пробовать новое, считает себя
-            хуже других. Помогу ребёнку вернуть опору в себе: увидеть свои сильные стороны
-            и научиться не обесценивать успехи.
-          </p>
-
-          <ul class="space-y-3 text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Выяснение причин:</strong> разбираем, где и когда появляется неуверенность и какие мысли её усиливают</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Объяснение родителям:</strong> показываю, как привычные фразы и ожидания могут незаметно снижать самооценку, как правильно поддерживать и давать опору</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Подбор методов:</strong> использую дневник, шкалу уверенности, работу с «мыслями-ловушками», упражнения на формулирование сильных качеств и безопасные пробы нового</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Обучение ребёнка:</strong> даю простые инструменты — фраза «я учусь, а не должен сразу уметь», правило «одной попытки», способ замечать 1–2 своих успеха в день; учу верить в себя и справляться с неудачами</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Рекомендации родителям:</strong> как давать обратную связь, которая укрепляет, а не ранит; как делить большие задачи на шаги и хвалить процесс, а не только результат; как избегать сравнений и поддерживать право на ошибку</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Развод родителей -->
-        <div class="bg-white accordion-card rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 cursor-pointer">
-          <div class="text-5xl mb-4">💔</div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4">Развод родителей, семейные кризисы</h3>
-
-          <p class="text-gray-700 mb-6 leading-relaxed">
-            Помощь ребёнку в переживании развода, адаптация к новым условиям, работа с виной
-            и тревогой. Помогаю сохранить чувство безопасности.
-          </p>
-
-          <ul class="space-y-3 text-gray-700">
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Выяснение напряжения:</strong> определяем, что сильнее всего тревожит ребёнка — чувство вины, страх потерять контакт с родителем, ссоры, переезд, новые правила</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Объяснение родителям:</strong> показываю, как слова и конфликты взрослых усиливают тревогу ребёнка, и как дать ему единое спокойное послание («мы оба тебя любим»)</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Подбор методов:</strong> сказкотерапия, «книга перемен» с ответами на частые вопросы, арт- и игровая терапия, ритуалы перехода между домами, техники снижения напряжения</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Обучение ребёнка:</strong> даю простые слова для тяжёлых чувств и способы самопомощи (дыхание, «коробка грусти», безопасное место), учу отделять «взрослые проблемы» от своих переживаний</span>
-            </li>
-            <li class="flex items-start gap-2">
-              <span class="text-[#4894B2] mt-1">✓</span>
-              <span><strong class="font-semibold text-gray-900">Рекомендации родителям:</strong> как говорить о переменах по возрасту, не втягивать ребёнка в конфликт, сохранять рутину, выстраивать понятный график встреч и замечать признаки перегрузки</span>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Методы работы с детьми -->
-  <section class="py-20 bg-gradient-to-br from-[rgba(230,215,205,0.2)] via-[rgba(215,198,188,0.26)] to-[rgba(200,180,170,0.35)]" data-animate="slide-up">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-16">
-        Как я работаю с детьми
-      </h2>
-      
-      <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        
-        <!-- Игротерапия -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-          <div class="w-20 h-20 bg-gradient-to-br from-[#F2F7FD] to-white rounded-full flex items-center justify-center mb-6 mx-auto">
-            <span class="text-4xl">🧸</span>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Игротерапия</h3>
-          <p class="text-gray-700 mb-6 leading-relaxed text-center">
-            Ребёнок проигрывает свои переживания через игру. Это помогает ему
-            выразить и отреагировать то, что сложно сказать словами.
-          </p>
-          <div class="bg-[#F2F7FD] p-4 rounded-xl">
-            <h4 class="font-bold text-gray-900 mb-3 text-center">Эффективно при:</h4>
-            <ul class="space-y-2 text-sm text-gray-700">
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Страхах и тревоге</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Агрессии</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Травмах</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Проблемах в семье</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        
-        <!-- Арт-терапия -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-          <div class="w-20 h-20 bg-gradient-to-br from-[#F2F7FD] to-white rounded-full flex items-center justify-center mb-6 mx-auto">
-            <span class="text-4xl">🎨</span>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Арт-терапия</h3>
-          <p class="text-gray-700 mb-6 leading-relaxed text-center">
-            Рисование, лепка, создание коллажей. Через творчество ребенок 
-            выражает свои эмоции и учится с ними справляться.
-          </p>
-          <div class="bg-[#F2F7FD] p-4 rounded-xl">
-            <h4 class="font-bold text-gray-900 mb-3 text-center">Эффективно при:</h4>
-            <ul class="space-y-2 text-sm text-gray-700">
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Эмоциональных проблемах</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Низкой самооценке</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Замкнутости</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Психосоматике</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        
-        <!-- Сказкотерапия -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-          <div class="w-20 h-20 bg-gradient-to-br from-[#F2F7FD] to-white rounded-full flex items-center justify-center mb-6 mx-auto">
-            <span class="text-4xl">📚</span>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Сказкотерапия</h3>
-          <p class="text-gray-700 mb-6 leading-relaxed text-center">
-            Работа через сказки и истории. Ребёнок учится решать проблемы 
-            вместе с героями, находит выход из сложных ситуаций.
-          </p>
-          <div class="bg-[#F2F7FD] p-4 rounded-xl">
-            <h4 class="font-bold text-gray-900 mb-3 text-center">Эффективно при:</h4>
-            <ul class="space-y-2 text-sm text-gray-700">
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Страхах и тревоге</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Низкой самооценке</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Проблемах в общении</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Развитии воображения</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- МАК -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-          <div class="w-20 h-20 bg-gradient-to-br from-[#F2F7FD] to-white rounded-full flex items-center justify-center mb-6 mx-auto">
-            <span class="text-4xl">🃏</span>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">МАК (метафорические карты)</h3>
-          <p class="text-gray-700 mb-6 leading-relaxed text-center">
-            Работа с картинками-образами. Ребёнку проще рассказать о себе через картинку,
-            чем прямым вопросом — так мы находим то, что тревожит на самом деле.
-          </p>
-          <div class="bg-[#F2F7FD] p-4 rounded-xl">
-            <h4 class="font-bold text-gray-900 mb-3 text-center">Эффективно при:</h4>
-            <ul class="space-y-2 text-sm text-gray-700">
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Трудностях с выражением чувств</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Скрытых переживаниях</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Работе с подростками</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Семейных конфликтах</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Песочная терапия -->
-        <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-          <div class="w-20 h-20 bg-gradient-to-br from-[#F2F7FD] to-white rounded-full flex items-center justify-center mb-6 mx-auto">
-            <span class="text-4xl">🏖️</span>
-          </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-4 text-center">Песочная терапия</h3>
-          <p class="text-gray-700 mb-6 leading-relaxed text-center">
-            Ребёнок строит свой мир в песочнице. Через фигурки и сюжеты он проживает
-            то, что его волнует, и снимает внутреннее напряжение.
-          </p>
-          <div class="bg-[#F2F7FD] p-4 rounded-xl">
-            <h4 class="font-bold text-gray-900 mb-3 text-center">Эффективно при:</h4>
-            <ul class="space-y-2 text-sm text-gray-700">
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Тревоге и напряжении</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Переживании перемен</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Страхах</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-[#4894B2]">✓</span>
-                <span>Работе с младшими детьми</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Уникальные программы -->
-      <div class="mt-20">
-        <div class="text-center mb-12">
-          <div class="inline-block px-6 py-2 bg-gradient-to-br from-[#4894B2] to-[#18698F] text-white rounded-full font-bold mb-4">
-            ⭐ Мои уникальные программы
-          </div>
-          <h3 class="text-3xl font-bold text-gray-900 mb-4">
-            Авторские развивающие курсы
-          </h3>
-          <p class="text-gray-600 max-w-2xl mx-auto">
-            Разработанные мной программы для комплексного развития детей
-          </p>
-        </div> 
-
-        <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          
-          <!-- Программа 1: Умники и умницы -->
-          <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-blue-200 relative overflow-hidden">
-
-            <div class="w-24 h-24 bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full flex items-center justify-center mb-6 mx-auto">
-              <span class="text-5xl">🎓</span>
-            </div>
-            
-            <h3 class="text-3xl font-bold text-white mb-3 text-center">Умники и умницы</h3>
-            <p class="text-white font-semibold text-center mb-4">Для детей 5-7 лет</p>
-            
-            <p class="text-white mb-6 leading-relaxed text-center">
-              Комплексно-развивающие занятия по подготовке к школе. С помощью современных методик 
-              ребенок легко учится читать, писать, считать, развивает память, речь и расширяет кругозор.
-            </p>
-
-            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-6">
-              <h4 class="font-bold text-gray-900 mb-4 text-center flex items-center justify-center gap-2">
-                <span class="text-2xl">📚</span>
-                Что включено:
-              </h4>
-              <ul class="space-y-3 text-sm text-gray-700">
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Мнемотехника</strong> — обучение легко и быстро запоминать</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Нейропсихологические игры</strong> — развитие межполушарного взаимодействия</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Тренировка чтения и письма</strong> правильной техники</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Расширение кругозора</strong> на ежедневных занятиях</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Творческие занятия</strong> — развитие воображения, фантазии, мелкой моторики</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Занятия с логопедом</strong> — становление речи</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Работа с психологом</strong> — развитие эмоциональной сферы и подготовка к школе</span>
-                </li>
-              </ul>
-            </div>
-
-            <div class="bg-gradient-to-r from-[#4894B2] to-[#18698F] rounded-xl p-4 mb-6">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-white font-semibold">Формат занятий:</span>
-              </div>
-              <ul class="space-y-1 text-sm text-white">
-                <li class="flex items-center gap-2">
-                  <span class="text-[#4894B2]">•</span>
-                  <span>Малые группы до <strong>8 детей</strong></span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="text-[#4894B2]">•</span>
-                  <span><strong>Индивидуальный подход</strong> к каждому</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="text-[#4894B2]">•</span>
-                  <span><strong>Возрастная диагностика</strong> при записи</span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="text-[#4894B2]">•</span>
-                  <span>С детьми работают: <strong>педагог, логопед, психолог</strong></span>
-                </li>
-              </ul>
-            </div>
-
-            <div class="bg-[#F2F7FD] border border-green-200 rounded-xl p-4 mb-6 text-center">
-              <div class="text-sm text-[#4894B2] mb-2">🎯 Результат программы</div>
-              <div class="text-base font-semibold text-[#4894B2]">Готовность к школе и уверенность ребенка</div>
-            </div>
-            
-            <a 
-              href={url('/programs/umniky')}
-              class="block w-full px-6 py-4 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-[#18698F] hover:to-[#0d4a6b] text-white text-center rounded-full font-bold transition shadow-lg hover:shadow-xl"
-            >
-              Подробнее о программе →
+        <div class="cards-3">
+          {related.map((item) => (
+            <a href={url(item.href)} class="rel-card lift" data-reveal>
+              <span class="rel-icon"><Icon name={item.icon} size={22} /></span>
+              <h3 class="rel-title">{item.title}</h3>
+              <p class="rel-text">{item.text}</p>
+              <span class="rel-more">Подробнее <Icon name="arrow" size={16} /></span>
             </a>
-          </div>
-
-          <!-- Программа 2: Азбука общения -->
-          <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border-2 border-pink-200 relative overflow-hidden">
-            <!-- Набор открыт badge -->
-            <div class="absolute top-4 right-4">
-              <div class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold">
-                Набор открыт
-              </div>
-            </div>
-
-            <div class="w-24 h-24 bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full flex items-center justify-center mb-6 mx-auto">
-              <span class="text-5xl">💬</span>
-            </div>
-            
-            <h3 class="text-3xl font-bold text-white mb-3 text-center">Азбука общения</h3>
-            <p class="text-white font-semibold text-center mb-4">Для детей 5-9 лет</p>
-            
-            <p class="text-white mb-6 leading-relaxed text-center">
-              Психологический курс, который знакомит детей со сложным миром человеческих эмоций. 
-              Дети учатся понимать, проявлять и реагировать на свои и чужие эмоции.
-            </p>
-
-            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 mb-6">
-              <h4 class="font-bold text-gray-900 mb-4 text-center flex items-center justify-center gap-2">
-                <span class="text-2xl">🌟</span>
-                Что ребенок развивает:
-              </h4>
-              <ul class="space-y-3 text-sm text-gray-700">
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Уверенность в себе</strong> и самостоятельность</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Позитивное отношение</strong> к себе и сверстникам</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Эмпатию и сопереживание</strong> — понимание чувств других</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Выстраивание границ</strong> и умение чувствовать их у других</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Работу со страхами</strong>, тревогами и обидами</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Игра по правилам</strong> — умение достойно проигрывать и выигрывать</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="text-[#4894B2] text-lg flex-shrink-0">✓</span>
-                  <span><strong>Работу в команде</strong> и лидерство</span>
-                </li>
-              </ul>
-            </div>
-
-            <div class="bg-gradient-to-r from-[#4894B2] to-[#18698F] rounded-xl p-4 mb-6">
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-white font-semibold">Особенности курса:</span>
-              </div>
-              <ul class="space-y-1 text-sm text-white">
-                <li class="flex items-center gap-2">
-                  <span class="text-[#4894B2]">•</span>
-                  <span>Знакомство с <strong>релаксацией и саморегуляцией</strong></span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="text-[#4894B2]">•</span>
-                  <span>Управление <strong>эмоциональным состоянием</strong></span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="text-[#4894B2]">•</span>
-                  <span>Повышение <strong>эмоциональной устойчивости</strong></span>
-                </li>
-                <li class="flex items-center gap-2">
-                  <span class="text-[#4894B2]">•</span>
-                  <span>Формирование <strong>высокого EQ</strong> (эмоционального интеллекта)</span>
-                </li>
-              </ul>
-            </div>
-
-            <div class="bg-[#F2F7FD] border border-purple-200 rounded-xl p-4 mb-6 text-center">
-              <div class="text-sm text-[#4894B2] mb-2">🎯 Результат программы</div>
-              <div class="text-base font-semibold text-[#4894B2]">Развитый эмоциональный интеллект и навыки общения</div>
-            </div>
-            
-            <a 
-              href={url('/programs/azbuka')}
-              class="block w-full px-6 py-4 bg-gradient-to-r from-[#4894B2] to-[#18698F] hover:from-[#18698F] hover:to-[#0d4a6b] text-white text-center rounded-full font-bold transition shadow-lg hover:shadow-xl"
-            >
-              Подробнее о программе →
-            </a>
-          </div>
-
+          ))}
         </div>
       </div>
     </div>
   </section>
 
-  </section>
-
-  <!-- Как проходит детская консультация -->
-  <section class="py-20 bg-white" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
-        Как проходит консультация
-      </h2>
-      <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-        Первая встреча: психолог знакомится с ребенком и родителями
-      </p>
-      
-      <!-- Timeline -->
-      <div class="max-w-4xl mx-auto relative">
-        <!-- Вертикальная линия -->
-        
-        <!-- Вертикальная линия -->
-        <div class="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-br from-[#4894B2] to-[#18698F] transition-all duration-2000" data-progress-line style="height: 0%"></div>
-        
-        <div class="space-y-8" data-stagger>
-          
-          <div class="flex gap-6 relative">
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
-              1
-            </div>
-            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <h3 class="text-2xl font-bold text-gray-900 mb-3">Беседа с родителями</h3>
-              <p class="text-gray-700 leading-relaxed">
-                Психолог беседует с вами без ребенка: узнает запрос, историю, 
-                особенности развития. Вы можете задать все вопросы.
-              </p>
-            </div>
-          </div>
-          
-          <div class="flex gap-6 relative">
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
-              2
-            </div>
-            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <h3 class="text-2xl font-bold text-gray-900 mb-3">Знакомство с ребенком</h3>
-              <p class="text-gray-700 leading-relaxed">
-                Психолог показывает ребенку игровую комнату, рассказывает о правилах. 
-                Важно, чтобы ребенок почувствовал себя в безопасности.
-              </p>
-            </div>
-          </div>
-          
-          <div class="flex gap-6 relative">
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
-              3
-            </div>
-            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <h3 class="text-2xl font-bold text-gray-900 mb-3">Игра и диагностика</h3>
-              <p class="text-gray-700 leading-relaxed">
-                Психолог играет с ребенком, предлагает порисовать или полепить. 
-                В процессе оценивает эмоциональное состояние и особенности.
-              </p>
-            </div>
-          </div>
-          
-          <div class="flex gap-6 relative">
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg z-10">
-              4
-            </div>
-            <div class="flex-1 bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-              <h3 class="text-2xl font-bold text-gray-900 mb-3">Обратная связь родителям</h3>
-              <p class="text-gray-700 leading-relaxed">
-                Психолог делится первыми впечатлениями, предлагает план работы, 
-                отвечает на вопросы. Вы решаете, продолжать ли терапию.
-              </p>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-      
-    </div>
-  </section>
-
-  <!-- Форматы работы -->
- <section class="py-20 bg-gradient-to-br from-purple-50 to-pink-50" data-animate="fade">
-  <div class="container mx-auto px-4 lg:px-8">
-    <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">
-      Форматы работы с ребёнком
-    </h2>
-    <p class="text-center text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-      Выбираем подход под запрос семьи
-    </p>
-    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-      <!-- Разовая консультация -->
-      <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-        <h3 class="text-2xl font-bold text-gray-900 mb-6">Разовая консультация</h3>
-        <ul class="space-y-3 mb-8">
-          <li class="flex items-start gap-2 text-gray-700">
-            <span class="text-[#4894B2] mt-1">✓</span>
-            <span>Обсуждение запроса</span>
-          </li>
-          <li class="flex items-start gap-2 text-gray-700">
-            <span class="text-[#4894B2] mt-1">✓</span>
-            <span>Диагностика при необходимости</span>
-          </li>
-          <li class="flex items-start gap-2 text-gray-700">
-            <span class="text-[#4894B2] mt-1">✓</span>
-            <span>Рекомендации родителям</span>
-          </li>
-          <li class="flex items-start gap-2 text-gray-700">
-            <span class="text-[#4894B2] mt-1">✓</span>
-            <span>Онлайн или офлайн</span>
-          </li>
-        </ul>
-        <button onclick="openBookingModal('single')" class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition">
-          Записаться
-        </button>
-      </div>
-
-      <!-- Системная работа -->
-      <div class="bg-gradient-to-br from-[#4894B2] to-[#18698F] rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 relative">
-        <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-2 bg-[#F2F7FD] text-gray-900 font-bold rounded-full shadow-lg">
-          Рекомендуем
-        </div>
-        <h3 class="text-2xl font-bold text-white mb-4 mt-2">Системная работа</h3>
-        <div class="text-teal-100 mb-6">Серия встреч по плану терапии</div>
-        <ul class="space-y-3 mb-8">
-          <li class="flex items-start gap-2 text-white">
-            <span class="text-white mt-1">✓</span>
-            <span>Глубокая проработка запроса</span>
-          </li>
-          <li class="flex items-start gap-2 text-white">
-            <span class="text-white mt-1">✓</span>
-            <span>Индивидуальный план</span>
-          </li>
-          <li class="flex items-start gap-2 text-white">
-            <span class="text-white mt-1">✓</span>
-            <span>Видимый результат</span>
-          </li>
-        </ul>
-        <button onclick="openBookingModal('package')" class="w-full px-6 py-3 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-semibold transition">
-          Записаться
-        </button>
-      </div>
-
-      <!-- Групповые занятия -->
-      <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300">
-        <h3 class="text-2xl font-bold text-gray-900 mb-6">Групповые занятия</h3>
-        <ul class="space-y-3 mb-8">
-          <li class="flex items-start gap-2 text-gray-700">
-            <span class="text-[#4894B2] mt-1">✓</span>
-            <span>Группы до 8 человек</span>
-          </li>
-          <li class="flex items-start gap-2 text-gray-700">
-            <span class="text-[#4894B2] mt-1">✓</span>
-            <span>Развитие социальных навыков</span>
-          </li>
-          <li class="flex items-start gap-2 text-gray-700">
-            <span class="text-[#4894B2] mt-1">✓</span>
-            <span>Игровые программы</span>
-          </li>
-          <li class="flex items-start gap-2 text-gray-700">
-            <span class="text-[#4894B2] mt-1">✓</span>
-            <span>1 раз в неделю</span>
-          </li>
-        </ul>
-        <button onclick="openBookingModal('group')" class="w-full px-6 py-3 bg-[#4894B2] hover:bg-[#18698F] text-white rounded-full font-semibold transition">
-          Записаться в группу
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- FAQ для родителей -->
-  <div data-animate="fade">
-
-    <FAQ 
-    title="Вопросы родителей"
-    subtitle="Ответы на частые вопросы о детском психологе"
-    items={[
-      {
-        question: "С какого возраста можно водить ребенка к психологу?",
-        answer: "С 5 лет. В этом возрасте ребёнок уже может участвовать в игровой терапии. Чем раньше начать работу с проблемой, тем легче и быстрее она решается."
-      },
-      {
-        question: "Будет ли ребенок рассказывать мне о том, что происходит на сессии?",
-        answer: "Содержание сессий конфиденциально — это важно для доверия между психологом и ребенком. Но после каждой встречи психолог дает вам общую обратную связь: что происходит, какой прогресс, что делать дома."
-      },
-      {
-        question: "Сколько сессий понадобится?",
-        answer: "В среднем 8-12 встреч для решения конкретного запроса (страхи, агрессия). Первые изменения обычно видны после 3-4 сессий. Точнее скажем после первой встречи."
-      },
-      {
-        question: "Что если ребенок не хочет идти к психологу?",
-        answer: "Это нормально. Расскажите, что вы идете 'поиграть с добрым взрослым', посмотреть игрушки. После первой встречи дети обычно с радостью идут снова — ведь психолог не ругает и не учит, а просто играет."
-      },
-      {
-        question: "Можно ли присутствовать на сессии?",
-        answer: "На первой встрече — да, если ребенку так комфортнее. Дальше лучше, если ребенок остается с психологом один на один — так он чувствует себя свободнее и открывается быстрее."
-      },
-      {
-        question: "Чем детский психолог отличается от взрослого?",
-        answer: "Детский психолог владеет игровыми методами — не беседует, а играет с ребёнком. Знает возрастную психологию, умеет работать с детскими проблемами. Имею специализацию по детской психологии."
-      }
-    ]}
-  />
-
-  <!-- Финальный CTA -->
-  <section class="py-20 relative overflow-hidden" data-animate="fade">
-    <!-- Градиентный фон -->
-    <div class="absolute inset-0 bg-gradient-to-br from-[#4894B2] to-[#18698F]"></div>
-    
-    <!-- Декоративные элементы -->
-    <div class="absolute top-0 right-0 w-96 h-96 bg-white rounded-full opacity-10 blur-3xl"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#F2F7FD] rounded-full opacity-10 blur-3xl"></div>
-    
-    <div class="container mx-auto px-4 lg:px-8 relative z-10">
-      <div class="max-w-4xl mx-auto text-center text-white">
-        <h2 class="text-4xl md:text-5xl font-bold mb-6">
-          Запишите ребенка к детскому психологу
-        </h2>
-        <p class="text-xl mb-8 opacity-90">
-          Чем раньше начнем работу, тем быстрее ваш ребенок станет счастливее
-        </p>
-        
-        <div class="flex flex-wrap gap-4 justify-center mb-8">
-          <button
-            onclick="openBookingModal()"
-            class="px-12 py-5 bg-white hover:bg-gray-100 text-[#4894B2] rounded-full font-semibold transition shadow-xl hover:shadow-2xl text-lg"
-          >
-            Записаться на консультацию
-          </button>
-        </div>
-
-        <div class="flex items-center justify-center gap-8 flex-wrap text-sm opacity-75">
-          <div class="flex items-center gap-2">
-            <span>📞</span>
-            <a href="tel:+79151955132" class="underline hover:no-underline">+7 (915) 195-51-32</a>
-          </div>
-          <div class="flex items-center gap-2">
-            <span>💬</span>
-            <span>WhatsApp / Telegram</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- Перелинковка: Смотрите также -->
-  <section class="py-16 bg-gray-50" data-animate="fade">
-    <div class="container mx-auto px-4 lg:px-8">
-      <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">
-        Вам также может быть интересно
-      </h2>
-      <div class="grid md:grid-cols-3 gap-8">
-        <a href={url('/programs/umniky')} class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
-          <div class="text-4xl mb-4">📚</div>
-          <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Умники и умницы</h3>
-          <p class="text-gray-600">Комплексная подготовка к школе для детей 5-7 лет</p>
-        </a>
-        
-        <a href={url('/programs/azbuka')} class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
-          <div class="text-4xl mb-4">💬</div>
-          <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Азбука общения</h3>
-          <p class="text-gray-600">Развитие эмоционального интеллекта для детей 5-9 лет</p>
-        </a>
-        
-        <a href={url('/services/school-prep')} class="group bg-white p-8 rounded-2xl hover:shadow-xl transition">
-          <div class="text-4xl mb-4">🎓</div>
-          <h3 class="text-xl font-bold mb-3 group-hover:text-[#4894B2] transition">Подготовка к школе</h3>
-          <p class="text-gray-600">Знания и навыки для успешного старта в школе</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- Accordion для карточек проблем -->
+  <!-- Раскрытие карточек с запросами -->
   <script is:inline>
-    function initProblemAccordion() {
-      const cards = document.querySelectorAll('.accordion-card');
-      
-      cards.forEach(card => {
-        // Находим элементы внутри карточки
-        const title = card.querySelector('h3');
-        const firstP = card.querySelector('p');
-        
-        // Всё остальное после первого параграфа - скрытый контент
-        const allContent = Array.from(card.children);
-        const visibleContent = [card.children[0], title, firstP]; // emoji, h3, first p
-        
-        // Создаём контейнер для скрытого контента
-        const hiddenContent = document.createElement('div');
-        hiddenContent.className = 'accordion-content';
-        hiddenContent.style.maxHeight = '0';
-        hiddenContent.style.overflow = 'hidden';
-        hiddenContent.style.transition = 'max-height 0.3s ease-out';
-        
-        // Переносим всё кроме видимого в скрытый контейнер
-        allContent.forEach((child, index) => {
-          if (index > 2) { // Пропускаем emoji, h3, первый p
-            hiddenContent.appendChild(child.cloneNode(true));
-            child.remove();
-          }
+    function initChildrenAccordion() {
+      document.querySelectorAll('.accordion-card').forEach(function (card) {
+        var head = card.querySelector('.card-head');
+        var content = card.querySelector('.accordion-content');
+        if (!head || !content || head.dataset.bound) return;
+        head.dataset.bound = '1';
+
+        // карточка кликабельна целиком, поэтому ловим клик и мимо шапки
+        card.addEventListener('click', function (e) {
+          if (e.target.closest('.card-head') || e.target.closest('.card-cta')) return;
+          head.click();
         });
-        
-        // Добавляем иконку стрелки после заголовка
-        const arrow = document.createElement('span');
-        arrow.className = 'accordion-icon';
-        arrow.innerHTML = '▼';
-        arrow.style.cssText = 'display: inline-block; margin-left: 8px; transition: transform 0.3s ease; font-size: 16px;';
-        title.appendChild(arrow);
-        
-        // Добавляем скрытый контент в карточку
-        card.appendChild(hiddenContent);
-        
-        // Обработчик клика
-        card.addEventListener('click', function(e) {
-          if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
-            return;
-          }
-          
-          const isOpen = hiddenContent.style.maxHeight && hiddenContent.style.maxHeight !== '0px';
-          
-          // Закрываем все остальные
-          document.querySelectorAll('.accordion-card').forEach(otherCard => {
-            if (otherCard !== card) {
-              const otherContent = otherCard.querySelector('.accordion-content');
-              const otherIcon = otherCard.querySelector('.accordion-icon');
-              if (otherContent) otherContent.style.maxHeight = '0px';
-              if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
-              otherCard.classList.remove('ring-2', 'ring-[#4894B2]');
-            }
+
+        head.addEventListener('click', function () {
+          var isOpen = card.classList.contains('is-open');
+
+          document.querySelectorAll('.accordion-card.is-open').forEach(function (other) {
+            if (other === card) return;
+            other.classList.remove('is-open');
+            var oc = other.querySelector('.accordion-content');
+            var oh = other.querySelector('.card-head');
+            var oi = other.querySelector('.accordion-icon');
+            if (oc) { oc.style.maxHeight = '0px'; oc.setAttribute('inert', ''); }
+            if (oh) oh.setAttribute('aria-expanded', 'false');
+            if (oi) oi.style.transform = 'rotate(0deg)';
           });
-          
-          // Переключаем текущую
+
+          var icon = card.querySelector('.accordion-icon');
           if (isOpen) {
-            hiddenContent.style.maxHeight = '0px';
-            arrow.style.transform = 'rotate(0deg)';
-            card.classList.remove('ring-2', 'ring-[#4894B2]');
+            card.classList.remove('is-open');
+            content.style.maxHeight = '0px';
+            content.setAttribute('inert', '');
+            head.setAttribute('aria-expanded', 'false');
+            if (icon) icon.style.transform = 'rotate(0deg)';
           } else {
-            hiddenContent.style.maxHeight = hiddenContent.scrollHeight + 'px';
-            arrow.style.transform = 'rotate(180deg)';
-            card.classList.add('ring-2', 'ring-[#4894B2]');
+            card.classList.add('is-open');
+            content.removeAttribute('inert');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            head.setAttribute('aria-expanded', 'true');
+            if (icon) icon.style.transform = 'rotate(180deg)';
           }
         });
       });
     }
-    
+
+    // при смене ширины высота раскрытой карточки пересчитывается
+    var childrenAccTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(childrenAccTimer);
+      childrenAccTimer = setTimeout(function () {
+        document.querySelectorAll('.accordion-card.is-open .accordion-content').forEach(function (c) {
+          c.style.maxHeight = c.scrollHeight + 'px';
+        });
+      }, 150);
+    });
+
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initProblemAccordion);
+      document.addEventListener('DOMContentLoaded', initChildrenAccordion);
     } else {
-      initProblemAccordion();
+      initChildrenAccordion();
     }
-    
-    document.addEventListener('astro:page-load', initProblemAccordion);
+
+    document.addEventListener('astro:page-load', initChildrenAccordion);
   </script>
 
   <ScrollAnimations />
 </Layout>
 
-<script>
-</script>
+<style>
+  /* ---------- первый экран ---------- */
+  .rise { animation: hero-rise .6s cubic-bezier(.2, .7, .3, 1) both; }
+  .rise-2 { animation-delay: .07s; }
+  .rise-3 { animation-delay: .14s; }
+  .rise-4 { animation-delay: .21s; }
+
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise { animation: none; }
+  }
+
+  .page-hero { padding: 28px 0 72px; background: var(--canvas); }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 64px;
+    align-items: center; max-width: 1180px; margin: 0 auto;
+  }
+  .hero-figure {
+    font-size: 27px; font-weight: 300; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums; margin-bottom: 2px; color: var(--ink);
+  }
+  .hero-visual {
+    aspect-ratio: 3 / 4; border-radius: var(--r-large); overflow: hidden;
+    border: 1px solid var(--stone); background: var(--taupe);
+  }
+  .hero-visual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ---------- ритм секций ---------- */
+  .band { padding: 96px 0; background: var(--canvas); }
+  .band-tight { padding: 24px 0 96px; }
+
+  .programs-head { margin-top: 80px; }
+
+  .cards-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+
+  /* ---------- карточка запроса ---------- */
+  .card-inner { padding: 28px; display: flex; flex-direction: column; }
+  .card-heading { margin: 0; }
+
+  .card-head {
+    display: flex; align-items: flex-start; gap: 14px; width: 100%;
+    background: none; border: 0; padding: 0; cursor: pointer; text-align: left;
+    font-family: inherit; color: inherit;
+  }
+  .card-head:focus-visible {
+    outline: 2px solid var(--spark-deep); outline-offset: 6px; border-radius: 8px;
+  }
+  .accordion-card { transition: border-color .25s ease; cursor: pointer; }
+  .accordion-card:hover { border-color: var(--ash); }
+  .accordion-card:hover .chevron { color: var(--graphite); }
+
+  .card-icon {
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(47, 125, 150, .1); color: var(--spark-deep);
+  }
+  .card-title {
+    flex: 1; font-size: 19px; line-height: 1.3; font-weight: 400; letter-spacing: -0.01em;
+    padding-top: 7px;
+  }
+  .chevron {
+    width: 20px; height: 20px; flex-shrink: 0; margin-top: 3px;
+    color: var(--ash); transition: transform .3s cubic-bezier(.2, .7, .3, 1);
+  }
+
+  .card-lead { margin: 18px 0 0; font-size: 14px; line-height: 1.6; color: var(--smoke); }
+
+  .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease-out; }
+
+  .card-list { margin: 18px 0 0; padding: 0; list-style: none; display: grid; gap: 11px; }
+  .card-list li {
+    position: relative; padding-left: 20px; font-size: 14px; line-height: 1.6; color: var(--smoke);
+  }
+  .card-list li::before {
+    content: ""; position: absolute; left: 3px; top: 9px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
+  }
+  .card-list strong { font-weight: 500; color: var(--ink); }
+
+  .card-cta { margin-top: 22px; align-self: flex-start; }
+
+  /* ---------- методы ---------- */
+  .method {
+    background: var(--canvas); border: 1px solid var(--stone); border-radius: var(--r-card);
+    padding: 26px 24px; display: flex; flex-direction: column;
+  }
+  .method-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 12px; margin-bottom: 16px;
+    background: rgba(47, 125, 150, .1); color: var(--spark-deep);
+  }
+  .method-title { font-size: 18px; font-weight: 400; letter-spacing: -.01em; margin-bottom: 10px; }
+  .method-text { font-size: 14px; line-height: 1.6; color: var(--smoke); margin-bottom: 20px; }
+  .method-panel {
+    margin-top: auto; padding: 18px 18px 20px;
+    background: var(--taupe); border-radius: 16px;
+  }
+
+  .panel-title {
+    font-size: 13px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--ash); margin-bottom: 12px;
+  }
+
+  /* ---------- отмеченные списки ---------- */
+  .check-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .check-list li {
+    position: relative; padding-left: 26px; font-size: 14px; line-height: 1.5; color: var(--graphite);
+  }
+  .check-list li::before {
+    content: ""; position: absolute; left: 2px; top: 6px;
+    width: 12px; height: 6px; border-left: 1.6px solid var(--spark-water);
+    border-bottom: 1.6px solid var(--spark-water); transform: rotate(-45deg);
+  }
+
+  /* ---------- авторские программы ---------- */
+  .program { position: relative; display: flex; flex-direction: column; }
+  .program-plain {
+    background: var(--canvas); border: 1px solid var(--stone); border-radius: var(--r-large);
+  }
+  .program-inner { padding: 32px; display: flex; flex-direction: column; height: 100%; }
+
+  .program-badge {
+    align-self: flex-start; margin-bottom: 16px;
+    font-size: 12px; font-weight: 500; letter-spacing: .02em;
+    padding: 6px 14px; border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, .92); color: var(--ink);
+  }
+
+  .program-name { font-size: 24px; font-weight: 300; letter-spacing: -.02em; margin-bottom: 6px; }
+  .gradient-card .program-name { color: #fff; }
+  .program-age { font-size: 13px; color: var(--ash); margin-bottom: 16px; }
+  .gradient-card .program-age { color: rgba(255, 255, 255, .8); }
+  .program-text { font-size: 14.5px; line-height: 1.65; color: var(--smoke); margin-bottom: 22px; }
+  .gradient-card .program-text { color: rgba(255, 255, 255, .88); }
+
+  .program-panel {
+    padding: 20px; border-radius: 16px; margin-bottom: 16px;
+    background: var(--taupe); border: 1px solid var(--stone);
+  }
+  .gradient-card .program-panel {
+    background: rgba(255, 255, 255, .13); border-color: rgba(255, 255, 255, .24);
+  }
+  .gradient-card .panel-title { color: rgba(255, 255, 255, .8); }
+
+  .program-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+  .program-list li {
+    position: relative; padding-left: 20px; font-size: 14px; line-height: 1.55; color: var(--smoke);
+  }
+  .program-list li::before {
+    content: ""; position: absolute; left: 3px; top: 9px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--spark-deep);
+  }
+  .program-list strong { font-weight: 500; color: var(--ink); }
+  .gradient-card .program-list li { color: rgba(255, 255, 255, .88); }
+  .gradient-card .program-list li::before { background: rgba(255, 255, 255, .8); }
+  .gradient-card .program-list strong { color: #fff; }
+
+  .program-format { list-style: none; margin: 0; padding: 0; display: grid; gap: 9px; }
+  .program-format li {
+    position: relative; padding-left: 20px; font-size: 14px; line-height: 1.5; color: var(--smoke);
+  }
+  .program-format li::before {
+    content: ""; position: absolute; left: 3px; top: 9px;
+    width: 5px; height: 5px; border-radius: 50%; background: var(--stone);
+  }
+  .gradient-card .program-format li { color: rgba(255, 255, 255, .85); }
+  .gradient-card .program-format li::before { background: rgba(255, 255, 255, .55); }
+
+  .program-result {
+    display: flex; flex-direction: column; gap: 4px;
+    padding: 16px 20px; border-radius: 16px; margin-bottom: 24px;
+    border: 1px solid var(--stone); background: var(--taupe);
+  }
+  .gradient-card .program-result {
+    border-color: rgba(255, 255, 255, .24); background: rgba(255, 255, 255, .13);
+  }
+  .result-label {
+    font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ash);
+  }
+  .result-value { font-size: 15px; color: var(--ink); }
+  .gradient-card .result-label { color: rgba(255, 255, 255, .8); }
+  .gradient-card .result-value { color: #fff; }
+
+  .program-link { margin-top: auto; align-self: flex-start; }
+
+  /* ---------- как проходит консультация ---------- */
+  .timeline-wrap { position: relative; max-width: 860px; }
+  .tl-track, .tl-fill { position: absolute; left: 22px; top: 8px; width: 1px; }
+  .tl-track { bottom: 8px; background: var(--stone); }
+  .tl-fill {
+    height: 0; max-height: calc(100% - 16px);
+    background: linear-gradient(180deg, var(--spark-water), var(--spark-lilac));
+    transition: height 1.6s cubic-bezier(.2, .7, .3, 1);
+  }
+
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .tl-item { display: flex; gap: 22px; align-items: flex-start; }
+  .tl-num {
+    position: relative; z-index: 1; flex-shrink: 0;
+    width: 45px; height: 45px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--canvas); border: 1px solid var(--stone);
+    font-size: 13px; font-weight: 500; letter-spacing: .06em;
+    font-variant-numeric: tabular-nums; color: var(--graphite);
+  }
+  .tl-body {
+    flex: 1; background: var(--taupe); border: 1px solid var(--stone);
+    border-radius: var(--r-card); padding: 24px 26px;
+  }
+  .tl-title { font-size: 18px; font-weight: 400; letter-spacing: -.01em; margin-bottom: 8px; }
+  .tl-text { font-size: 14.5px; line-height: 1.65; color: var(--smoke); }
+
+  /* ---------- форматы ---------- */
+  .formats { align-items: stretch; }
+  .format-card { position: relative; display: flex; flex-direction: column; }
+  .format-plain {
+    background: var(--canvas); border: 1px solid var(--stone); border-radius: var(--r-card);
+  }
+  .format-inner { padding: 30px 26px; display: flex; flex-direction: column; height: 100%; }
+  /* Бейдж стоит в потоке: градиентная карточка обрезает всё, что вылезает за кромку */
+  .format-badge {
+    align-self: flex-start; margin-bottom: 16px; white-space: nowrap;
+    font-size: 12px; font-weight: 500; letter-spacing: .02em;
+    padding: 6px 14px; border-radius: var(--r-pill);
+    background: rgba(255, 255, 255, .92); color: var(--ink);
+  }
+  .format-title { font-size: 20px; font-weight: 400; letter-spacing: -.01em; margin-bottom: 8px; }
+  .gradient-card .format-title { color: #fff; }
+  .format-note { font-size: 13.5px; color: var(--smoke); margin-bottom: 18px; }
+  .gradient-card .format-note { color: rgba(255, 255, 255, .82); }
+  .format-list { margin-bottom: 26px; margin-top: 10px; }
+  .gradient-card .check-list li { color: rgba(255, 255, 255, .9); }
+  .gradient-card .check-list li::before {
+    border-left-color: rgba(255, 255, 255, .85); border-bottom-color: rgba(255, 255, 255, .85);
+  }
+  .format-btn { margin-top: auto; }
+
+  /* ---------- финальный призыв ---------- */
+  .closing-band { padding: 48px; }
+  .closing-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .closing-notes {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--stone);
+    font-size: 13px; color: var(--graphite);
+  }
+  .closing-notes span { display: inline-flex; align-items: center; gap: 8px; }
+  .closing-notes :global(svg) { color: var(--graphite); }
+  .closing-link { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+  .closing-link:hover { text-decoration: none; }
+
+  /* ---------- перелинковка ---------- */
+  .rel-card {
+    display: flex; flex-direction: column;
+    background: var(--canvas); border: 1px solid var(--stone); border-radius: var(--r-card);
+    padding: 28px 26px; text-decoration: none; color: inherit;
+    transition: transform .3s cubic-bezier(.2, .7, .3, 1), border-color .25s ease;
+  }
+  .rel-card:hover { border-color: var(--ash); }
+  .rel-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 12px; margin-bottom: 16px;
+    background: rgba(47, 125, 150, .1); color: var(--spark-deep);
+  }
+  .rel-title { font-size: 18px; font-weight: 400; letter-spacing: -.01em; margin-bottom: 8px; }
+  .rel-text { font-size: 14px; line-height: 1.6; color: var(--smoke); margin-bottom: 18px; }
+  .rel-more {
+    margin-top: auto; font-size: 14px; font-weight: 500; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 7px;
+  }
+  .rel-more :global(svg) { transition: transform .3s cubic-bezier(.2, .7, .3, 1); }
+  .rel-card:hover .rel-more :global(svg) { transform: translateX(3px); }
+
+  /* ---------- адаптив ---------- */
+  @media (max-width: 1023px) {
+    .page-hero { padding: 20px 0 56px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+    .hero-visual { max-width: 420px; width: 100%; margin-inline: auto; }
+    .cards-3 { grid-template-columns: repeat(2, 1fr); }
+    .cards-2 { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 767px) {
+    .band { padding: 64px 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .cards-2, .cards-3 { grid-template-columns: 1fr; }
+    .programs-head { margin-top: 56px; }
+    .card-inner { padding: 24px; }
+    .program-inner { padding: 26px; }
+    .closing-band { padding: 28px; }
+    .tl-track, .tl-fill { left: 18px; }
+    .tl-num { width: 37px; height: 37px; font-size: 12px; }
+    .tl-item { gap: 16px; }
+    .tl-body { padding: 20px; }
+  }
+</style>

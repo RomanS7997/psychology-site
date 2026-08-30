@@ -1,5 +1,7 @@
 ---
 // src/components/Breadcrumbs.astro
+// Крошки всегда стоят первым блоком страницы, поэтому отступ под закреплённую
+// шапку живёт здесь — страницам его добавлять не нужно.
 interface Props {
   items: {
     label: string;
@@ -10,28 +12,22 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<nav aria-label="Breadcrumb" class="pt-8 ">
+<nav aria-label="Хлебные крошки" class="crumbs">
   <div class="container mx-auto px-4 lg:px-8">
-    <ol class="flex items-center gap-2 text-sm">
+    <ol class="crumb-list">
       {items.map((item, index) => (
-        <li class="flex items-center gap-2">
+        <li class="crumb-item">
           {index > 0 && (
-            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            <svg class="crumb-sep" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
             </svg>
           )}
-          
+
           {item.href ? (
-            <a 
-              href={item.href} 
-              class="crumb-link"
-            >
-              {item.label}
-            </a>
+            <a href={item.href} class="crumb-link">{item.label}</a>
           ) : (
-            <span class="text-gray-900 font-medium">
-              {item.label}
-            </span>
+            <span class="crumb-current" aria-current="page">{item.label}</span>
           )}
         </li>
       ))}
@@ -40,9 +36,39 @@ const { items } = Astro.props;
 </nav>
 
 <style>
+  .crumbs {
+    padding-top: 120px;
+    background: var(--canvas);
+  }
+
+  .crumb-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .crumb-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .crumb-sep {
+    color: var(--stone);
+    flex-shrink: 0;
+  }
+
   .crumb-link {
     color: var(--smoke);
     transition: color .2s ease;
   }
   .crumb-link:hover { color: var(--ink); }
+
+  .crumb-current { color: var(--graphite); }
+
+  @media (max-width: 768px) {
+    .crumbs { padding-top: 104px; }
+  }
 </style>
