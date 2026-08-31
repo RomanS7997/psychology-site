@@ -676,6 +676,10 @@ const related = [
     display: flex; align-items: flex-start; gap: 14px; width: 100%;
     background: none; border: 0; padding: 0; cursor: pointer; text-align: left;
     font-family: inherit; color: inherit;
+    /* Резерв под две строки заголовка: сетка стоит на align-items:start,
+       чтобы раскрытая карточка не тянула соседей, и без этого свёрнутые
+       карточки в ряду получались разной высоты. */
+    min-height: 56px;
   }
   .card-head:focus-visible {
     outline: 2px solid var(--spark-deep); outline-offset: 6px; border-radius: 8px;
@@ -698,7 +702,18 @@ const related = [
     color: var(--ash); transition: transform .3s cubic-bezier(.2, .7, .3, 1);
   }
 
-  .card-lead { margin: 18px 0 0; font-size: 14px; line-height: 1.6; color: var(--smoke); }
+  .card-lead {
+    margin: 18px 0 0; font-size: 14px; line-height: 1.6; color: var(--smoke);
+    /* Тексты разной длины давали в ряду карточки разной высоты. Резервируем
+       пять строк — самый длинный лид ровно столько и занимает; более длинный
+       текст правило не обрежет, оно задаёт только нижнюю границу. */
+    min-height: calc(5 * 1.6em);
+  }
+
+  @media (max-width: 1023px) {
+    /* В одну колонку выравнивать нечего — резерв только мешает */
+    .card-lead { min-height: 0; }
+  }
 
   .accordion-content { max-height: 0; overflow: hidden; transition: max-height .35s ease-out; }
 

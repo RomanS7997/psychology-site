@@ -723,12 +723,17 @@ const posts = [
   /* Заголовок — настоящая кнопка: открывается и с клавиатуры */
   .card-head {
     display: flex; align-items: flex-start; gap: 14px; width: 100%;
+    /* две строки заголовка: иначе карточки в ряду разной высоты */
+    min-height: 56px;
     background: none; border: 0; padding: 0; cursor: pointer; text-align: left;
     font-family: inherit; color: inherit;
   }
   .card-head:focus-visible {
     outline: 2px solid var(--spark-deep); outline-offset: 6px; border-radius: 8px;
   }
+  /* Градиентная карточка без кромки была на 2px ниже соседей */
+  #services .gradient-card { border: 1px solid transparent; }
+
   .accordion-card { transition: border-color .25s ease; cursor: pointer; }
   .accordion-card:hover { border-color: var(--ash); }
   .accordion-card:hover .chevron { color: var(--graphite); }
@@ -739,9 +744,10 @@ const posts = [
   }
   .gradient-card .card-icon { background: rgba(255, 255, 255, .2); color: #fff; }
   .card-title {
-    flex: 1; font-size: 19px; line-height: 1.3; font-weight: 400; letter-spacing: -0.01em;
+    font-size: 19px; line-height: 1.3; font-weight: 400; letter-spacing: -0.01em;
   }
-  .card-head .card-title { padding-top: 7px; }
+  /* Растягивается только в шапке аккордеона — рядом со стрелкой */
+  .card-head .card-title { flex: 1; padding-top: 7px; }
   .gradient-card .card-title { color: #fff; }
 
   /* Два пункта видно сразу: карточка читается как содержание, а не как строка меню */
@@ -785,8 +791,13 @@ const posts = [
 
   /* ---------- программы ---------- */
   .program-card { display: flex; flex-direction: column; overflow: hidden; }
-  .program-card .card-inner { min-height: 300px; }
-  .program-photo { position: relative; aspect-ratio: 16 / 9; overflow: hidden; }
+  .program-photo {
+    position: relative; aspect-ratio: 16 / 9; overflow: hidden;
+    /* Карточка — колоночный flex, и кадр по умолчанию сжимался: пропорция
+       16:9 не выдерживалась, а освободившаяся высота уходила в пустоту
+       между названием и списком. */
+    flex: none;
+  }
 
   /* В выделенной карточке кадр уводим в её же цвет, иначе фото спорит с градиентом */
   .gradient-card .program-photo::after {
@@ -809,7 +820,8 @@ const posts = [
   .gradient-card .program-age { background: rgba(20, 24, 28, 0.26); color: #fff; }
   .program-note { font-size: 13px; color: var(--ash); }
   .gradient-card .program-note { color: #fff; }
-  .program-card .card-list { margin-top: 0; }
+  /* mb-6 из разметки не работает: у .card-list свой margin. Задаём явно. */
+  .program-card .card-list { margin: 0 0 20px; }
   .program-link { margin-top: auto; align-self: flex-start; }
 
   /* ---------- первая встреча ---------- */
