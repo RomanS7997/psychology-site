@@ -1,7 +1,7 @@
 ---
 // src/pages/programs/umniky.astro
 import Layout from '../../layouts/Layout.astro';
-import Photo from '../../components/Photo.astro';
+import { HERO_SIZES, webpSet } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -141,15 +141,10 @@ const methods = [
         </div>
 
         <div class="hero-visual orb surface-lg">
-          <Photo
-            src='/images/gallery/umniky/2.jpg'
-            alt="Занятие по программе «Умники и умницы»"
-            class="hero-photo"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-            responsive
-          />
+          <picture>
+  <source srcset={webpSet('/images/gallery/umniky/2.jpg')} type="image/webp" sizes={HERO_SIZES} />
+  <img src={url('/images/gallery/umniky/2.jpg')} alt="Занятие по программе «Умники и умницы»" class="hero-photo" loading="eager" fetchpriority="high" decoding="async" />
+</picture>
         </div>
 
       </div>

@@ -1,7 +1,7 @@
 ---
 // src/pages/blog/index.astro
 import Layout from '../../layouts/Layout.astro';
-import Photo from '../../components/Photo.astro';
+import { webp } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
@@ -149,7 +149,10 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
               >
                 {post.image ? (
                   <div class="post-photo">
-                    <Photo src={post.image} alt={post.title} loading="lazy" decoding="async" />
+                    <picture>
+  {webp(post.image) && <source srcset={webp(post.image)} type="image/webp" />}
+  <img src={url(post.image)} alt={post.title} loading="lazy" decoding="async" />
+</picture>
                   </div>
                 ) : (
                   <div class="post-photo post-photo-mark">

@@ -1,7 +1,7 @@
 ---
 // src/pages/about.astro — страница «Обо мне»
 import Layout from '../layouts/Layout.astro';
-import Photo from '../components/Photo.astro';
+import { webp } from '../utils/img';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
@@ -145,13 +145,10 @@ const methods = [
           </div>
 
           <div class="hero-photo" data-reveal>
-            <Photo
-              src='/images/services/julia-lyapina.jpg'
-              alt="Юлия Ляпина, психолог"
-              loading="eager"
-              fetchpriority="high"
-              decoding="async"
-            />
+            <picture>
+  {webp('/images/services/julia-lyapina.jpg') && <source srcset={webp('/images/services/julia-lyapina.jpg')} type="image/webp" />}
+  <img src={url('/images/services/julia-lyapina.jpg')} alt="Юлия Ляпина, психолог" loading="eager" fetchpriority="high" decoding="async" />
+</picture>
           </div>
         </div>
       </div>

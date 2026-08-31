@@ -1,7 +1,7 @@
 ---
 // src/pages/services/children.astro
 import Layout from '../../layouts/Layout.astro';
-import Photo from '../../components/Photo.astro';
+import { HERO_SIZES, webpSet } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -280,14 +280,10 @@ const related = [
         </div>
 
         <div class="hero-visual rise rise-2">
-          <Photo
-            src='/images/services/child-therapy.jpg'
-            alt="Консультация детского психолога"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-            responsive
-          />
+          <picture>
+  <source srcset={webpSet('/images/services/child-therapy.jpg')} type="image/webp" sizes={HERO_SIZES} />
+  <img src={url('/images/services/child-therapy.jpg')} alt="Консультация детского психолога" loading="eager" fetchpriority="high" decoding="async" />
+</picture>
         </div>
 
       </div>

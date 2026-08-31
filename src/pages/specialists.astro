@@ -1,7 +1,7 @@
 ---
 // src/pages/specialists.astro
 import Layout from '../layouts/Layout.astro';
-import Photo from '../components/Photo.astro';
+import { webp } from '../utils/img';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
@@ -286,12 +286,10 @@ const specialists = [
                 <!-- Фото и бейджи -->
                 <div class="specialist-aside">
                   <div class="specialist-photo">
-                    <Photo
-                      src={person.photo}
-                      alt={person.name}
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <picture>
+  {webp(person.photo) && <source srcset={webp(person.photo)} type="image/webp" />}
+  <img src={url(person.photo)} alt={person.name} loading="lazy" decoding="async" />
+</picture>
                   </div>
                   <div class="specialist-badges">
                     <span class="badge badge-accent">{person.badges[0]}</span>

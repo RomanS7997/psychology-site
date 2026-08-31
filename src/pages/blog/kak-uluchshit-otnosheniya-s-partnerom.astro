@@ -1,7 +1,7 @@
 ---
 // src/pages/blog/kak-uluchshit-otnosheniya-s-partnerom.astro
 import Layout from '../../layouts/Layout.astro';
-import Photo from '../../components/Photo.astro';
+import { webp } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
@@ -63,12 +63,10 @@ import { url } from '../../utils/url';
         </div>
 
         <figure class="post-cover" data-reveal>
-          <Photo
-            src='/images/blog/relationships.jpg'
-            alt="Как улучшить отношения с партнером"
-            loading="lazy"
-            decoding="async"
-          />
+          <picture>
+  {webp('/images/blog/relationships.jpg') && <source srcset={webp('/images/blog/relationships.jpg')} type="image/webp" />}
+  <img src={url('/images/blog/relationships.jpg')} alt="Как улучшить отношения с партнером" loading="lazy" decoding="async" />
+</picture>
         </figure>
 
       </div>

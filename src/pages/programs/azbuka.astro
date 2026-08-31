@@ -1,7 +1,7 @@
 ---
 // src/pages/programs/azbuka.astro
 import Layout from '../../layouts/Layout.astro';
-import Photo from '../../components/Photo.astro';
+import { HERO_SIZES, webpSet } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -133,15 +133,10 @@ const methods = [
         </div>
 
         <div class="hero-visual orb surface-lg">
-          <Photo
-            src='/images/gallery/azbuka/5.jpg'
-            alt="Занятие «Азбука общения»"
-            class="hero-photo"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-            responsive
-          />
+          <picture>
+  <source srcset={webpSet('/images/gallery/azbuka/5.jpg')} type="image/webp" sizes={HERO_SIZES} />
+  <img src={url('/images/gallery/azbuka/5.jpg')} alt="Занятие «Азбука общения»" class="hero-photo" loading="eager" fetchpriority="high" decoding="async" />
+</picture>
         </div>
 
       </div>

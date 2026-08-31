@@ -1,7 +1,7 @@
 ---
 // src/pages/services/adult.astro — консультирование взрослых
 import Layout from '../../layouts/Layout.astro';
-import Photo from '../../components/Photo.astro';
+import { HERO_SIZES, webpSet } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -123,15 +123,10 @@ const related = [
         </div>
 
         <div class="hero-visual orb surface-lg rise rise-2">
-          <Photo
-            src='/images/services/adult-consulting.jpg'
-            alt="Консультация психолога"
-            class="hero-portrait"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-            responsive
-          />
+          <picture>
+  <source srcset={webpSet('/images/services/adult-consulting.jpg')} type="image/webp" sizes={HERO_SIZES} />
+  <img src={url('/images/services/adult-consulting.jpg')} alt="Консультация психолога" class="hero-portrait" loading="eager" fetchpriority="high" decoding="async" />
+</picture>
         </div>
 
       </div>

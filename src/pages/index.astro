@@ -1,7 +1,7 @@
 ---
 // Главная страница
 import Layout from '../layouts/Layout.astro';
-import Photo from '../components/Photo.astro';
+import { webp } from '../utils/img';
 import NewHero from '../components/NewHero.astro';
 import SEO from '../components/SEO.astro';
 import FAQ from '../components/FAQ.astro';
@@ -270,7 +270,10 @@ const posts = [
         <div class="glow-band video-band" data-reveal>
           <div class="video-grid">
             <button class="video-preview" onclick="openVideoModal()" type="button" aria-label="Смотреть видео о кабинете">
-              <Photo src='/images/services/child-therapy.jpg' alt="Кабинет психолога" loading="lazy" decoding="async" />
+              <picture>
+  {webp('/images/services/child-therapy.jpg') && <source srcset={webp('/images/services/child-therapy.jpg')} type="image/webp" />}
+  <img src={url('/images/services/child-therapy.jpg')} alt="Кабинет психолога" loading="lazy" decoding="async" />
+</picture>
               <span class="video-play" aria-hidden="true">
                 <Icon name="play" size={26} />
               </span>
@@ -313,7 +316,10 @@ const posts = [
             <article class={`program-card lift ${program.featured ? 'gradient-card' : 'surface'}`} data-reveal>
               {program.photo && (
                 <div class="program-photo">
-                  <Photo src={program.photo} alt={`Занятия «${program.name}»`} loading="lazy" decoding="async" />
+                  <picture>
+  {webp(program.photo) && <source srcset={webp(program.photo)} type="image/webp" />}
+  <img src={url(program.photo)} alt={`Занятия «${program.name}»`} loading="lazy" decoding="async" />
+</picture>
                 </div>
               )}
               <div class="card-inner">
@@ -378,7 +384,10 @@ const posts = [
           {specialists.map((person) => (
             <article class="person lift" data-reveal>
               <div class="person-photo">
-                <Photo src={person.photo} alt={person.name} loading="lazy" decoding="async" />
+                <picture>
+  {webp(person.photo) && <source srcset={webp(person.photo)} type="image/webp" />}
+  <img src={url(person.photo)} alt={person.name} loading="lazy" decoding="async" />
+</picture>
                 {person.lead && <span class="person-badge">Основатель</span>}
               </div>
               <h3 class="person-name">{person.name}</h3>
@@ -417,7 +426,10 @@ const posts = [
           {posts.map((post) => (
             <a href={url(post.href)} class="post lift" data-reveal>
               <div class="post-photo">
-                <Photo src={post.image} alt={post.title} loading="lazy" decoding="async" />
+                <picture>
+  {webp(post.image) && <source srcset={webp(post.image)} type="image/webp" />}
+  <img src={url(post.image)} alt={post.title} loading="lazy" decoding="async" />
+</picture>
               </div>
               <div class="post-body">
                 <div class="post-meta">
@@ -480,7 +492,10 @@ const posts = [
         <div class="glow-band closing-band" data-reveal>
           <div class="closing-grid">
             <div class="closing-photo">
-              <Photo src='/images/services/julia-lyapina.jpg' alt="Юлия Ляпина" loading="lazy" decoding="async" />
+              <picture>
+  {webp('/images/services/julia-lyapina.jpg') && <source srcset={webp('/images/services/julia-lyapina.jpg')} type="image/webp" />}
+  <img src={url('/images/services/julia-lyapina.jpg')} alt="Юлия Ляпина" loading="lazy" decoding="async" />
+</picture>
             </div>
 
             <div class="closing-text">
