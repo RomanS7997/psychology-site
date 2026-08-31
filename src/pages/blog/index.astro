@@ -40,39 +40,6 @@ const posts = [
     image: '/images/blog/relationships.jpg',
     icon: 'bond',
   },
-  {
-    slug: 'kak-borotsya-s-vygoraniem',
-    soon: true,   // страницы пока нет — карточка без ссылки
-    title: 'Как бороться с выгоранием: признаки и способы восстановления',
-    excerpt: 'Эмоциональное выгорание — это не просто усталость. Узнайте, как распознать первые признаки и что делать для восстановления.',
-    category: 'Стресс',
-    date: '8 января 2025',
-    readTime: '9 мин',
-    image: null,
-    icon: 'flask',
-  },
-  {
-    slug: 'kak-povysit-samoocenku',
-    soon: true,   // страницы пока нет — карточка без ссылки
-    title: 'Как повысить самооценку: 10 упражнений от психолога',
-    excerpt: 'Низкая самооценка мешает жить полной жизнью. Практические упражнения, которые помогут полюбить себя и поверить в свои силы.',
-    category: 'Саморазвитие',
-    date: '5 января 2025',
-    readTime: '12 мин',
-    image: null,
-    icon: 'worth',
-  },
-  {
-    slug: 'kak-perezhit-razryv-otnosheniy',
-    soon: true,   // страницы пока нет — карточка без ссылки
-    title: 'Как пережить разрыв отношений: этапы и практики',
-    excerpt: 'Расставание — это всегда больно. Разбираю этапы проживания разрыва и даю практические советы для восстановления.',
-    category: 'Отношения',
-    date: '3 января 2025',
-    readTime: '11 мин',
-    image: null,
-    icon: 'compass',
-  },
 ];
 
 // Кнопки фильтра собираем из самих статей — список не разъезжается с сеткой.
@@ -138,15 +105,9 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
       <div class="inner">
 
         <div class="cards-3" id="posts-grid">
-          {posts.map((post) => {
-            // Статья ещё не написана — карточка остаётся, но никуда не ведёт
-            const Card = post.soon ? 'div' : 'a';
-            return (
+          {posts.map((post) => (
             <article class="post-card" data-category={post.category} data-reveal>
-              <Card
-                class:list={['post', post.soon ? 'post-soon' : 'lift']}
-                href={post.soon ? undefined : url(`/blog/${post.slug}`)}
-              >
+              <a class="post lift" href={url(`/blog/${post.slug}`)}>
                 {post.image ? (
                   <div class="post-photo">
                     <picture>
@@ -171,17 +132,12 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
 
                   <div class="post-foot">
                     <span class="post-date">{post.date}</span>
-                    {post.soon ? (
-                      <span class="post-soon-label">Скоро</span>
-                    ) : (
-                      <span class="post-more">Читать <Icon name="arrow" size={16} /></span>
-                    )}
+                    <span class="post-more">Читать <Icon name="arrow" size={16} /></span>
                   </div>
                 </div>
-              </Card>
+              </a>
             </article>
-            );
-          })}
+          ))}
         </div>
 
         <!-- Пустое состояние при фильтрации -->
@@ -291,22 +247,6 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
   }
   .post-date { font-size: 12px; color: var(--ash); }
-  .post-soon { cursor: default; }
-  .post-soon .post-photo { opacity: .55; }
-  .post-soon .post-title { color: var(--graphite); }
-
-  .post-soon-label {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 12px;
-    border-radius: var(--r-pill);
-    border: 1px solid var(--stone);
-    font-size: 12px;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    color: var(--ash);
-  }
-
   .post-more {
     font-size: 14px; font-weight: 500; color: var(--ink);
     display: inline-flex; align-items: center; gap: 7px;

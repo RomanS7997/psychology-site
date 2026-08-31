@@ -229,12 +229,12 @@ import { url } from '../../utils/url';
           <p class="eyebrow eyebrow-center mb-4">Запись</p>
           <h2 class="heading mb-4">Нужна помощь с паническими атаками?</h2>
           <p class="lede cta-lede mb-8">
-            Запишитесь на консультацию к нашему специалисту
+            Запишитесь на консультацию — разберём вашу ситуацию
           </p>
           <div class="cta-actions">
-            <a href={url('/contact')} class="pill pill-solid pill-lg">
+            <button onclick="openBookingModal('adult')" class="pill pill-solid pill-lg" type="button">
               Записаться на консультацию
-            </a>
+            </button>
             <a href={url('/blog')} class="pill pill-outline pill-lg">
               Все статьи блога
             </a>
@@ -244,24 +244,6 @@ import { url } from '../../utils/url';
     </div>
   </section>
 
-  <!-- ============ Запись на консультацию ============ -->
-  <section class="band band-taupe band-quiet">
-    <div class="container mx-auto px-4 lg:px-8">
-      <div class="inner">
-        <div class="closing-row" data-reveal>
-          <div>
-            <h2 class="heading-sm mb-3">Нужна помощь психолога?</h2>
-            <p class="closing-text">
-              Если вам нужна профессиональная психологическая помощь — запишитесь на консультацию
-            </p>
-          </div>
-          <button onclick="openBookingModal('adult')" class="pill pill-solid pill-lg" type="button">
-            Записаться на консультацию
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <ScrollAnimations />
 </Layout>
