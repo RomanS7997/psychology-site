@@ -34,9 +34,9 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
   default: {
     eyebrow: 'Запись',
     title: 'Записаться на приём',
-    lede: 'Оставьте контакты — свяжемся, чтобы подобрать удобное время.',
+    lede: 'Оставьте контакты — свяжусь, чтобы подобрать удобное время.',
     facts: [
-      { label: 'Ответим', value: 'В течение дня' },
+      { label: 'Отвечу', value: 'В рабочее время' },
       { label: 'Формат', value: 'Онлайн или в кабинете' },
       { label: 'Кабинет', value: 'Одинцово, Лесной городок' },
     ],
@@ -83,7 +83,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
     title: 'Запись на занятие',
     lede: 'Начинаем со встречи с родителем: обсуждаем запрос и подбираем формат.',
     facts: [
-      { label: 'Возраст', value: 'От 3 лет' },
+      { label: 'Возраст', value: 'С 5 лет' },
       { label: 'Первая встреча', value: 'С родителем' },
       { label: 'Формат', value: 'Онлайн или в кабинете' },
     ],
@@ -126,7 +126,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
   group: {
     eyebrow: 'Формат',
     title: 'Запись в группу',
-    lede: 'Расскажем о ближайшем наборе и подберём группу по возрасту.',
+    lede: 'Расскажу о ближайшем наборе и подберу группу по возрасту.',
     facts: [
       { label: 'Группа', value: 'До 8 человек' },
       { label: 'Частота', value: '1 раз в неделю' },
@@ -141,7 +141,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
   'school-prep': {
     eyebrow: 'Программа',
     title: 'Запись на подготовку',
-    lede: 'Расскажем о программе и подберём группу под возраст ребёнка.',
+    lede: 'Расскажу о программе и подберу группу под возраст ребёнка.',
     facts: [
       { label: 'Возраст', value: '6–7 лет' },
       { label: 'Занятия', value: '2 раза в неделю' },
@@ -171,7 +171,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
   umniky: {
     eyebrow: 'Программа',
     title: 'Запись на программу',
-    lede: 'Ежедневные занятия по подготовке к школе. Расскажем о ближайшем наборе.',
+    lede: 'Ежедневные занятия по подготовке к школе. Расскажу о ближайшем наборе.',
     facts: [
       { label: 'Возраст', value: '4–6 лет' },
       { label: 'Расписание', value: 'Будни, 9:00–13:00' },
@@ -186,7 +186,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
   azbuka: {
     eyebrow: 'Программа',
     title: 'Запись на программу',
-    lede: 'Курс о чувствах, границах и общении. Расскажем о ближайшем наборе.',
+    lede: 'Курс о чувствах, границах и общении. Расскажу о ближайшем наборе.',
     facts: [
       { label: 'Возраст', value: '5–9 лет' },
       { label: 'Занятие', value: '60 минут, раз в неделю' },
