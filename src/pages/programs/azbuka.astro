@@ -1,6 +1,7 @@
 ---
 // src/pages/programs/azbuka.astro
 import Layout from '../../layouts/Layout.astro';
+import Photo from '../../components/Photo.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -124,7 +125,7 @@ const methods = [
           </ul>
 
           <div class="flex flex-wrap gap-3">
-            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            <button onclick="openBookingModal('azbuka')" class="pill pill-solid pill-lg" type="button">
               Записаться на занятие
             </button>
             <a href="#skills" class="pill pill-outline pill-lg">Что развивает программа</a>
@@ -132,13 +133,14 @@ const methods = [
         </div>
 
         <div class="hero-visual orb surface-lg">
-          <img
-            src={url('/images/gallery/azbuka/5.jpg')}
+          <Photo
+            src='/images/gallery/azbuka/5.jpg'
             alt="Занятие «Азбука общения»"
             class="hero-photo"
             loading="eager"
             fetchpriority="high"
             decoding="async"
+            responsive
           />
         </div>
 
@@ -282,7 +284,7 @@ const methods = [
             </p>
 
             <div class="closing-actions">
-              <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+              <button onclick="openBookingModal('azbuka')" class="pill pill-solid pill-lg" type="button">
                 Записаться
               </button>
               <a href="https://wa.me/79151955132" target="_blank" rel="noopener" class="pill pill-outline pill-lg">

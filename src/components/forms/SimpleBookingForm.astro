@@ -1,22 +1,55 @@
 ---
 // src/components/forms/SimpleBookingForm.astro
-// Упрощенная форма записи без выбора специалиста
+// Окно записи. Форма знает, откуда её открыли: кнопка передаёт контекст
+// (услуга, программа, специалист), и окно под него подстраивается —
+// заголовок, карточка с условиями и набор полей. Реестр — src/data/booking.ts
 import { url } from '../../utils/url';
+import Icon from '../Icon.astro';
+import { BOOKING_CONTEXTS, FIELD_LABELS } from '../../data/booking';
+
+// Все возможные поля лежат в разметке, а контекст показывает нужные:
+// сайт статический, второго экземпляра окна заводить не хочется.
+const ALL_FIELDS = ['name', 'phone', 'childName', 'childAge', 'email', 'comment'] as const;
 ---
 
-<div class="booking-modal-overlay" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title">
-  <div class="booking-modal-content max-w-2xl">
-    <button class="modal-close" onclick="closeBookingModal()" aria-label="Закрыть">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+<div class="booking-overlay" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="booking-title">
+  <div class="booking-panel">
+
+    <button class="modal-close" onclick="closeBookingModal()" aria-label="Закрыть" type="button">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+        <path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"></path>
       </svg>
     </button>
-    
-    <div class="booking-content">
-      <h2 id="booking-modal-title" class="heading-sm mb-2">Записаться</h2>
-      <p class="muted mb-8">Заполните форму, и мы свяжемся с вами для подтверждения записи</p>
 
-      <!-- Экран успеха (скрыт по умолчанию) -->
+    <!-- Левая карточка: во что человек записывается -->
+    <aside class="booking-aside gradient-card">
+      <div class="aside-inner">
+        <p class="aside-eyebrow" id="booking-eyebrow">Запись</p>
+        <h3 class="aside-name" id="booking-service">Приём</h3>
+
+        <dl class="aside-facts" id="booking-facts">
+          <div class="fact" style="--i:0"><dt data-fact-label></dt><dd data-fact-value></dd></div>
+          <div class="fact" style="--i:1"><dt data-fact-label></dt><dd data-fact-value></dd></div>
+          <div class="fact" style="--i:2"><dt data-fact-label></dt><dd data-fact-value></dd></div>
+        </dl>
+
+        <p class="aside-note">
+          <Icon name="lock" size={15} />
+          <span>Данные видит только психолог</span>
+        </p>
+      </div>
+    </aside>
+
+    <!-- Правая часть: форма -->
+    <div class="booking-main">
+      <div class="booking-head">
+        <h2 id="booking-title" class="heading-sm">Записаться на приём</h2>
+        <p class="booking-lede muted" id="booking-lede">
+          Оставьте контакты — свяжемся, чтобы подобрать удобное время.
+        </p>
+      </div>
+
+      <!-- Экран успеха -->
       <div id="booking-success" class="booking-success hidden" role="status" aria-live="polite" aria-hidden="true">
         <div class="success-confetti" aria-hidden="true">
           <span></span><span></span><span></span><span></span><span></span>
@@ -24,19 +57,17 @@ import { url } from '../../utils/url';
           <span></span><span></span><span></span><span></span><span></span>
         </div>
         <div class="success-icon">
-          <svg viewBox="0 0 80 80" width="80" height="80" aria-hidden="true">
-            <circle class="success-ring" cx="40" cy="40" r="36" fill="none" stroke="currentColor" stroke-width="4"/>
-            <path class="success-check" d="M24 42 L36 54 L58 30" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg viewBox="0 0 80 80" width="72" height="72" aria-hidden="true">
+            <circle class="success-ring" cx="40" cy="40" r="36" fill="none" stroke="currentColor" stroke-width="3"/>
+            <path class="success-check" d="M24 42 L36 54 L58 30" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <h3 class="success-title">Заявка отправлена!</h3>
-        <p class="success-text">Спасибо! Мы свяжемся с вами в ближайшее время для подтверждения записи.</p>
-        <button type="button" onclick="closeBookingModal()" class="success-btn">
-          Хорошо
-        </button>
+        <h3 class="success-title">Заявка отправлена</h3>
+        <p class="success-text">Спасибо! Свяжемся с вами, чтобы подтвердить запись и подобрать время.</p>
+        <button type="button" onclick="closeBookingModal()" class="pill pill-solid success-btn">Хорошо</button>
       </div>
 
-      <!-- Инлайн-ошибка (скрыта по умолчанию) -->
+      <!-- Ошибка отправки -->
       <div id="booking-error" class="booking-error hidden" role="alert" aria-hidden="true">
         <svg class="error-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path>
@@ -44,596 +75,773 @@ import { url } from '../../utils/url';
         <span>Не удалось отправить заявку. Позвоните нам: <a href="tel:+79151955132" class="error-phone">+7 (915) 195-51-32</a></span>
       </div>
 
-      <form id="booking-form" class="space-y-6">
-
-        <!-- Имя -->
-        <div>
-          <label for="name" class="field-label">
-            Ваше имя <span style="color: var(--spark-deep)">*</span>
-          </label>
-          <input 
-            type="text" 
-            id="name" 
-            name="name" 
-            required
-            class="form-field"
-            placeholder="Введите ваше имя"
-          >
+      <form id="booking-form" novalidate>
+        <div class="fields">
+          {ALL_FIELDS.map((key, i) => {
+            const f = FIELD_LABELS[key];
+            return (
+              <div class="field" data-field={key} style={`--i:${i}`}>
+                <label class="field-label" for={`booking-${key}`}>
+                  {f.label}
+                  <span class="field-req" data-req>*</span>
+                </label>
+                {f.type === 'textarea' ? (
+                  <textarea
+                    id={`booking-${key}`}
+                    name={key}
+                    rows="3"
+                    class="form-field"
+                    placeholder={f.placeholder}
+                  ></textarea>
+                ) : (
+                  <input
+                    type={f.type}
+                    id={`booking-${key}`}
+                    name={key}
+                    class="form-field"
+                    placeholder={f.placeholder}
+                    autocomplete={key === 'phone' ? 'tel' : key === 'email' ? 'email' : key === 'name' ? 'name' : 'off'}
+                  />
+                )}
+                <p class="field-error" data-error></p>
+              </div>
+            );
+          })}
         </div>
 
-        <!-- Телефон -->
-        <div>
-          <label for="phone" class="field-label">
-            Телефон <span style="color: var(--spark-deep)">*</span>
-          </label>
-          <input 
-            type="tel" 
-            id="phone" 
-            name="phone" 
-            required
-            class="form-field"
-            placeholder="+7 (___) ___-__-__"
-          >
-        </div>
-
-        <!-- Email -->
-        <div>
-          <label for="email" class="field-label">
-            Email
-          </label>
-          <input 
-            type="email" 
-            id="email" 
-            name="email"
-            class="form-field"
-            placeholder="your@email.com"
-          >
-        </div>
-
-        <!-- Комментарий -->
-        <div>
-          <label for="comment" class="field-label">
-            Комментарий
-          </label>
-          <textarea 
-            id="comment" 
-            name="comment"
-            rows="3"
-            class="form-field resize-none"
-            placeholder="Расскажите кратко о вашей ситуации (необязательно)"
-          ></textarea>
-        </div>
-
-        <!-- Согласие на обработку данных -->
         <div class="consent-box">
-          <label class="flex items-start gap-3 cursor-pointer">
-            <input 
-              type="checkbox" 
-              name="privacy" 
-              required
-              class="mt-1 w-5 h-5 rounded" style="accent-color: var(--spark-deep)"
-            >
+          <label>
+            <input type="checkbox" name="privacy" id="booking-privacy" required>
             <span class="consent-text">
-              Я согласен(а) на обработку персональных данных в соответствии с 
-              <a href={url('/privacy')} target="_blank" style="color: var(--spark-deep)" class="underline">
-                Политикой конфиденциальности
-              </a>
+              Я согласен(а) на обработку персональных данных в соответствии с
+              <a href={url('/privacy')} target="_blank" rel="noopener">Политикой конфиденциальности</a>
             </span>
           </label>
         </div>
 
-        <!-- Кнопка отправки -->
-        <div class="flex gap-4">
-          <button 
-            type="submit"
-            class="pill pill-solid flex-1 justify-center"
-          >
-            Отправить заявку
+        <div class="booking-actions">
+          <button type="submit" class="pill pill-solid submit-btn" id="booking-submit">
+            <span class="submit-label">Отправить заявку</span>
+            <span class="submit-spinner" aria-hidden="true"></span>
           </button>
-          <button 
-            type="button"
-            onclick="closeBookingModal()"
-            class="pill pill-outline"
-          >
-            Отмена
-          </button>
+          <button type="button" onclick="closeBookingModal()" class="pill pill-outline">Отмена</button>
         </div>
 
-        <!-- Инфо -->
-        <p class="form-note">
-          После отправки заявки мы свяжемся с вами в ближайшее время для подтверждения записи
-        </p>
+        <p class="form-note">Перезвоним, чтобы подтвердить запись — обычно в течение дня</p>
       </form>
     </div>
   </div>
 </div>
 
+<script>
+  import { BOOKING_CONTEXTS as CONTEXTS, FIELD_LABELS as LABELS, contextForPath } from '../../data/booking';
+
+  (function () {
+    const modal = document.getElementById('booking-modal');
+    if (!modal) return;
+
+    const panel = modal.querySelector('.booking-panel');
+    const form = document.getElementById('booking-form');
+    const successBox = document.getElementById('booking-success');
+    const errorBox = document.getElementById('booking-error');
+    const submitBtn = document.getElementById('booking-submit');
+    const submitLabel = submitBtn.querySelector('.submit-label');
+
+    let returnFocus = null;
+    let current = CONTEXTS.default;
+
+    function setError(wrap, text) {
+      wrap.classList.add('has-error');
+      wrap.querySelector('[data-error]').textContent = text;
+      wrap.querySelector('input, textarea').setAttribute('aria-invalid', 'true');
+    }
+
+    function clearError(wrap) {
+      wrap.classList.remove('has-error');
+      wrap.querySelector('[data-error]').textContent = '';
+      wrap.querySelector('input, textarea').removeAttribute('aria-invalid');
+    }
+
+    // ---------- Подстановка контекста ----------
+    function applyContext(key) {
+      // Специалист приходит строкой вида specialist:Имя:Роль:kids
+      if (typeof key === 'string' && key.indexOf('specialist:') === 0) {
+        const parts = key.split(':');
+        const name = parts[1] || 'Специалист';
+        const role = parts[2] || '';
+        const kids = parts[3] === 'kids';
+        current = {
+          eyebrow: 'Специалист',
+          title: 'Запись к специалисту',
+          lede: (role ? role + '. ' : '') + 'Оставьте контакты — согласуем удобное время.',
+          facts: [
+            { label: 'Специалист', value: name },
+            { label: 'Направление', value: role || 'Психологическая помощь' },
+            { label: 'Формат', value: kids ? 'Занятия с ребёнком' : 'Онлайн или в кабинете' },
+          ],
+          fields: kids
+            ? ['name', 'phone', 'childName', 'childAge', 'email', 'comment']
+            : ['name', 'phone', 'email', 'comment'],
+          subject: 'Заявка: запись к специалисту — ' + name,
+          submit: 'Записаться',
+          service: name,
+        };
+      } else {
+        current = CONTEXTS[key] || CONTEXTS.default;
+      }
+
+      document.getElementById('booking-eyebrow').textContent = current.eyebrow;
+      document.getElementById('booking-service').textContent = current.service;
+      document.getElementById('booking-title').textContent = current.title;
+      document.getElementById('booking-lede').textContent = current.lede;
+      submitLabel.textContent = current.submit;
+
+      const slots = modal.querySelectorAll('#booking-facts .fact');
+      slots.forEach(function (slot, i) {
+        const fact = current.facts[i];
+        slot.hidden = !fact;
+        if (!fact) return;
+        slot.querySelector('[data-fact-label]').textContent = fact.label;
+        slot.querySelector('[data-fact-value]').textContent = fact.value;
+      });
+
+      // Показываем только поля этого контекста; спрятанные отключаем,
+      // иначе они уедут в письмо пустыми строками.
+      let shown = 0;
+      modal.querySelectorAll('[data-field]').forEach(function (wrap) {
+        const name = wrap.dataset.field;
+        const on = current.fields.indexOf(name) !== -1;
+        wrap.hidden = !on;
+        if (on) wrap.style.setProperty('--i', shown++);
+
+        const input = wrap.querySelector('input, textarea');
+        const meta = LABELS[name];
+        input.disabled = !on;
+        input.required = on && meta.required;
+        wrap.querySelector('[data-req]').hidden = !meta.required;
+        clearError(wrap);
+      });
+    }
+
+    // ---------- Открытие и закрытие ----------
+    window.openBookingModal = function (context) {
+      returnFocus = document.activeElement;
+      // Кнопка не назвала контекст (шапка, плавающая кнопка) —
+      // берём его по разделу, в котором человек сейчас находится
+      applyContext(context || contextForPath(location.pathname));
+
+      form.classList.remove('hidden');
+      successBox.classList.add('hidden');
+      successBox.setAttribute('aria-hidden', 'true');
+      errorBox.classList.add('hidden');
+      errorBox.setAttribute('aria-hidden', 'true');
+
+      modal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+
+      // Фокус на первое видимое поле — человек сразу может печатать
+      const first = modal.querySelector('[data-field]:not([hidden]) input');
+      window.setTimeout(function () {
+        (first || modal.querySelector('.modal-close')).focus();
+      }, 260);
+    };
+
+    window.closeBookingModal = function () {
+      if (!modal.classList.contains('is-open')) return;
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      if (returnFocus && returnFocus.focus) returnFocus.focus();
+      returnFocus = null;
+    };
+
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) window.closeBookingModal();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (!modal.classList.contains('is-open')) return;
+
+      if (e.key === 'Escape') {
+        window.closeBookingModal();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+
+      const items = [].slice.call(panel.querySelectorAll('button, input, textarea, a[href]'))
+        .filter(function (el) { return !el.disabled && el.offsetParent !== null; });
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      } else if (!panel.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
+
+    // ---------- Проверка полей ----------
+    function validate() {
+      let firstBad = null;
+
+      modal.querySelectorAll('[data-field]:not([hidden])').forEach(function (wrap) {
+        const input = wrap.querySelector('input, textarea');
+        const value = input.value.trim();
+        clearError(wrap);
+
+        if (input.required && !value) {
+          setError(wrap, 'Заполните это поле');
+          firstBad = firstBad || input;
+          return;
+        }
+        if (wrap.dataset.field === 'phone' && value && value.replace(/\D/g, '').length < 10) {
+          setError(wrap, 'Похоже, в номере не хватает цифр');
+          firstBad = firstBad || input;
+          return;
+        }
+        if (wrap.dataset.field === 'email' && value && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value)) {
+          setError(wrap, 'Проверьте адрес почты');
+          firstBad = firstBad || input;
+        }
+      });
+
+      const consent = document.getElementById('booking-privacy');
+      const box = consent.closest('.consent-box');
+      box.classList.remove('has-error');
+      if (!consent.checked) {
+        box.classList.add('has-error');
+        firstBad = firstBad || consent;
+      }
+
+      return firstBad;
+    }
+
+    // Ошибку снимаем, как только человек начал править поле
+    modal.querySelectorAll('[data-field] input, [data-field] textarea').forEach(function (el) {
+      el.addEventListener('input', function () { clearError(el.closest('[data-field]')); });
+    });
+    document.getElementById('booking-privacy').addEventListener('change', function (e) {
+      if (e.target.checked) e.target.closest('.consent-box').classList.remove('has-error');
+    });
+
+    // ---------- Отправка ----------
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const bad = validate();
+      if (bad) {
+        panel.classList.remove('shake');
+        void panel.offsetWidth;
+        panel.classList.add('shake');
+        bad.focus();
+        return;
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        _subject: current.subject,
+        _template: 'table',
+        _captcha: 'false',
+        'Услуга': current.service,
+        'Имя': data.get('name') || '—',
+        'Телефон': data.get('phone') || '—',
+      };
+      if (current.fields.indexOf('childName') !== -1) payload['Имя ребёнка'] = data.get('childName') || '—';
+      if (current.fields.indexOf('childAge') !== -1) payload['Возраст ребёнка'] = data.get('childAge') || '—';
+      payload['Email'] = data.get('email') || '—';
+      payload['Комментарий'] = data.get('comment') || '—';
+      payload['Страница'] = location.pathname;
+
+      errorBox.classList.add('hidden');
+      errorBox.setAttribute('aria-hidden', 'true');
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-loading');
+
+      try {
+        const response = await fetch('https://formsubmit.co/ajax/lyapina_sorokina@mail.ru', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        // formsubmit отвечает 200 и при отказе — судить по статусу нельзя,
+        // иначе человек видит «заявка отправлена», а письмо никуда не ушло.
+        const body = await response.json().catch(function () { return null; });
+        if (!response.ok || !body || String(body.success) !== 'true') {
+          throw new Error('Заявка не принята сервисом отправки');
+        }
+
+        form.reset();
+        form.classList.add('hidden');
+        successBox.classList.remove('hidden');
+        successBox.setAttribute('aria-hidden', 'false');
+        successBox.style.animation = 'none';
+        void successBox.offsetWidth;
+        successBox.style.animation = '';
+        const ok = successBox.querySelector('.success-btn');
+        if (ok) ok.focus();
+      } catch (err) {
+        errorBox.classList.remove('hidden');
+        errorBox.setAttribute('aria-hidden', 'false');
+        errorBox.style.animation = 'none';
+        void errorBox.offsetWidth;
+        errorBox.style.animation = '';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('is-loading');
+      }
+    });
+
+    applyContext('default');
+  })();
+</script>
+
 <style>
-  .field-label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--graphite);
-    margin-bottom: 8px;
-  }
-
-  .consent-box {
-    padding: 16px;
-    border-radius: 14px;
-    background: var(--taupe);
-    border: 1px solid var(--stone);
-  }
-
-  .consent-text {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--smoke);
-  }
-
-  .form-note {
-    font-size: 13px;
-    text-align: center;
-    color: var(--ash);
-  }
-
-  .form-field {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--stone);
-    border-radius: 10px;
-    background: var(--canvas);
-    color: var(--ink);
-    font-size: 16px  /* меньше 16px — и Safari на iPhone зумит страницу */;
-    transition: border-color .2s ease;
-  }
-  .form-field:focus-visible {
-    outline: 2px solid var(--spark-deep);
-    outline-offset: 2px;
-    border-color: var(--spark-water);
-  }
-
-  .booking-modal-overlay {
-    display: none;
+  /* ---------- Подложка и панель ---------- */
+  .booking-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(4px);
+    inset: 0;
     z-index: 9999;
-    overflow-y: auto;
-    padding: 2rem 1rem;
-  }
-
-  .booking-modal-overlay.active {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 24px 16px;
+    overflow-y: auto;
+    background: rgba(16, 20, 24, 0);
+    backdrop-filter: blur(0px);
+    visibility: hidden;
+    transition: background .32s ease, backdrop-filter .32s ease, visibility 0s .32s;
   }
 
-  .booking-modal-content {
+  .booking-overlay.is-open {
+    visibility: visible;
+    background: rgba(16, 20, 24, 0.55);
+    backdrop-filter: blur(6px);
+    transition: background .32s ease, backdrop-filter .32s ease, visibility 0s;
+  }
+
+  .booking-panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    width: 100%;
+    max-width: 880px;
+    margin: auto;
     background: var(--canvas);
     border: 1px solid var(--stone);
     border-radius: var(--r-large);
-    width: 100%;
-    max-width: 600px;
-    position: relative;
-    padding: 2.5rem;
-    margin: auto;
-    box-shadow: 0 24px 60px -24px rgba(20, 24, 28, .28);
-    animation: modalSlideIn 0.3s ease-out;
+    overflow: hidden;
+    box-shadow: 0 32px 80px -32px rgba(16, 20, 24, 0.42);
+    opacity: 0;
+    transform: translateY(22px) scale(0.975);
+    transition: opacity .34s ease, transform .44s cubic-bezier(.16, .84, .28, 1);
   }
 
-  @keyframes modalSlideIn {
-    from {
-      opacity: 0;
-      transform: translateY(-30px) scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+  .booking-overlay.is-open .booking-panel {
+    opacity: 1;
+    transform: none;
   }
+
+  .booking-panel.shake { animation: panel-shake .42s ease; }
+
+  @keyframes panel-shake {
+    0%, 100% { transform: translateX(0); }
+    18% { transform: translateX(-7px); }
+    38% { transform: translateX(7px); }
+    58% { transform: translateX(-4px); }
+    78% { transform: translateX(4px); }
+  }
+
+  /* ---------- Левая карточка ---------- */
+  .booking-aside {
+    border-radius: 0;
+    display: flex;
+    /* .gradient-card рассчитан на широкую карточку: в узкой колонке его
+       диагональ вырождается в плоский тон. Здесь свой, вертикальный. */
+    background: linear-gradient(168deg, #1b4f60 0%, #24657c 46%, #3c4f77 100%);
+  }
+
+  .booking-aside::before {
+    background:
+      radial-gradient(52% 30% at 78% 6%, rgba(233, 168, 140, .16), transparent 70%),
+      radial-gradient(60% 34% at 10% 96%, rgba(127, 196, 192, .16), transparent 72%);
+  }
+
+  .aside-inner {
+    display: flex;
+    flex-direction: column;
+    padding: 38px 30px 30px;
+    width: 100%;
+  }
+
+  .aside-eyebrow {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: .92;
+    margin-bottom: 12px;
+  }
+
+  .aside-name {
+    font-size: 25px;
+    font-weight: 300;
+    letter-spacing: -.02em;
+    line-height: 1.16;
+    color: #fff;
+    margin-bottom: 28px;
+  }
+
+  .aside-facts {
+    display: grid;
+    gap: 0;
+    margin-bottom: auto;
+  }
+
+  .fact[hidden] { display: none; }
+
+  .aside-facts dt {
+    font-size: 12px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #fff;
+    opacity: .92;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, .2);
+  }
+
+  .aside-facts dd {
+    font-size: 15.5px;
+    line-height: 1.35;
+    color: #fff;
+    margin: 5px 0 16px;
+  }
+
+  .is-open .fact {
+    animation: fact-in .5s cubic-bezier(.2, .7, .3, 1) both;
+    animation-delay: calc(160ms + var(--i, 0) * 70ms);
+  }
+
+  @keyframes fact-in {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .aside-note {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, .2);
+    font-size: 13px;
+    color: #fff;
+  }
+
+  /* ---------- Правая часть ---------- */
+  .booking-main {
+    position: relative;
+    padding: 38px 36px 32px;
+  }
+
+  .booking-head { margin-bottom: 26px; }
+  .booking-lede { font-size: 14.5px; line-height: 1.6; margin-top: 8px; max-width: 44ch; }
 
   .modal-close {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    width: 44px;
-    height: 44px;
+    top: 16px;
+    right: 16px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
     border-radius: 50%;
     background: var(--taupe);
+    border: 1px solid var(--stone);
     color: var(--smoke);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
-    z-index: 10;
+    transition: background .2s ease, color .2s ease, transform .3s cubic-bezier(.2, .7, .3, 1);
   }
-
   .modal-close:hover {
     background: var(--stone);
     color: var(--ink);
     transform: rotate(90deg);
   }
 
-  @media (max-width: 640px) {
-    .booking-modal-content {
-      padding: 1.5rem;
-      border-radius: 16px;
-    }
+  /* ---------- Поля ---------- */
+  .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 14px;
+    margin-bottom: 20px;
+  }
+
+  .field[data-field='comment'],
+  .field[data-field='email'] { grid-column: 1 / -1; }
+  .field[hidden] { display: none; }
+
+  .is-open .field:not([hidden]) {
+    animation: field-in .45s cubic-bezier(.2, .7, .3, 1) both;
+    animation-delay: calc(150ms + var(--i, 0) * 55ms);
+  }
+
+  @keyframes field-in {
+    from { opacity: 0; transform: translateY(9px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .field-label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--graphite);
+    margin-bottom: 7px;
+  }
+
+  .field-req { color: var(--spark-deep); }
+  .field-req[hidden] { display: none; }
+
+  .form-field {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--stone);
+    border-radius: 12px;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 16px;  /* меньше 16px — и Safari на iPhone зумит страницу */
+    font-family: inherit;
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+  }
+
+  .form-field::placeholder { color: var(--ash); opacity: .75; }
+
+  .form-field:hover { border-color: var(--ash); }
+
+  .form-field:focus {
+    outline: none;
+    border-color: var(--spark-deep);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(39, 101, 121, .12);
+  }
+
+  textarea.form-field { resize: vertical; min-height: 84px; }
+
+  .field-error {
+    font-size: 12px;
+    color: var(--spark-deep);
+    margin-top: 6px;
+  }
+  .field-error:empty { display: none; }
+
+  .has-error .form-field {
+    border-color: var(--spark-deep);
+    background: rgba(39, 101, 121, .04);
+  }
+
+  /* ---------- Согласие ---------- */
+  .consent-box {
+    padding: 14px 16px;
+    margin-bottom: 22px;
+    border-radius: 14px;
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+    transition: border-color .2s ease, background .2s ease;
+  }
+  .consent-box.has-error {
+    border-color: var(--spark-deep);
+    background: rgba(39, 101, 121, .05);
+  }
+  .consent-box label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+  }
+  .consent-box input {
+    margin-top: 2px;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    accent-color: var(--spark-deep);
+  }
+  .consent-text { font-size: 12.5px; line-height: 1.55; color: var(--smoke); }
+  .consent-text a { color: var(--spark-deep); text-decoration: underline; }
+
+  /* ---------- Кнопки ---------- */
+  .booking-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .submit-btn { flex: 1; min-width: 200px; }
+  .submit-btn:disabled { opacity: .75; cursor: progress; }
+
+  .submit-spinner {
+    display: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, .35);
+    border-top-color: #fff;
+    animation: spin .7s linear infinite;
+  }
+  .is-loading .submit-spinner { display: inline-block; }
+  .is-loading .submit-label { opacity: .7; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .form-note {
+    margin-top: 16px;
+    font-size: 12.5px;
+    text-align: center;
+    color: var(--ash);
   }
 
   /* ---------- Экран успеха ---------- */
   .booking-success {
     position: relative;
     text-align: center;
-    padding: 1.5rem 0.5rem 0.5rem;
-    animation: successFadeIn 0.5s ease-out both;
+    padding: 12px 0 4px;
+    animation: successFadeIn .5s ease-out both;
   }
-
   .booking-success.hidden { display: none; }
 
   @keyframes successFadeIn {
     from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+    to { opacity: 1; transform: none; }
   }
 
-  .success-icon {
-    display: inline-flex;
-    color: var(--spark-deep);
-    margin-bottom: 1.25rem;
-  }
-
+  .success-icon { display: inline-flex; color: var(--spark-deep); margin-bottom: 18px; }
   .success-icon svg { overflow: visible; }
 
   .success-ring {
     stroke-dasharray: 226;
     stroke-dashoffset: 226;
-    animation: drawRing 0.55s 0.05s ease-out forwards;
-    transform-origin: 40px 40px;
+    animation: drawRing .6s .05s ease-out forwards;
   }
-
   .success-check {
     stroke-dasharray: 60;
     stroke-dashoffset: 60;
-    animation: drawCheck 0.35s 0.55s ease-out forwards;
+    animation: drawCheck .35s .58s ease-out forwards;
   }
-
-  @keyframes drawRing {
-    to { stroke-dashoffset: 0; }
-  }
-
-  @keyframes drawCheck {
-    to { stroke-dashoffset: 0; }
-  }
+  @keyframes drawRing { to { stroke-dashoffset: 0; } }
+  @keyframes drawCheck { to { stroke-dashoffset: 0; } }
 
   .success-title {
-    font-size: 1.6rem;
+    font-size: 1.55rem;
     font-weight: 300;
     letter-spacing: -.02em;
     color: var(--ink);
-    margin-bottom: 0.75rem;
-    animation: successPop 0.4s 0.65s ease-out both;
+    margin-bottom: .7rem;
+    animation: successPop .4s .68s ease-out both;
   }
-
   .success-text {
     color: var(--smoke);
     line-height: 1.6;
-    margin-bottom: 1.75rem;
-    animation: successPop 0.4s 0.8s ease-out both;
+    max-width: 40ch;
+    margin: 0 auto 1.6rem;
+    animation: successPop .4s .82s ease-out both;
   }
+  .success-btn { animation: successPop .4s .96s ease-out both; }
 
   @keyframes successPop {
-    from { opacity: 0; transform: scale(0.92); }
-    to   { opacity: 1; transform: scale(1); }
-  }
-
-  .success-btn {
-    padding: 0.875rem 2.5rem;
-    background: var(--ink);
-    color: var(--canvas);
-    border: none;
-    border-radius: var(--r-pill);
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
-    animation: successPop 0.4s 0.95s ease-out both;
-  }
-
-  .success-btn:hover {
-    transform: translateY(-2px);
-    background: var(--graphite);
+    from { opacity: 0; transform: scale(.94); }
+    to { opacity: 1; transform: none; }
   }
 
   /* Конфетти */
-  .success-confetti {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: visible;
-  }
-
+  .success-confetti { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
   .success-confetti span {
     position: absolute;
     left: 50%;
-    top: 60px;
-    width: 10px;
-    height: 10px;
+    top: 52px;
+    width: 9px;
+    height: 9px;
     border-radius: 2px;
     opacity: 0;
-    animation: confettiBurst 1.1s 0.6s ease-out forwards;
+    animation: confettiBurst 1.1s .62s ease-out forwards;
   }
-
-  .success-confetti span:nth-child(1)  { background: var(--spark-water); --tx:  -160px; --ty: -120px; --r: -40deg; }
-  .success-confetti span:nth-child(2)  { background: var(--spark-powder); --tx:   140px; --ty: -140px; --r:  50deg; }
-  .success-confetti span:nth-child(3)  { background: var(--spark-mint); --tx:  -220px; --ty:  -40px; --r: -80deg; }
-  .success-confetti span:nth-child(4)  { background: var(--spark-lilac); --tx:   220px; --ty:  -20px; --r:  90deg; }
-  .success-confetti span:nth-child(5)  { background: var(--spark-water); --tx:   -80px; --ty: -180px; --r: -20deg; border-radius: 50%; }
-  .success-confetti span:nth-child(6)  { background: var(--spark-powder); --tx:    80px; --ty: -180px; --r:  20deg; border-radius: 50%; }
-  .success-confetti span:nth-child(7)  { background: var(--spark-lilac); --tx:  -260px; --ty:   40px; --r: -110deg; }
-  .success-confetti span:nth-child(8)  { background: var(--spark-mint); --tx:   260px; --ty:   60px; --r:  110deg; }
-  .success-confetti span:nth-child(9)  { background: var(--spark-lilac); --tx:  -120px; --ty:  -80px; --r: -60deg; border-radius: 50%; }
-  .success-confetti span:nth-child(10) { background: var(--spark-water); --tx:   120px; --ty:  -90px; --r:  60deg; border-radius: 50%; }
-  .success-confetti span:nth-child(11) { background: var(--spark-powder); --tx:  -200px; --ty:  120px; --r: -140deg; }
-  .success-confetti span:nth-child(12) { background: var(--spark-lilac); --tx:   200px; --ty:  140px; --r:  140deg; }
-  .success-confetti span:nth-child(13) { background: var(--spark-mint); --tx:   -40px; --ty: -220px; --r:   10deg; border-radius: 50%; }
-  .success-confetti span:nth-child(14) { background: var(--spark-lilac); --tx:    40px; --ty: -220px; --r:  -10deg; border-radius: 50%; }
-  .success-confetti span:nth-child(15) { background: var(--spark-water); --tx:     0px; --ty: -260px; --r:   30deg; }
+  .success-confetti span:nth-child(1)  { background: var(--spark-water);  --tx: -160px; --ty: -120px; --r: -40deg; }
+  .success-confetti span:nth-child(2)  { background: var(--spark-powder); --tx:  140px; --ty: -140px; --r:  50deg; }
+  .success-confetti span:nth-child(3)  { background: var(--spark-mint);   --tx: -220px; --ty:  -40px; --r: -80deg; }
+  .success-confetti span:nth-child(4)  { background: var(--spark-lilac);  --tx:  220px; --ty:  -20px; --r:  90deg; }
+  .success-confetti span:nth-child(5)  { background: var(--spark-water);  --tx:  -80px; --ty: -180px; --r: -20deg; border-radius: 50%; }
+  .success-confetti span:nth-child(6)  { background: var(--spark-powder); --tx:   80px; --ty: -180px; --r:  20deg; border-radius: 50%; }
+  .success-confetti span:nth-child(7)  { background: var(--spark-lilac);  --tx: -260px; --ty:   40px; --r: -110deg; }
+  .success-confetti span:nth-child(8)  { background: var(--spark-mint);   --tx:  260px; --ty:   60px; --r:  110deg; }
+  .success-confetti span:nth-child(9)  { background: var(--spark-lilac);  --tx: -120px; --ty:  -80px; --r: -60deg; border-radius: 50%; }
+  .success-confetti span:nth-child(10) { background: var(--spark-water);  --tx:  120px; --ty:  -90px; --r:  60deg; border-radius: 50%; }
+  .success-confetti span:nth-child(11) { background: var(--spark-powder); --tx: -200px; --ty:  120px; --r: -140deg; }
+  .success-confetti span:nth-child(12) { background: var(--spark-lilac);  --tx:  200px; --ty:  140px; --r:  140deg; }
+  .success-confetti span:nth-child(13) { background: var(--spark-mint);   --tx:  -40px; --ty: -220px; --r:   10deg; border-radius: 50%; }
+  .success-confetti span:nth-child(14) { background: var(--spark-lilac);  --tx:   40px; --ty: -220px; --r:  -10deg; border-radius: 50%; }
+  .success-confetti span:nth-child(15) { background: var(--spark-water);  --tx:    0px; --ty: -260px; --r:   30deg; }
 
   @keyframes confettiBurst {
-    0% {
-      opacity: 0;
-      transform: translate(-50%, 0) rotate(0deg) scale(0.6);
-    }
-    15% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-      transform: translate(calc(-50% + var(--tx)), var(--ty)) rotate(var(--r)) scale(1);
-    }
+    0%   { opacity: 0; transform: translate(-50%, 0) rotate(0) scale(.6); }
+    15%  { opacity: 1; }
+    100% { opacity: 0; transform: translate(calc(-50% + var(--tx)), var(--ty)) rotate(var(--r)) scale(1); }
   }
 
   /* ---------- Ошибка ---------- */
   .booking-error {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: .75rem;
     background: var(--taupe);
     border: 1px solid var(--stone);
     color: var(--ink);
-    padding: 1rem 1.25rem;
-    border-radius: 0.75rem;
-    margin-bottom: 1rem;
-    animation: errorShake 0.5s ease-out;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    font-size: 14px;
+    animation: errorShake .5s ease-out;
   }
-
   .booking-error.hidden { display: none; }
-
   .booking-error .error-icon { flex-shrink: 0; color: var(--spark-deep); }
   .error-phone { color: var(--spark-deep); text-decoration: underline; }
 
   @keyframes errorShake {
     0%, 100% { transform: translateX(0); }
-    20%      { transform: translateX(-6px); }
-    40%      { transform: translateX(6px); }
-    60%      { transform: translateX(-4px); }
-    80%      { transform: translateX(4px); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  .hidden { display: none; }
+
+  /* ---------- Адаптив ---------- */
+  @media (max-width: 860px) {
+    .booking-panel { grid-template-columns: 1fr; max-width: 520px; }
+    .aside-inner { padding: 30px 26px 24px; }
+    .aside-name { font-size: 22px; margin-bottom: 20px; }
+    .aside-facts { grid-template-columns: repeat(3, 1fr); gap: 0 16px; }
+    .fact { min-width: 0; }
+    .aside-facts dt { padding-top: 12px; font-size: 11px; }
+    .aside-facts dd { font-size: 14px; margin-bottom: 0; }
+    .aside-note { margin-top: 20px; padding-top: 14px; }
+    .booking-main { padding: 28px 24px 26px; }
+  }
+
+  @media (max-width: 560px) {
+    .booking-overlay { padding: 12px; }
+    .fields { grid-template-columns: 1fr; gap: 14px; }
+    .aside-facts { grid-template-columns: 1fr 1fr; }
+    .aside-inner { padding: 26px 22px 20px; }
+    .booking-main { padding: 24px 22px 22px; }
+    .submit-btn { min-width: 0; }
+    .booking-actions { flex-direction: column-reverse; }
+    .booking-actions .pill { width: 100%; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .booking-success,
-    .success-ring,
-    .success-check,
-    .success-title,
-    .success-text,
-    .success-btn,
-    .success-confetti span,
-    .booking-error {
-      animation: none !important;
-    }
-    .success-ring, .success-check { stroke-dashoffset: 0; }
+    .booking-overlay,
+    .booking-panel,
+    .field,
+    .fact { transition: none; animation: none; }
+    .booking-panel { transform: none; }
   }
 </style>
-
-<script>
-  function resetBookingView() {
-    const form = document.getElementById('booking-form');
-    const success = document.getElementById('booking-success');
-    const errorBox = document.getElementById('booking-error');
-    if (form) form.classList.remove('hidden');
-    if (success) {
-      success.classList.add('hidden');
-      success.setAttribute('aria-hidden', 'true');
-      // Перезапуск CSS-анимаций: форсируем reflow, сбрасывая классы
-      success.style.animation = 'none';
-      void success.offsetWidth;
-      success.style.animation = '';
-    }
-    if (errorBox) {
-      errorBox.classList.add('hidden');
-      errorBox.setAttribute('aria-hidden', 'true');
-    }
-  }
-
-  // фокус: запоминаем, куда вернуть, и замыкаем перебор внутри окна
-  let bookingReturnFocus = null;
-
-  function focusablesIn(root) {
-    return Array.prototype.filter.call(
-      root.querySelectorAll('a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'),
-      function (el) { return el.offsetParent !== null; }
-    );
-  }
-
-  function trapBookingFocus(e) {
-    const modal = document.getElementById('booking-modal');
-    if (!modal || !modal.classList.contains('active') || e.key !== 'Tab') return;
-    const items = focusablesIn(modal);
-    if (!items.length) return;
-    const first = items[0];
-    const last = items[items.length - 1];
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  }
-
-  document.addEventListener('keydown', trapBookingFocus);
-
-  function openBookingModal() {
-    bookingReturnFocus = document.activeElement;
-    const modal = document.getElementById('booking-modal');
-    if (modal) {
-      resetBookingView();
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      // переводим фокус внутрь окна, иначе он остаётся на странице позади
-      const first = focusablesIn(modal)[0];
-      if (first) setTimeout(function () { first.focus(); }, 40);
-    }
-  }
-
-  function closeBookingModal() {
-    const modal = document.getElementById('booking-modal');
-    if (modal) {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-      // возвращаем фокус туда, откуда окно открыли
-      if (bookingReturnFocus && typeof bookingReturnFocus.focus === 'function') {
-        bookingReturnFocus.focus();
-        bookingReturnFocus = null;
-      }
-    }
-  }
-
-  // Закрытие по клику вне модального окна
-  document.getElementById('booking-modal')?.addEventListener('click', (e) => {
-    if (e.target.id === 'booking-modal') {
-      closeBookingModal();
-    }
-  });
-
-  // Закрытие по Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeBookingModal();
-    }
-  });
-
-  // Обработка формы — отправка через FormSubmit.co на lyapina_sorokina@mail.ru
-  document.getElementById('booking-form')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    const payload = {
-      _subject: 'Новая заявка с сайта — запись на консультацию',
-      _template: 'table',
-      _captcha: 'false',
-      Имя: formData.get('name') || '—',
-      Телефон: formData.get('phone') || '—',
-      Email: formData.get('email') || '—',
-      Комментарий: formData.get('comment') || '—',
-      Источник: 'Форма записи на сайте'
-    };
-
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn ? submitBtn.textContent : '';
-    const errorBox = document.getElementById('booking-error');
-    const successBox = document.getElementById('booking-success');
-
-    if (errorBox) {
-      errorBox.classList.add('hidden');
-      errorBox.setAttribute('aria-hidden', 'true');
-    }
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Отправка...';
-    }
-
-    try {
-      const response = await fetch('https://formsubmit.co/ajax/lyapina_sorokina@mail.ru', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      });
-
-      // formsubmit отвечает 200 и при отказе — судить по статусу нельзя,
-      // иначе человек видит «заявка отправлена», а письмо никуда не ушло.
-      const data = await response.json().catch(() => null);
-      if (!response.ok || !data || String(data.success) !== 'true') {
-        throw new Error('Заявка не принята сервисом отправки');
-      }
-
-      // Показываем красивый экран успеха
-      form.reset();
-      form.classList.add('hidden');
-      if (successBox) {
-        successBox.classList.remove('hidden');
-        successBox.setAttribute('aria-hidden', 'false');
-        // Форсируем перезапуск анимаций
-        successBox.style.animation = 'none';
-        void successBox.offsetWidth;
-        successBox.style.animation = '';
-        // Фокус стоял на кнопке, которая только что уехала в display:none —
-        // без этого он падает на body и ловушка Tab перестаёт держать окно.
-        const okBtn = successBox.querySelector('.success-btn');
-        if (okBtn) okBtn.focus();
-      }
-    } catch (err) {
-      if (errorBox) {
-        errorBox.classList.remove('hidden');
-        errorBox.setAttribute('aria-hidden', 'false');
-        // Перезапуск shake-анимации
-        errorBox.style.animation = 'none';
-        void errorBox.offsetWidth;
-        errorBox.style.animation = '';
-      }
-    } finally {
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
-      }
-    }
-  });
-
-  // Форматирование телефона (фикс: разделители не дописываются
-  // пока следующего разряда нет — backspace удаляет по одной цифре)
-  const phoneInput = document.getElementById('phone');
-  phoneInput?.addEventListener('input', (e) => {
-    let digits = e.target.value.replace(/\D/g, '');
-    if (digits.startsWith('7') || digits.startsWith('8')) {
-      digits = digits.substring(1);
-    }
-    digits = digits.substring(0, 10);
-
-    if (digits.length === 0) {
-      e.target.value = '';
-      return;
-    }
-
-    let formatted = '+7 (' + digits.substring(0, 3);
-    if (digits.length > 3) formatted += ') ' + digits.substring(3, 6);
-    if (digits.length > 6) formatted += '-' + digits.substring(6, 8);
-    if (digits.length > 8) formatted += '-' + digits.substring(8, 10);
-
-    e.target.value = formatted;
-  });
-
-  // Глобальные функции для доступа из других скриптов
-  window.openBookingModal = openBookingModal;
-  window.closeBookingModal = closeBookingModal;
-</script>

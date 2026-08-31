@@ -167,20 +167,22 @@ import { url } from '../../utils/url';
   }
   
   .exit-popup-icon {
-    font-size: 4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
     margin-bottom: 1rem;
-    animation: swing 1s ease-in-out infinite;
-  }
-  
-  @keyframes swing {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-10deg); }
-    75% { transform: rotate(10deg); }
+    border-radius: 50%;
+    background: var(--taupe);
+    border: 1px solid var(--stone);
+    color: var(--spark-deep);
   }
   
   .exit-popup-title {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.7rem;
+    font-weight: 300;
+    letter-spacing: -.02em;
     color: var(--ink);
     margin-bottom: 0.75rem;
   }
@@ -192,8 +194,8 @@ import { url } from '../../utils/url';
   }
   
   .exit-popup-subtitle strong {
-    color: var(--spark-deep);
-    font-weight: 700;
+    color: var(--ink);
+    font-weight: 500;
   }
   
   .exit-popup-form {
@@ -206,36 +208,43 @@ import { url } from '../../utils/url';
   
   .form-input {
     width: 100%;
-    padding: 1rem;
-    border: 2px solid var(--stone);
-    border-radius: 0.75rem;
-    font-size: 1rem;
-    transition: all 0.2s ease;
+    padding: 12px 15px;
+    border: 1px solid var(--stone);
+    border-radius: 12px;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 16px;  /* меньше 16px — и Safari на iPhone зумит страницу */
+    font-family: inherit;
+    transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
   }
-  
+
+  .form-input::placeholder { color: var(--ash); opacity: .75; }
+  .form-input:hover { border-color: var(--ash); }
+
   .form-input:focus {
-    outline: 2px solid var(--spark-deep);
-    outline-offset: 2px;
+    outline: none;
     border-color: var(--spark-deep);
-    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(39, 101, 121, .12);
   }
   
   .form-submit {
     width: 100%;
-    padding: 1rem;
+    padding: 14px 24px;
     background: var(--ink);
-    color: white;
+    color: #fff;
     border: none;
-    border-radius: 0.75rem;
-    font-size: 1.125rem;
-    font-weight: 600;
+    border-radius: var(--r-pill);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: .01em;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform .25s cubic-bezier(.2,.7,.3,1), background .25s ease;
   }
-  
+
   .form-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
+    transform: translateY(-1px);
+    background: #000;
   }
   
   .form-note {
@@ -334,7 +343,7 @@ import { url } from '../../utils/url';
 
   .exit-success-title {
     font-size: 1.75rem;
-    font-weight: 700;
+    font-weight: 500;
     color: var(--ink);
     margin-bottom: 0.75rem;
     animation: exitSuccessPop 0.4s 0.65s ease-out both;
@@ -359,7 +368,7 @@ import { url } from '../../utils/url';
     border: none;
     border-radius: 0.75rem;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 6px 20px rgba(72, 148, 178, 0.35);
@@ -611,7 +620,7 @@ import { url } from '../../utils/url';
           errorBox.setAttribute('role', 'alert');
           errorBox.innerHTML =
             '<span class="error-icon" aria-hidden="true">⚠️</span>' +
-            '<span>Не удалось отправить. Позвоните: <a href="tel:+79151955132" style="color:#991b1b;text-decoration:underline;font-weight:600;">+7 (915) 195-51-32</a></span>';
+            '<span>Не удалось отправить. Позвоните: <a href="tel:+79151955132" style="color:#991b1b;text-decoration:underline;font-weight:500;">+7 (915) 195-51-32</a></span>';
           form.insertBefore(errorBox, form.firstChild);
         } else {
           errorBox.classList.remove('hidden');

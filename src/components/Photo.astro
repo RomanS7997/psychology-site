@@ -1,0 +1,72 @@
+---
+// src/components/Photo.astro
+// Фотография с WebP-версией. Рядом с каждым jpg/png в public/images лежит
+// такой же .webp (скрипт scripts/build-webp.mjs) — он вдвое легче.
+// Кто WebP не понимает, получит исходный файл.
+//
+// picture тут не создаёт своей коробки (display: contents), поэтому вёрстка
+// вокруг ведёт себя ровно так же, как с голым <img>.
+import { url } from '../utils/url';
+
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  width?: number | string;
+  height?: number | string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  decoding?: 'async' | 'sync' | 'auto';
+  sizes?: string;
+  /** Отдавать два размера: экрану без удвоения незачем качать крупный файл */
+  responsive?: boolean;
+}
+
+const {
+  src,
+  alt,
+  class: className,
+  width,
+  height,
+  loading = 'lazy',
+  fetchpriority,
+  decoding = 'async',
+  sizes,
+  responsive = false,
+} = Astro.props;
+
+// У логотипов и иконок webp-версии нет — отдаём как есть
+const convertible = /\.(jpe?g|png)$/i.test(src) && !/logo|favicon|apple-touch/i.test(src);
+const webp = convertible ? src.replace(/\.(jpe?g|png)$/i, '.webp') : null;
+
+// Для картинок первого экрана рядом лежат варианты -620 и -1120
+const stem = convertible ? src.replace(/\.(jpe?g|png)$/i, '') : null;
+const srcset = responsive && stem
+  ? `${url(stem + '-620.webp')} 620w, ${url(stem + '-1120.webp')} 1120w`
+  : null;
+---
+
+<picture class="photo">
+  {srcset
+    ? <source srcset={srcset} type="image/webp" sizes={sizes || '(max-width: 860px) 92vw, 560px'} />
+    : webp && <source srcset={url(webp)} type="image/webp" sizes={sizes} />}
+  <img
+    src={url(src)}
+    alt={alt}
+    class={className}
+    width={width}
+    height={height}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    decoding={decoding}
+    sizes={sizes}
+  />
+</picture>
+
+<style is:global>
+  /* Обёртка не должна участвовать в раскладке: правила вида
+     «.hero-photo img { width: 100% }» продолжают работать как раньше. */
+  picture.photo {
+    display: contents;
+  }
+</style>

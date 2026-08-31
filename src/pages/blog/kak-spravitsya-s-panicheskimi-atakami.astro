@@ -1,6 +1,7 @@
 ---
 // src/pages/blog/kak-spravitsya-s-panicheskimi-atakami.astro
 import Layout from '../../layouts/Layout.astro';
+import Photo from '../../components/Photo.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
@@ -62,8 +63,8 @@ import { url } from '../../utils/url';
         </div>
 
         <figure class="post-cover" data-reveal>
-          <img
-            src={url('/images/blog/panic-attacks.jpg')}
+          <Photo
+            src='/images/blog/panic-attacks.jpg'
             alt="Как справиться с паническими атаками"
             loading="lazy"
             decoding="async"
@@ -256,7 +257,7 @@ import { url } from '../../utils/url';
               Если вам нужна профессиональная психологическая помощь — запишитесь на консультацию
             </p>
           </div>
-          <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+          <button onclick="openBookingModal('adult')" class="pill pill-solid pill-lg" type="button">
             Записаться на консультацию
           </button>
         </div>

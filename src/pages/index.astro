@@ -1,6 +1,7 @@
 ---
 // Главная страница
 import Layout from '../layouts/Layout.astro';
+import Photo from '../components/Photo.astro';
 import NewHero from '../components/NewHero.astro';
 import SEO from '../components/SEO.astro';
 import FAQ from '../components/FAQ.astro';
@@ -57,6 +58,7 @@ const requests = [
 const programs = [
   {
     name: 'Умники и умницы',
+    ctx: 'umniky',
     age: '4–6 лет',
     note: 'Ежедневно, будние дни',
     items: ['Чтение и развитие речи', 'Постановка руки к письму', 'Основы математики', 'Группы до 8 детей'],
@@ -65,6 +67,7 @@ const programs = [
   },
   {
     name: 'Азбука общения',
+    ctx: 'azbuka',
     age: '5–9 лет',
     note: 'Раз в неделю',
     items: ['Эмоциональный интеллект', 'Навыки общения', 'Уверенность в себе', 'Ролевые игры'],
@@ -74,6 +77,7 @@ const programs = [
   },
   {
     name: 'Подготовка к школе',
+    ctx: 'school-prep',
     age: '6–7 лет',
     note: 'Два раза в неделю',
     items: ['Чтение и письмо', 'Математика и счёт', 'Окружающий мир', 'Концентрация внимания'],
@@ -216,7 +220,7 @@ const posts = [
                   </ul>
                   <p class="card-text">{item.text}</p>
                   <button
-                    onclick="openBookingModal()"
+                    onclick={`openBookingModal('${item.ctx || 'default'}')`}
                     class={`pill ${item.featured ? 'pill-light' : 'pill-solid'} card-cta`}
                     type="button"
                   >
@@ -266,7 +270,7 @@ const posts = [
         <div class="glow-band video-band" data-reveal>
           <div class="video-grid">
             <button class="video-preview" onclick="openVideoModal()" type="button" aria-label="Смотреть видео о кабинете">
-              <img src={url('/images/services/child-therapy.jpg')} alt="Кабинет психолога" loading="lazy" decoding="async" />
+              <Photo src='/images/services/child-therapy.jpg' alt="Кабинет психолога" loading="lazy" decoding="async" />
               <span class="video-play" aria-hidden="true">
                 <Icon name="play" size={26} />
               </span>
@@ -281,7 +285,7 @@ const posts = [
                 <li>Комфортная атмосфера и конфиденциальность</li>
                 <li>Онлайн и офлайн консультации</li>
               </ul>
-              <button onclick="openBookingModal()" class="pill pill-solid" type="button">
+              <button onclick="openBookingModal('adult')" class="pill pill-solid" type="button">
                 Записаться на консультацию
               </button>
             </div>
@@ -309,7 +313,7 @@ const posts = [
             <article class={`program-card lift ${program.featured ? 'gradient-card' : 'surface'}`} data-reveal>
               {program.photo && (
                 <div class="program-photo">
-                  <img src={url(program.photo)} alt={`Занятия «${program.name}»`} loading="lazy" decoding="async" />
+                  <Photo src={program.photo} alt={`Занятия «${program.name}»`} loading="lazy" decoding="async" />
                 </div>
               )}
               <div class="card-inner">
@@ -374,7 +378,7 @@ const posts = [
           {specialists.map((person) => (
             <article class="person lift" data-reveal>
               <div class="person-photo">
-                <img src={url(person.photo)} alt={person.name} loading="lazy" decoding="async" />
+                <Photo src={person.photo} alt={person.name} loading="lazy" decoding="async" />
                 {person.lead && <span class="person-badge">Основатель</span>}
               </div>
               <h3 class="person-name">{person.name}</h3>
@@ -383,7 +387,11 @@ const posts = [
                 {person.tags.map((tag) => <span>{tag}</span>)}
               </div>
               <div class="person-actions">
-                <button onclick="openBookingModal()" class="pill pill-solid person-btn" type="button">Записаться</button>
+                <button
+                  onclick={`openBookingModal('specialist:${person.name}:${person.role}:${person.lead ? 'adult' : 'kids'}')`}
+                  class="pill pill-solid person-btn"
+                  type="button"
+                >Записаться</button>
                 <a href={url(person.href)} class="pill pill-outline person-btn">Подробнее</a>
               </div>
             </article>
@@ -409,7 +417,7 @@ const posts = [
           {posts.map((post) => (
             <a href={url(post.href)} class="post lift" data-reveal>
               <div class="post-photo">
-                <img src={url(post.image)} alt={post.title} loading="lazy" decoding="async" />
+                <Photo src={post.image} alt={post.title} loading="lazy" decoding="async" />
               </div>
               <div class="post-body">
                 <div class="post-meta">
@@ -472,7 +480,7 @@ const posts = [
         <div class="glow-band closing-band" data-reveal>
           <div class="closing-grid">
             <div class="closing-photo">
-              <img src={url('/images/services/julia-lyapina.jpg')} alt="Юлия Ляпина" loading="lazy" decoding="async" />
+              <Photo src='/images/services/julia-lyapina.jpg' alt="Юлия Ляпина" loading="lazy" decoding="async" />
             </div>
 
             <div class="closing-text">
@@ -482,7 +490,7 @@ const posts = [
                 Напишите пару слов о своей ситуации. Отвечу, чем могу помочь, и подберу удобное время.
               </p>
               <div class="closing-actions">
-                <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+                <button onclick="openBookingModal('adult')" class="pill pill-solid pill-lg" type="button">
                   Записаться на консультацию
                 </button>
                 <a href="https://wa.me/79151955132" target="_blank" rel="noopener" class="pill pill-outline pill-lg">

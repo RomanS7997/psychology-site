@@ -1,6 +1,7 @@
 ---
 // src/pages/specialists.astro
 import Layout from '../layouts/Layout.astro';
+import Photo from '../components/Photo.astro';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
@@ -285,8 +286,8 @@ const specialists = [
                 <!-- Фото и бейджи -->
                 <div class="specialist-aside">
                   <div class="specialist-photo">
-                    <img
-                      src={url(person.photo)}
+                    <Photo
+                      src={person.photo}
                       alt={person.name}
                       loading="lazy"
                       decoding="async"
@@ -349,7 +350,11 @@ const specialists = [
                     </div>
                   ))}
 
-                  <button onclick="openBookingModal()" class="pill pill-solid specialist-cta" type="button">
+                  <button
+                    onclick={`openBookingModal('specialist:${person.name}:${person.role}:${person.categories.includes('children') ? 'kids' : 'adult'}')`}
+                    class="pill pill-solid specialist-cta"
+                    type="button"
+                  >
                     {person.cta}
                   </button>
                 </div>
@@ -373,7 +378,7 @@ const specialists = [
             Оставьте заявку, и мы поможем подобрать специалиста под ваш запрос
           </p>
           <div class="closing-actions">
-            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            <button onclick="openBookingModal('default')" class="pill pill-solid pill-lg" type="button">
               Записаться на консультацию
             </button>
           </div>

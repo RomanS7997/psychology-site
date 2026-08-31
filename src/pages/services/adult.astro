@@ -1,6 +1,7 @@
 ---
 // src/pages/services/adult.astro — консультирование взрослых
 import Layout from '../../layouts/Layout.astro';
+import Photo from '../../components/Photo.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -104,7 +105,7 @@ const related = [
           </p>
 
           <div class="flex flex-wrap gap-3 mb-11 rise rise-4">
-            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            <button onclick="openBookingModal('adult')" class="pill pill-solid pill-lg" type="button">
               Записаться на консультацию
             </button>
           </div>
@@ -122,13 +123,14 @@ const related = [
         </div>
 
         <div class="hero-visual orb surface-lg rise rise-2">
-          <img
-            src={url('/images/services/adult-consulting.jpg')}
+          <Photo
+            src='/images/services/adult-consulting.jpg'
             alt="Консультация психолога"
             class="hero-portrait"
             loading="eager"
             fetchpriority="high"
             decoding="async"
+            responsive
           />
         </div>
 
@@ -236,7 +238,7 @@ const related = [
           <p class="lede mb-8">Запишитесь на консультацию прямо сейчас</p>
 
           <div class="cta-actions">
-            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            <button onclick="openBookingModal('adult')" class="pill pill-solid pill-lg" type="button">
               Записаться на консультацию
             </button>
           </div>

@@ -1,6 +1,7 @@
 ---
 // src/pages/services/children.astro
 import Layout from '../../layouts/Layout.astro';
+import Photo from '../../components/Photo.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -260,7 +261,7 @@ const related = [
           </p>
 
           <div class="flex flex-wrap gap-3 mb-11 rise rise-3">
-            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            <button onclick="openBookingModal('children')" class="pill pill-solid pill-lg" type="button">
               Записаться на консультацию
             </button>
             <a href="#what-we-help" class="pill pill-outline pill-lg">Частые запросы</a>
@@ -279,12 +280,13 @@ const related = [
         </div>
 
         <div class="hero-visual rise rise-2">
-          <img
-            src={url('/images/services/child-therapy.jpg')}
+          <Photo
+            src='/images/services/child-therapy.jpg'
             alt="Консультация детского психолога"
             loading="eager"
             fetchpriority="high"
             decoding="async"
+            responsive
           />
         </div>
 
@@ -324,7 +326,7 @@ const related = [
                       <li><strong>{li.label}</strong> {li.text}</li>
                     ))}
                   </ul>
-                  <button onclick="openBookingModal()" class="pill pill-solid card-cta" type="button">
+                  <button onclick="openBookingModal('children')" class="pill pill-solid card-cta" type="button">
                     Записаться
                   </button>
                 </div>
@@ -521,7 +523,7 @@ const related = [
           </p>
 
           <div class="closing-actions">
-            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            <button onclick="openBookingModal('children')" class="pill pill-solid pill-lg" type="button">
               Записаться на консультацию
             </button>
           </div>

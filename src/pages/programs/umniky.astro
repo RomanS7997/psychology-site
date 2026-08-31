@@ -1,6 +1,7 @@
 ---
 // src/pages/programs/umniky.astro
 import Layout from '../../layouts/Layout.astro';
+import Photo from '../../components/Photo.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -132,7 +133,7 @@ const methods = [
           </ul>
 
           <div class="flex flex-wrap gap-3">
-            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            <button onclick="openBookingModal('umniky')" class="pill pill-solid pill-lg" type="button">
               Записаться на занятие
             </button>
             <a href="#program" class="pill pill-outline pill-lg">Что входит в программу</a>
@@ -140,13 +141,14 @@ const methods = [
         </div>
 
         <div class="hero-visual orb surface-lg">
-          <img
-            src={url('/images/gallery/umniky/2.jpg')}
+          <Photo
+            src='/images/gallery/umniky/2.jpg'
             alt="Занятие по программе «Умники и умницы»"
             class="hero-photo"
             loading="eager"
             fetchpriority="high"
             decoding="async"
+            responsive
           />
         </div>
 
@@ -280,7 +282,7 @@ const methods = [
             </p>
 
             <div class="closing-actions">
-              <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+              <button onclick="openBookingModal('umniky')" class="pill pill-solid pill-lg" type="button">
                 <Icon name="chat" size={18} />
                 Записаться
               </button>

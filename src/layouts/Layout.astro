@@ -20,6 +20,8 @@ const {
   hasSEO = true,
 } = Astro.props;
 import { url } from '../utils/url';
+
+const isHome = Astro.url.pathname.replace(/\/$/, '') === import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <!doctype html>
@@ -53,12 +55,26 @@ import { url } from '../utils/url';
       </style>
     </noscript>
 
+    <!-- Самый крупный элемент первого экрана: без подсказки браузер
+         добирается до него только после разбора стилей -->
+    {isHome && (
+      <link
+        rel="preload"
+        as="image"
+        href={url('/images/hero-psychologist-1120.webp')}
+        imagesrcset={`${url('/images/hero-psychologist-620.webp')} 620w, ${url('/images/hero-psychologist-1120.webp')} 1120w`}
+        imagesizes="(max-width: 860px) 92vw, 560px"
+        type="image/webp"
+        fetchpriority="high"
+      />
+    )}
+
     <!-- Preconnect для шрифтов -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap"
     />
     
   </head>

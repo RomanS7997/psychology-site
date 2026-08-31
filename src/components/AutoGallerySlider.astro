@@ -2,6 +2,7 @@
 // src/components/AutoGallerySlider.astro
 // Галерея занятий: автослайдер с лайтбоксом
 import Icon from './Icon.astro';
+import Photo from './Photo.astro';
 
 interface Props {
   images: {
@@ -54,7 +55,7 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
                   onclick={`openLightbox('${sliderId}', ${index})`}
                   aria-label={`Открыть фото ${index + 1} во весь экран`}
                 >
-                  <img
+                  <Photo
                     src={image.src}
                     alt={image.alt}
                     class="slide-img"

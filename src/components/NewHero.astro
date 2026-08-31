@@ -7,6 +7,7 @@ interface Props {
 
 const { title, subtitle } = Astro.props;
 import { url } from '../utils/url';
+import Photo from './Photo.astro';
 ---
 
 <section class="hero-section">
@@ -46,14 +47,15 @@ import { url } from '../utils/url';
 
       <!-- Портрет в градиентной оправе -->
       <div class="hero-visual orb surface-lg rise rise-2">
-        <img
-          src={url('/images/hero-psychologist.jpg')}
+        <Photo
+          src='/images/hero-psychologist.jpg'
           alt="Юлия Ляпина, психолог"
           class="hero-portrait"
           loading="eager"
           fetchpriority="high"
           decoding="async"
-        />
+            responsive
+          />
       </div>
 
     </div>

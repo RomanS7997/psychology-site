@@ -1,6 +1,7 @@
 ---
 // src/pages/services/school-prep.astro
 import Layout from '../../layouts/Layout.astro';
+import Photo from '../../components/Photo.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
@@ -170,7 +171,7 @@ const otherPrograms = [
           </ul>
 
           <div class="flex flex-wrap gap-3">
-            <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+            <button onclick="openBookingModal('school-prep')" class="pill pill-solid pill-lg" type="button">
               Записаться на консультацию
             </button>
             <a href="#program" class="pill pill-outline pill-lg">Что входит в программу</a>
@@ -178,13 +179,14 @@ const otherPrograms = [
         </div>
 
         <div class="hero-visual orb surface-lg">
-          <img
-            src={url('/images/services/school-prep.jpg')}
+          <Photo
+            src='/images/services/school-prep.jpg'
             alt="Занятия по подготовке к школе"
             class="hero-photo"
             loading="eager"
             fetchpriority="high"
             decoding="async"
+            responsive
           />
         </div>
 
@@ -310,7 +312,7 @@ const otherPrograms = [
             {formatPoints.map((point) => <li>{point}</li>)}
           </ul>
 
-          <button onclick="openBookingModal()" class="pill pill-solid pill-lg format-cta" type="button">
+          <button onclick="openBookingModal('school-prep')" class="pill pill-solid pill-lg format-cta" type="button">
             Записаться на программу
           </button>
         </div>
@@ -388,7 +390,7 @@ const otherPrograms = [
             </p>
 
             <div class="closing-actions">
-              <button onclick="openBookingModal()" class="pill pill-solid pill-lg" type="button">
+              <button onclick="openBookingModal('school-prep')" class="pill pill-solid pill-lg" type="button">
                 Записаться на программу
               </button>
               <button onclick="openBookingModal('trial')" class="pill pill-outline pill-lg" type="button">
