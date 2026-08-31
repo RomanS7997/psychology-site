@@ -9,14 +9,14 @@ import { url } from '../utils/url';
 ---
 
 <SEO
-  title="Контакты - Кабинет психолога в Одинцово | Записаться на прием"
+  title="Контакты - Кабинет психолога в Одинцово | Записаться на приём"
   description="Контакты психологического центра в Одинцово. Адрес, телефон, email, карта проезда. Записаться на консультацию онлайн или по телефону."
   keywords="контакты психолога Одинцово, адрес центра, записаться к психологу"
   schema="localbusiness"
 />
 
 <Layout
-  title="Контакты - Кабинет психолога в Одинцово | Записаться на прием"
+  title="Контакты - Кабинет психолога в Одинцово | Записаться на приём"
   description="Контакты психологического центра в Одинцово."
 >
 
@@ -32,9 +32,9 @@ import { url } from '../utils/url';
     <div class="container mx-auto px-4 lg:px-8">
       <div class="inner">
         <div data-reveal>
-          <h1 class="display mb-5">Свяжитесь с нами</h1>
+          <h1 class="display mb-5">Свяжитесь со мной</h1>
           <p class="lede max-w-[52ch]">
-            Ответим на все ваши вопросы и поможем записаться на консультацию
+            Отвечу на ваши вопросы и помогу записаться на консультацию
           </p>
         </div>
       </div>
@@ -49,7 +49,7 @@ import { url } from '../utils/url';
 
           <!-- Форма обратной связи -->
           <div class="surface-lg form-card" data-reveal>
-            <h2 class="heading-sm mb-7">Напишите нам</h2>
+            <h2 class="heading-sm mb-7">Напишите мне</h2>
 
             <form onsubmit="handleFormSubmit(event)">
 
@@ -173,7 +173,7 @@ import { url } from '../utils/url';
                 <div class="contact-body">
                   <p class="contact-title">Адрес</p>
                   <p class="contact-value contact-value-sm">Одинцово, Лесной городок</p>
-                  <p class="contact-sub">Точный адрес кабинета сообщим при записи</p>
+                  <p class="contact-sub">Точный адрес кабинета сообщу при записи</p>
                   <a href="#map" class="contact-link">
                     Как добраться
                     <Icon name="arrow" size={16} />
@@ -231,7 +231,7 @@ import { url } from '../utils/url';
 
         <div class="band-head" data-reveal>
           <p class="eyebrow mb-3">Адрес</p>
-          <h2 class="heading">Как нас найти</h2>
+          <h2 class="heading">Как добраться</h2>
         </div>
 
         <!-- Яндекс.Карты -->
@@ -240,7 +240,7 @@ import { url } from '../utils/url';
             <div class="map-fallback" id="map-fallback">
               <span class="contact-icon"><Icon name="pin" size={20} /></span>
               <p class="map-fallback-title">Одинцово, Лесной городок</p>
-              <p class="map-fallback-text">Точный адрес кабинета сообщим при записи</p>
+              <p class="map-fallback-text">Точный адрес кабинета сообщу при записи</p>
             </div>
           </div>
         </div>
@@ -255,7 +255,7 @@ import { url } from '../utils/url';
             <span class="contact-icon"><Icon name="pin" size={20} /></span>
             <h4 class="route-title">На электричке</h4>
             <p class="route-text">
-              С Белорусского вокзала до станции «Лесной Городок» или «Одинцово». Точный маршрут сообщим при записи.
+              С Белорусского вокзала до станции «Лесной Городок» или «Одинцово». Точный маршрут подскажу при записи.
             </p>
           </div>
 
@@ -264,7 +264,7 @@ import { url } from '../utils/url';
             <span class="contact-icon"><Icon name="compass" size={20} /></span>
             <h4 class="route-title">На машине</h4>
             <p class="route-text">
-              По Минскому или Можайскому шоссе. Парковка рядом с кабинетом. Маршрут сообщим при записи.
+              По Минскому или Можайскому шоссе. Парковка рядом с кабинетом. Маршрут подскажу при записи.
             </p>
           </div>
 
@@ -322,7 +322,7 @@ import { url } from '../utils/url';
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          _subject: 'Новое обращение с сайта — форма «Напишите нам»',
+          _subject: 'Новое обращение с сайта — форма «Напишите мне»',
           _template: 'table',
           _captcha: 'false',
           'Имя': fd.get('name') || '—',
@@ -349,7 +349,7 @@ import { url } from '../utils/url';
       if (note) {
         note.className = 'form-status form-status-fail';
         note.innerHTML =
-          'Не удалось отправить сообщение. Позвоните нам: ' +
+          'Не удалось отправить сообщение. Позвоните: ' +
           '<a href="tel:+79151955132">+7 (915) 195-51-32</a>';
       }
     } finally {
