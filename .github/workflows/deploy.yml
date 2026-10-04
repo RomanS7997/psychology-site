@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Карта сайта берёт дату правки каждой страницы из её истории.
+          # При обычной выкладке сюда приезжает одна ревизия, и дат не видно.
+          fetch-depth: 0
       - name: Setup Node
         uses: actions/setup-node@v4
         with:

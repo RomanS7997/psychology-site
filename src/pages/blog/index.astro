@@ -74,8 +74,14 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
           <p class="eyebrow mb-3">Блог</p>
           <h1 class="display mb-5">Блог о психологии</h1>
           <p class="lede max-w-[56ch]">
-            Экспертные материалы о ментальном здоровье,
-            отношениях и саморазвитии
+            Разбираю вопросы, с которыми чаще всего приходят ко мне на приём:
+            тревога и панические атаки, поведение ребёнка, отношения в паре.
+          </p>
+          <p class="hero-note max-w-[62ch]">
+            Пишу то же, что говорю на консультации, — без общих слов и без
+            обещаний, что одна статья заменит работу со специалистом. Если
+            после прочтения хочется разобраться в своей ситуации, приходите:
+            я принимаю в Одинцово, в кабинете в Лесном городке, и онлайн.
           </p>
         </div>
       </div>
@@ -156,6 +162,8 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
 </Layout>
 
 <style>
+  .hero-note { margin-top: 14px; font-size: 15px; line-height: 1.75; color: var(--smoke); }
+
   /* ---------- ритм страницы ---------- */
   .page-hero { padding: 28px 0 56px; background: var(--canvas); }
   .hero-head { max-width: 760px; }

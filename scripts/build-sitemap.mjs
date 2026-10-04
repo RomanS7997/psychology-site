@@ -3,7 +3,8 @@
 // Домен и базовый путь берутся ОТТУДА ЖЕ, ОТКУДА ИХ БЕРЁТ ASTRO (astro.config.mjs),
 // иначе карта сайта окажется на одном домене, а сам сайт — на другом,
 // и поисковики отбросят её целиком.
-import { mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 
 const SITE = (process.env.SITE_URL || 'https://romans7997.github.io').replace(/\/$/, '');
@@ -31,6 +32,32 @@ function findPages(dir, acc = []) {
 }
 
 const today = new Date().toISOString().slice(0, 10);
+
+// Дату правки берём из истории самой страницы. Раньше у всех семнадцати стояла
+// дата сборки — поисковик видел, что «весь сайт изменился» при каждой выкладке,
+// и переставал верить этому полю вообще.
+function sourceOf(page) {
+  const candidates = page === ''
+    ? ['src/pages/index.astro']
+    : [`src/pages/${page}.astro`, `src/pages/${page}/index.astro`];
+  return candidates.find((f) => existsSync(f));
+}
+
+function lastModified(page) {
+  const file = sourceOf(page);
+  if (!file) return today;
+  try {
+    const out = execFileSync('git', ['log', '-1', '--format=%cs', '--', file], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    // Пустой ответ — это мелкая история сборщика (checkout на одну ревизию):
+    // тогда честнее поставить сегодняшнюю дату, чем выдумывать прошлое.
+    return /^\d{4}-\d{2}-\d{2}$/.test(out) ? out : today;
+  } catch {
+    return today;
+  }
+}
 const pages = findPages(DIST)
   .filter((p) => p !== '404')
   .sort((a, b) => a.localeCompare(b));
@@ -42,7 +69,7 @@ const urls = pages.map((page) => {
   const loc = page === '' ? `${ORIGIN}/` : `${ORIGIN}/${page}/`;
   return `  <url>
     <loc>${loc}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${lastModified(page)}</lastmod>
     <changefreq>${changefreq}</changefreq>
     <priority>${priority}</priority>
   </url>`;
