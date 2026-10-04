@@ -57,7 +57,7 @@ import { url } from '../../utils/url';
           <div class="post-author">
             <span class="author-mark"><Icon name="team" size={20} /></span>
             <span class="author-lines">
-              <span class="author-name">Юлия Ляпина</span>
+              <a class="author-name" href={url('/about')}>Юлия Ляпина</a>
               <span class="author-role">Психолог, специалист по работе с детьми и взрослыми</span>
             </span>
           </div>
@@ -66,7 +66,7 @@ import { url } from '../../utils/url';
         <figure class="post-cover" data-reveal>
           <picture>
   {webp('/images/blog/relationships.jpg') && <source srcset={webp('/images/blog/relationships.jpg')} type="image/webp" />}
-  <img src={url('/images/blog/relationships.jpg')} alt="Как улучшить отношения с партнёром" loading="lazy" decoding="async" />
+  <img src={url('/images/blog/relationships.jpg')} alt="Как улучшить отношения с партнёром" loading="eager" fetchpriority="high" decoding="async" />
 </picture>
         </figure>
 
@@ -277,7 +277,7 @@ import { url } from '../../utils/url';
           <p class="eyebrow eyebrow-center mb-4">Запись</p>
           <h2 class="heading mb-4">Нужна помощь в отношениях?</h2>
           <p class="lede cta-lede mb-8">
-            Запишитесь на консультацию к семейному терапевту
+            Запишитесь на консультацию к семейному терапевту в Одинцово или онлайн
           </p>
           <div class="cta-actions">
             <a href={url('/services/adult')} class="pill pill-solid pill-lg">
@@ -334,7 +334,11 @@ import { url } from '../../utils/url';
     background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
   }
   .author-lines { display: grid; gap: 2px; }
-  .author-name { font-size: 15px; font-weight: 500; color: var(--ink); }
+  .author-name {
+    font-size: 15px; font-weight: 500; color: var(--ink);
+    text-decoration: underline; text-decoration-color: var(--stone); text-underline-offset: 3px;
+  }
+  .author-name:hover { text-decoration-color: var(--spark-deep); }
   .author-role { font-size: 13px; color: var(--smoke); }
 
   .post-cover {

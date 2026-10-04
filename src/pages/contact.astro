@@ -300,8 +300,6 @@ import { url } from '../utils/url';
   <ScrollAnimations />
 </Layout>
 
-<!-- Яндекс.Карты API -->
-<script is:inline src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU"></script>
 
 <script is:inline>
   // Обработка формы. Раньше здесь стоял alert без отправки — заявки терялись.
@@ -393,11 +391,52 @@ import { url } from '../utils/url';
     });
   }
 
-  // Запуск инициализации карты после загрузки страницы
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initYandexMap);
-  } else {
-    initYandexMap();
+  // Карту грузим, когда до неё долистали. Скрипты Яндекса весят больше, чем
+  // вся остальная страница вместе взятая, а карта стоит внизу: человек, который
+  // пришёл за телефоном, платил за неё временем загрузки и не видел её вовсе.
+  function loadYandexMaps() {
+    if (window.__ymapsRequested) return;
+    window.__ymapsRequested = true;
+    const script = document.createElement('script');
+    script.src = 'https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU';
+    script.async = true;
+    script.onload = initYandexMap;
+    script.onerror = function () {
+      // Адрес текстом остаётся на месте — дыры на странице не будет
+      console.error('Яндекс.Карты не загрузились');
+    };
+    document.head.appendChild(script);
+  }
+
+  const mapHost = document.getElementById('yandex-map');
+  if (mapHost) {
+    // Наблюдатель за пересечением спит, пока вкладка скрыта, поэтому на него
+    // одного не полагаемся: ту же проверку делает обычный обработчик прокрутки.
+    let io = null;
+    function stopWatching() {
+      if (io) { io.disconnect(); io = null; }
+      window.removeEventListener('scroll', maybeLoad);
+      window.removeEventListener('resize', maybeLoad);
+      document.removeEventListener('visibilitychange', maybeLoad);
+    }
+    function maybeLoad() {
+      if (window.__ymapsRequested) { stopWatching(); return; }
+      const r = mapHost.getBoundingClientRect();
+      if (r.top < window.innerHeight + 400 && r.bottom > -400) {
+        stopWatching();
+        loadYandexMaps();
+      }
+    }
+    if ('IntersectionObserver' in window) {
+      io = new IntersectionObserver(function (entries) {
+        if (entries.some(function (e) { return e.isIntersecting; })) maybeLoad();
+      }, { rootMargin: '400px' });
+      io.observe(mapHost);
+    }
+    window.addEventListener('scroll', maybeLoad, { passive: true });
+    window.addEventListener('resize', maybeLoad, { passive: true });
+    document.addEventListener('visibilitychange', maybeLoad);
+    maybeLoad();
   }
 </script>
 
