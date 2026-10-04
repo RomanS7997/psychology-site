@@ -129,51 +129,75 @@ jobs:
           FTP_DIR: ${{ vars.FTP_DIR || '.' }}
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
-          # ssl-force, а не ssl-allow: «allow» означает «зашифруй, если сервер
-          # предложит», и при любой заминке пароль уходит открытым текстом,
-          # ничего об этом не сказав. Шифрование у Beget есть — проверено
-          # вручную, AUTH TLS отвечает 234 и поднимает TLS 1.3, — просто сервер
-          # не объявляет его в списке возможностей. Так что требуем.
+
+          # Пароль lftp берёт сам из переменной LFTP_PASSWORD (--env-password):
+          # его нет ни в файле настроек, ни в строке команды, ни в списке
+          # процессов, и он не ломается, если в нём кавычка или доллар.
+          export LFTP_PASSWORD="$FTP_PASSWORD"
+          umask 077
+          cat > "$RUNNER_TEMP/lftp.rc" <<RC
+          set ftp:use-feat no
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:use-site-chmod no
+          set ssl:verify-certificate no
+          set ssl:priority "NORMAL:-VERS-TLS1.3"
+          set net:max-retries 4
+          set net:reconnect-interval-base 3
+          set net:reconnect-interval-multiplier 1.5
+          set net:timeout 40
+          set xfer:clobber on
+          open --env-password -u "$FTP_USER" "$FTP_HOST"
+          RC
+
+          # Почему выкладка ползла по файлу в минуту.
           #
-          # verify-certificate выключен сознательно: Beget показывает на FTP
-          # сертификат, выписанный не на этот домен и не на имя своего сервера,
-          # так что проверить подлинность нечем. Шифрование от подслушивания
-          # защищает, от подмены сервера — нет. Полную проверку даёт SFTP:
-          # если у FTP-аккаунта включить SSH, этот шаг переводится на него.
+          # С шифрованием FTP открывает на каждый файл отдельный защищённый
+          # канал данных, и сервер требует, чтобы этот канал продолжал TLS-сессию
+          # основного. В TLS 1.3 такое продолжение устроено иначе, и серверы
+          # этого поколения принимают его через раз: мелкие файлы падали и
+          # пробивались только с пятой-седьмой попытки, а 21-мегабайтное видео,
+          # которому нужен один канал, прошло сразу. Отсюда ssl:priority —
+          # TLS 1.2, где продолжение сессии работает предсказуемо. Шифрование
+          # при этом остаётся и на пароле, и на файлах.
           #
-          # Без --delete: лишний старый файл вреда не делает, а снести чужое
-          # одной опечаткой в пути — делает.
-          # ftp:use-feat no — ключевое. lftp решает, шифровать ли, по списку
-          # возможностей, который сервер отдаёт командой FEAT. Beget шифрование
-          # умеет (проверено: AUTH TLS -> 234, поднимается TLS 1.3), но в FEAT
-          # его не объявляет. Если lftp поверит списку, он при ssl-force просто
-          # откажется входить, и выкладка упадёт на ровном месте.
-          #
-          # Два потока вместо четырёх: на общем хостинге лимит одновременных
-          # подключений невелик, а гонка за него даёт отказы посреди заливки.
-          # Разбор первой боевой заливки — две разные беды, обе здесь закрыты.
-          #
-          # 1. «550 SITE CHMOD command failed». После каждого файла lftp просит
-          #    сервер выставить права; Beget такую команду запрещает. На сам
-          #    файл это не влияет — он уже залит и открывается, — но lftp
-          #    считает это ошибкой, а с cmd:fail-exit падает вся задача.
-          #    use-site-chmod no + --no-perms: прав не трогаем вовсе.
-          #
-          # 2. «Fatal error: max-retries exceeded» на десятке картинок. Общий
-          #    хостинг не любит частых параллельных входов: три попытки с
-          #    паузой в пять секунд он отбивал. Один поток вместо двух, десять
-          #    попыток и растущая пауза — заливка идёт дольше, но доходит.
-          lftp -c "
-            set ftp:use-feat no;
-            set ftp:ssl-force true;
-            set ftp:ssl-protect-data true;
-            set ftp:use-site-chmod no;
-            set ssl:verify-certificate no;
-            set net:max-retries 10;
-            set net:reconnect-interval-base 10;
-            set net:reconnect-interval-multiplier 1.5;
-            set net:timeout 60;
-            set cmd:fail-exit true;
-            open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
-            mirror -R --verbose --no-perms --parallel=1 dist/ \"$FTP_DIR\";
-          "
+          # И второе: вместо одного прохода с бесконечными попытками — несколько
+          # коротких. mirror сам пропускает то, что уже лежит на сервере, так
+          # что каждый следующий проход доливает только недостающее. Сбой на
+          # одном файле больше не роняет всю выкладку.
+          for pass in 1 2 3 4 5; do
+            echo "::group::Проход $pass"
+            if lftp -f <(cat "$RUNNER_TEMP/lftp.rc"; echo "mirror -R --no-perms --parallel=2 --verbose=1 dist/ \"$FTP_DIR\"; bye"); then
+              echo "проход $pass: lftp завершился без ошибок"
+              echo "::endgroup::"
+              break
+            fi
+            echo "проход $pass: были сбои, доливаю следующим проходом"
+            echo "::endgroup::"
+            sleep 5
+          done
+          rm -f "$RUNNER_TEMP/lftp.rc"
+          unset LFTP_PASSWORD
+
+      # Выкладка считается сделанной не тогда, когда lftp промолчал, а когда
+      # каждый файл сборки отдаётся с живого домена. Это и есть проверка.
+      - name: Проверить, что всё доехало
+        if: steps.check.outputs.ready == 'yes'
+        run: |
+          missing=0
+          total=0
+          while IFS= read -r f; do
+            rel="${f#dist/}"
+            case "$rel" in .htaccess) continue ;; esac
+            total=$((total+1))
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://julialyapina.ru/$rel")
+            case "$code" in
+              200|301|302) ;;
+              *) echo "НЕТ ($code): $rel"; missing=$((missing+1)) ;;
+            esac
+          done < <(find dist -type f | sort)
+          echo "на сервере: $((total-missing)) из $total"
+          if [ "$missing" -gt 0 ]; then
+            echo "::error::Не доехало файлов: $missing"
+            exit 1
+          fi
