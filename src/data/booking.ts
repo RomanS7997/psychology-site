@@ -84,7 +84,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
     lede: 'Начинаем со встречи с родителем: обсуждаем запрос и подбираем формат.',
     facts: [
       { label: 'Возраст', value: 'С 5 лет' },
-      { label: 'Первая встреча', value: 'С родителем' },
+      { label: 'Занятие', value: '55 минут — 4500 ₽' },
       { label: 'Формат', value: 'Онлайн или в кабинете' },
     ],
     fields: CHILD_FIELDS,
@@ -174,7 +174,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
     lede: 'Ежедневные занятия по подготовке к школе. Расскажу о ближайшем наборе.',
     facts: [
       { label: 'Возраст', value: '4–6 лет' },
-      { label: 'Расписание', value: 'Будни, 9:00–13:00' },
+      { label: 'Расписание', value: 'Будни, 9:30–13:00' },
       { label: 'Группа', value: 'До 8 детей' },
     ],
     fields: CHILD_FIELDS,

@@ -226,17 +226,19 @@ const related = [
 ];
 ---
 
-<SEO
-  title="Детский психолог в Одинцово | Занятия и консультации"
-  description="Детский психолог в Одинцово. Помощь детям и подросткам. Работа с истериками, агрессией, страхами, школьными проблемами. Запись онлайн."
-  keywords="детский психолог Одинцово, психолог для ребёнка, детская психология"
-  schema="service"
-/>
-
 <Layout
   title="Детский психолог в Одинцово | Занятия и консультации"
   description="Детский психолог в Одинцово. Помощь детям и подросткам."
 >
+  <SEO
+    slot="head"
+    title="Детский психолог в Одинцово | Занятия и консультации"
+    description="Детский психолог в Одинцово. Помощь детям и подросткам. Работа с истериками, агрессией, страхами, школьными проблемами. Запись онлайн."
+    keywords="детский психолог Одинцово, психолог для ребёнка, детская психология"
+    schema="service"
+    serviceName="Индивидуальные занятия с детским психологом"
+    price={4500}
+  />
 
   <Breadcrumbs
     items={[
@@ -275,6 +277,10 @@ const related = [
             <div>
               <div class="hero-figure">55 мин</div>
               <div class="text-[13px] muted">длительность сессии</div>
+            </div>
+            <div>
+              <div class="hero-figure">4500 ₽</div>
+              <div class="text-[13px] muted">стоимость занятия</div>
             </div>
           </div>
         </div>
@@ -528,6 +534,11 @@ const related = [
             </span>
             <span><Icon name="chat" size={16} />WhatsApp / Telegram</span>
           </div>
+
+          <p class="closing-aside">
+            Не знаете, пора ли к психологу? <a href={url('/test/children')}>Пройдите тест для родителей</a> —
+            семь вопросов о поведении ребёнка.
+          </p>
         </div>
       </div>
     </div>
@@ -627,6 +638,10 @@ const related = [
 </Layout>
 
 <style>
+  .closing-aside { margin-top: 18px; font-size: 14px; line-height: 1.7; color: var(--smoke); max-width: 56ch; }
+  .closing-aside a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .closing-aside a:hover { color: var(--ink); }
+
   /* ---------- первый экран ---------- */
   .rise { animation: hero-rise .6s cubic-bezier(.2, .7, .3, 1) both; }
   .rise-2 { animation-delay: .07s; }

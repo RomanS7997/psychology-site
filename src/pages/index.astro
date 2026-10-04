@@ -96,11 +96,11 @@ const firstSession = [
 
 const advantages = [
   { icon: 'flask', title: 'Научный подход', text: 'Арт-терапия, КПТ, МАК, ДПДГ, расстановки, системный подход в семейной терапии.' },
-  { icon: 'team', title: 'Команда', text: 'Три педагога и психолог с высшим образованием и регулярным повышением квалификации.' },
-  { icon: 'lock', title: 'Конфиденциальность', text: 'Информация с сессий не передаётся третьим лицам ни при каких условиях.' },
+  { icon: 'team', title: 'Команда', text: 'Команда специалистов с опытом, любящих свою работу и готовых обучаться новому.' },
+  { icon: 'lock', title: 'Конфиденциальность', text: 'Информация с сессий не передаётся третьим лицам. Исключение — случаи, прямо предусмотренные законом, и угроза жизни или безопасности.' },
   { icon: 'screen', title: 'Онлайн и офлайн', text: 'Консультации по видеосвязи или лично в кабинете в Лесном городке.' },
   { icon: 'clock', title: 'Удобное расписание', text: 'Будни и выходные с 9:00 до 21:00 — подберём время под вашу занятость.' },
-  { icon: 'price', title: 'Понятная стоимость', text: 'Консультация 55 минут — 6000 ₽. Фиксированная цена без скрытых доплат.' },
+  { icon: 'price', title: 'Понятная стоимость', text: 'Стоимость зависит от услуги и формата. Назову цену при записи — без скрытых доплат.' },
 ];
 
 const specialists = [
@@ -163,17 +163,17 @@ const posts = [
 ];
 ---
 
-<SEO
-  title="Психолог в Одинцово и Лесном городке | Юлия Ляпина"
-  description="Кабинет психолога Ляпина Юлия в Одинцово. Консультирование взрослых и детей, развивающие программы. Записаться онлайн."
-  keywords="психолог Одинцово, психолог Лесной городок, психотерапия, консультации онлайн, детский психолог"
-  schema="organization"
-/>
-
 <Layout
   title="Психолог в Одинцово и Лесном городке | Юлия Ляпина"
   description="Кабинет психолога Ляпина Юлия в Одинцово. Консультирование взрослых и детей, развивающие программы."
 >
+  <SEO
+    slot="head"
+    title="Психолог в Одинцово и Лесном городке | Юлия Ляпина"
+    description="Кабинет психолога Ляпина Юлия в Одинцово. Консультирование взрослых и детей, развивающие программы. Записаться онлайн."
+    keywords="психолог Одинцово, психолог Лесной городок, психотерапия, консультации онлайн, детский психолог"
+    schema="organization"
+  />
 
   <NewHero
     title="Кабинет психолога Ляпина Юлия"
@@ -259,6 +259,12 @@ const posts = [
         </ol>
 
         <p class="steps-note" data-reveal>55 минут · онлайн или в кабинете в Лесном городке · 6000 ₽</p>
+
+        <p class="steps-links" data-reveal>
+          Не уверены, нужна ли консультация? <a href={url('/test/general')}>Пройдите короткий тест</a> —
+          это займёт пару минут. Хочется другого формата — посмотрите
+          <a href={url('/services/lila')}>трансформационную игру «Лила»</a>.
+        </p>
       </div>
     </div>
   </section>
@@ -271,9 +277,16 @@ const posts = [
           <div class="video-grid">
             <button class="video-preview" onclick="openVideoModal()" type="button" aria-label="Смотреть видео о кабинете">
               <picture>
-  {webp('/images/services/child-therapy.jpg') && <source srcset={webp('/images/services/child-therapy.jpg')} type="image/webp" />}
-  <img src={url('/images/services/child-therapy.jpg')} alt="Кабинет психолога" loading="lazy" decoding="async" />
-</picture>
+                {webp('/images/video-poster.jpg') && <source srcset={webp('/images/video-poster.jpg')} type="image/webp" />}
+                <img
+                  src={url('/images/video-poster.jpg')}
+                  alt="Занятие в кабинете психолога"
+                  width="1280"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
               <span class="video-play" aria-hidden="true">
                 <Icon name="play" size={26} />
               </span>
@@ -511,7 +524,7 @@ const posts = [
                 <a href="https://wa.me/79151955132" target="_blank" rel="noopener" class="pill pill-outline pill-lg">
                   Написать в WhatsApp
                 </a>
-                <a href="https://t.me/+79151955132" target="_blank" rel="noopener" class="pill pill-outline pill-lg">
+                <a href="https://t.me/lyapinajuliya" target="_blank" rel="noopener" class="pill pill-outline pill-lg">
                   Написать в Telegram
                 </a>
               </div>
@@ -853,6 +866,10 @@ const posts = [
     margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--stone);
     font-size: 14px; color: var(--smoke);
   }
+
+  .steps-links { margin-top: 10px; font-size: 14px; line-height: 1.7; color: var(--smoke); max-width: 72ch; }
+  .steps-links a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .steps-links a:hover { color: var(--ink); }
 
   /* ---------- видео ---------- */
   .video-band { padding: 48px; }

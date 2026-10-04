@@ -7,15 +7,15 @@ import Icon from '../../components/Icon.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 ---
 
-<SEO
-  title="Бесплатный психологический тест | Кабинет психолога Ляпина Юлия"
-  description="Пройдите короткий тест и получите рекомендации психолога по вашей ситуации."
-/>
-
 <Layout
   title="Бесплатный психологический тест - Психологический центр"
   description="Пройдите бесплатный тест и получите рекомендации от психолога."
 >
+  <SEO
+    slot="head"
+    title="Бесплатный психологический тест | Кабинет психолога Ляпина Юлия"
+    description="Пройдите короткий тест и получите рекомендации психолога по вашей ситуации."
+  />
 
   <section class="band band-taupe test-band">
     <div class="container mx-auto px-4 lg:px-8">

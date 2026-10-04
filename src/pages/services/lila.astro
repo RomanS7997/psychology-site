@@ -16,17 +16,17 @@ const fitItems = [
 ];
 ---
 
-<SEO
-  title="Игра «Лила» в Одинцово | Кабинет психолога Ляпина Юлия"
-  description="Трансформационная игра «Лила» с психологом в Одинцово. Глубокая работа с запросом через игру-медитацию."
-  keywords="трансформационная игра Лила, Одинцово, психолог"
-  schema="service"
-/>
-
 <Layout
   title="Трансформационная игра «Лила»"
   description="Трансформационная игра «Лила» с психологом."
 >
+  <SEO
+    slot="head"
+    title="Игра «Лила» в Одинцово | Кабинет психолога Ляпина Юлия"
+    description="Трансформационная игра «Лила» с психологом в Одинцово. Глубокая работа с запросом через игру-медитацию."
+    keywords="трансформационная игра Лила, Одинцово, психолог"
+    schema="service"
+  />
 
   <Breadcrumbs
     items={[
@@ -78,6 +78,11 @@ const fitItems = [
           ))}
         </div>
 
+        <p class="fit-aside" data-reveal>
+          Не уверены, что игра — ваш формат? Начните с
+          <a href={url('/services/adult')}>обычной консультации</a>: обсудим запрос и решим вместе.
+        </p>
+
       </div>
     </div>
   </section>
@@ -110,6 +115,10 @@ const fitItems = [
 </Layout>
 
 <style>
+  .fit-aside { margin-top: 28px; text-align: center; font-size: 14px; line-height: 1.7; color: var(--smoke); }
+  .fit-aside a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .fit-aside a:hover { color: var(--ink); }
+
   /* ---------- ритм секций ---------- */
   .band { padding: 96px 0; }
   .band-head-center { text-align: center; }

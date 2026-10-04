@@ -3,8 +3,8 @@
 // Домен и базовый путь берутся ОТТУДА ЖЕ, ОТКУДА ИХ БЕРЁТ ASTRO (astro.config.mjs),
 // иначе карта сайта окажется на одном домене, а сам сайт — на другом,
 // и поисковики отбросят её целиком.
-import { readdirSync, statSync, writeFileSync } from 'node:fs';
-import { join, relative } from 'node:path';
+import { mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { dirname, join, relative } from 'node:path';
 
 const SITE = (process.env.SITE_URL || 'https://romans7997.github.io').replace(/\/$/, '');
 const BASE = (process.env.SITE_BASE || '/psychology-site').replace(/\/$/, '');
@@ -74,3 +74,40 @@ Crawl-delay: 1
 writeFileSync(join(DIST, 'robots.txt'), robots, 'utf8');
 console.log(`sitemap.xml: ${pages.length} страниц, адрес ${ORIGIN}`);
 console.log(`robots.txt: карта сайта ${ORIGIN}/sitemap.xml`);
+
+// ---------------------------------------------------------------------------
+// Переезд со старого сайта на julialyapina.ru.
+// Старый сайт — статическая выгрузка WordPress, у него всего три внутренних
+// адреса. GitHub Pages не умеет серверный 301, поэтому кладём на старые адреса
+// страницы-перенаправления: мгновенный refresh для человека и rel=canonical,
+// по которому поисковик склеивает старый адрес с новым.
+const REDIRECTS = {
+  'about/index-1.htm': '/about/',
+  'contact/index-1.htm': '/contact/',
+  'services/index-1.htm': '/services/adult/',
+  // на старом сайте главная открывалась и так, и так
+  'index.htm': '/',
+};
+
+for (const [from, to] of Object.entries(REDIRECTS)) {
+  const target = `${ORIGIN}${to}`;
+  const html = `<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <title>Страница переехала</title>
+    <link rel="canonical" href="${target}" />
+    <meta name="robots" content="noindex, follow" />
+    <meta http-equiv="refresh" content="0; url=${target}" />
+  </head>
+  <body>
+    <p>Страница переехала: <a href="${target}">${target}</a></p>
+    <script>location.replace(${JSON.stringify(target)});</script>
+  </body>
+</html>
+`;
+  const out = join(DIST, from);
+  mkdirSync(dirname(out), { recursive: true });
+  writeFileSync(out, html, 'utf8');
+}
+console.log(`перенаправления со старого сайта: ${Object.keys(REDIRECTS).length}`);

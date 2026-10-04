@@ -11,7 +11,21 @@ interface Props {
 
 const { items, title = "Часто задаваемые вопросы", subtitle = "Ответы на популярные вопросы" } = Astro.props;
 const uniqueId = `faq-${Math.random().toString(36).substr(2, 9)}`;
+
+// Те же вопросы и ответы, но в виде разметки: Яндекс и Google умеют
+// показывать их прямо в выдаче раскрывающимся списком.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+};
 ---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
 
 <section id="faq" class="faq-section">
   <div class="container mx-auto px-4 lg:px-8">

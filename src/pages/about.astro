@@ -18,13 +18,6 @@ const usedMethods = [
   'Системный подход',
 ];
 
-// Плитки с цифрами — состав согласован, процентов здесь нет
-const figures = [
-  { value: '15+', label: 'лет опыта' },
-  { value: '4', label: 'образования и курса повышения' },
-  { value: '5', label: 'методов в работе' },
-];
-
 const values = [
   {
     icon: 'lock',
@@ -110,17 +103,17 @@ const methods = [
 ];
 ---
 
-<SEO
-  title="Обо мне - Кабинет психолога в Одинцово | Ляпина Юлия"
-  description="О кабинете психолога Ляпиной Юлии в Одинцово. Моя команда, 15 лет опыта работы, подход к клиентам."
-  keywords="психолог Одинцово, о кабинете, команда специалистов"
-  schema="organization"
-/>
-
 <Layout
   title="Обо мне - Кабинет психолога в Одинцово | Ляпина Юлия"
   description="О кабинете психолога Ляпиной Юлии в Одинцово."
 >
+  <SEO
+    slot="head"
+    title="Обо мне - Кабинет психолога в Одинцово | Ляпина Юлия"
+    description="О кабинете психолога Ляпиной Юлии в Одинцово. Моя команда, 15 лет опыта работы, подход к клиентам."
+    keywords="психолог Одинцово, о кабинете, команда специалистов"
+    schema="organization"
+  />
 
   <Breadcrumbs
     items={[
@@ -192,16 +185,6 @@ const methods = [
             в контакте с чувствами — это основа для успешной жизни. Мне приятно быть
             частью их счастья и развития.
           </p>
-        </div>
-
-        <!-- Плитки с цифрами -->
-        <div class="figures">
-          {figures.map((item) => (
-            <div class="figure" data-reveal>
-              <div class="figure-value">{item.value}</div>
-              <div class="figure-label">{item.label}</div>
-            </div>
-          ))}
         </div>
       </div>
     </div>
@@ -342,22 +325,6 @@ const methods = [
   }
 
   /* ---------- плитки с цифрами ---------- */
-  .figures {
-    margin-top: 44px;
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;
-  }
-  .figure {
-    background: var(--canvas);
-    border: 1px solid var(--stone);
-    border-radius: var(--r-card);
-    padding: 26px 24px;
-  }
-  .figure-value {
-    font-size: clamp(30px, 3.4vw, 40px); font-weight: 300; line-height: 1.05;
-    letter-spacing: -0.02em; color: var(--ink);
-    font-variant-numeric: tabular-nums; margin-bottom: 10px;
-  }
-  .figure-label { font-size: 14px; line-height: 1.5; color: var(--smoke); }
 
   /* ---------- ценности ---------- */
   .value-card { display: flex; }
@@ -418,7 +385,7 @@ const methods = [
     .band { padding: 64px 0; }
     .band-tight { padding: 8px 0 64px; }
     .page-hero { padding: 24px 0 56px; }
-    .cards-3, .methods, .figures { grid-template-columns: 1fr; }
+    .cards-3, .methods { grid-template-columns: 1fr; }
     .card-inner { padding: 26px; }
     .approach-item { grid-template-columns: 1fr; gap: 8px; }
     .approach-num { padding-top: 0; }

@@ -8,17 +8,17 @@ import Icon from '../components/Icon.astro';
 import { url } from '../utils/url';
 ---
 
-<SEO
-  title="Контакты - Кабинет психолога в Одинцово | Записаться на приём"
-  description="Контакты психологического центра в Одинцово. Адрес, телефон, email, карта проезда. Записаться на консультацию онлайн или по телефону."
-  keywords="контакты психолога Одинцово, адрес центра, записаться к психологу"
-  schema="localbusiness"
-/>
-
 <Layout
   title="Контакты - Кабинет психолога в Одинцово | Записаться на приём"
   description="Контакты психологического центра в Одинцово."
 >
+  <SEO
+    slot="head"
+    title="Контакты - Кабинет психолога в Одинцово | Записаться на приём"
+    description="Контакты психологического центра в Одинцово. Адрес, телефон, email, карта проезда. Записаться на консультацию онлайн или по телефону."
+    keywords="контакты психолога Одинцово, адрес центра, записаться к психологу"
+    schema="localbusiness"
+  />
 
   <Breadcrumbs
     items={[
@@ -197,7 +197,7 @@ import { url } from '../utils/url';
                       WhatsApp
                     </a>
                     <a
-                      href="https://t.me/+79151955132"
+                      href="https://t.me/lyapinajuliya"
                       target="_blank"
                       rel="noopener"
                       class="pill pill-outline messenger-btn"
