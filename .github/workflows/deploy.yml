@@ -68,3 +68,67 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # ---------------------------------------------------------------------------
+  # Выкладка на Beget (боевой домен julialyapina.ru)
+  # ---------------------------------------------------------------------------
+  # Включается сама, как только в репозитории появятся секреты FTP_HOST,
+  # FTP_USER и FTP_PASSWORD (Settings -> Secrets and variables -> Actions ->
+  # Secrets). Пока их нет — шаг тихо пропускается, и ничего не ломается.
+  #
+  # Первую выкладку лучше сделать руками: в корне сайта ещё лежит старый
+  # WordPress, и его надо убрать осознанно, а не скриптом.
+  beget:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Есть ли доступы
+        id: check
+        run: |
+          if [ -n "${{ secrets.FTP_HOST }}" ]; then
+            echo "ready=yes" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=no" >> "$GITHUB_OUTPUT"
+            echo "Секретов FTP нет — выкладка на Beget пропущена."
+          fi
+
+      - name: Setup Node
+        if: steps.check.outputs.ready == 'yes'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        if: steps.check.outputs.ready == 'yes'
+        run: npm ci
+
+      - name: Build Astro для боевого домена
+        if: steps.check.outputs.ready == 'yes'
+        run: npm run build
+        env:
+          SITE_URL: https://julialyapina.ru
+          SITE_BASE: /
+
+      - name: Отправить на Beget
+        if: steps.check.outputs.ready == 'yes'
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          # Куда класть: у Beget это обычно public_html внутри папки сайта
+          FTP_DIR: ${{ vars.FTP_DIR || 'public_html' }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          # Без --delete: лишние старые файлы вреда не делают, а снести чужое
+          # одной опечаткой в пути — делают.
+          lftp -c "
+            set ftp:ssl-allow true;
+            set ssl:verify-certificate no;
+            open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
+            mirror -R --verbose --parallel=4 dist/ \"$FTP_DIR\";
+          "

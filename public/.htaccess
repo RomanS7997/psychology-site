@@ -1,0 +1,105 @@
+# Настройки для Beget (Apache). На GitHub Pages этот файл просто не читается,
+# так что он безвреден и там, и тут.
+#
+# Кладётся в корень сайта вместе с остальными файлами. Если в корне уже лежит
+# .htaccess от старого WordPress — его надо заменить целиком, а не дописывать:
+# там правила для движка, которого больше нет.
+
+# ---------------------------------------------------------------------------
+# Один адрес вместо четырёх
+# ---------------------------------------------------------------------------
+# Сайт должен открываться ровно по одному адресу. Без этого https://, http://,
+# с www и без www — для поисковика четыре разных сайта с одинаковым текстом.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # http -> https
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # www -> без www
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+  # -------------------------------------------------------------------------
+  # Адреса старого сайта
+  # -------------------------------------------------------------------------
+  # Настоящий 301 вместо страницы-заглушки: поисковик склеивает старый адрес с
+  # новым быстрее и надёжнее, а человек не видит промежуточной страницы.
+  RewriteRule ^index\.htm$            /                      [R=301,L]
+  RewriteRule ^about/index-1\.htm$    /about/                [R=301,L]
+  RewriteRule ^contact/index-1\.htm$  /contact/              [R=301,L]
+  RewriteRule ^services/index-1\.htm$ /services/adult/       [R=301,L]
+
+  # Хвосты WordPress, которых на новом сайте нет и не будет
+  RewriteRule ^wp-(admin|login|content|includes)(/|$) - [R=410,L]
+  RewriteRule ^xmlrpc\.php$                           - [R=410,L]
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# Сжатие
+# ---------------------------------------------------------------------------
+# Страница весит 180 КБ текстом и 35 КБ сжатой. Шрифты и картинки сжимать
+# повторно бессмысленно — они уже сжаты внутри.
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE application/xml application/rss+xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# Сколько держать в кэше браузера
+# ---------------------------------------------------------------------------
+# У файлов в _astro имя содержит отпечаток содержимого: меняется содержимое —
+# меняется имя. Такие можно держать год и не думать. Шрифты и картинки имя не
+# меняют, поэтому им месяц. Страницам — десять минут, чтобы правка доезжала
+# до людей в тот же день.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 month"
+  ExpiresByType text/html                 "access plus 10 minutes"
+  ExpiresByType application/xml           "access plus 1 hour"
+  ExpiresByType text/plain                "access plus 1 hour"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(woff2|ttf|otf)$">
+    Header set Cache-Control "public, max-age=2592000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|webp|svg|ico|mp4)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=600"
+  </FilesMatch>
+
+  # Файлы из _astro переименовываются при каждом изменении, поэтому их можно
+  # держать год: старое имя просто перестаёт запрашиваться.
+  <IfModule mod_rewrite.c>
+    SetEnvIf Request_URI "^/_astro/" LONG_CACHE
+    Header set Cache-Control "public, max-age=31536000, immutable" env=LONG_CACHE
+  </IfModule>
+
+  # Мелочи безопасности: запретить встраивать сайт в чужой фрейм и подменять
+  # тип файла. Формы уходят на formsubmit.co, он в списке разрешённых.
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---------------------------------------------------------------------------
+# Типы файлов
+# ---------------------------------------------------------------------------
+# Без этого старый Apache отдаёт woff2 и webp как «неизвестно что», и браузер
+# их не принимает.
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/webp .webp
+  AddType image/svg+xml .svg
+  AddType application/manifest+json .webmanifest
+</IfModule>
+
+# Страница «не найдено» — своя, а не апачевская
+ErrorDocument 404 /404.html
