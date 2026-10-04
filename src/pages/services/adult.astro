@@ -12,27 +12,27 @@ import { url } from '../../utils/url';
 // Как проходит первая консультация — пять шагов встречи
 const steps = [
   {
-    icon: 'chat',
+    icon: 'acquaintance',
     title: 'Знакомство',
     text: 'Расскажу о себе, своём подходе и правилах работы. Вы оцените, комфортно ли вам со мной.',
   },
   {
-    icon: 'note',
+    icon: 'request',
     title: 'Запрос и история',
     text: 'Вы расскажете, что вас привело и какие трудности испытываете. Задам уточняющие вопросы о вашей истории.',
   },
   {
-    icon: 'compass',
+    icon: 'diagnostics',
     title: 'Диагностика',
     text: 'Оценю ваше состояние, при необходимости предложу пройти тестирование (шкалы тревоги).',
   },
   {
-    icon: 'check',
+    icon: 'plan',
     title: 'План терапии',
     text: 'Предложу план работы: какие методы будут использоваться, сколько примерно потребуется сессий, какие результаты ожидать.',
   },
   {
-    icon: 'arrow',
+    icon: 'next-steps',
     title: 'Вопросы и следующие шаги',
     text: 'Вы можете задать любые вопросы о терапии. Если решите продолжить, договоримся о следующей встрече.',
   },
@@ -47,19 +47,19 @@ const formatItems = [
 
 const related = [
   {
-    icon: 'child',
+    icon: 'children',
     title: 'Индивидуальные занятия с детьми',
     text: 'Помощь детям и подросткам в развитии и преодолении трудностей',
     href: url('/services/children'),
   },
   {
-    icon: 'compass',
+    icon: 'lila-game',
     title: 'Трансформационная игра «Лила»',
     text: 'Игра-медитация: взгляд на свой запрос с новой стороны',
     href: url('/services/lila'),
   },
   {
-    icon: 'note',
+    icon: 'anxiety',
     title: 'Как справиться с паническими атаками',
     text: 'Полезная статья в моём блоге',
     href: url('/blog/kak-spravitsya-s-panicheskimi-atakami'),
@@ -268,7 +268,7 @@ const related = [
               <span class="rel-icon"><Icon name={item.icon} size={22} /></span>
               <h3 class="rel-title">{item.title}</h3>
               <p class="rel-text">{item.text}</p>
-              <span class="rel-more">Подробнее <Icon name="arrow" size={16} /></span>
+              <span class="rel-more">Подробнее <Icon name="go-to" size={16} /></span>
             </a>
           ))}
         </div>

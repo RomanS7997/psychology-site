@@ -41,56 +41,56 @@ const heroPoints = [
 
 const programBlocks = [
   {
-    icon: 'compass',
+    icon: 'diagnostics',
     title: 'Индивидуальная диагностика',
     text: 'Перед началом обучения проводим диагностику готовности к школе и выявляем особенности развития ребёнка',
   },
   {
-    icon: 'child',
+    icon: 'individual-approach',
     title: 'Персональный подход',
     text: 'Учитываем индивидуальные особенности каждого ребёнка, темп развития и интересы',
   },
   {
-    icon: 'note',
+    icon: 'memory',
     title: 'Мнемотехника',
     text: 'Развитие памяти через специальные техники запоминания с помощью образов и ассоциаций',
   },
   {
-    icon: 'flask',
+    icon: 'neuro-games',
     title: 'Нейропсихологические игры',
     text: 'Развитие межполушарного взаимодействия, внимания, концентрации и саморегуляции',
   },
   {
-    icon: 'book',
+    icon: 'reading',
     title: 'Обучение чтению',
     text: 'Освоение техники чтения, развитие речи, расширение словарного запаса',
   },
   {
-    icon: 'send',
+    icon: 'writing',
     title: 'Постановка руки к письму',
     text: 'Развитие мелкой моторики, графомоторных навыков, подготовка к письму',
   },
   {
-    icon: 'check',
+    icon: 'math',
     title: 'Основы математики',
     text: 'Счёт, простые примеры, геометрические фигуры, логические задачи',
   },
   {
-    icon: 'pin',
+    icon: 'world-around',
     title: 'Познавательные занятия',
     text: 'Еженедельные тематические занятия по окружающему миру, расширение кругозора',
   },
   {
-    icon: 'calm',
+    icon: 'psychology',
     title: 'Психологическая подготовка',
     text: 'Формирование мотивации к обучению, работа со страхами, развитие уверенности',
   },
 ];
 
 const results = [
-  { icon: 'check', title: 'Готовность к первому классу' },
-  { icon: 'book', title: 'Уверенный старт в учёбе' },
-  { icon: 'calm', title: 'Лёгкая адаптация в школе' },
+  { icon: 'school-readiness', title: 'Готовность к первому классу' },
+  { icon: 'confident-start', title: 'Уверенный старт в учёбе' },
+  { icon: 'easy-adaptation', title: 'Лёгкая адаптация в школе' },
 ];
 
 const lessonFormat = [
@@ -101,9 +101,9 @@ const lessonFormat = [
 ];
 
 const advantages = [
-  { icon: 'team', title: 'Комплексный подход', text: 'Всестороннее развитие: интеллект, эмоции, социализация' },
-  { icon: 'worth', title: 'Опытные педагоги', text: 'Квалифицированные специалисты с большим опытом' },
-  { icon: 'flask', title: 'Проверенные методики', text: 'Современные подходы к обучению и развитию' },
+  { icon: 'holistic-approach', title: 'Комплексный подход', text: 'Всестороннее развитие: интеллект, эмоции, социализация' },
+  { icon: 'qualification', title: 'Опытные педагоги', text: 'Квалифицированные специалисты с большим опытом' },
+  { icon: 'methods', title: 'Проверенные методики', text: 'Современные подходы к обучению и развитию' },
 ];
 
 const formatPoints = [
@@ -116,14 +116,14 @@ const formatPoints = [
 
 const otherPrograms = [
   {
-    icon: 'book',
+    icon: 'program-umniky',
     title: '«Умники и умницы»',
     age: 'Для детей 4–6 лет',
     text: 'Комплексно-развивающие занятия по подготовке к школе с акцентом на чтение, письмо и логику.',
     href: url('/programs/umniky'),
   },
   {
-    icon: 'bond',
+    icon: 'program-azbuka',
     title: '«Азбука общения»',
     age: 'Для детей 5–9 лет',
     text: 'Курс развития эмоционального интеллекта. Учим детей понимать эмоции и выстраивать отношения.',
@@ -258,7 +258,7 @@ const otherPrograms = [
 
           <article class="gradient-card schedule" data-reveal>
             <div class="schedule-inner">
-              <span class="card-icon"><Icon name="clock" size={22} /></span>
+              <span class="card-icon"><Icon name="schedule" size={22} /></span>
               <h3 class="heading-sm schedule-days">Вторник и Четверг</h3>
               <p class="schedule-time">17:30–19:00</p>
 
@@ -363,7 +363,7 @@ const otherPrograms = [
               <h3 class="card-title">{program.title}</h3>
               <p class="other-age">{program.age}</p>
               <p class="card-text">{program.text}</p>
-              <span class="other-more">Узнать подробнее <Icon name="arrow" size={16} /></span>
+              <span class="other-more">Узнать подробнее <Icon name="go-to" size={16} /></span>
             </a>
           ))}
         </div>
@@ -397,7 +397,7 @@ const otherPrograms = [
                 <Icon name="phone" size={16} />
                 <a href="tel:+79151955132">+7 (915) 195-51-32</a>
               </span>
-              <span><Icon name="chat" size={16} />WhatsApp / Telegram</span>
+              <span><Icon name="messengers" size={16} />WhatsApp / Telegram</span>
             </div>
           </div>
         </div>

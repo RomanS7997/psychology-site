@@ -18,7 +18,7 @@ const posts = [
     date: '15 января 2025',
     readTime: '8 мин',
     image: '/images/blog/panic-attacks.jpg',
-    icon: 'calm',
+    icon: 'anxiety',
   },
   {
     slug: 'chto-delat-esli-rebenok-ne-slushaetsya',
@@ -28,7 +28,7 @@ const posts = [
     date: '12 января 2025',
     readTime: '10 мин',
     image: '/images/blog/child-behavior.jpg',
-    icon: 'child',
+    icon: 'children',
   },
   {
     slug: 'kak-uluchshit-otnosheniya-s-partnerom',
@@ -38,7 +38,7 @@ const posts = [
     date: '10 января 2025',
     readTime: '7 мин',
     image: '/images/blog/relationships.jpg',
-    icon: 'bond',
+    icon: 'relationships',
   },
 ];
 
@@ -139,7 +139,7 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
 
                   <div class="post-foot">
                     <span class="post-date">{post.date}</span>
-                    <span class="post-more">Читать <Icon name="arrow" size={16} /></span>
+                    <span class="post-more">Читать <Icon name="go-to" size={16} /></span>
                   </div>
                 </div>
               </a>
@@ -149,7 +149,7 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
 
         <!-- Пустое состояние при фильтрации -->
         <div id="empty-state" class="empty hidden">
-          <span class="empty-icon"><Icon name="note" size={24} /></span>
+          <span class="empty-icon"><Icon name="articles" size={24} /></span>
           <h2 class="heading-sm empty-title">Статей в этой категории пока нет</h2>
           <p class="muted">Попробуйте выбрать другую категорию</p>
         </div>

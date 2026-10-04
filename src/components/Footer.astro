@@ -33,9 +33,9 @@ const { site, contacts, footer } = global;
       <div>
         <h3 class="footer-title">{footer.contactsTitle}</h3>
         <ul class="footer-list">
-          <li class="footer-contact"><Icon name="pin" size={17} /><span>{contacts.address}</span></li>
+          <li class="footer-contact"><Icon name="address" size={17} /><span>{contacts.address}</span></li>
           <li class="footer-contact"><Icon name="phone" size={17} /><a href={`tel:${contacts.phoneRaw}`} class="footer-link">{contacts.phone}</a></li>
-          <li class="footer-contact"><Icon name="mail" size={17} /><a href={`mailto:${contacts.email}`} class="footer-link">{contacts.email}</a></li>
+          <li class="footer-contact"><Icon name="email" size={17} /><a href={`mailto:${contacts.email}`} class="footer-link">{contacts.email}</a></li>
         </ul>
       </div>
       <div>
@@ -52,10 +52,10 @@ const { site, contacts, footer } = global;
         <p class="footer-copy">© {new Date().getFullYear()} {site.copyright}</p>
         <div class="flex gap-4">
           <a href={contacts.whatsapp} target="_blank" rel="noopener" class="footer-social" aria-label="WhatsApp" title="WhatsApp">
-            <Icon name="chat" size={18} />
+            <Icon name="whatsapp" size={18} />
           </a>
           <a href={contacts.telegram} target="_blank" rel="noopener" class="footer-social" aria-label="Telegram" title="Telegram">
-            <Icon name="send" size={18} />
+            <Icon name="telegram" size={18} />
           </a>
         </div>
       </div>

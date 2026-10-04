@@ -82,7 +82,7 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
             aria-label="Предыдущий слайд"
             type="button"
           >
-            <Icon name="arrow" size={18} />
+            <Icon name="carousel-arrow" size={18} />
           </button>
 
           <button
@@ -91,7 +91,7 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
             aria-label="Следующий слайд"
             type="button"
           >
-            <Icon name="arrow" size={18} />
+            <Icon name="carousel-arrow" size={18} />
           </button>
 
           <div class="dots">
@@ -115,7 +115,7 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
             onclick={`openLightbox('${sliderId}', getCurrentSlide('${sliderId}'))`}
             type="button"
           >
-            <Icon name="screen" size={16} />
+            <Icon name="gallery" size={16} />
             Открыть галерею
           </button>
         </div>

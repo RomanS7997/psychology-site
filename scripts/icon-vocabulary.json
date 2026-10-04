@@ -1,0 +1,382 @@
+[
+  {
+    "key": "acquaintance",
+    "lucide": "coffee",
+    "meaning": "Знакомство на первой встрече"
+  },
+  {
+    "key": "address",
+    "lucide": "map-pin",
+    "meaning": "Адрес, местоположение кабинета"
+  },
+  {
+    "key": "aggression",
+    "lucide": "flame",
+    "meaning": "Агрессия, вспышки гнева, истерики"
+  },
+  {
+    "key": "anxiety",
+    "lucide": "cloud-sun",
+    "meaning": "Тревога, страхи, панические атаки («тучи расходятся»)"
+  },
+  {
+    "key": "art-therapy",
+    "lucide": "palette",
+    "meaning": "Арт-терапия"
+  },
+  {
+    "key": "articles",
+    "lucide": "newspaper",
+    "meaning": "Статьи блога"
+  },
+  {
+    "key": "author",
+    "lucide": "user-round",
+    "meaning": "Автор статьи"
+  },
+  {
+    "key": "booking",
+    "lucide": "calendar-check",
+    "meaning": "Запись на консультацию или занятие"
+  },
+  {
+    "key": "boundaries",
+    "lucide": "shield-user",
+    "meaning": "Личные границы: берегу себя"
+  },
+  {
+    "key": "by-car",
+    "lucide": "car-front",
+    "meaning": "Дорога на машине"
+  },
+  {
+    "key": "by-train",
+    "lucide": "train-front",
+    "meaning": "Дорога на электричке"
+  },
+  {
+    "key": "carousel-arrow",
+    "lucide": "chevron-right",
+    "meaning": "Стрелка листалки галереи (у кнопки «назад» CSS разворачивает её на 180°)"
+  },
+  {
+    "key": "children",
+    "lucide": "baby",
+    "meaning": "Работа с детьми, детская психология"
+  },
+  {
+    "key": "confident-start",
+    "lucide": "rocket",
+    "meaning": "Уверенный старт в учёбе"
+  },
+  {
+    "key": "confidentiality",
+    "lucide": "lock",
+    "meaning": "Конфиденциальность, защита данных"
+  },
+  {
+    "key": "courses",
+    "lucide": "file-badge",
+    "meaning": "Дополнительное образование, курсы и сертификаты"
+  },
+  {
+    "key": "curiosity",
+    "lucide": "telescope",
+    "meaning": "Желание узнавать новое"
+  },
+  {
+    "key": "development-programs",
+    "lucide": "shapes",
+    "meaning": "Развивающие программы для детей (в целом)"
+  },
+  {
+    "key": "diagnostics",
+    "lucide": "clipboard-list",
+    "meaning": "Диагностика, оценка состояния"
+  },
+  {
+    "key": "easy-adaptation",
+    "lucide": "face-slightly-smiling",
+    "meaning": "Лёгкая адаптация в школе"
+  },
+  {
+    "key": "education",
+    "lucide": "book-open",
+    "meaning": "Образование специалиста (подпись блока «Образование:»)"
+  },
+  {
+    "key": "email",
+    "lucide": "mail",
+    "meaning": "Электронная почта"
+  },
+  {
+    "key": "emotions",
+    "lucide": "drama",
+    "meaning": "Работа с эмоциями"
+  },
+  {
+    "key": "empathy",
+    "lucide": "hand-heart",
+    "meaning": "Эмпатия, бережное отношение"
+  },
+  {
+    "key": "fairy-tale-therapy",
+    "lucide": "book-heart",
+    "meaning": "Сказкотерапия"
+  },
+  {
+    "key": "family",
+    "lucide": "house-heart",
+    "meaning": "Семья: развод родителей, семейные кризисы"
+  },
+  {
+    "key": "gallery",
+    "lucide": "images",
+    "meaning": "Открыть галерею фотографий"
+  },
+  {
+    "key": "go-to",
+    "lucide": "arrow-right",
+    "meaning": "Переход по ссылке: «Подробнее», «Читать»"
+  },
+  {
+    "key": "holistic-approach",
+    "lucide": "layers",
+    "meaning": "Комплексный подход"
+  },
+  {
+    "key": "individual-approach",
+    "lucide": "fingerprint-pattern",
+    "meaning": "Индивидуальный подход, уникальность каждого"
+  },
+  {
+    "key": "life-direction",
+    "lucide": "signpost",
+    "meaning": "Поиск направления: кризис, перемены, решения"
+  },
+  {
+    "key": "lila-game",
+    "lucide": "dices",
+    "meaning": "Трансформационная игра «Лила», работа через игру и метафору"
+  },
+  {
+    "key": "literacy",
+    "lucide": "letters",
+    "meaning": "Навыки чтения, письма и счёта вместе (грамота)"
+  },
+  {
+    "key": "mak-cards",
+    "lucide": "playing-cards-fan",
+    "meaning": "МАК, метафорические карты"
+  },
+  {
+    "key": "math",
+    "lucide": "calculator",
+    "meaning": "Математика и счёт"
+  },
+  {
+    "key": "memory",
+    "lucide": "brain",
+    "meaning": "Память и внимание, мнемотехника"
+  },
+  {
+    "key": "messengers",
+    "lucide": "messages-square",
+    "meaning": "Мессенджеры вместе (WhatsApp и Telegram)"
+  },
+  {
+    "key": "methods",
+    "lucide": "flask-conical",
+    "meaning": "Методы работы с доказанной эффективностью, научный подход"
+  },
+  {
+    "key": "neuro-games",
+    "lucide": "puzzle",
+    "meaning": "Нейропсихологические игры"
+  },
+  {
+    "key": "new-perspective",
+    "lucide": "eye",
+    "meaning": "Взгляд на себя под новым углом"
+  },
+  {
+    "key": "next-steps",
+    "lucide": "footprints",
+    "meaning": "Следующие шаги"
+  },
+  {
+    "key": "no-obligation",
+    "lucide": "check",
+    "meaning": "Гарантия «без обязательств»"
+  },
+  {
+    "key": "notice",
+    "lucide": "info",
+    "meaning": "Пометка, врезка «Важно»"
+  },
+  {
+    "key": "online",
+    "lucide": "laptop",
+    "meaning": "Онлайн-консультации по видеосвязи"
+  },
+  {
+    "key": "phone",
+    "lucide": "phone",
+    "meaning": "Телефон, позвонить"
+  },
+  {
+    "key": "plan",
+    "lucide": "route",
+    "meaning": "План работы или терапии"
+  },
+  {
+    "key": "play-therapy",
+    "lucide": "toy-brick",
+    "meaning": "Игротерапия"
+  },
+  {
+    "key": "positivity",
+    "lucide": "sun",
+    "meaning": "Позитивное отношение, оптимизм"
+  },
+  {
+    "key": "price",
+    "lucide": "receipt-russian-ruble",
+    "meaning": "Понятная стоимость без скрытых доплат"
+  },
+  {
+    "key": "program-azbuka",
+    "lucide": "message-circle-heart",
+    "meaning": "Программа «Азбука общения»"
+  },
+  {
+    "key": "program-umniky",
+    "lucide": "graduation-cap",
+    "meaning": "Программа «Умники и умницы»"
+  },
+  {
+    "key": "psychology",
+    "lucide": "heart-handshake",
+    "meaning": "Психологическая помощь и психологическая подготовка"
+  },
+  {
+    "key": "qualification",
+    "lucide": "award",
+    "meaning": "Профессионализм, квалификация"
+  },
+  {
+    "key": "reading",
+    "lucide": "book-a",
+    "meaning": "Обучение чтению"
+  },
+  {
+    "key": "relationships",
+    "lucide": "heart",
+    "meaning": "Отношения в паре"
+  },
+  {
+    "key": "relaxation",
+    "lucide": "wind",
+    "meaning": "Релаксация, дыхание, саморегуляция"
+  },
+  {
+    "key": "request",
+    "lucide": "message-square-text",
+    "meaning": "Запрос клиента: рассказать, что происходит"
+  },
+  {
+    "key": "result",
+    "lucide": "target",
+    "meaning": "Ориентация на результат"
+  },
+  {
+    "key": "sand-therapy",
+    "lucide": "castle",
+    "meaning": "Песочная терапия"
+  },
+  {
+    "key": "schedule",
+    "lucide": "calendar-clock",
+    "meaning": "Расписание: дни и время приёма или занятий"
+  },
+  {
+    "key": "school-difficulties",
+    "lucide": "school",
+    "meaning": "Проблемы в школе и с учёбой"
+  },
+  {
+    "key": "school-readiness",
+    "lucide": "backpack",
+    "meaning": "Подготовка и готовность к школе"
+  },
+  {
+    "key": "scroll-to-map",
+    "lucide": "arrow-down",
+    "meaning": "Якорь вниз к карте («Как добраться»)"
+  },
+  {
+    "key": "self-esteem",
+    "lucide": "sprout",
+    "meaning": "Самооценка и уверенность в себе"
+  },
+  {
+    "key": "small-groups",
+    "lucide": "user-round-group",
+    "meaning": "Малые группы до 8 детей"
+  },
+  {
+    "key": "social-skills",
+    "lucide": "handshake",
+    "meaning": "Общение со сверстниками: социальные навыки и трудности с ними"
+  },
+  {
+    "key": "speech",
+    "lucide": "speech",
+    "meaning": "Речь: логопедия, развитие речи"
+  },
+  {
+    "key": "team",
+    "lucide": "users",
+    "meaning": "Команда специалистов"
+  },
+  {
+    "key": "telegram",
+    "lucide": "send",
+    "meaning": "Telegram"
+  },
+  {
+    "key": "test",
+    "lucide": "list-checks",
+    "meaning": "Психологический тест, опросник"
+  },
+  {
+    "key": "test-done",
+    "lucide": "circle-check",
+    "meaning": "Тест пройден"
+  },
+  {
+    "key": "video",
+    "lucide": "play",
+    "meaning": "Запуск видео"
+  },
+  {
+    "key": "whatsapp",
+    "lucide": "message-circle",
+    "meaning": "WhatsApp"
+  },
+  {
+    "key": "working-hours",
+    "lucide": "clock",
+    "meaning": "Часы работы и ответа (9:00–21:00)"
+  },
+  {
+    "key": "world-around",
+    "lucide": "earth",
+    "meaning": "Окружающий мир, кругозор"
+  },
+  {
+    "key": "writing",
+    "lucide": "pencil-line",
+    "meaning": "Письмо, постановка руки"
+  }
+]

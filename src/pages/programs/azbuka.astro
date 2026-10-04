@@ -41,32 +41,32 @@ const heroPoints = [
 
 const skills = [
   {
-    icon: 'worth',
+    icon: 'self-esteem',
     title: 'Уверенность в себе',
     items: ['Повышение самооценки', 'Развитие самостоятельности', 'Умение принимать решения', 'Вера в свои силы'],
   },
   {
-    icon: 'child',
+    icon: 'positivity',
     title: 'Позитивное отношение',
     items: ['Принятие себя', 'Дружелюбие к сверстникам', 'Оптимистичный взгляд', 'Благодарность'],
   },
   {
-    icon: 'bond',
+    icon: 'empathy',
     title: 'Эмпатия',
     items: ['Понимание чувств других', 'Умение сопереживать', 'Поддержка друзей', 'Забота о близких'],
   },
   {
-    icon: 'lock',
+    icon: 'boundaries',
     title: 'Личные границы',
     items: ['Выстраивание своих границ', 'Уважение границ других', 'Умение говорить «нет»', 'Защита своих интересов'],
   },
   {
-    icon: 'compass',
+    icon: 'emotions',
     title: 'Работа с эмоциями',
     items: ['Распознавание эмоций', 'Управление страхами', 'Работа с тревогой', 'Преодоление обид'],
   },
   {
-    icon: 'team',
+    icon: 'social-skills',
     title: 'Социальные навыки',
     items: ['Игру по правилам', 'Умение проигрывать', 'Работа в команде', 'Лидерские качества'],
   },
@@ -79,8 +79,8 @@ const lessonFormat = [
 ];
 
 const methods = [
-  { icon: 'play', title: 'Игротерапия', text: 'Проработка эмоций через игру и ролевые ситуации' },
-  { icon: 'note', title: 'Арт-терапия', text: 'Выражение чувств через рисование и творчество' },
+  { icon: 'play-therapy', title: 'Игротерапия', text: 'Проработка эмоций через игру и ролевые ситуации' },
+  { icon: 'art-therapy', title: 'Арт-терапия', text: 'Выражение чувств через рисование и творчество' },
 ];
 ---
 
@@ -170,7 +170,7 @@ const methods = [
         <!-- Особенность программы -->
         <article class="gradient-card highlight" data-reveal>
           <div class="highlight-inner">
-            <span class="card-icon"><Icon name="calm" size={22} /></span>
+            <span class="card-icon"><Icon name="relaxation" size={22} /></span>
             <h3 class="heading-sm highlight-title">Релаксация и саморегуляция</h3>
             <p class="highlight-text">
               Дети знакомятся с техниками релаксации и саморегуляции, с помощью которых
@@ -203,7 +203,7 @@ const methods = [
 
           <article class="gradient-card schedule" data-reveal>
             <div class="schedule-inner">
-              <span class="card-icon"><Icon name="clock" size={22} /></span>
+              <span class="card-icon"><Icon name="schedule" size={22} /></span>
               <h3 class="heading-sm schedule-days">Занятия раз в неделю</h3>
 
               <div class="glass-card schedule-slot">
@@ -292,7 +292,7 @@ const methods = [
                 <Icon name="phone" size={16} />
                 <a href="tel:+79151955132">+7 (915) 195-51-32</a>
               </span>
-              <span><Icon name="team" size={16} />Группы до 8 детей</span>
+              <span><Icon name="small-groups" size={16} />Группы до 8 детей</span>
             </div>
           </div>
         </div>

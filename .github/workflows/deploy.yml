@@ -169,8 +169,13 @@ jobs:
           # трогает (и правильно: снести чужое на общем хостинге одной опечаткой
           # в пути проще простого), поэтому удаляем поимённо. rm -f молчит,
           # если файла уже нет.
-          #   _probe.php — разовый пробник протокола, своё отработал 04.10.2026
-          CLEANUP="rm -f \"$FTP_DIR/_probe.php\";"
+          #   _probe.php  — разовый пробник протокола, своё отработал 04.10.2026
+          #   img/        — картинки старого сайта; новый пользуется images/
+          #   wp-content/ — стили и скрипты старой выгрузки WordPress
+          # Обе папки принадлежат только старому сайту (проверено поиском по
+          # исходникам). Правило 410 в .htaccess до них не дотягивалось: статику
+          # nginx отдаёт сам, мимо Apache, так что убрать её можно только так.
+          CLEANUP="rm -f \"$FTP_DIR/_probe.php\"; rm -r -f \"$FTP_DIR/img\"; rm -r -f \"$FTP_DIR/wp-content\";"
 
           for pass in 1 2 3 4 5; do
             echo "::group::Проход $pass"
@@ -207,7 +212,7 @@ jobs:
 
           # И обратная проверка: того, что должно было исчезнуть, на сервере нет
           leftover=0
-          for gone in _probe.php; do
+          for gone in _probe.php img/favicon-32x32.png; do
             code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://julialyapina.ru/$gone")
             case "$code" in
               404|410) ;;

@@ -135,7 +135,7 @@ import { url } from '../utils/url';
             <p id="contact-form-note" class="form-status" role="status" aria-live="polite"></p>
 
             <p class="form-note">
-              <Icon name="clock" size={16} />
+              <Icon name="working-hours" size={16} />
               Отвечу в рабочее время, с 9:00 до 21:00
             </p>
           </div>
@@ -158,7 +158,7 @@ import { url } from '../utils/url';
 
               <!-- Email -->
               <div class="contact-item" data-reveal>
-                <span class="contact-icon"><Icon name="mail" size={20} /></span>
+                <span class="contact-icon"><Icon name="email" size={20} /></span>
                 <div class="contact-body">
                   <p class="contact-title">Email</p>
                   <a href="mailto:lyapina_sorokina@mail.ru" class="contact-value contact-value-sm">
@@ -169,21 +169,21 @@ import { url } from '../utils/url';
 
               <!-- Адрес -->
               <div class="contact-item" data-reveal>
-                <span class="contact-icon"><Icon name="pin" size={20} /></span>
+                <span class="contact-icon"><Icon name="address" size={20} /></span>
                 <div class="contact-body">
                   <p class="contact-title">Адрес</p>
                   <p class="contact-value contact-value-sm">Одинцово, Лесной городок</p>
                   <p class="contact-sub">Точный адрес кабинета сообщу при записи</p>
                   <a href="#map" class="contact-link">
                     Как добраться
-                    <Icon name="arrow" size={16} />
+                    <Icon name="scroll-to-map" size={16} />
                   </a>
                 </div>
               </div>
 
               <!-- Мессенджеры -->
               <div class="contact-item" data-reveal>
-                <span class="contact-icon"><Icon name="chat" size={20} /></span>
+                <span class="contact-icon"><Icon name="messengers" size={20} /></span>
                 <div class="contact-body">
                   <p class="contact-title">Мессенджеры</p>
                   <div class="messengers">
@@ -193,7 +193,7 @@ import { url } from '../utils/url';
                       rel="noopener"
                       class="pill pill-outline messenger-btn"
                     >
-                      <Icon name="chat" size={16} />
+                      <Icon name="whatsapp" size={16} />
                       WhatsApp
                     </a>
                     <a
@@ -202,7 +202,7 @@ import { url } from '../utils/url';
                       rel="noopener"
                       class="pill pill-outline messenger-btn"
                     >
-                      <Icon name="send" size={16} />
+                      <Icon name="telegram" size={16} />
                       Telegram
                     </a>
                     <a
@@ -238,7 +238,7 @@ import { url } from '../utils/url';
         <div class="map-frame" data-reveal>
           <div id="yandex-map">
             <div class="map-fallback" id="map-fallback">
-              <span class="contact-icon"><Icon name="pin" size={20} /></span>
+              <span class="contact-icon"><Icon name="address" size={20} /></span>
               <p class="map-fallback-title">Одинцово, Лесной городок</p>
               <p class="map-fallback-text">Точный адрес кабинета сообщу при записи</p>
             </div>
@@ -252,7 +252,7 @@ import { url } from '../utils/url';
 
           <!-- На электричке -->
           <div class="surface route-card lift" data-reveal>
-            <span class="contact-icon"><Icon name="pin" size={20} /></span>
+            <span class="contact-icon"><Icon name="by-train" size={20} /></span>
             <h4 class="route-title">На электричке</h4>
             <p class="route-text">
               С Белорусского вокзала до станции «Лесной Городок» или «Одинцово». Точный маршрут подскажу при записи.
@@ -261,7 +261,7 @@ import { url } from '../utils/url';
 
           <!-- На машине -->
           <div class="surface route-card lift" data-reveal>
-            <span class="contact-icon"><Icon name="compass" size={20} /></span>
+            <span class="contact-icon"><Icon name="by-car" size={20} /></span>
             <h4 class="route-title">На машине</h4>
             <p class="route-text">
               По Минскому или Можайскому шоссе. Парковка рядом с кабинетом. Маршрут подскажу при записи.
@@ -598,7 +598,8 @@ import { url } from '../utils/url';
     text-decoration: none;
   }
   .contact-link :global(svg) { transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1); }
-  .contact-link:hover :global(svg) { transform: translateX(3px); }
+  /* стрелка смотрит вниз, к карте — и при наведении шагает вниз, а не вправо */
+  .contact-link:hover :global(svg) { transform: translateY(2px); }
 
   .messengers { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
   .messenger-btn { padding: 10px 18px; font-size: 13.5px; }

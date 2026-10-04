@@ -43,41 +43,41 @@ const heroPoints = [
 
 const skills = [
   {
-    icon: 'book',
+    icon: 'reading',
     title: 'Обучение чтению',
     text: 'От букв к словам и предложениям. Учим читать осмысленно, понимать прочитанное.',
   },
   {
-    icon: 'send',
+    icon: 'writing',
     title: 'Письмо',
     text: 'Правильная постановка руки, графомоторные навыки.',
   },
   {
-    icon: 'check',
+    icon: 'math',
     title: 'Математика и логика',
     text: 'Состав числа, счёт, решение задач. Развиваем логическое мышление.',
   },
   {
-    icon: 'compass',
+    icon: 'world-around',
     title: 'Окружающий мир',
     text: 'Расширяем кругозор, формируем представления о мире. Каждую неделю новая тема.',
   },
   {
-    icon: 'chat',
+    icon: 'speech',
     title: 'Развитие речи',
     text: 'Учим выражать мысли, составлять рассказы, пересказывать. Расширяем словарный запас, работаем над дикцией.',
   },
   {
-    icon: 'note',
+    icon: 'memory',
     title: 'Память и внимание',
     text: 'Тренируем все виды памяти и внимания. Учим концентрироваться, запоминать и воспроизводить информацию.',
   },
 ];
 
 const results = [
-  { icon: 'check', title: 'Готовность к школе и уверенность в себе' },
-  { icon: 'book', title: 'Навыки чтения, письма и счета' },
-  { icon: 'worth', title: 'Желание учиться и узнавать новое' },
+  { icon: 'school-readiness', title: 'Готовность к школе и уверенность в себе' },
+  { icon: 'literacy', title: 'Навыки чтения, письма и счета' },
+  { icon: 'curiosity', title: 'Желание учиться и узнавать новое' },
 ];
 
 const lessonFormat = [
@@ -176,7 +176,7 @@ const methods = [
         <!-- Особенность программы -->
         <article class="gradient-card highlight" data-reveal>
           <div class="highlight-inner">
-            <span class="card-icon"><Icon name="worth" size={22} /></span>
+            <span class="card-icon"><Icon name="psychology" size={22} /></span>
             <h3 class="heading-sm highlight-title">Особенность программы</h3>
             <p class="highlight-text">
               Я не просто учу читать и считать — формирую учебную мотивацию и психологическую
@@ -234,7 +234,7 @@ const methods = [
 
           <article class="gradient-card schedule" data-reveal>
             <div class="schedule-inner">
-              <span class="card-icon"><Icon name="clock" size={22} /></span>
+              <span class="card-icon"><Icon name="schedule" size={22} /></span>
               <h3 class="heading-sm schedule-days">Ежедневные занятия</h3>
 
               <div class="glass-card schedule-slot">
@@ -250,7 +250,7 @@ const methods = [
 
           <article class="surface methods" data-reveal>
             <div class="methods-inner">
-              <span class="card-icon"><Icon name="flask" size={22} /></span>
+              <span class="card-icon"><Icon name="methods" size={22} /></span>
               <h3 class="heading-sm mb-6">Методы работы</h3>
 
               <ul class="methods-list">
@@ -278,14 +278,14 @@ const methods = [
 
             <div class="closing-actions">
               <button onclick="openBookingModal('umniky')" class="pill pill-solid pill-lg" type="button">
-                <Icon name="chat" size={18} />
+                <Icon name="booking" size={18} />
                 Записаться
               </button>
             </div>
 
             <div class="closing-notes">
-              <span><Icon name="team" size={16} />Группы до 8 детей</span>
-              <span><Icon name="clock" size={16} />Ежедневно, будние дни</span>
+              <span><Icon name="small-groups" size={16} />Группы до 8 детей</span>
+              <span><Icon name="schedule" size={16} />Ежедневно, будние дни</span>
             </div>
           </div>
         </div>
