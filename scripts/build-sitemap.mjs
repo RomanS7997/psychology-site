@@ -1,16 +1,26 @@
 // Собирает dist/sitemap.xml и dist/robots.txt из реально существующих страниц.
 // Запускается после astro build (см. package.json).
-// Домен и базовый путь берутся ОТТУДА ЖЕ, ОТКУДА ИХ БЕРЁТ ASTRO (astro.config.mjs),
-// иначе карта сайта окажется на одном домене, а сам сайт — на другом,
-// и поисковики отбросят её целиком.
+//
+// Домен берётся ИЗ САМОГО astro.config.mjs, а не из копии его переменных.
+// Раньше здесь лежали свои значения по умолчанию, и это один раз уже привело
+// к беде: astro собрался под боевой домен, а этот скрипт запустили отдельно,
+// без переменных окружения, — страницы вышли с одним адресом, а карта сайта
+// и robots.txt с другим. Сломанная карта при переезде не чинится ничем.
+// Теперь разойтись они не могут физически: значение одно на двоих.
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
+import astroConfig from '../astro.config.mjs';
 
-const SITE = (process.env.SITE_URL || 'https://romans7997.github.io').replace(/\/$/, '');
-const BASE = (process.env.SITE_BASE || '/psychology-site').replace(/\/$/, '');
+const SITE = String(astroConfig.site || '').replace(/\/$/, '');
+const BASE = String(astroConfig.base || '').replace(/\/$/, '');
 const ORIGIN = `${SITE}${BASE}`;
 const DIST = 'dist';
+
+if (!SITE) {
+  console.error('В astro.config.mjs не задан site — карту сайта собирать не из чего.');
+  process.exit(1);
+}
 
 // какие разделы важнее для поиска
 const PRIORITY = [
@@ -86,7 +96,18 @@ writeFileSync(join(DIST, 'sitemap.xml'), xml, 'utf8');
 // robots.txt пишем здесь же, чтобы ссылка на карту сайта не разъехалась с доменом.
 // Важно: на GitHub Pages роботы читают только корень хоста, поэтому файл заработает
 // после переезда на свой домен — там он окажется по адресу /robots.txt.
-const robots = `User-agent: *
+// Превью на github.io закрываем целиком: иначе копия сайта соревнуется
+// с боевым доменом за те же запросы, и побеждает не обязательно боевой.
+const isPreview = /github\.io$/.test(new URL(SITE).hostname);
+
+const robots = isPreview
+  ? `User-agent: *
+Disallow: /
+
+# Это превью-копия сайта для просмотра правок.
+# Боевой адрес: https://julialyapina.ru/
+`
+  : `User-agent: *
 Allow: /
 
 Sitemap: ${ORIGIN}/sitemap.xml
@@ -94,6 +115,7 @@ Sitemap: ${ORIGIN}/sitemap.xml
 # Каталог _astro НЕ закрываем: там лежат стили и скрипты,
 # без них поисковик не может отрисовать страницу и оценить вёрстку.
 Disallow: ${BASE}/.well-known/
+Disallow: ${BASE}/_probe.php
 
 Crawl-delay: 1
 `;
@@ -138,3 +160,24 @@ for (const [from, to] of Object.entries(REDIRECTS)) {
   writeFileSync(out, html, 'utf8');
 }
 console.log(`перенаправления со старого сайта: ${Object.keys(REDIRECTS).length}`);
+
+// ---------------------------------------------------------------------------
+// Последняя проверка: сходится ли адрес в страницах с адресом в карте сайта
+// ---------------------------------------------------------------------------
+// Сломанную сборку снаружи не видно: страницы открываются, вёрстка на месте,
+// а карта сайта ведёт на чужой домен. Заметно это становится через неделю, по
+// отсутствию страниц в поиске. Поэтому сверяем здесь и падаем сразу.
+const home = join(DIST, 'index.html');
+if (existsSync(home)) {
+  const canonical = (readFileSync(home, 'utf8').match(/<link rel="canonical" href="([^"]+)"/) || [])[1];
+  if (canonical && !canonical.startsWith(`${ORIGIN}/`) && canonical.replace(/\/$/, '') !== ORIGIN) {
+    console.error('');
+    console.error('СБОРКА РАЗЪЕХАЛАСЬ — ничего не выкладывайте.');
+    console.error(`  страницы собраны под:  ${canonical}`);
+    console.error(`  карта сайта собрана под: ${ORIGIN}/`);
+    console.error('  Так бывает, когда astro и этот скрипт запускали по отдельности.');
+    console.error('  Соберите заново одной командой: npm run build');
+    process.exit(1);
+  }
+  console.log(`адрес в страницах и в карте сайта совпадает: ${ORIGIN}/`);
+}

@@ -18,11 +18,18 @@ export function url(path: string): string {
       ? normalized
       : `${base}${normalized}`;
 
-  if (withBase.endsWith('/')) return withBase;
+  // Якорь и параметры отделяем, чтобы черта встала в адрес, а не после решётки.
+  // Раньше ссылка вида /specialists#specialist-1 возвращалась как есть, и
+  // сервер отправлял человека сначала на /specialists/ — лишний переход на
+  // каждом клике по карточке специалиста.
+  const cut = withBase.search(/[#?]/);
+  const pathPart = cut === -1 ? withBase : withBase.slice(0, cut);
+  const tail = cut === -1 ? '' : withBase.slice(cut);
 
-  // Якорь, параметры или файл с расширением оставляем как есть
-  if (/[#?]/.test(withBase)) return withBase;
-  if (/\.[a-z0-9]{2,5}$/i.test(withBase)) return withBase;
+  if (pathPart.endsWith('/')) return withBase;
 
-  return `${withBase}/`;
+  // Файл с расширением — это файл, ему черта не нужна
+  if (/\.[a-z0-9]{2,5}$/i.test(pathPart)) return withBase;
+
+  return `${pathPart}/${tail}`;
 }

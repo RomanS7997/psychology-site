@@ -80,6 +80,9 @@ jobs:
   # WordPress, и его надо убрать осознанно, а не скриптом.
   beget:
     runs-on: ubuntu-latest
+    # Оборванная FTP-сессия умеет висеть до упора. Пятнадцати минут хватает
+    # с запасом даже на полную перезаливку с видео.
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -89,11 +92,11 @@ jobs:
       - name: Есть ли доступы
         id: check
         run: |
-          if [ -n "${{ secrets.FTP_HOST }}" ]; then
+          if [ -n "${{ secrets.FTP_HOST }}" ] && [ -n "${{ secrets.FTP_USER }}" ] && [ -n "${{ secrets.FTP_PASSWORD }}" ]; then
             echo "ready=yes" >> "$GITHUB_OUTPUT"
           else
             echo "ready=no" >> "$GITHUB_OUTPUT"
-            echo "Секретов FTP нет — выкладка на Beget пропущена."
+            echo "Секретов FTP нет или они неполные — выкладка на Beget пропущена."
           fi
 
       - name: Setup Node
@@ -140,12 +143,23 @@ jobs:
           #
           # Без --delete: лишний старый файл вреда не делает, а снести чужое
           # одной опечаткой в пути — делает.
+          # ftp:use-feat no — ключевое. lftp решает, шифровать ли, по списку
+          # возможностей, который сервер отдаёт командой FEAT. Beget шифрование
+          # умеет (проверено: AUTH TLS -> 234, поднимается TLS 1.3), но в FEAT
+          # его не объявляет. Если lftp поверит списку, он при ssl-force просто
+          # откажется входить, и выкладка упадёт на ровном месте.
+          #
+          # Два потока вместо четырёх: на общем хостинге лимит одновременных
+          # подключений невелик, а гонка за него даёт отказы посреди заливки.
           lftp -c "
+            set ftp:use-feat no;
             set ftp:ssl-force true;
             set ftp:ssl-protect-data true;
             set ssl:verify-certificate no;
             set net:max-retries 3;
+            set net:reconnect-interval-base 5;
             set net:timeout 30;
+            set cmd:fail-exit true;
             open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
-            mirror -R --verbose --parallel=4 dist/ \"$FTP_DIR\";
+            mirror -R --verbose --parallel=2 dist/ \"$FTP_DIR\";
           "

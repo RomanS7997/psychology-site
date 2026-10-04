@@ -27,6 +27,12 @@ import fontRanges from '../data/font-ranges.json';
 
 const isHome = Astro.url.pathname.replace(/\/$/, '') === import.meta.env.BASE_URL.replace(/\/$/, '');
 
+// Превью на github.io — копия боевого сайта слово в слово. Два одинаковых
+// сайта на двух адресах конкурируют между собой, и поисковик сам решает,
+// какой показать; выиграть может превью. Поэтому превью закрыто от индексации,
+// а смотреть его это не мешает.
+const isPreview = /github\.io$/.test(Astro.site?.hostname || '');
+
 // Куски шрифта и их диапазоны пересобирает scripts/build-font.py
 const FONT_FILES = Object.keys(fontRanges);
 // Просим вперёд только те куски, что нужны на каждой странице. latin-ext — это
@@ -65,7 +71,7 @@ const fontFaces = FONT_FILES.map((name) => `
          не подключила, заголовок всё равно не должен потеряться. -->
     {!hasSEO && <title>{title}</title>}
     {!hasSEO && <meta name="description" content={description} />}
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {(noindex || isPreview) && <meta name="robots" content="noindex, follow" />}
 
     <!-- Сюда страница кладёт компонент SEO. Без слота его теги уезжали
          за пределы head: браузер их подбирает, простые парсеры соцсетей нет. -->

@@ -12,7 +12,7 @@
 # возьмёт его, а не наш index.html — и на домене будет висеть старый сайт при
 # полностью залитом новом. Поэтому говорим прямо.
 <IfModule mod_dir.c>
-  DirectoryIndex index.html index.htm
+  DirectoryIndex index.html
 </IfModule>
 
 # ---------------------------------------------------------------------------
@@ -23,24 +23,46 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # http -> https
-  RewriteCond %{HTTPS} !=on
-  RewriteCond %{HTTP:X-Forwarded-Proto} !https
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+  # -------------------------------------------------------------------------
+  # Адреса старого сайта — первыми и сразу на конечный адрес
+  # -------------------------------------------------------------------------
+  # Они стоят раньше склейки домена и ведут на полный адрес с https и без www.
+  # Иначе человек, пришедший по старой ссылке с http и www, прыгал бы трижды:
+  # на https, потом на адрес без www, и только потом на нужную страницу.
+  # Настоящий 301, а не страница-заглушка: поисковик склеивает старый адрес
+  # с новым быстрее, а человек не видит промежуточной страницы.
+  RewriteRule ^index\.htm$            https://julialyapina.ru/                [R=301,L]
+  RewriteRule ^about/index-1\.htm$    https://julialyapina.ru/about/          [R=301,L]
+  RewriteRule ^contact/index-1\.htm$  https://julialyapina.ru/contact/        [R=301,L]
+  RewriteRule ^services/index-1\.htm$ https://julialyapina.ru/services/adult/ [R=301,L]
 
+  # -------------------------------------------------------------------------
   # www -> без www
+  # -------------------------------------------------------------------------
+  # Зациклиться не может: после перехода имя уже не начинается с www,
+  # и условие во второй раз не выполнится.
   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
   RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
   # -------------------------------------------------------------------------
-  # Адреса старого сайта
+  # http -> https
   # -------------------------------------------------------------------------
-  # Настоящий 301 вместо страницы-заглушки: поисковик склеивает старый адрес с
-  # новым быстрее и надёжнее, а человек не видит промежуточной страницы.
-  RewriteRule ^index\.htm$            /                      [R=301,L]
-  RewriteRule ^about/index-1\.htm$    /about/                [R=301,L]
-  RewriteRule ^contact/index-1\.htm$  /contact/              [R=301,L]
-  RewriteRule ^services/index-1\.htm$ /services/adult/       [R=301,L]
+  # Здесь легко убить сайт насмерть. Перед Apache стоит nginx и забирает TLS
+  # на себя; Apache при этом видит обычный http. Правило вида «не https —
+  # перенаправляй на https» в такой связке срабатывает бесконечно, и сайт
+  # не открывается вообще — ни одна страница.
+  #
+  # Поэтому условие вывернуто наоборот: перенаправляем, только если сервер
+  # ПРЯМО сказал, что соединение было незащищённым. Нет заголовка — ничего
+  # не делаем. Худшее, что может случиться, — http не превратится в https;
+  # это чинится галочкой в панели Beget, а не падением сайта.
+  #
+  # Какой именно заголовок ставит Beget, выясняем файлом _probe.php после
+  # первой заливки. Как узнаем — правило станет точным, а probe уедет.
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+  RewriteCond %{HTTP:X-Forwarded-Ssl} =off [OR]
+  RewriteCond %{HTTP:X-Forwarded-Protocol} =http
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
   # Хвосты WordPress, которых на новом сайте нет и не будет
   RewriteRule ^wp-(admin|login|content|includes)(/|$) - [R=410,L]
@@ -54,7 +76,7 @@
 # повторно бессмысленно — они уже сжаты внутри.
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
-  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE application/javascript text/javascript application/json
   AddOutputFilterByType DEFLATE application/xml application/rss+xml
   AddOutputFilterByType DEFLATE image/svg+xml
 </IfModule>
@@ -87,9 +109,13 @@
 
   # Файлы из _astro переименовываются при каждом изменении, поэтому их можно
   # держать год: старое имя просто перестаёт запрашиваться.
-  <IfModule mod_rewrite.c>
+  <IfModule mod_setenvif.c>
     SetEnvIf Request_URI "^/_astro/" LONG_CACHE
     Header set Cache-Control "public, max-age=31536000, immutable" env=LONG_CACHE
+    # Заодно убираем Expires: он говорит «месяц», Cache-Control — «год».
+    # Браузер выберет Cache-Control, но два разных ответа в одних заголовках
+    # — это то, в чём потом полдня разбираются.
+    Header unset Expires env=LONG_CACHE
   </IfModule>
 
   # Мелочи безопасности: запретить встраивать сайт в чужой фрейм и подменять
@@ -111,5 +137,12 @@
   AddType application/manifest+json .webmanifest
 </IfModule>
 
-# Страница «не найдено» — своя, а не апачевская
+# Страницы ошибок — свои, а не апачевские. 403 сюда же: каталоги вроде
+# /services/ своей страницы не имеют, и без этой строки человек, набравший
+# такой адрес руками, увидел бы служебное «Forbidden» без единого слова
+# по-русски и без выхода на сайт.
 ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+# Содержимое каталогов наружу не показываем
+Options -Indexes
