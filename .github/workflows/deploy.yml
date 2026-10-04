@@ -120,8 +120,10 @@ jobs:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USER: ${{ secrets.FTP_USER }}
           FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-          # Куда класть: у Beget это обычно public_html внутри папки сайта
-          FTP_DIR: ${{ vars.FTP_DIR || 'public_html' }}
+          # Аккаунт заводится сразу на папке /julialyapina.ru/public_html —
+          # значит, после входа мы уже в корне сайта и никуда идти не нужно.
+          # Если доступ выдан на весь аккаунт, путь задаётся переменной FTP_DIR.
+          FTP_DIR: ${{ vars.FTP_DIR || '.' }}
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           # ssl-force, а не ssl-allow: «allow» означает «зашифруй, если сервер
