@@ -165,9 +165,16 @@ jobs:
           # коротких. mirror сам пропускает то, что уже лежит на сервере, так
           # что каждый следующий проход доливает только недостающее. Сбой на
           # одном файле больше не роняет всю выкладку.
+          # Файлы, которых на сервере быть не должно. mirror без --delete их не
+          # трогает (и правильно: снести чужое на общем хостинге одной опечаткой
+          # в пути проще простого), поэтому удаляем поимённо. rm -f молчит,
+          # если файла уже нет.
+          #   _probe.php — разовый пробник протокола, своё отработал 04.10.2026
+          CLEANUP="rm -f \"$FTP_DIR/_probe.php\";"
+
           for pass in 1 2 3 4 5; do
             echo "::group::Проход $pass"
-            if lftp -f <(cat "$RUNNER_TEMP/lftp.rc"; echo "mirror -R --no-perms --parallel=2 --verbose=1 dist/ \"$FTP_DIR\"; bye"); then
+            if lftp -f <(cat "$RUNNER_TEMP/lftp.rc"; echo "mirror -R --no-perms --parallel=2 --verbose=1 dist/ \"$FTP_DIR\"; $CLEANUP bye"); then
               echo "проход $pass: lftp завершился без ошибок"
               echo "::endgroup::"
               break
@@ -197,7 +204,18 @@ jobs:
             esac
           done < <(find dist -type f | sort)
           echo "на сервере: $((total-missing)) из $total"
-          if [ "$missing" -gt 0 ]; then
-            echo "::error::Не доехало файлов: $missing"
+
+          # И обратная проверка: того, что должно было исчезнуть, на сервере нет
+          leftover=0
+          for gone in _probe.php; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://julialyapina.ru/$gone")
+            case "$code" in
+              404|410) ;;
+              *) echo "ОСТАЛСЯ ($code): $gone"; leftover=$((leftover+1)) ;;
+            esac
+          done
+
+          if [ "$missing" -gt 0 ] || [ "$leftover" -gt 0 ]; then
+            echo "::error::Не доехало: $missing, не удалилось: $leftover"
             exit 1
           fi

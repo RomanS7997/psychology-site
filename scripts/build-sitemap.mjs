@@ -115,7 +115,6 @@ Sitemap: ${ORIGIN}/sitemap.xml
 # Каталог _astro НЕ закрываем: там лежат стили и скрипты,
 # без них поисковик не может отрисовать страницу и оценить вёрстку.
 Disallow: ${BASE}/.well-known/
-Disallow: ${BASE}/_probe.php
 
 Crawl-delay: 1
 `;
