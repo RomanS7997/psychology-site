@@ -124,11 +124,26 @@ jobs:
           FTP_DIR: ${{ vars.FTP_DIR || 'public_html' }}
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
-          # Без --delete: лишние старые файлы вреда не делают, а снести чужое
-          # одной опечаткой в пути — делают.
+          # ssl-force, а не ssl-allow: «allow» означает «зашифруй, если сервер
+          # предложит», и при любой заминке пароль уходит открытым текстом,
+          # ничего об этом не сказав. Шифрование у Beget есть — проверено
+          # вручную, AUTH TLS отвечает 234 и поднимает TLS 1.3, — просто сервер
+          # не объявляет его в списке возможностей. Так что требуем.
+          #
+          # verify-certificate выключен сознательно: Beget показывает на FTP
+          # сертификат, выписанный не на этот домен и не на имя своего сервера,
+          # так что проверить подлинность нечем. Шифрование от подслушивания
+          # защищает, от подмены сервера — нет. Полную проверку даёт SFTP:
+          # если у FTP-аккаунта включить SSH, этот шаг переводится на него.
+          #
+          # Без --delete: лишний старый файл вреда не делает, а снести чужое
+          # одной опечаткой в пути — делает.
           lftp -c "
-            set ftp:ssl-allow true;
+            set ftp:ssl-force true;
+            set ftp:ssl-protect-data true;
             set ssl:verify-certificate no;
+            set net:max-retries 3;
+            set net:timeout 30;
             open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
             mirror -R --verbose --parallel=4 dist/ \"$FTP_DIR\";
           "
