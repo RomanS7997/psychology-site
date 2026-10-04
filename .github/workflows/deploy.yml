@@ -82,7 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     # Оборванная FTP-сессия умеет висеть до упора. Пятнадцати минут хватает
     # с запасом даже на полную перезаливку с видео.
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -151,15 +151,29 @@ jobs:
           #
           # Два потока вместо четырёх: на общем хостинге лимит одновременных
           # подключений невелик, а гонка за него даёт отказы посреди заливки.
+          # Разбор первой боевой заливки — две разные беды, обе здесь закрыты.
+          #
+          # 1. «550 SITE CHMOD command failed». После каждого файла lftp просит
+          #    сервер выставить права; Beget такую команду запрещает. На сам
+          #    файл это не влияет — он уже залит и открывается, — но lftp
+          #    считает это ошибкой, а с cmd:fail-exit падает вся задача.
+          #    use-site-chmod no + --no-perms: прав не трогаем вовсе.
+          #
+          # 2. «Fatal error: max-retries exceeded» на десятке картинок. Общий
+          #    хостинг не любит частых параллельных входов: три попытки с
+          #    паузой в пять секунд он отбивал. Один поток вместо двух, десять
+          #    попыток и растущая пауза — заливка идёт дольше, но доходит.
           lftp -c "
             set ftp:use-feat no;
             set ftp:ssl-force true;
             set ftp:ssl-protect-data true;
+            set ftp:use-site-chmod no;
             set ssl:verify-certificate no;
-            set net:max-retries 3;
-            set net:reconnect-interval-base 5;
-            set net:timeout 30;
+            set net:max-retries 10;
+            set net:reconnect-interval-base 10;
+            set net:reconnect-interval-multiplier 1.5;
+            set net:timeout 60;
             set cmd:fail-exit true;
             open -u \"$FTP_USER\",\"$FTP_PASSWORD\" \"$FTP_HOST\";
-            mirror -R --verbose --parallel=2 dist/ \"$FTP_DIR\";
+            mirror -R --verbose --no-perms --parallel=1 dist/ \"$FTP_DIR\";
           "
