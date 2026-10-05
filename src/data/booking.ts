@@ -53,8 +53,8 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
     lede: 'Первая встреча — знакомство и разбор запроса. Ничего готовить заранее не нужно.',
     facts: [
       { label: 'Длительность', value: '55 минут' },
-      { label: 'Стоимость', value: '6000 ₽' },
       { label: 'Формат', value: 'Онлайн или в кабинете' },
+      { label: 'Кабинет', value: 'Одинцово, Лесной городок' },
     ],
     fields: ADULT_FIELDS,
     subject: 'Заявка: консультация для взрослых',
@@ -84,7 +84,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
     lede: 'Начинаем со встречи с родителем: обсуждаем запрос и подбираем формат.',
     facts: [
       { label: 'Возраст', value: 'С 5 лет' },
-      { label: 'Занятие', value: '55 минут — 4500 ₽' },
+      { label: 'Занятие', value: '55 минут' },
       { label: 'Формат', value: 'Онлайн или в кабинете' },
     ],
     fields: CHILD_FIELDS,
