@@ -88,10 +88,8 @@
           el.classList.add('animate-in', 'shown');
         }
       });
-      document.querySelectorAll('[data-counter]').forEach(function (el) {
-        if (el.textContent.trim() === '0' && el.getBoundingClientRect().top < window.innerHeight * 1.5) {
-          el.textContent = el.getAttribute('data-counter') + (el.getAttribute('data-suffix') || '');
-        }
+      document.querySelectorAll('[data-counter]:not(.counter-ready)').forEach(function (el) {
+        if (el.getBoundingClientRect().top < window.innerHeight * 1.5) showCounterFinal(el);
       });
     }, 1500);
 
@@ -118,9 +116,7 @@
     document.querySelectorAll('[data-stagger] > *').forEach(function (el) {
       el.classList.add('animate-in');
     });
-    document.querySelectorAll('[data-counter]').forEach(function (el) {
-      el.textContent = el.getAttribute('data-counter') + (el.getAttribute('data-suffix') || '');
-    });
+    document.querySelectorAll('[data-counter]').forEach(showCounterFinal);
     // полоски и линии прогресса тоже должны оказаться в конечном состоянии
     document.querySelectorAll('[data-progress-bar]').forEach(function (el) {
       el.style.width = el.getAttribute('data-progress-bar') + '%';
@@ -145,33 +141,62 @@
     }, 200);
   }
 
-  // Анимация счетчиков
-  function animateCounter(element) {
-    const targetStr = element.getAttribute('data-counter');
-    const isDecimal = targetStr.includes('.');
-    const target = parseFloat(targetStr);
-    const duration = 1200;
-    const start = 0;
-    const increment = target / (duration / 16); // 60 FPS
-    let current = start;
+  // Счётчики.
+  //
+  // Настоящее число стоит прямо в разметке: <div data-counter>15+</div>.
+  // Раньше там был «0», а число дописывала анимация — и всё, что читает
+  // страницу без JavaScript (поисковики, превью ссылок в мессенджерах),
+  // видело «0 лет практики, 0 клиентов».
+  //
+  // Число и приставку берём из самого текста, а не из отдельного атрибута:
+  // один источник. Поменяли «500+» на «600+» в разметке — анимация сама
+  // досчитает до 600, второго места для правки нет.
+  //
+  // До старта анимации число скрыто стилем (visibility, место под него
+  // держится), иначе на первом экране было бы видно «15+», потом сброс на
+  // ноль и счёт заново.
+  function counterFinal(el) {
+    if (!el.dataset.final) el.dataset.final = el.textContent.trim();
+    return el.dataset.final;
+  }
 
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        if (isDecimal) {
-          element.textContent = target.toFixed(1) + (element.getAttribute('data-suffix') || '');
-        } else {
-          element.textContent = Math.floor(target) + (element.getAttribute('data-suffix') || '');
-        }
-        clearInterval(timer);
-      } else {
-        if (isDecimal) {
-          element.textContent = current.toFixed(1) + (element.getAttribute('data-suffix') || '');
-        } else {
-          element.textContent = Math.floor(current) + (element.getAttribute('data-suffix') || '');
-        }
-      }
-    }, 16);
+  function showCounterFinal(el) {
+    el.textContent = counterFinal(el);
+    el.classList.add('counter-ready');
+  }
+
+  function animateCounter(element) {
+    // Счётчик может попасть сюда дважды — сам по себе и через родителя.
+    // И его мог уже показать страховочный таймер: сайт открыли в фоновой
+    // вкладке, таймер выставил готовое число, а при переходе на вкладку
+    // наблюдатель проснулся. Запустись анимация тогда — человек увидел бы
+    // «15+», сброс на ноль и счёт заново.
+    if (element.dataset.counting || element.classList.contains('counter-ready')) return;
+    element.dataset.counting = '1';
+
+    var final = counterFinal(element);
+    var m = final.match(/^(\d+(?:\.\d+)?)(.*)$/);
+    if (!m) { showCounterFinal(element); return; }
+
+    var target = parseFloat(m[1]);
+    var suffix = m[2];
+    var isDecimal = m[1].indexOf('.') !== -1;
+    var duration = 1200;
+    var startedAt = null;
+
+    element.textContent = (isDecimal ? '0.0' : '0') + suffix;
+    element.classList.add('counter-ready');
+
+    function frame(now) {
+      if (startedAt === null) startedAt = now;
+      var t = Math.min(1, (now - startedAt) / duration);
+      var eased = 1 - Math.pow(1 - t, 3);
+      var value = target * eased;
+      element.textContent = (isDecimal ? value.toFixed(1) : Math.floor(value)) + suffix;
+      if (t < 1) requestAnimationFrame(frame);
+      else element.textContent = final;
+    }
+    requestAnimationFrame(frame);
   }
 
   // Инициализация при загрузке страницы
@@ -195,6 +220,12 @@
 </script>
 
 <style is:global>
+  /* Счётчик скрыт, пока не началась анимация: иначе на первом экране мелькнуло
+     бы готовое число, потом ноль и счёт заново. visibility, а не display —
+     место под число держится, вёрстка не прыгает. Без JavaScript его
+     показывает <noscript> в Layout.astro. */
+  [data-counter]:not(.counter-ready) { visibility: hidden; }
+
   /* Появление блоков: короткое и мягкое */
   [data-reveal] {
     opacity: 0;
@@ -216,6 +247,7 @@
       transform: none !important;
       transition: none !important;
     }
+    [data-counter] { visibility: visible !important; }
   }
 
   /* Fade in */
