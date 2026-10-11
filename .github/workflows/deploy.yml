@@ -270,7 +270,7 @@ jobs:
           python3 - "$key" <<'PY' > indexnow.json
           import datetime, json, re, sys
           key = sys.argv[1]
-          since = (datetime.datetime.utcnow() - datetime.timedelta(days=2)).strftime("%Y-%m-%d")
+          since = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=2)).strftime("%Y-%m-%d")
           xml = open("dist/sitemap.xml", encoding="utf-8").read()
           urls = [loc for loc, mod in re.findall(r"<loc>([^<]+)</loc>\s*<lastmod>([^<]+)</lastmod>", xml) if mod >= since]
           print(json.dumps({
@@ -285,9 +285,14 @@ jobs:
           echo "изменившихся страниц: $count"
           if [ "$count" = "0" ]; then echo "сообщать не о чем"; exit 0; fi
 
-          for endpoint in https://yandex.com/indexnow https://api.indexnow.org/indexnow; do
+          # Первым идёт общий адрес протокола: он раздаёт сообщение всем
+          # участникам, включая Яндекс. Прямой адрес Яндекса — вторым и не
+          # обязателен: 11.10.2026 он обрывал соединение и с сервера выкладки,
+          # и с домашнего адреса, и из-за этого обрыва падал весь шаг, не
+          # дойдя до второго адреса. Теперь сбой одного адреса другому не мешает.
+          for endpoint in https://api.indexnow.org/indexnow https://yandex.com/indexnow; do
             code=$(curl -s -o /tmp/indexnow.out -w '%{http_code}' --max-time 30 \
               -H 'Content-Type: application/json; charset=utf-8' \
-              --data-binary @indexnow.json "$endpoint")
-            echo "$endpoint -> $code $(head -c 200 /tmp/indexnow.out)"
+              --data-binary @indexnow.json "$endpoint" || true)
+            echo "$endpoint -> ${code:-нет ответа} $(head -c 200 /tmp/indexnow.out 2>/dev/null || true)"
           done
