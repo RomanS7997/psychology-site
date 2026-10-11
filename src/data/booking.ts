@@ -38,7 +38,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
     facts: [
       { label: 'Отвечу', value: 'В рабочее время' },
       { label: 'Формат', value: 'Онлайн или в кабинете' },
-      { label: 'Кабинет', value: 'Одинцово, Лесной городок' },
+      { label: 'Кабинет', value: 'Лесной городок, Школьная ул., 2' },
     ],
     fields: ADULT_FIELDS,
     subject: 'Заявка с сайта — запись',
@@ -54,7 +54,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
     facts: [
       { label: 'Длительность', value: '55 минут' },
       { label: 'Формат', value: 'Онлайн или в кабинете' },
-      { label: 'Кабинет', value: 'Одинцово, Лесной городок' },
+      { label: 'Кабинет', value: 'Лесной городок, Школьная ул., 2' },
     ],
     fields: ADULT_FIELDS,
     subject: 'Заявка: консультация для взрослых',
@@ -69,7 +69,7 @@ export const BOOKING_CONTEXTS: Record<string, BookingContext> = {
     facts: [
       { label: 'Формат', value: 'Игра-медитация' },
       { label: 'С чем работаем', value: 'С вашим запросом' },
-      { label: 'Место', value: 'Кабинет в Лесном городке' },
+      { label: 'Место', value: 'Лесной городок, Школьная ул., 2' },
     ],
     fields: ADULT_FIELDS,
     subject: 'Заявка: трансформационная игра «Лила»',

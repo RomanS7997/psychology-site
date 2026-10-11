@@ -7,15 +7,17 @@
     "phone": "+7 (915) 195-51-32",
     "phoneRaw": "+79151955132",
     "email": "lyapina_sorokina@mail.ru",
-    "address": "Одинцово, Лесной городок, Московская область",
+    "address": "Лесной городок, Школьная ул., 2",
+    "addressNote": "Одинцовский округ, Московская область",
     "hours": "Ежедневно, 9:00–21:00",
     "whatsapp": "https://wa.me/79151955132",
     "telegram": "https://t.me/lyapinajuliya",
+    "yandexCard": "https://yandex.ru/maps/org/psikholog_lyapina_yu_v_/162631418145/",
+    "yandexOrgId": "162631418145",
     "geo": {
-      "lat": 55.63998,
-      "lon": 37.20745
-    },
-    "yandexCard": "https://yandex.ru/maps/org/psikholog_lyapina_yu_v_/162631418145/"
+      "lat": 55.633298,
+      "lon": 37.212914
+    }
   },
   "menu": {
     "servicesLabel": "Услуги",

@@ -12,11 +12,9 @@ import { services } from '../data/services';
 const geo = site.contacts.geo;
 
 // Ссылки на Яндекс Карты ведут в карточку кабинета: там отзывы, фотографии
-// и маршрут. На самой странице точный адрес по-прежнему не пишется — карта
-// ниже показывает посёлок, а не дом.
+// и маршрут.
 const mapLink = site.contacts.yandexCard;
-// Маршрут строится до точки карточки: её координаты взяты из самой карточки
-const routeLink = 'https://yandex.ru/maps/?rtext=~55.633394%2C37.212872&rtt=auto';
+const routeLink = `https://yandex.ru/maps/?rtext=~${geo.lat}%2C${geo.lon}&rtt=auto`;
 
 // Что проходит в кабинете: названия из меню, возраст и длительность — со
 // страниц самих услуг.
@@ -32,12 +30,12 @@ const detail: Record<string, string> = {
 
 <Layout
   title="Записаться к психологу: контакты | Лесной городок, Одинцово"
-  description="Позвоните, напишите в WhatsApp или Telegram — отвечаю ежедневно с 9:00 до 21:00. Кабинет в Одинцово, посёлок Лесной городок; точный адрес сообщу при записи."
+  description="Позвоните, напишите в WhatsApp или Telegram — отвечаю ежедневно с 9:00 до 21:00. Кабинет: Лесной городок, Школьная ул., 2, Одинцовский округ."
 >
   <SEO
     slot="head"
     title="Записаться к психологу: контакты | Лесной городок, Одинцово"
-    description="Позвоните, напишите в WhatsApp или Telegram — отвечаю ежедневно с 9:00 до 21:00. Кабинет в Одинцово, посёлок Лесной городок; точный адрес сообщу при записи."
+    description="Позвоните, напишите в WhatsApp или Telegram — отвечаю ежедневно с 9:00 до 21:00. Кабинет: Лесной городок, Школьная ул., 2, Одинцовский округ."
     schema="localbusiness"
   />
 
@@ -195,7 +193,7 @@ const detail: Record<string, string> = {
                 <div class="contact-body">
                   <p class="contact-title">Адрес</p>
                   <p class="contact-value contact-value-sm">{site.contacts.address}</p>
-                  <p class="contact-sub">Точный адрес кабинета сообщу при записи</p>
+                  <p class="contact-sub">{site.contacts.addressNote}</p>
                   <a href="#map" class="contact-link">
                     Как добраться
                     <Icon name="scroll-to-map" size={16} />
@@ -280,7 +278,7 @@ const detail: Record<string, string> = {
           <dl class="place-facts" data-reveal>
             <div>
               <dt>Где</dt>
-              <dd>Московская область, Одинцовский округ, посёлок Лесной городок. Точный адрес кабинета сообщу при записи.</dd>
+              <dd>Московская область, Одинцовский округ, посёлок Лесной городок, Школьная ул., 2.</dd>
             </div>
             <div>
               <dt>Рядом</dt>
@@ -312,11 +310,11 @@ const detail: Record<string, string> = {
 
         <!-- Яндекс.Карты -->
         <div class="map-frame" data-reveal>
-          <div id="yandex-map" data-lat={geo.lat} data-lon={geo.lon}>
+          <div id="yandex-map" data-lat={geo.lat} data-lon={geo.lon} data-org={site.contacts.yandexOrgId}>
             <div class="map-fallback" id="map-fallback">
               <span class="contact-icon"><Icon name="address" size={20} /></span>
               <p class="map-fallback-title">{site.contacts.address}</p>
-              <p class="map-fallback-text">Точный адрес кабинета сообщу при записи</p>
+              <p class="map-fallback-text">{site.contacts.addressNote}</p>
             </div>
           </div>
         </div>
@@ -441,9 +439,9 @@ const detail: Record<string, string> = {
   // вместо настоящего: она рисовалась только пока Яндекс это терпел, а в ответе
   // прямо писал, что ключ неверный. Виджету ключ не нужен вовсе.
   //
-  // Метки на карте нет намеренно: точный адрес кабинета сообщается при
-  // записи, а метка в центре посёлка выглядела бы как «кабинет здесь» —
-  // прежняя вообще стояла на чужом доме в соседнем Солманово.
+  // Карта открывается на карточке кабинета: метка, адрес, часы и кнопка
+  // «Как добраться» приходят из Яндекса и не могут разойтись с тем, что
+  // стоит в карточке.
   //
   // Грузим, когда до карты долистали: она тяжелее всей остальной страницы,
   // а стоит внизу — человек, пришедший за телефоном, не должен за неё платить.
@@ -453,8 +451,9 @@ const detail: Record<string, string> = {
     const host = document.getElementById('yandex-map');
     if (!host) return;
     const frame = document.createElement('iframe');
-    frame.src = 'https://yandex.ru/map-widget/v1/?ll=' + host.dataset.lon + '%2C' + host.dataset.lat + '&z=13';
-    frame.title = 'Карта: посёлок Лесной городок, Одинцовский округ';
+    frame.src = 'https://yandex.ru/map-widget/v1/?ll=' + host.dataset.lon + '%2C' + host.dataset.lat +
+      '&mode=search&oid=' + host.dataset.org + '&ol=biz&z=16';
+    frame.title = 'Карта: кабинет психолога, Лесной городок, Школьная ул., 2';
     frame.setAttribute('allowfullscreen', 'true');
     frame.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
     // Адрес-подстраховку убираем, только когда карта действительно пришла:
