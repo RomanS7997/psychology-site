@@ -65,18 +65,34 @@ const crumbSchema = {
     background: var(--canvas);
   }
 
+  /* Крошки всегда в одну строку. Раньше длинная цепочка на телефоне
+     переносилась, а переносилась ли — зависело от шрифта: пока свой шрифт
+     не загрузился, строка была одна, после — две, и вся страница под
+     крошками прыгала вниз на глазах у человека. Теперь длинное название
+     обрезается многоточием, а высота строки не меняется. */
   .crumb-list {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 8px;
     font-size: 13px;
+    min-width: 0;
   }
 
   .crumb-item {
     display: flex;
     align-items: center;
     gap: 8px;
+    min-width: 0;
+  }
+  .crumb-item:first-child { flex-shrink: 0; }
+
+  .crumb-link,
+  .crumb-current {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .crumb-sep {
