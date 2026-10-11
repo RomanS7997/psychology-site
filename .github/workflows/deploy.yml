@@ -178,7 +178,33 @@ jobs:
           # времени. Оставь её здесь — каждая выкладка тратила бы полчаса и
           # отменялась. Удаляется одним нажатием в файловом менеджере Beget:
           # там это делается на самом сервере, за секунды.
-          CLEANUP="rm -f \"$FTP_DIR/_probe.php\"; rm -r -f \"$FTP_DIR/img\";"
+          #
+          # Третья группа — файлы, убранные из сайта 11.10.2026: черновая
+          # инструкция и посторонний портрет, лежавшие в открытом доступе,
+          # дубли фотографий команды и варианты картинок, растянутые больше
+          # исходника. Из репозитория они удалены, но mirror без --delete
+          # оставил бы их на сервере навсегда.
+          GONE="images/README.md
+          images/adult-consulting.jpg
+          images/adult-consulting.webp
+          images/services/photo_2025-11-23_16-50-24.jpg
+          images/services/photo_2025-11-23_16-50-24.webp
+          images/watercolor-blue.jpg
+          images/watercolor-blue.webp
+          images/logo-256.png
+          images/og-image.webp
+          images/specialists/specialist-2.jpg
+          images/specialists/specialist-2.webp
+          images/gallery/azbuka/5-1120.webp
+          images/gallery/umniky/2-1120.webp
+          images/services/adult-consulting-1120.webp
+          images/services/child-therapy-1120.webp
+          images/services/school-prep-1120.webp"
+          CLEANUP="rm -f \"$FTP_DIR/_probe.php\"; rm -r -f \"$FTP_DIR/img\"; rm -r -f \"$FTP_DIR/images/team\";"
+          for f in $GONE; do
+            # Страховка: если такой файл снова появился в сборке, не трогаем его
+            if [ ! -e "dist/$f" ]; then CLEANUP="$CLEANUP rm -f \"$FTP_DIR/$f\";"; fi
+          done
 
           for pass in 1 2 3 4 5; do
             echo "::group::Проход $pass"
@@ -215,7 +241,7 @@ jobs:
 
           # И обратная проверка: того, что должно было исчезнуть, на сервере нет
           leftover=0
-          for gone in _probe.php img/favicon-32x32.png; do
+          for gone in _probe.php img/favicon-32x32.png images/README.md images/services/photo_2025-11-23_16-50-24.jpg images/team/julia-lyapina.jpg; do
             code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://julialyapina.ru/$gone")
             case "$code" in
               404|410) ;;
@@ -227,3 +253,41 @@ jobs:
             echo "::error::Не доехало: $missing, не удалилось: $leftover"
             exit 1
           fi
+
+      # Сразу после выкладки сообщаем Яндексу (и всем, кто поддерживает протокол
+      # IndexNow) адреса страниц, которые менялись в последние дни. Без этого
+      # робот узнаёт о правке, когда сам до неё дойдёт, — у молодого сайта это
+      # дни и недели. Ключ — файл в корне сайта; он не секрет, поисковик сам
+      # его скачивает, чтобы убедиться, что сообщение пришло от владельца.
+      # Сбой здесь выкладку не роняет: сайт уже на месте и проверен.
+      - name: Сообщить поисковикам об изменениях (IndexNow)
+        if: steps.check.outputs.ready == 'yes'
+        continue-on-error: true
+        run: |
+          key=$(ls dist | grep -E '^[0-9a-f]{32}\.txt$' | head -1 | sed 's/\.txt$//')
+          if [ -z "$key" ]; then echo "ключа IndexNow в сборке нет — пропускаю"; exit 0; fi
+
+          python3 - "$key" <<'PY' > indexnow.json
+          import datetime, json, re, sys
+          key = sys.argv[1]
+          since = (datetime.datetime.utcnow() - datetime.timedelta(days=2)).strftime("%Y-%m-%d")
+          xml = open("dist/sitemap.xml", encoding="utf-8").read()
+          urls = [loc for loc, mod in re.findall(r"<loc>([^<]+)</loc>\s*<lastmod>([^<]+)</lastmod>", xml) if mod >= since]
+          print(json.dumps({
+              "host": "julialyapina.ru",
+              "key": key,
+              "keyLocation": "https://julialyapina.ru/%s.txt" % key,
+              "urlList": urls,
+          }, ensure_ascii=False))
+          PY
+
+          count=$(python3 -c "import json; print(len(json.load(open('indexnow.json'))['urlList']))")
+          echo "изменившихся страниц: $count"
+          if [ "$count" = "0" ]; then echo "сообщать не о чем"; exit 0; fi
+
+          for endpoint in https://yandex.com/indexnow https://api.indexnow.org/indexnow; do
+            code=$(curl -s -o /tmp/indexnow.out -w '%{http_code}' --max-time 30 \
+              -H 'Content-Type: application/json; charset=utf-8' \
+              --data-binary @indexnow.json "$endpoint")
+            echo "$endpoint -> $code $(head -c 200 /tmp/indexnow.out)"
+          done

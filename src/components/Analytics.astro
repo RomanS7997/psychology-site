@@ -1,0 +1,107 @@
+---
+// Счётчики посещаемости и цели: Яндекс.Метрика и Google Analytics 4.
+//
+// Номера счётчиков лежат в src/data/analytics.json. Пока они пустые, этот
+// компонент не выводит на страницу НИЧЕГО — ни скриптов, ни плашки.
+// Сама логика — в public/analytics.js (отдельным файлом: условно вывести
+// встроенный скрипт Astro надёжно не умеет, а так на странице без счётчиков
+// от аналитики нет ни байта).
+//
+// Три решения, принятых намеренно.
+//
+// 1. Счётчики включаются только после согласия посетителя (requireConsent).
+//    Это сайт психолога: человек приходит сюда с личным, и по закону о
+//    персональных данных на метрические программы нужно согласие. Плата —
+//    часть посещений в статистику не попадёт. Переключатель один:
+//    "requireConsent": false в analytics.json.
+//
+// 2. Вебвизор выключен в коде (webvisor: false) и включаться не должен.
+//    Он записывает движения мыши и ввод в поля — то есть то, что человек
+//    печатает в «Что вас беспокоит».
+//
+// 3. В цели уходит только сам факт («заявка отправлена») и раздел сайта.
+//    Ни имени, ни телефона, ни текста из форм в аналитике нет.
+//
+// На превью (github.io) счётчики не ставятся: это не настоящие посетители.
+import analytics from '../data/analytics.json';
+import { url } from '../utils/url';
+
+const isPreview = /github\.io$/.test(Astro.site?.hostname || '');
+const ym = String(analytics.yandexMetrika || '').trim();
+const ga = String(analytics.ga4 || '').trim();
+const enabled = !isPreview && Boolean(ym || ga);
+const requireConsent = analytics.requireConsent !== false;
+
+const config = enabled ? { ym, ga, requireConsent } : null;
+
+// Какие сервисы назвать в плашке — ровно те, что подключены
+const services = [ym && 'Яндекс.Метрика', ga && 'Google Analytics'].filter(Boolean).join(' и ');
+---
+
+{enabled && <script is:inline set:html={`window.__analytics=${JSON.stringify(config)};`}></script>}
+{enabled && <script is:inline defer src={url('/analytics.js')}></script>}
+
+{enabled && (
+  <div id="cookie-note" class="cookie-note" role="region" aria-label="Уведомление о файлах cookie" hidden>
+    <p class="cookie-text">
+      Сайт использует файлы cookie и {services}, чтобы понимать, какие страницы полезны.
+      То, что вы пишете в формах, в статистику не попадает.
+      <a href={url('/privacy/#cookies')}>Подробнее</a>
+    </p>
+    <div class="cookie-actions">
+      <button type="button" class="pill pill-solid cookie-btn" data-cookie-yes>Хорошо</button>
+      {requireConsent && (
+        <button type="button" class="pill pill-outline cookie-btn" data-cookie-no>Не нужно</button>
+      )}
+    </div>
+  </div>
+)}
+
+<style>
+  .cookie-note {
+    position: fixed;
+    left: 2rem;
+    bottom: 2rem;
+    z-index: 91;
+    width: min(400px, calc(100vw - 2rem));
+    padding: 18px 20px;
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-card);
+    animation: cookie-in .4s cubic-bezier(.2, .7, .3, 1) both;
+  }
+  .cookie-note[hidden] { display: none; }
+
+  .cookie-text {
+    margin: 0 0 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--graphite);
+  }
+  .cookie-text a {
+    color: var(--spark-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .cookie-text a:hover { color: var(--ink); }
+
+  .cookie-actions { display: flex; gap: 8px; }
+  .cookie-btn { padding: 10px 18px; font-size: 14px; min-height: 44px; }
+
+  @keyframes cookie-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 640px) {
+    .cookie-note { left: 1rem; right: 1rem; bottom: 1rem; width: auto; padding: 16px; }
+    /* На телефоне плашка занимает низ экрана целиком — кнопку записи поднимаем над ней */
+    :global(body.has-cookie-note .floating-cta-container) {
+      bottom: calc(var(--cookie-note-h, 0px) + 1.75rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cookie-note { animation: none; }
+  }
+</style>

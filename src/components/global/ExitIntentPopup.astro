@@ -611,6 +611,8 @@ import { url } from '../../utils/url';
         throw new Error('Заявка не принята сервисом отправки');
       }
 
+        try { window.siteTrack && window.siteTrack('booking_submit', { context: 'exit-popup' }); } catch (e) {}
+
         const form = document.getElementById('exit-form');
         const success = document.getElementById('exit-success');
         const header = document.querySelector('.exit-popup-header');

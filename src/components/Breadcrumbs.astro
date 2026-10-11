@@ -14,14 +14,22 @@ const { items } = Astro.props;
 // Поисковику цепочка нужна разметкой, а не только глазами: так в выдаче
 // вместо голого адреса показывают путь «Главная → Услуги → Страница».
 const absolute = (href: string) => new URL(href, Astro.site).href;
+const pathname = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const pageUrl = new URL(pathname, Astro.site).href;
+
+// В разметку идут только настоящие страницы. Ступень, которая ведёт на якорь
+// («/#services»), человеку полезна, а поисковику — нет: это не отдельный адрес.
+// Последняя ступень — сама страница, её адрес известен и без ссылки.
+const steps = items.filter((item) => !(item.href && item.href.includes('#')));
 const crumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
-  itemListElement: items.map((item, index) => ({
+  '@id': `${pageUrl}#breadcrumb`,
+  itemListElement: steps.map((item, index) => ({
     '@type': 'ListItem',
     position: index + 1,
     name: item.label,
-    ...(item.href ? { item: absolute(item.href) } : {}),
+    item: item.href ? absolute(item.href) : pageUrl,
   })),
 };
 ---

@@ -1,7 +1,7 @@
 ---
 // src/pages/about.astro — страница «Обо мне»
 import Layout from '../layouts/Layout.astro';
-import { webp } from '../utils/img';
+import { webp, dims, altOf } from '../utils/img';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
@@ -104,15 +104,14 @@ const methods = [
 ---
 
 <Layout
-  title="Обо мне - Кабинет психолога в Одинцово | Ляпина Юлия"
-  description="О кабинете психолога Ляпиной Юлии в Одинцово."
+  title="Психолог Юлия Ляпина: как я работаю | КПТ, ДПДГ, арт-терапия"
+  description="Не держу в терапии годами — учу справляться самостоятельно. Рассказываю о подходе и методах работы с детьми, подростками и взрослыми. Будут вопросы — пишите."
 >
   <SEO
     slot="head"
-    title="Обо мне - Кабинет психолога в Одинцово | Ляпина Юлия"
-    description="О кабинете психолога Ляпиной Юлии в Одинцово. Моя команда, 15 лет опыта работы, подход к клиентам."
-    keywords="психолог Одинцово, о кабинете, команда специалистов"
-    schema="organization"
+    title="Психолог Юлия Ляпина: как я работаю | КПТ, ДПДГ, арт-терапия"
+    description="Не держу в терапии годами — учу справляться самостоятельно. Рассказываю о подходе и методах работы с детьми, подростками и взрослыми. Будут вопросы — пишите."
+    schema="about"
   />
 
   <Breadcrumbs
@@ -128,7 +127,7 @@ const methods = [
       <div class="inner">
         <div class="hero-grid">
           <div data-reveal>
-            <p class="eyebrow mb-4">О кабинете</p>
+            <p class="eyebrow mb-4">Юлия Ляпина, психолог</p>
             <h1 class="display mb-5">Обо мне</h1>
             <p class="lede max-w-[50ch]">
               Кабинет психолога Ляпина Юлия в Одинцово, посёлок Лесной городок —
@@ -140,7 +139,7 @@ const methods = [
           <div class="hero-photo" data-reveal>
             <picture>
   {webp('/images/services/julia-lyapina.jpg') && <source srcset={webp('/images/services/julia-lyapina.jpg')} type="image/webp" />}
-  <img src={url('/images/services/julia-lyapina.jpg')} alt="Юлия Ляпина, психолог" loading="eager" fetchpriority="high" decoding="async" />
+  <img src={url('/images/services/julia-lyapina.jpg')} {...dims('/images/services/julia-lyapina.jpg')} alt={altOf('/images/services/julia-lyapina.jpg', 'Юлия Ляпина, психолог')} loading="eager" fetchpriority="high" decoding="async" />
 </picture>
           </div>
         </div>
@@ -160,7 +159,7 @@ const methods = [
         <div class="story" data-reveal>
           <p>
             Меня зовут Юлия! Благодаря практике и разнообразным методикам, я работаю
-            с детьми, подростками и взрослыми.
+            <a href={url('/services/children')}>с детьми, подростками</a> и <a href={url('/services/adult')}>взрослыми</a>.
           </p>
 
           <p class="story-label">В работе использую:</p>
@@ -178,10 +177,10 @@ const methods = [
           </p>
           <p>
             Все мои программы созданы с учётом реальных запросов, например, курсы для
-            детей «Азбука общения» и «Умники и умницы».
+            детей «<a href={url('/programs/azbuka')}>Азбука общения</a>» и «<a href={url('/programs/umniky')}>Умники и умницы</a>».
           </p>
           <p>
-            Многие родители понимают важность мягкой подготовки ребёнка к школе и помощи
+            Многие родители понимают важность мягкой <a href={url('/services/school-prep')}>подготовки ребёнка к школе</a> и помощи
             в контакте с чувствами — это основа для успешной жизни. Мне приятно быть
             частью их счастья и развития.
           </p>
@@ -269,9 +268,12 @@ const methods = [
           <p class="lede cta-lede mb-8">
             Запишитесь на первую консультацию и сделайте первый шаг к изменениям
           </p>
-          <button onclick="openBookingModal('adult')" class="pill pill-solid pill-lg" type="button">
-            Записаться на консультацию
-          </button>
+          <div class="cta-actions">
+            <button onclick="openBookingModal('adult')" class="pill pill-solid pill-lg" type="button">
+              Записаться на консультацию
+            </button>
+            <a href={url('/specialists')} class="pill pill-outline pill-lg">Моя команда</a>
+          </div>
         </div>
       </div>
     </div>
@@ -310,6 +312,9 @@ const methods = [
   .story p { font-size: 16px; line-height: 1.75; color: var(--graphite); margin-bottom: 16px; }
   .story p:last-child { margin-bottom: 0; }
   .story-label { margin-bottom: 10px; }
+  /* Тихие ссылки в рассказе — на страницы услуг и программ */
+  .story a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .story a:hover { color: var(--ink); }
 
   .story-list {
     list-style: none; margin: 0 0 20px; padding: 0;
@@ -373,6 +378,7 @@ const methods = [
   .closing-band { padding: 64px 48px; text-align: center; }
   .closing-band .eyebrow { justify-content: center; }
   .cta-lede { max-width: 46ch; margin-inline: auto; }
+  .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
   /* ---------- адаптив ---------- */
   @media (max-width: 1023px) {

@@ -184,6 +184,9 @@
     var duration = 1200;
     var startedAt = null;
 
+    // Ширину берём по готовому числу, пока оно ещё в разметке: «0+» уже,
+    // чем «500+», и без этого соседние цифры сдвигались бы на каждом шаге.
+    element.style.minWidth = element.offsetWidth + 'px';
     element.textContent = (isDecimal ? '0.0' : '0') + suffix;
     element.classList.add('counter-ready');
 
@@ -225,6 +228,24 @@
      место под число держится, вёрстка не прыгает. Без JavaScript его
      показывает <noscript> в Layout.astro. */
   [data-counter]:not(.counter-ready) { visibility: hidden; }
+
+  /* Первый экран не ждёт JavaScript. Блоки ниже появляются, когда до них
+     долистали, и это решает скрипт; но самый первый блок страницы человек
+     видит сразу — и раньше он оставался прозрачным, пока скрипт в конце
+     страницы не загрузится и не «заметит» его. На странице контактов это
+     стоило секунды до появления текста. Здесь то же появление, но силами CSS. */
+  main > section:first-of-type [data-reveal] {
+    opacity: 1;
+    transform: none;
+    animation: first-screen-in .5s cubic-bezier(.2, .7, .3, 1) both;
+  }
+  @keyframes first-screen-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    main > section:first-of-type [data-reveal] { animation: none; }
+  }
 
   /* Появление блоков: короткое и мягкое */
   [data-reveal] {

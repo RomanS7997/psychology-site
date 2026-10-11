@@ -1,14 +1,16 @@
 ---
 // src/pages/programs/azbuka.astro
 import Layout from '../../layouts/Layout.astro';
-import { HERO_SIZES, webpSet } from '../../utils/img';
+import { HERO_SIZES, webpSet, dims, altOf } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import FAQ from '../../components/FAQ.astro';
+import RelatedCards from '../../components/RelatedCards.astro';
 import Icon from '../../components/Icon.astro';
 import { url } from '../../utils/url';
+import { serviceCard } from '../../data/services';
 
 // Фото галереи: файлы 1..10 в /images/gallery/azbuka/
 const galleryPhotos = [
@@ -26,7 +28,7 @@ const galleryPhotos = [
 
 const galleryImages = galleryPhotos.map(({ n, caption }) => ({
   src: url(`/images/gallery/azbuka/${n}.jpg`),
-  alt: `Занятие Азбука общения — ${caption.toLowerCase()}`,
+  alt: altOf(`/images/gallery/azbuka/${n}.jpg`, `Занятие «Азбука общения» — ${caption.toLowerCase()}`),
   caption
 }));
 
@@ -74,6 +76,7 @@ const skills = [
 
 const lessonFormat = [
   { label: 'Длительность', value: '60 минут' },
+  { label: 'Место', value: 'кабинет в Лесном городке' },
   { label: 'Размер группы', value: 'до 8 детей' },
   { label: 'Возраст', value: '5–9 лет' },
 ];
@@ -85,21 +88,20 @@ const methods = [
 ---
 
 <Layout
-  title="Азбука общения - Развитие EQ в Одинцово | Для детей 5–9 лет"
-  description="Психологический курс для детей 5–9 лет. Развитие эмоционального интеллекта, работа со страхами, навыки общения. Группы до 8 детей."
+  title="Эмоциональный интеллект у детей: занятия | Лесной городок"
+  description="Ребёнок стесняется, с трудом общается или не говорит о чувствах? Курс «Азбука общения» для детей 5–9 лет: раз в неделю, в группе до 8 человек. Запишитесь."
 >
   <SEO
     slot="head"
-    title="Азбука общения - Развитие EQ в Одинцово | Для детей 5–9 лет"
-    description="Программа Азбука общения в Одинцово. Развитие эмоционального интеллекта для детей 5–9 лет. Умение общаться, дружить, понимать эмоции."
-    keywords="эмоциональный интеллект детей, развитие EQ, занятия для детей Одинцово"
+    title="Эмоциональный интеллект у детей: занятия | Лесной городок"
+    description="Ребёнок стесняется, с трудом общается или не говорит о чувствах? Курс «Азбука общения» для детей 5–9 лет: раз в неделю, в группе до 8 человек. Запишитесь."
     schema="service"
   />
 
   <Breadcrumbs
     items={[
       { label: 'Главная', href: url('/') },
-      { label: 'Программы', href: url('/#programs') },
+      { label: 'Услуги', href: url('/services') },
       { label: 'Азбука общения' }
     ]}
   />
@@ -110,7 +112,7 @@ const methods = [
       <div class="hero-grid">
 
         <div>
-          <p class="eyebrow mb-4">Для детей 5–9 лет</p>
+          <p class="eyebrow mb-4">Эмоциональный интеллект · 5–9 лет</p>
           <h1 class="display mb-5">«Азбука общения»</h1>
 
           <p class="lede mb-6 max-w-[48ch]">
@@ -135,7 +137,7 @@ const methods = [
         <div class="hero-visual orb surface-lg">
           <picture>
   <source srcset={webpSet('/images/gallery/azbuka/5.jpg')} type="image/webp" sizes={HERO_SIZES} />
-  <img src={url('/images/gallery/azbuka/5.jpg')} alt="Занятие «Азбука общения»" class="hero-photo" loading="eager" fetchpriority="high" decoding="async" />
+  <img src={url('/images/gallery/azbuka/5.jpg')} {...dims('/images/gallery/azbuka/5.jpg')} alt={altOf('/images/gallery/azbuka/5.jpg', 'Занятие «Азбука общения»', 'hero')} class="hero-photo" loading="eager" fetchpriority="high" decoding="async" />
 </picture>
         </div>
 
@@ -261,6 +263,10 @@ const methods = [
         {
           question: "Что если ребёнок пропустит занятие?",
           answer: "При болезни (по справке) занятие можно перенести на другой день или получить возврат средств. При пропуске по другим причинам — возможна отработка в индивидуальном формате."
+        },
+        {
+          question: "Где проходят занятия и как добраться?",
+          answer: "В кабинете в Лесном городке, Одинцовский округ. Точный адрес сообщу при записи. На электричке — до станции «Лесной Городок» или «Одинцово», на машине — по Минскому или Можайскому шоссе, парковка рядом с кабинетом."
         }
       ]}
     />
@@ -299,6 +305,18 @@ const methods = [
       </div>
     </div>
   </section>
+
+  <!-- ============ Смотрите также ============ -->
+  <RelatedCards
+    items={[
+      serviceCard('/programs/umniky'),
+      serviceCard('/services/school-prep'),
+      serviceCard('/services/children'),
+    ]}
+    tone="taupe"
+  >
+    <p class="rel-note" data-reveal>Не уверены, что подойдёт? <a href={url('/test/children')}>Тест для родителей</a> — узнайте, какая программа лучше всего подойдёт вашему ребёнку.</p>
+  </RelatedCards>
 
   <ScrollAnimations />
 </Layout>

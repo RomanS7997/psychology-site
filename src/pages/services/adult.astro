@@ -1,7 +1,7 @@
 ---
 // src/pages/services/adult.astro — консультирование взрослых
 import Layout from '../../layouts/Layout.astro';
-import { HERO_SIZES, webpSet } from '../../utils/img';
+import { HERO_SIZES, webpSet, dims, altOf } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -68,22 +68,20 @@ const related = [
 ---
 
 <Layout
-  title="Психолог для взрослых в Одинцово | Очно и онлайн"
-  description="Помощь психолога взрослым в Одинцово. Работа с тревогой, прокрастинацией, кризисами, отношениями."
+  title="Консультация психолога для взрослых | Лесной городок, онлайн"
+  description="Не обязательно ждать кризиса: с тревогой, апатией, трудностями в отношениях можно прийти сейчас. Консультация — 55 минут, в Одинцово или онлайн. Запишитесь."
 >
   <SEO
     slot="head"
-    title="Психолог для взрослых в Одинцово | Очно и онлайн"
-    description="Помощь психолога взрослым в Одинцово. Работа с тревогой, прокрастинацией, кризисами, отношениями. Консультации онлайн и офлайн. Запись по телефону."
-    keywords="психолог для взрослых Одинцово, психотерапия, консультация психолога онлайн, работа с тревогой"
+    title="Консультация психолога для взрослых | Лесной городок, онлайн"
+    description="Не обязательно ждать кризиса: с тревогой, апатией, трудностями в отношениях можно прийти сейчас. Консультация — 55 минут, в Одинцово или онлайн. Запишитесь."
     schema="service"
-    serviceName="Консультация психолога для взрослых"
   />
 
   <Breadcrumbs
     items={[
       { label: 'Главная', href: url('/') },
-      { label: 'Услуги', href: url('/#services') },
+      { label: 'Услуги', href: url('/services') },
       { label: 'Консультирование взрослых' }
     ]}
   />
@@ -102,10 +100,14 @@ const related = [
 
           <p class="lede mb-8 max-w-[46ch] rise rise-3">
             Помогу разобраться в себе, преодолеть трудности и найти внутренние ресурсы
-            для счастливой жизни. Приём в Одинцово, посёлок Лесной городок, и онлайн
+            для счастливой жизни. Приём в Одинцово, посёлок <a href={url('/contact#map')}>Лесной городок</a>, и онлайн
           </p>
 
           <p class="hero-aside rise rise-3">
+            Работаю с тревогой и <a href={url('/blog/kak-spravitsya-s-panicheskimi-atakami')}>паническими атаками</a>, отношениями в паре, самооценкой, возрастными кризисами и выгоранием.
+          </p>
+
+          <p class="hero-aside hero-aside-next rise rise-3">
             Сомневаетесь, нужна ли консультация? <a href={url('/test/general')}>Пройдите короткий тест</a>.
           </p>
 
@@ -130,7 +132,7 @@ const related = [
         <div class="hero-visual orb surface-lg rise rise-2">
           <picture>
   <source srcset={webpSet('/images/services/adult-consulting.jpg')} type="image/webp" sizes={HERO_SIZES} />
-  <img src={url('/images/services/adult-consulting.jpg')} alt="Консультация психолога" class="hero-portrait" loading="eager" fetchpriority="high" decoding="async" />
+  <img src={url('/images/services/adult-consulting.jpg')} {...dims('/images/services/adult-consulting.jpg')} alt={altOf("/images/services/adult-consulting.jpg", "Кабинет психолога")} class="hero-portrait" loading="eager" fetchpriority="high" decoding="async" />
 </picture>
         </div>
 
@@ -271,6 +273,8 @@ const related = [
             </a>
           ))}
         </div>
+
+        <p class="rel-note" data-reveal>В блоге: <a href={url('/blog/kak-uluchshit-otnosheniya-s-partnerom')}>Как улучшить отношения с партнёром: 5 упражнений на каждый день</a></p>
       </div>
     </div>
   </section>
@@ -281,8 +285,12 @@ const related = [
 <style>
   /* Подстрочная ссылка рядом с основным текстом: тот же размер, что и подписи */
   .hero-aside { margin: -18px 0 26px; font-size: 14px; color: var(--smoke); max-width: 46ch; }
-  .hero-aside a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
-  .hero-aside a:hover { color: var(--ink); }
+  /* Вторая строка подряд: без поправки отступы складываются в 8px и строки слипаются */
+  .hero-aside-next { margin-top: -12px; }
+  .hero-aside a,
+  .page-hero .lede a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .hero-aside a:hover,
+  .page-hero .lede a:hover { color: var(--ink); }
 
   /* ---------- ритм секций ---------- */
   .band { padding: 96px 0; }
@@ -514,6 +522,11 @@ const related = [
   }
   .rel-more :global(svg) { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
   .rel-card:hover .rel-more :global(svg) { transform: translateX(3px); }
+
+  /* Тихая строка под карточками: ссылка на статью блога */
+  .rel-note { margin-top: 28px; font-size: 14px; line-height: 1.6; color: var(--smoke); }
+  .rel-note a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .rel-note a:hover { color: var(--ink); }
 
   /* ---------- адаптив ---------- */
   @media (max-width: 1023px) {

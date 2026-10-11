@@ -3,19 +3,30 @@
 import Layout from '../../layouts/Layout.astro';
 import { url } from '../../utils/url';
 import SEO from '../../components/SEO.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Icon from '../../components/Icon.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 ---
 
 <Layout
-  title="Бесплатный психологический тест - Психологический центр"
-  description="Пройдите бесплатный тест и получите рекомендации от психолога."
+  title="Нужен ли мне психолог: тест на 2–3 минуты | Юлия Ляпина"
+  description="Три вопроса: что вас беспокоит, как давно и насколько это мешает жить. Ответы конфиденциальны. Свяжусь с вами в рабочее время и подскажу, с чего стоит начать."
 >
   <SEO
     slot="head"
-    title="Бесплатный психологический тест | Кабинет психолога Ляпина Юлия"
-    description="Пройдите короткий тест и получите рекомендации психолога по вашей ситуации."
+    title="Нужен ли мне психолог: тест на 2–3 минуты | Юлия Ляпина"
+    description="Три вопроса: что вас беспокоит, как давно и насколько это мешает жить. Ответы конфиденциальны. Свяжусь с вами в рабочее время и подскажу, с чего стоит начать."
   />
+
+  <div class="test-crumbs">
+    <Breadcrumbs
+      items={[
+        { label: 'Главная', href: url('/') },
+        { label: 'Консультирование взрослых', href: url('/services/adult') },
+        { label: 'Тест: нужна ли консультация' }
+      ]}
+    />
+  </div>
 
   <section class="band band-taupe test-band">
     <div class="container mx-auto px-4 lg:px-8">
@@ -364,6 +375,9 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
                 Свяжусь с вами в рабочее время (9:00–21:00) и дам персональные рекомендации
               </p>
               <p id="test-send-note" class="send-note" role="status" aria-live="polite"></p>
+              <p class="urgent-note">
+                Если помощь нужна прямо сейчас — позвоните по номеру 112.
+              </p>
             </div>
 
             <div class="panel">
@@ -375,7 +389,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
                 </li>
                 <li>
                   <span class="next-num">02</span>
-                  <span>Расскажет о рекомендациях на основе ваших ответов</span>
+                  <span>Расскажу о рекомендациях на основе ваших ответов</span>
                 </li>
                 <li>
                   <span class="next-num">03</span>
@@ -392,6 +406,9 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
               <a href={url('/')} class="pill pill-solid pill-lg">
                 Вернуться на главную
               </a>
+              <a href={url('/services/adult')} class="pill pill-outline pill-lg">
+                Консультирование взрослых
+              </a>
             </div>
           </div>
 
@@ -407,10 +424,13 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
 <style>
   /* ---------- полоса страницы ---------- */
   .band { padding: 96px 0; }
-  /* На этих страницах нет крошек, поэтому отступ под закреплённой
-     шапкой держит первая полоса — иначе прогресс уезжает под неё. */
-  .test-band { padding-top: 128px; }
+  /* Отступ под закреплённую шапку держат крошки; полосе теста остаётся
+     тот же зазор, что у первого экрана под крошками на других страницах. */
+  .test-band { padding-top: 28px; }
   .test-band { min-height: 100vh; }
+  /* Крошки стоят на подложке теста: иначе над ним остаётся полоса
+     другого цвета, и строка крошек прилипает к её краю. */
+  .test-crumbs :global(.crumbs) { background: var(--taupe); }
   .inner { max-width: 720px; margin: 0 auto; }
 
   /* ---------- прогресс ---------- */
@@ -525,6 +545,8 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
 
   /* ---------- вопрос ---------- */
   .q-title { margin-bottom: 8px; }
+  /* Ответ на тест приходит в рабочее время — человеку в остром состоянии говорим, куда звонить сейчас */
+  .urgent-note { margin-top: 14px; font-size: 14px; line-height: 1.6; color: var(--smoke); }
   .q-note { font-size: 15px; line-height: 1.6; color: var(--smoke); margin-bottom: 24px; }
   .q-title + .answers, .q-title + .fields { margin-top: 24px; }
 
@@ -607,14 +629,14 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
   /* ---------- кнопки шага ---------- */
   .actions { display: flex; gap: 12px; margin-top: 32px; }
   .actions .pill { flex: 1; }
-  .actions-center { justify-content: center; }
-  .actions-center .pill { flex: 0 0 auto; }
+  .actions-center { justify-content: center; flex-wrap: wrap; }
+  .actions-center .pill { flex: 0 0 auto; text-align: center; }
   .btn-wide { width: 100%; }
 
   /* ---------- адаптив ---------- */
   @media (max-width: 767px) {
     .band { padding: 56px 0; }
-    .test-band { padding-top: 120px; }
+    .test-band { padding-top: 20px; }
     .test-card { padding: 26px 20px; border-radius: var(--r-card); }
     .panel { padding: 22px 20px; }
     .actions { flex-wrap: wrap; }
@@ -710,6 +732,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
         if (!response.ok || !body || String(body.success) !== 'true') {
           throw new Error('Заявка не принята');
         }
+        try { window.siteTrack && window.siteTrack('test_submit', { test: 'general' }); } catch (e) {}
       } catch (err) {
         const note = document.getElementById('test-send-note');
         if (note) {

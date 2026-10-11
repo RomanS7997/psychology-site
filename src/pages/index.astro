@@ -1,13 +1,14 @@
 ---
 // Главная страница
 import Layout from '../layouts/Layout.astro';
-import { webp } from '../utils/img';
+import { webp, dims, altOf } from '../utils/img';
 import NewHero from '../components/NewHero.astro';
 import SEO from '../components/SEO.astro';
 import FAQ from '../components/FAQ.astro';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import { url } from '../utils/url';
 import Icon from '../components/Icon.astro';
+import { posts, postPath } from '../data/posts';
 
 // Запросы, с которыми обращаются. Раскрываются по клику.
 const requests = [
@@ -94,11 +95,17 @@ const firstSession = [
   { icon: 'plan', title: 'План работы', text: 'Скажу, какими методами буду работать и сколько примерно встреч потребуется.' },
 ];
 
+// html — тот же текст, но со ссылкой; если он есть, выводится вместо text.
 const advantages = [
   { icon: 'methods', title: 'Научный подход', text: 'Арт-терапия, КПТ, МАК, ДПДГ, расстановки, системный подход в семейной терапии.' },
   { icon: 'team', title: 'Команда', text: 'Команда специалистов с опытом, любящих свою работу и готовых обучаться новому.' },
   { icon: 'confidentiality', title: 'Конфиденциальность', text: 'Информация с сессий не передаётся третьим лицам. Исключение — случаи, прямо предусмотренные законом, и угроза жизни или безопасности.' },
-  { icon: 'online', title: 'Онлайн и офлайн', text: 'Консультации по видеосвязи или лично в кабинете в Лесном городке.' },
+  {
+    icon: 'online',
+    title: 'Онлайн и офлайн',
+    text: 'Консультации по видеосвязи или лично в кабинете в Лесном городке.',
+    html: `Консультации по видеосвязи или лично <a href="${url('/contact#map')}">в кабинете в Лесном городке</a>.`,
+  },
   { icon: 'schedule', title: 'Удобное расписание', text: 'Будни и выходные с 9:00 до 21:00 — подберём время под вашу занятость.' },
   { icon: 'price', title: 'Понятная стоимость', text: 'Стоимость зависит от услуги и формата. Назову цену при записи — без скрытых доплат.' },
 ];
@@ -107,7 +114,7 @@ const specialists = [
   {
     name: 'Юлия Ляпина',
     role: 'Психолог, монтессори-педагог, работа с детьми и взрослыми',
-    photo: '/images/team/julia-lyapina.jpg',
+    photo: '/images/specialists/julia-lyapina.jpg',
     tags: ['Психологическая помощь', 'Развивающие занятия', 'Коррекция'],
     href: url('/specialists#specialist-1'),
     lead: true,
@@ -115,64 +122,54 @@ const specialists = [
   {
     name: 'Стрижкова Наталья Петровна',
     role: 'Педагог, репетитор начальных классов',
-    photo: '/images/team/specialist-2.jpg',
+    photo: '/images/specialists/strizhkova-natalia.jpg',
     tags: ['Начальная школа', 'Коррекция', 'Подготовка к школе'],
     href: url('/specialists#specialist-4'),
   },
   {
     name: 'Власихина Людмила Степановна',
     role: 'Монтессори-педагог',
-    photo: '/images/team/specialist-3.jpg',
+    photo: '/images/specialists/vlasihina-lyudmila.jpg',
     tags: ['Развивающие занятия', 'Подготовка к школе'],
     href: url('/specialists#specialist-2'),
   },
   {
     name: 'Евграфова Наталья Викторовна',
     role: 'Логопед, учитель русского языка',
-    photo: '/images/team/evgrafova-natalia.jpg',
+    photo: '/images/specialists/evgrafova-natalia.jpg',
     tags: ['Логопедия', 'Русский язык', 'Подготовка к ОГЭ/ЕГЭ'],
     href: url('/specialists#specialist-3'),
   },
 ];
 
-const posts = [
-  {
-    category: 'Тревожность',
-    date: '15 января 2025',
-    title: 'Как справиться с паническими атаками: практические техники',
-    excerpt: 'Пять проверенных техник, которые помогут остановить паническую атаку и предотвратить её в будущем.',
-    image: '/images/blog/panic-attacks.jpg',
-    href: url('/blog/kak-spravitsya-s-panicheskimi-atakami'),
-  },
-  {
-    category: 'Детская психология',
-    date: '12 января 2025',
-    title: 'Что делать, если ребёнок не слушается: 7 стратегий для родителей',
-    excerpt: 'Почему дети перестают слушаться и как восстановить контакт без криков и наказаний.',
-    image: '/images/blog/child-behavior.jpg',
-    href: url('/blog/chto-delat-esli-rebenok-ne-slushaetsya'),
-  },
-  {
-    category: 'Отношения',
-    date: '10 января 2025',
-    title: 'Как улучшить отношения с партнёром: 5 упражнений на каждый день',
-    excerpt: 'Простые, но действенные упражнения для пар, которые хотят вернуть близость и понимание.',
-    image: '/images/blog/relationships.jpg',
-    href: url('/blog/kak-uluchshit-otnosheniya-s-partnerom'),
-  },
-];
+// Разметка видео: что это за ролик, сколько идёт и где его обложка. Описание —
+// по самому ролику: это проход по кабинету и игровой комнате.
+const siteRoot = new URL(url('/'), Astro.site).href;
+const abs = (path: string) => new URL(url(path), Astro.site).href;
+const videoSchema = [{
+  '@type': 'VideoObject',
+  '@id': `${siteRoot}#video`,
+  name: 'Кабинет психолога Юлии Ляпиной в Лесном городке — видео',
+  description: 'Короткая экскурсия: кабинет для консультаций и игровая комната, где проходят занятия с детьми.',
+  thumbnailUrl: [abs('/images/video-poster.jpg')],
+  contentUrl: abs('/videos/mainvid.mp4'),
+  uploadDate: '2026-04-12T12:00:00+03:00',
+  duration: 'PT1M16S',
+  inLanguage: 'ru-RU',
+  publisher: { '@id': `${siteRoot}#business` },
+}];
 ---
 
 <Layout
-  title="Психолог в Одинцово и Лесном городке | Юлия Ляпина"
-  description="Кабинет психолога Ляпина Юлия в Одинцово. Консультирование взрослых и детей, развивающие программы."
+  title="Психолог в Лесном городке, Одинцово | Юлия Ляпина"
+  description="Работаю со взрослыми, парами, детьми и подростками. Для детей 4–9 лет — развивающие программы. Кабинет в Лесном городке (Одинцово) и онлайн. Напишите мне."
 >
   <SEO
     slot="head"
-    title="Психолог в Одинцово и Лесном городке | Юлия Ляпина"
-    description="Кабинет психолога Ляпина Юлия в Одинцово. Консультирование взрослых и детей, развивающие программы. Записаться онлайн."
-    keywords="психолог Одинцово, психолог Лесной городок, психотерапия, консультации онлайн, детский психолог"
+    title="Психолог в Лесном городке, Одинцово | Юлия Ляпина"
+    description="Работаю со взрослыми, парами, детьми и подростками. Для детей 4–9 лет — развивающие программы. Кабинет в Лесном городке (Одинцово) и онлайн. Напишите мне."
     schema="organization"
+    extraSchema={videoSchema}
   />
 
   <NewHero
@@ -231,6 +228,10 @@ const posts = [
             </article>
           ))}
         </div>
+
+        <p class="steps-links steps-links-spaced" data-reveal>
+          Подробнее: <a href={url('/services/adult')}>консультирование взрослых</a> · <a href={url('/services/children')}>занятия с детьми и подростками</a>
+        </p>
       </div>
     </div>
   </section>
@@ -244,7 +245,7 @@ const posts = [
             <p class="eyebrow mb-3">Первая встреча</p>
             <h2 class="heading">Как всё будет проходить</h2>
           </div>
-          <a href={url('/services/adult')} class="pill pill-outline">Подробнее о консультации</a>
+          <a href={url('/services/adult')} class="pill pill-outline">Подробнее о консультации для взрослых</a>
         </div>
 
         <ol class="steps">
@@ -280,7 +281,7 @@ const posts = [
                 {webp('/images/video-poster.jpg') && <source srcset={webp('/images/video-poster.jpg')} type="image/webp" />}
                 <img
                   src={url('/images/video-poster.jpg')}
-                  alt="Занятие в кабинете психолога"
+                  alt={altOf('/images/video-poster.jpg', 'Занятие в кабинете психолога')}
                   width="1280"
                   height="800"
                   loading="lazy"
@@ -331,7 +332,7 @@ const posts = [
                 <div class="program-photo">
                   <picture>
   {webp(program.photo) && <source srcset={webp(program.photo)} type="image/webp" />}
-  <img src={url(program.photo)} alt={`Занятия «${program.name}»`} loading="lazy" decoding="async" />
+  <img src={url(program.photo)} {...dims(program.photo)} alt={altOf(program.photo, `Занятия «${program.name}»`)} loading="lazy" decoding="async" />
 </picture>
                 </div>
               )}
@@ -340,11 +341,11 @@ const posts = [
                   <span class="program-age">{program.age}</span>
                   <span class="program-note">{program.note}</span>
                 </div>
-                <h3 class="card-title mb-4">{program.name}</h3>
+                <h3 class="card-title mb-4"><a href={url(program.href)}>{program.name}</a></h3>
                 <ul class="card-list mb-6">
                   {program.items.map((li) => <li>{li}</li>)}
                 </ul>
-                <a href={url(program.href)} class={`pill ${program.featured ? 'pill-light' : 'pill-outline'} program-link`}>
+                <a href={url(program.href)} class={`pill ${program.featured ? 'pill-light' : 'pill-outline'} program-link`} aria-label={`Подробнее о программе «${program.name}»`}>
                   Подробнее о программе
                 </a>
               </div>
@@ -365,14 +366,14 @@ const posts = [
             <h2 class="why-quote">
               Не держу клиентов годами в терапии — учу справляться с трудностями самостоятельно.
             </h2>
-            <p class="why-sign">Юлия Ляпина, психолог</p>
+            <p class="why-sign"><a href={url('/about')}>Юлия Ляпина</a>, психолог</p>
           </div>
 
           <div class="why-list">
             {advantages.map((item) => (
               <div class="why-item" data-reveal>
                 <h3 class="why-title"><Icon name={item.icon} size={19} />{item.title}</h3>
-                <p class="why-text">{item.text}</p>
+                <p class="why-text">{item.html ? <Fragment set:html={item.html} /> : item.text}</p>
               </div>
             ))}
           </div>
@@ -399,11 +400,11 @@ const posts = [
               <div class="person-photo">
                 <picture>
   {webp(person.photo) && <source srcset={webp(person.photo)} type="image/webp" />}
-  <img src={url(person.photo)} alt={person.name} loading="lazy" decoding="async" />
+  <img src={url(person.photo)} {...dims(person.photo)} alt={altOf(person.photo, person.name)} loading="lazy" decoding="async" />
 </picture>
                 {person.lead && <span class="person-badge">Основатель</span>}
               </div>
-              <h3 class="person-name">{person.name}</h3>
+              <h3 class="person-name"><a href={url(person.href)}>{person.name}</a></h3>
               <p class="person-role">{person.role}</p>
               <div class="person-tags">
                 {person.tags.map((tag) => <span>{tag}</span>)}
@@ -414,7 +415,7 @@ const posts = [
                   class="pill pill-solid person-btn"
                   type="button"
                 >Записаться</button>
-                <a href={url(person.href)} class="pill pill-outline person-btn">Подробнее</a>
+                <a href={url(person.href)} class="pill pill-outline person-btn" aria-label={`Подробнее о специалисте: ${person.name}`}>Подробнее</a>
               </div>
             </article>
           ))}
@@ -436,18 +437,18 @@ const posts = [
         </div>
 
         <div class="cards-3">
-          {posts.map((post) => (
-            <a href={url(post.href)} class="post lift" data-reveal>
+          {posts.slice(0, 3).map((post) => (
+            <a href={url(postPath(post))} class="post lift" data-reveal>
               <div class="post-photo">
                 <picture>
   {webp(post.image) && <source srcset={webp(post.image)} type="image/webp" />}
-  <img src={url(post.image)} alt={post.title} loading="lazy" decoding="async" />
+  <img src={url(post.image)} {...dims(post.image)} alt={post.alt} loading="lazy" decoding="async" />
 </picture>
               </div>
               <div class="post-body">
                 <div class="post-meta">
                   <span class="post-cat">{post.category}</span>
-                  <span>{post.date}</span>
+                  <span>{post.dateText}</span>
                 </div>
                 <h3 class="post-title">{post.title}</h3>
                 <p class="post-excerpt">{post.excerpt}</p>
@@ -484,7 +485,7 @@ const posts = [
         },
         {
           question: "Как проходит онлайн-консультация?",
-          answer: "Онлайн-консультация проходит по видеосвязи (Zoom, Skype). Вам нужны устройство с камерой, микрофоном и стабильный интернет. Эффективность онлайн-терапии доказана исследованиями и не уступает личным встречам."
+          answer: "Онлайн-консультация проходит по видеосвязи (Zoom). Вам нужны устройство с камерой, микрофоном и стабильный интернет. Эффективность онлайн-терапии доказана исследованиями и не уступает личным встречам."
         },
         {
           question: "Насколько конфиденциальна информация с сессий?",
@@ -493,6 +494,10 @@ const posts = [
         {
           question: "Можно ли прийти с ребёнком?",
           answer: "Да. С детьми до 7 лет работаю в формате игры, с 8-12 — вместе с родителем или наедине, как ребёнку спокойнее. Подростки 13+ обычно приходят сами."
+        },
+        {
+          question: "Где находится кабинет и как добраться?",
+          answer: "Кабинет находится в Лесном городке, Одинцовский округ. Точный адрес сообщу при записи. На электричке — до станции «Лесной Городок» или «Одинцово», на машине — по Минскому или Можайскому шоссе, парковка рядом с кабинетом. Консультации возможны и онлайн."
         }
       ]}
     />
@@ -507,7 +512,7 @@ const posts = [
             <div class="closing-photo">
               <picture>
   {webp('/images/services/julia-lyapina.jpg') && <source srcset={webp('/images/services/julia-lyapina.jpg')} type="image/webp" />}
-  <img src={url('/images/services/julia-lyapina.jpg')} alt="Юлия Ляпина" loading="lazy" decoding="async" />
+  <img src={url('/images/services/julia-lyapina.jpg')} {...dims('/images/services/julia-lyapina.jpg')} alt={altOf('/images/services/julia-lyapina.jpg', 'Юлия Ляпина')} loading="lazy" decoding="async" />
 </picture>
             </div>
 
@@ -559,10 +564,11 @@ const posts = [
       </svg>
     </button>
 
-    <div class="relative w-full max-w-6xl mx-auto aspect-video" onclick="event.stopPropagation()">
+    <!-- Ролик вертикальный (720×1280) — рамка тоже вертикальная -->
+    <div class="relative mx-auto" style="aspect-ratio:9/16;height:min(calc(100vh - 10rem),calc((100vw - 2rem)*16/9));height:min(calc(100dvh - 10rem),calc((100vw - 2rem)*16/9))" onclick="event.stopPropagation()">
       <video
         id="modalVideo"
-        class="w-full h-full rounded-lg"
+        class="w-full h-full object-contain rounded-lg"
         controls
         playsinline
         preload="none"
@@ -765,6 +771,9 @@ const posts = [
   /* Растягивается только в шапке аккордеона — рядом со стрелкой */
   .card-head .card-title { flex: 1; padding-top: 7px; }
   .gradient-card .card-title { color: #fff; }
+  /* Название программы — ссылка, но выглядит как обычный заголовок */
+  .card-title a { color: inherit; text-decoration: none; }
+  .card-title a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
   /* Два пункта видно сразу: карточка читается как содержание, а не как строка меню */
   .card-preview {
@@ -870,6 +879,8 @@ const posts = [
   .steps-links { margin-top: 10px; font-size: 14px; line-height: 1.7; color: var(--smoke); max-width: 72ch; }
   .steps-links a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
   .steps-links a:hover { color: var(--ink); }
+  /* Та же строка под сеткой карточек: отступ как у подписи под шагами */
+  .steps-links-spaced { margin-top: 26px; }
 
   /* ---------- видео ---------- */
   .video-band { padding: 48px; }
@@ -918,6 +929,8 @@ const posts = [
     text-wrap: balance;
   }
   .why-sign { font-size: 14px; color: var(--smoke); }
+  /* Имя ведёт на страницу «Обо мне»; вид подписи прежний */
+  .why-sign a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 
   .why-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 40px; }
   .why-item { padding: 22px 0; border-top: 1px solid var(--stone); }
@@ -928,6 +941,8 @@ const posts = [
   .why-title :global(svg) { color: var(--spark-deep); flex-shrink: 0; }
   .why-text { padding-left: 29px; }
   .why-text { font-size: 14px; line-height: 1.6; color: var(--smoke); }
+  /* Ссылка приходит через set:html — scoped-стиль до неё не доходит */
+  .why-text :global(a) { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
 
   /* ---------- специалисты ---------- */
   .person { background: var(--taupe); border-radius: var(--r-card); overflow: hidden; display: flex; flex-direction: column; }
@@ -940,6 +955,9 @@ const posts = [
     padding: 6px 12px; border-radius: var(--r-pill); box-shadow: var(--whisper);
   }
   .person-name { font-size: 17px; font-weight: 400; letter-spacing: -0.01em; margin: 20px 20px 4px; }
+  /* Имя — ссылка на карточку специалиста, вид заголовка прежний */
+  .person-name a { color: inherit; text-decoration: none; }
+  .person-name a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .person-role { font-size: 13.5px; color: var(--smoke); margin: 0 20px 14px; }
   .person-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 20px 18px; }
   .person-tags span {

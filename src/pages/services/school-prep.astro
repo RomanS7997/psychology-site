@@ -1,7 +1,7 @@
 ---
 // src/pages/services/school-prep.astro
 import Layout from '../../layouts/Layout.astro';
-import { HERO_SIZES, webpSet } from '../../utils/img';
+import { HERO_SIZES, webpSet, dims, altOf } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
@@ -26,7 +26,7 @@ const galleryPhotos = [
 
 const galleryImages = galleryPhotos.map(({ n, caption }) => ({
   src: url(`/images/gallery/school-prep/${n}.jpg`),
-  alt: `Подготовка к школе — ${caption.toLowerCase()}`,
+  alt: altOf(`/images/gallery/school-prep/${n}.jpg`, `Подготовка к школе — ${caption.toLowerCase()}`),
   caption
 }));
 
@@ -95,6 +95,7 @@ const results = [
 
 const lessonFormat = [
   { label: 'Длительность', value: '1.5 часа (90 минут)' },
+  { label: 'Место', value: 'кабинет в Лесном городке' },
   { label: 'Возраст', value: '6–7 лет' },
   { label: 'Формат', value: 'Групповые занятия' },
   { label: 'Атмосфера', value: 'Уютная, доброжелательная' },
@@ -129,25 +130,31 @@ const otherPrograms = [
     text: 'Курс развития эмоционального интеллекта. Учим детей понимать эмоции и выстраивать отношения.',
     href: url('/programs/azbuka'),
   },
+  {
+    icon: 'children',
+    title: 'Индивидуальные занятия с детьми',
+    age: 'Для детей и подростков 5–18 лет',
+    text: 'Помощь детям и подросткам в развитии и преодолении трудностей.',
+    href: url('/services/children'),
+  },
 ];
 ---
 
 <Layout
-  title="Подготовка к школе в Одинцово | Для детей 6–7 лет"
-  description="Комплексная программа подготовки к школе: мнемотехника, нейропсихология, чтение, письмо, математика, психологическая готовность. Занятия вт/чт 17:30–19:00"
+  title="Подготовка к школе в Лесном городке | Дети 6–7 лет, Одинцово"
+  description="Группа для детей 6–7 лет, два раза в неделю: чтение, письмо, математика, логика, психологическая готовность. До 8 человек. Запишитесь на пробное занятие."
 >
   <SEO
     slot="head"
-    title="Подготовка к школе в Одинцово | Для детей 6–7 лет"
-    description="Подготовка к школе в Одинцово. Комплексные занятия для детей 6–7 лет. Обучение чтению, письму, математике. Записаться онлайн."
-    keywords="подготовка к школе Одинцово, занятия для дошкольников, подготовка ребёнка к школе"
+    title="Подготовка к школе в Лесном городке | Дети 6–7 лет, Одинцово"
+    description="Группа для детей 6–7 лет, два раза в неделю: чтение, письмо, математика, логика, психологическая готовность. До 8 человек. Запишитесь на пробное занятие."
     schema="service"
   />
 
   <Breadcrumbs
     items={[
       { label: 'Главная', href: url('/') },
-      { label: 'Услуги', href: url('/#services') },
+      { label: 'Услуги', href: url('/services') },
       { label: 'Подготовка к школе' }
     ]}
   />
@@ -181,7 +188,7 @@ const otherPrograms = [
         <div class="hero-visual orb surface-lg">
           <picture>
   <source srcset={webpSet('/images/services/school-prep.jpg')} type="image/webp" sizes={HERO_SIZES} />
-  <img src={url('/images/services/school-prep.jpg')} alt="Занятия по подготовке к школе" class="hero-photo" loading="eager" fetchpriority="high" decoding="async" />
+  <img src={url('/images/services/school-prep.jpg')} {...dims('/images/services/school-prep.jpg')} alt={altOf('/images/services/school-prep.jpg', 'Занятия по подготовке к школе')} class="hero-photo" loading="eager" fetchpriority="high" decoding="async" />
 </picture>
         </div>
 
@@ -338,7 +345,11 @@ const otherPrograms = [
         },
         {
           question: "Будет ли ребёнок готов к школе после программы?",
-          answer: "Да. Программа даёт и академические знания, и психологическую готовность: ребёнок приходит в первый класс подготовленным и спокойным. Ребёнок приходит в первый класс с нужными навыками и спокойным отношением к учёбе."
+          answer: "Да. Программа даёт и академические знания, и психологическую готовность: ребёнок приходит в первый класс подготовленным и спокойным."
+        },
+        {
+          question: "Где проходят занятия и как добраться?",
+          answer: "В кабинете в Лесном городке, Одинцовский округ. Точный адрес сообщу при записи. На электричке — до станции «Лесной Городок» или «Одинцово», на машине — по Минскому или Можайскому шоссе, парковка рядом с кабинетом."
         }
       ]}
     />
@@ -356,7 +367,7 @@ const otherPrograms = [
           </p>
         </div>
 
-        <div class="cards-2">
+        <div class="cards-3">
           {otherPrograms.map((program) => (
             <a href={url(program.href)} class="other-card lift" data-reveal>
               <span class="card-icon"><Icon name={program.icon} size={22} /></span>
@@ -367,6 +378,8 @@ const otherPrograms = [
             </a>
           ))}
         </div>
+
+        <p class="other-note" data-reveal>Не уверены, что подойдёт? <a href={url('/test/children')}>Тест для родителей</a> — узнайте, какая программа лучше всего подойдёт вашему ребёнку.</p>
       </div>
     </div>
   </section>
@@ -413,7 +426,6 @@ const otherPrograms = [
   .band { padding: 96px 0; }
   .band-tight { padding: 24px 0 96px; }
 
-  .cards-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
   .split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
 
   /* ---------- первый экран ---------- */
@@ -523,6 +535,11 @@ const otherPrograms = [
   .other-more :global(svg) { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
   .other-card:hover .other-more :global(svg) { transform: translateX(3px); }
 
+  /* Тихая строка под карточками: ссылка на тест */
+  .other-note { margin-top: 28px; font-size: 14px; color: var(--smoke); }
+  .other-note a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .other-note a:hover { color: var(--ink); }
+
   /* ---------- финальный призыв ---------- */
   .closing-band { padding: 56px 48px; }
   .closing-inner { max-width: 640px; }
@@ -549,7 +566,7 @@ const otherPrograms = [
   @media (max-width: 767px) {
     .band { padding: 64px 0; }
     .band-tight { padding: 8px 0 64px; }
-    .cards-3, .cards-2 { grid-template-columns: 1fr; }
+    .cards-3 { grid-template-columns: 1fr; }
     .feature, .other-card, .result-card { padding: 24px; }
     .schedule-inner, .why-inner { padding: 26px; }
     .schedule-slot { padding: 20px; }

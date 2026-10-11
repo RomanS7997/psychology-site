@@ -1,7 +1,7 @@
 ---
 // src/pages/services/children.astro
 import Layout from '../../layouts/Layout.astro';
-import { HERO_SIZES, webpSet } from '../../utils/img';
+import { HERO_SIZES, webpSet, dims, altOf } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import FAQ from '../../components/FAQ.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
@@ -227,22 +227,20 @@ const related = [
 ---
 
 <Layout
-  title="Детский психолог в Одинцово | Занятия и консультации"
-  description="Детский психолог в Одинцово. Помощь детям и подросткам."
+  title="Детский психолог в Лесном городке | Дети и подростки 5–18 лет"
+  description="Если ребёнок боится, злится, замкнулся или не хочет в школу — напишите мне. Сначала беседую с вами, потом играю с ребёнком. Принимаю в Одинцово и онлайн."
 >
   <SEO
     slot="head"
-    title="Детский психолог в Одинцово | Занятия и консультации"
-    description="Детский психолог в Одинцово. Помощь детям и подросткам. Работа с истериками, агрессией, страхами, школьными проблемами. Запись онлайн."
-    keywords="детский психолог Одинцово, психолог для ребёнка, детская психология"
+    title="Детский психолог в Лесном городке | Дети и подростки 5–18 лет"
+    description="Если ребёнок боится, злится, замкнулся или не хочет в школу — напишите мне. Сначала беседую с вами, потом играю с ребёнком. Принимаю в Одинцово и онлайн."
     schema="service"
-    serviceName="Индивидуальные занятия с детским психологом"
   />
 
   <Breadcrumbs
     items={[
       { label: 'Главная', href: url('/') },
-      { label: 'Услуги', href: url('/#services') },
+      { label: 'Услуги', href: url('/services') },
       { label: 'Занятия с детьми' }
     ]}
   />
@@ -253,13 +251,13 @@ const related = [
       <div class="hero-grid">
 
         <div>
-          <p class="eyebrow mb-4 rise">Для родителей</p>
+          <p class="eyebrow mb-4 rise">Детский психолог</p>
 
           <h1 class="display mb-5 rise">Индивидуальные занятия с детьми</h1>
 
           <p class="lede mb-8 max-w-[46ch] rise rise-2">
             Помогу ребёнку понять свои эмоции, справиться со страхами и наладить отношения
-            с окружающими. Принимаю в Одинцово, в кабинете в Лесном городке, и онлайн
+            с окружающими. Принимаю в Одинцово, <a href={url('/contact#map')}>в кабинете в Лесном городке</a>, и онлайн
           </p>
 
           <div class="flex flex-wrap gap-3 mb-11 rise rise-3">
@@ -284,7 +282,7 @@ const related = [
         <div class="hero-visual rise rise-2">
           <picture>
   <source srcset={webpSet('/images/services/child-therapy.jpg')} type="image/webp" sizes={HERO_SIZES} />
-  <img src={url('/images/services/child-therapy.jpg')} alt="Консультация детского психолога" loading="eager" fetchpriority="high" decoding="async" />
+  <img src={url('/images/services/child-therapy.jpg')} {...dims('/images/services/child-therapy.jpg')} alt={altOf("/images/services/child-therapy.jpg", "Кабинет детского психолога")} loading="eager" fetchpriority="high" decoding="async" />
 </picture>
         </div>
 
@@ -370,7 +368,7 @@ const related = [
               <div class="program-inner">
                 {program.badge && <span class="program-badge">{program.badge}</span>}
 
-                <h3 class="program-name">{program.name}</h3>
+                <h3 class="program-name"><a href={url(program.href)}>{program.name}</a></h3>
                 <p class="program-age">{program.age}</p>
                 <p class="program-text">{program.text}</p>
 
@@ -395,7 +393,11 @@ const related = [
                   <span class="result-value">{program.result}</span>
                 </div>
 
-                <a href={url(program.href)} class={`pill ${program.featured ? 'pill-light' : 'pill-solid'} program-link`}>
+                <a
+                  href={url(program.href)}
+                  class={`pill ${program.featured ? 'pill-light' : 'pill-solid'} program-link`}
+                  aria-label={`Подробнее о программе «${program.name}»`}
+                >
                   Подробнее о программе
                   <Icon name="go-to" size={16} />
                 </a>
@@ -501,6 +503,10 @@ const related = [
         {
           question: "Чем детский психолог отличается от взрослого?",
           answer: "Детский психолог владеет игровыми методами — не беседует, а играет с ребёнком. Знает возрастную психологию, умеет работать с детскими проблемами. Имею специализацию по детской психологии."
+        },
+        {
+          question: "Где проходят занятия и как добраться?",
+          answer: "В кабинете в Лесном городке, Одинцовский округ. Точный адрес сообщу при записи. На электричке — до станции «Лесной Городок» или «Одинцово», на машине — по Минскому или Можайскому шоссе, парковка рядом с кабинетом. Консультации возможны и онлайн."
         }
       ]}
     />
@@ -533,7 +539,7 @@ const related = [
 
           <p class="closing-aside">
             Не знаете, пора ли к психологу? <a href={url('/test/children')}>Пройдите тест для родителей</a> —
-            семь вопросов о поведении ребёнка.
+            четыре вопроса о поведении ребёнка.
           </p>
         </div>
       </div>
@@ -559,6 +565,8 @@ const related = [
             </a>
           ))}
         </div>
+
+        <p class="rel-note" data-reveal>В блоге: <a href={url('/blog/chto-delat-esli-rebenok-ne-slushaetsya')}>Что делать, если ребёнок не слушается: 7 стратегий для родителей</a> · <a href={url('/specialists')}>Моя команда</a></p>
       </div>
     </div>
   </section>
@@ -635,8 +643,10 @@ const related = [
 
 <style>
   .closing-aside { margin-top: 18px; font-size: 14px; line-height: 1.7; color: var(--smoke); max-width: 56ch; }
-  .closing-aside a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
-  .closing-aside a:hover { color: var(--ink); }
+  .closing-aside a,
+  .page-hero .lede a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .closing-aside a:hover,
+  .page-hero .lede a:hover { color: var(--ink); }
 
   /* ---------- первый экран ---------- */
   .rise { animation: hero-rise .6s cubic-bezier(.2, .7, .3, 1) both; }
@@ -786,6 +796,9 @@ const related = [
 
   .program-name { font-size: 24px; font-weight: 300; letter-spacing: -.02em; margin-bottom: 6px; }
   .gradient-card .program-name { color: #fff; }
+  /* Название ведёт на страницу программы, но выглядит как заголовок */
+  .program-name a { color: inherit; text-decoration: none; }
+  .program-name a:hover { text-decoration: underline; text-underline-offset: 3px; }
   .program-age { font-size: 13px; color: var(--ash); margin-bottom: 16px; }
   .gradient-card .program-age { color: #fff; }
   .program-text { font-size: 14.5px; line-height: 1.65; color: var(--smoke); margin-bottom: 22px; }
@@ -927,6 +940,11 @@ const related = [
   }
   .rel-more :global(svg) { transition: transform .3s cubic-bezier(.2, .7, .3, 1); }
   .rel-card:hover .rel-more :global(svg) { transform: translateX(3px); }
+
+  /* Тихая строка под карточками: ссылки на статью блога и на команду */
+  .rel-note { margin-top: 28px; font-size: 14px; line-height: 1.6; color: var(--smoke); }
+  .rel-note a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .rel-note a:hover { color: var(--ink); }
 
   /* ---------- адаптив ---------- */
   @media (max-width: 1023px) {

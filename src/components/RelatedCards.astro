@@ -1,0 +1,123 @@
+---
+// Блок «Смотрите также»: карточки-ссылки на соседние страницы.
+//
+// Раньше он был нарисован отдельно на двух страницах услуг, а страницы
+// программ, «Обо мне», «Специалисты» и статьи не вели никуда, кроме меню.
+// Человек дочитывал страницу и упирался в конец; поисковик видел страницы,
+// на которые ничего не ссылается из текста. Один блок на все страницы —
+// один вид и одно место для правки.
+//
+// Текст карточек не сочиняется: это названия и подписи страниц, которые уже
+// стоят в меню, в подвале и на самих страницах.
+import Icon from './Icon.astro';
+import { url } from '../utils/url';
+
+interface Item {
+  icon: string;
+  title: string;
+  text: string;
+  href: string;
+  /** Подпись ссылки внизу карточки. По умолчанию «Подробнее». */
+  more?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  items: Item[];
+  /** Фон полосы: тёплый (по умолчанию) или обычный, если соседняя полоса уже тёплая. */
+  tone?: 'taupe' | 'plain';
+}
+
+const {
+  eyebrow = 'Ещё по теме',
+  title = 'Вам также может быть интересно',
+  items,
+  tone = 'taupe',
+} = Astro.props;
+
+// Три карточки — в ряд, две и четыре — парами
+const grid = items.length === 3 ? 'cards-3' : 'cards-2';
+---
+
+<section class={`band ${tone === 'taupe' ? 'band-taupe' : ''} related-band`}>
+  <div class="container mx-auto px-4 lg:px-8">
+    <div class="inner">
+      <div class="band-head" data-reveal>
+        <p class="eyebrow mb-3">{eyebrow}</p>
+        <h2 class="heading">{title}</h2>
+      </div>
+
+      <div class={grid}>
+        {items.map((item) => (
+          <a href={url(item.href)} class="rel-card lift" data-reveal>
+            <span class="rel-icon"><Icon name={item.icon} size={22} /></span>
+            <h3 class="rel-title">{item.title}</h3>
+            <p class="rel-text">{item.text}</p>
+            <span class="rel-more">{item.more || 'Подробнее'} <Icon name="go-to" size={16} /></span>
+          </a>
+        ))}
+      </div>
+
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .rel-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-card);
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .3s cubic-bezier(.2,.7,.3,1), border-color .25s ease;
+  }
+  .rel-card:hover { border-color: var(--ash); }
+
+  .rel-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(47, 125, 150, .1);
+    color: var(--spark-deep);
+    margin-bottom: 18px;
+  }
+  .rel-title { font-size: 18px; font-weight: 400; line-height: 1.35; letter-spacing: -0.01em; margin-bottom: 9px; }
+  .rel-text { font-size: 14px; line-height: 1.6; color: var(--smoke); margin-bottom: 18px; }
+  .rel-more {
+    margin-top: auto;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .rel-more :global(svg) { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
+  .rel-card:hover .rel-more :global(svg) { transform: translateX(3px); }
+
+  /* Тихая строка под карточками: ссылка на тест или на соседний раздел */
+  .related-band :global(.rel-note) {
+    margin-top: 28px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--smoke);
+  }
+  .related-band :global(.rel-note a) {
+    color: var(--spark-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .related-band :global(.rel-note a:hover) { color: var(--ink); }
+
+  @media (max-width: 640px) {
+    .rel-card { padding: 24px; }
+  }
+</style>

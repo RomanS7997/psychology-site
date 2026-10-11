@@ -5,6 +5,8 @@ import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Icon from '../../components/Icon.astro';
+import RelatedCards from '../../components/RelatedCards.astro';
+import { serviceCard } from '../../data/services';
 import { url } from '../../utils/url';
 
 // Кому подходит игра — формулировки заказчицы, менялось только оформление
@@ -17,21 +19,20 @@ const fitItems = [
 ---
 
 <Layout
-  title="Трансформационная игра «Лила»"
-  description="Трансформационная игра «Лила» с психологом."
+  title="Трансформационная игра «Лила» | Одинцово, Лесной городок"
+  description="Древняя индийская игра-медитация для тех, кто хочет взглянуть на свой запрос с новой стороны. Играем в кабинете в Лесном городке. Запишитесь — подберём время."
 >
   <SEO
     slot="head"
-    title="Игра «Лила» в Одинцово | Кабинет психолога Ляпина Юлия"
-    description="Трансформационная игра «Лила» с психологом в Одинцово. Глубокая работа с запросом через игру-медитацию."
-    keywords="трансформационная игра Лила, Одинцово, психолог"
+    title="Трансформационная игра «Лила» | Одинцово, Лесной городок"
+    description="Древняя индийская игра-медитация для тех, кто хочет взглянуть на свой запрос с новой стороны. Играем в кабинете в Лесном городке. Запишитесь — подберём время."
     schema="service"
   />
 
   <Breadcrumbs
     items={[
       { label: 'Главная', href: url('/') },
-      { label: 'Услуги', href: url('/#services') },
+      { label: 'Услуги', href: url('/services') },
       { label: 'Трансформационная игра «Лила»' }
     ]}
   />
@@ -49,7 +50,7 @@ const fitItems = [
         <p class="lede mb-9 mx-auto max-w-[54ch] rise rise-3">
           Древняя индийская игра-медитация, которая помогает взглянуть на свой запрос
           с новой стороны, увидеть скрытые причины и найти ресурсы для изменений.
-          Играем в кабинете в Лесном городке, Одинцовский округ.
+          Играем <a href={url('/contact#map')}>в кабинете в Лесном городке</a>, Одинцовский округ.
         </p>
 
         <div class="hero-actions rise rise-4">
@@ -112,13 +113,25 @@ const fitItems = [
     </div>
   </section>
 
+  <!-- ============ Смотрите также ============ -->
+  <RelatedCards
+    items={[
+      serviceCard('/services/adult'),
+      { icon: 'author', title: 'Обо мне', text: 'О подходе и методах работы', href: '/about' },
+      { icon: 'test', title: 'Тест: нужна ли консультация', text: 'Короткий тест — займёт пару минут', href: '/test/general' },
+    ]}
+    tone="taupe"
+  />
+
   <ScrollAnimations />
 </Layout>
 
 <style>
   .fit-aside { margin-top: 28px; text-align: center; font-size: 14px; line-height: 1.7; color: var(--smoke); }
-  .fit-aside a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
-  .fit-aside a:hover { color: var(--ink); }
+  .fit-aside a,
+  .page-hero .lede a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .fit-aside a:hover,
+  .page-hero .lede a:hover { color: var(--ink); }
 
   /* ---------- ритм секций ---------- */
   .band { padding: 96px 0; }

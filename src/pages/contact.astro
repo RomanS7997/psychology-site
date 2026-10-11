@@ -6,17 +6,36 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
 import Icon from '../components/Icon.astro';
 import { url } from '../utils/url';
+import site from '../data/global.json';
+import { services } from '../data/services';
+
+const geo = site.contacts.geo;
+
+// Ссылки на Яндекс Карты. Точка — центр посёлка, а не дом: точный адрес
+// кабинета на сайте не публикуется.
+const mapLink = `https://yandex.ru/maps/?ll=${geo.lon}%2C${geo.lat}&z=14`;
+const routeLink = `https://yandex.ru/maps/?rtext=~${geo.lat}%2C${geo.lon}&rtt=auto`;
+
+// Что проходит в кабинете: названия из меню, возраст и длительность — со
+// страниц самих услуг.
+const detail: Record<string, string> = {
+  '/services/adult': '55 минут, в кабинете или онлайн',
+  '/services/children': 'дети и подростки 5–18 лет',
+  '/services/lila': 'игра-медитация для работы с запросом',
+  '/services/school-prep': '6–7 лет, два раза в неделю',
+  '/programs/umniky': '4–6 лет, по будням',
+  '/programs/azbuka': '5–9 лет, раз в неделю',
+};
 ---
 
 <Layout
-  title="Контакты - Кабинет психолога в Одинцово | Записаться на приём"
-  description="Контакты психологического центра в Одинцово."
+  title="Записаться к психологу: контакты | Лесной городок, Одинцово"
+  description="Позвоните, напишите в WhatsApp или Telegram — отвечаю ежедневно с 9:00 до 21:00. Кабинет в Одинцово, посёлок Лесной городок; точный адрес сообщу при записи."
 >
   <SEO
     slot="head"
-    title="Контакты - Кабинет психолога в Одинцово | Записаться на приём"
-    description="Контакты психологического центра в Одинцово. Адрес, телефон, email, карта проезда. Записаться на консультацию онлайн или по телефону."
-    keywords="контакты психолога Одинцово, адрес центра, записаться к психологу"
+    title="Записаться к психологу: контакты | Лесной городок, Одинцово"
+    description="Позвоните, напишите в WhatsApp или Telegram — отвечаю ежедневно с 9:00 до 21:00. Кабинет в Одинцово, посёлок Лесной городок; точный адрес сообщу при записи."
     schema="localbusiness"
   />
 
@@ -32,6 +51,7 @@ import { url } from '../utils/url';
     <div class="container mx-auto px-4 lg:px-8">
       <div class="inner">
         <div data-reveal>
+          <p class="eyebrow mb-4">Психолог · Лесной городок</p>
           <h1 class="display mb-5">Свяжитесь со мной</h1>
           <p class="lede max-w-[52ch]">
             Отвечу на ваши вопросы и помогу записаться на консультацию
@@ -172,12 +192,21 @@ import { url } from '../utils/url';
                 <span class="contact-icon"><Icon name="address" size={20} /></span>
                 <div class="contact-body">
                   <p class="contact-title">Адрес</p>
-                  <p class="contact-value contact-value-sm">Одинцово, Лесной городок</p>
+                  <p class="contact-value contact-value-sm">{site.contacts.address}</p>
                   <p class="contact-sub">Точный адрес кабинета сообщу при записи</p>
                   <a href="#map" class="contact-link">
                     Как добраться
                     <Icon name="scroll-to-map" size={16} />
                   </a>
+                </div>
+              </div>
+
+              <!-- Часы работы: отдельной строкой, а не только подписью под телефоном -->
+              <div class="contact-item" data-reveal>
+                <span class="contact-icon"><Icon name="working-hours" size={20} /></span>
+                <div class="contact-body">
+                  <p class="contact-title">Часы работы</p>
+                  <p class="contact-value contact-value-sm">{site.contacts.hours}</p>
                 </div>
               </div>
 
@@ -224,6 +253,51 @@ import { url } from '../utils/url';
     </div>
   </section>
 
+  <!-- Кабинет: всё о месте в одном блоке -->
+  <!-- Эти сведения были разбросаны по десяти страницам; человек, который
+       ищет занятия рядом с домом, не находил их вместе нигде. Здесь только
+       то, что уже сказано на сайте: ни новых цифр, ни точного адреса. -->
+  <section class="band band-top-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Лесной городок</p>
+          <h2 class="heading">Что проходит в кабинете</h2>
+        </div>
+
+        <div class="place-grid">
+          <ul class="place-list" data-reveal>
+            {services.map((service) => (
+              <li>
+                <a href={url(service.path)}>{service.title}</a>
+                <span>{detail[service.path]}</span>
+              </li>
+            ))}
+          </ul>
+
+          <dl class="place-facts" data-reveal>
+            <div>
+              <dt>Где</dt>
+              <dd>Московская область, Одинцовский округ, посёлок Лесной городок. Точный адрес кабинета сообщу при записи.</dd>
+            </div>
+            <div>
+              <dt>Рядом</dt>
+              <dd>ВНИИССОК, Бородки, Осоргино, Солманово, Юдино; недалеко — Одинцово, Власиха, Жаворонки, Внуково, Кокошкино.</dd>
+            </div>
+            <div>
+              <dt>Когда</dt>
+              <dd>Ежедневно с 9:00 до 21:00, в кабинете и онлайн по видеосвязи.</dd>
+            </div>
+            <div>
+              <dt>Кто принимает</dt>
+              <dd>Психолог Юлия Ляпина и три педагога — <a href={url('/specialists')}>познакомьтесь с командой</a>.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Карта -->
   <section id="map" class="band band-taupe">
     <div class="container mx-auto px-4 lg:px-8">
@@ -231,29 +305,31 @@ import { url } from '../utils/url';
 
         <div class="band-head" data-reveal>
           <p class="eyebrow mb-3">Адрес</p>
-          <h2 class="heading">Как добраться</h2>
+          <h2 class="heading">Как добраться до кабинета в Лесном городке</h2>
         </div>
 
         <!-- Яндекс.Карты -->
         <div class="map-frame" data-reveal>
-          <div id="yandex-map">
+          <div id="yandex-map" data-lat={geo.lat} data-lon={geo.lon}>
             <div class="map-fallback" id="map-fallback">
               <span class="contact-icon"><Icon name="address" size={20} /></span>
-              <p class="map-fallback-title">Одинцово, Лесной городок</p>
+              <p class="map-fallback-title">{site.contacts.address}</p>
               <p class="map-fallback-text">Точный адрес кабинета сообщу при записи</p>
             </div>
           </div>
         </div>
 
-        <!-- Инструкции как добраться -->
-        <h3 class="heading-sm routes-head" data-reveal>Как добраться:</h3>
+        <p class="map-links" data-reveal>
+          <a href={mapLink} target="_blank" rel="noopener">Открыть в Яндекс Картах</a>
+          <a href={routeLink} target="_blank" rel="noopener">Построить маршрут до Лесного городка</a>
+        </p>
 
         <div class="routes">
 
           <!-- На электричке -->
           <div class="surface route-card lift" data-reveal>
             <span class="contact-icon"><Icon name="by-train" size={20} /></span>
-            <h4 class="route-title">На электричке</h4>
+            <h3 class="route-title">На электричке</h3>
             <p class="route-text">
               С Белорусского вокзала до станции «Лесной Городок» или «Одинцово». Точный маршрут подскажу при записи.
             </p>
@@ -262,7 +338,7 @@ import { url } from '../utils/url';
           <!-- На машине -->
           <div class="surface route-card lift" data-reveal>
             <span class="contact-icon"><Icon name="by-car" size={20} /></span>
-            <h4 class="route-title">На машине</h4>
+            <h3 class="route-title">На машине</h3>
             <p class="route-text">
               По Минскому или Можайскому шоссе. Парковка рядом с кабинетом. Маршрут подскажу при записи.
             </p>
@@ -338,6 +414,8 @@ import { url } from '../utils/url';
         throw new Error('Заявка не принята');
       }
 
+      try { window.siteTrack && window.siteTrack('contact_submit'); } catch (e) {}
+
       form.reset();
       if (note) {
         note.className = 'form-status form-status-ok';
@@ -355,57 +433,35 @@ import { url } from '../utils/url';
     }
   }
 
-  // Инициализация Яндекс.Карты
-  function initYandexMap() {
-    if (typeof ymaps === 'undefined') {
-      console.error('Yandex Maps API не загружен');
-      return;
-    }
-
-    ymaps.ready(function () {
-      // Координаты Лесной городок, Одинцово
-      const map = new ymaps.Map('yandex-map', {
-        center: [55.634, 37.193],
-        zoom: 13,
-        controls: ['zoomControl', 'fullscreenControl', 'geolocationControl']
-      });
-
-      const placemark = new ymaps.Placemark([55.634, 37.193], {
-        balloonContent: '<strong>Кабинет психолога Ляпина Юлия</strong><br>Одинцово, Лесной городок<br>+7 (915) 195-51-32',
-        hintContent: 'Кабинет психолога'
-      }, {
-        preset: 'islands#blueMedicalIcon',
-        iconColor: '#276579'
-      });
-
-      map.geoObjects.add(placemark);
-
-      // Отключение скроллинга карты колесиком мыши
-      map.behaviors.disable('scrollZoom');
-
-      // Адрес-подстраховку убираем только теперь, когда карта действительно
-      // построилась. Раньше её стирали заранее — и при неверном ключе
-      // на месте карты оставалась пустота без единой строчки адреса.
-      const fallback = document.getElementById('map-fallback');
-      if (fallback && fallback.parentNode) fallback.parentNode.removeChild(fallback);
-    });
-  }
-
-  // Карту грузим, когда до неё долистали. Скрипты Яндекса весят больше, чем
-  // вся остальная страница вместе взятая, а карта стоит внизу: человек, который
-  // пришёл за телефоном, платил за неё временем загрузки и не видел её вовсе.
+  // Карта — готовый виджет Яндекса во фрейме.
+  //
+  // Раньше здесь стояла карта через JavaScript API с ключом-заглушкой
+  // вместо настоящего: она рисовалась только пока Яндекс это терпел, а в ответе
+  // прямо писал, что ключ неверный. Виджету ключ не нужен вовсе.
+  //
+  // Метки на карте нет намеренно: точный адрес кабинета сообщается при
+  // записи, а метка в центре посёлка выглядела бы как «кабинет здесь» —
+  // прежняя вообще стояла на чужом доме в соседнем Солманово.
+  //
+  // Грузим, когда до карты долистали: она тяжелее всей остальной страницы,
+  // а стоит внизу — человек, пришедший за телефоном, не должен за неё платить.
   function loadYandexMaps() {
     if (window.__ymapsRequested) return;
     window.__ymapsRequested = true;
-    const script = document.createElement('script');
-    script.src = 'https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&lang=ru_RU';
-    script.async = true;
-    script.onload = initYandexMap;
-    script.onerror = function () {
-      // Адрес текстом остаётся на месте — дыры на странице не будет
-      console.error('Яндекс.Карты не загрузились');
-    };
-    document.head.appendChild(script);
+    const host = document.getElementById('yandex-map');
+    if (!host) return;
+    const frame = document.createElement('iframe');
+    frame.src = 'https://yandex.ru/map-widget/v1/?ll=' + host.dataset.lon + '%2C' + host.dataset.lat + '&z=13';
+    frame.title = 'Карта: посёлок Лесной городок, Одинцовский округ';
+    frame.setAttribute('allowfullscreen', 'true');
+    frame.setAttribute('referrerpolicy', 'no-referrer-when-downgrade');
+    // Адрес-подстраховку убираем, только когда карта действительно пришла:
+    // если фрейм не загрузится, в рамке останется адрес текстом, а не пустота.
+    frame.addEventListener('load', function () {
+      const fallback = document.getElementById('map-fallback');
+      if (fallback && fallback.parentNode) fallback.parentNode.removeChild(fallback);
+    });
+    host.appendChild(frame);
   }
 
   const mapHost = document.getElementById('yandex-map');
@@ -612,7 +668,30 @@ import { url } from '../utils/url';
     background: var(--canvas);
   }
 
-  #yandex-map { width: 100%; height: 460px; }
+  #yandex-map { position: relative; width: 100%; height: 460px; }
+  /* Фрейм вставляет скрипт, поэтому scoped-стиль до него сам не дотянется */
+  #yandex-map :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .map-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    margin-top: 18px;
+    font-size: 14px;
+  }
+  .map-links a {
+    color: var(--spark-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .map-links a:hover { color: var(--ink); }
 
   /* Пока карта не подгрузилась, в рамке остаётся адрес */
   .map-fallback {
@@ -628,18 +707,62 @@ import { url } from '../utils/url';
   .map-fallback-title { font-size: 19px; font-weight: 300; letter-spacing: -0.02em; color: var(--ink); }
   .map-fallback-text { font-size: 13.5px; color: var(--smoke); }
 
-  .routes-head { margin: 56px 0 24px; }
-
   .routes {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
+    margin-top: 40px;
   }
 
   .route-card { padding: 28px; background: var(--canvas); }
   .route-card .contact-icon { margin-bottom: 16px; }
   .route-title { font-size: 17px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 8px; }
   .route-text { font-size: 14px; line-height: 1.6; color: var(--smoke); }
+
+  /* ---------- что проходит в кабинете ---------- */
+  .place-grid {
+    display: grid;
+    grid-template-columns: 1.02fr 0.98fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .place-list { list-style: none; margin: 0; padding: 0; }
+  .place-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 4px 14px;
+    padding: 16px 0;
+    border-top: 1px solid var(--stone);
+  }
+  .place-list li:last-child { border-bottom: 1px solid var(--stone); }
+  .place-list a {
+    font-size: 17px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--stone);
+    text-underline-offset: 4px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+  .place-list a:hover { color: var(--spark-deep); text-decoration-color: currentColor; }
+  .place-list span { font-size: 13.5px; color: var(--smoke); }
+
+  .place-facts { margin: 0; }
+  .place-facts > div { padding: 16px 0; border-top: 1px solid var(--stone); }
+  .place-facts > div:last-child { border-bottom: 1px solid var(--stone); }
+  .place-facts dt {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 7px;
+  }
+  .place-facts dd { margin: 0; font-size: 15px; line-height: 1.6; color: var(--graphite); }
+  .place-facts a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .place-facts a:hover { color: var(--ink); }
 
   /* ---------- финальный призыв ---------- */
   .closing-band { padding: 56px 48px; text-align: center; }
@@ -649,6 +772,8 @@ import { url } from '../utils/url';
   /* ---------- адаптив ---------- */
   @media (max-width: 1023px) {
     .contact-grid { grid-template-columns: 1fr; gap: 44px; }
+    .place-grid { grid-template-columns: 1fr; gap: 0; }
+    .place-list li:last-child { border-bottom: 0; }
   }
 
   @media (max-width: 767px) {
@@ -657,8 +782,7 @@ import { url } from '../utils/url';
     .band-tight { padding: 8px 0 64px; }
     .page-hero { padding: 28px 0 44px; }
     .form-card { padding: 26px; }
-    .routes { grid-template-columns: 1fr; }
-    .routes-head { margin: 40px 0 20px; }
+    .routes { grid-template-columns: 1fr; margin-top: 28px; }
     #yandex-map { height: 340px; }
     .contact-value { font-size: 22px; }
     .contact-value-sm { font-size: 17px; }

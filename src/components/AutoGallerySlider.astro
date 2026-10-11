@@ -3,7 +3,7 @@
 // Галерея занятий: автослайдер с лайтбоксом
 import Icon from './Icon.astro';
 import { url } from '../utils/url';
-import { webp } from '../utils/img';
+import { webp, dims } from '../utils/img';
 
 interface Props {
   images: {
@@ -52,7 +52,7 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
               >
                 <picture>
                   {webp(image.src) && <source srcset={webp(image.src)} type="image/webp" />}
-                  <img src={url(image.src)} alt="" class="slide-bg" loading="lazy" decoding="async" aria-hidden="true" />
+                  <img src={url(image.src)} {...dims(image.src)} alt="" class="slide-bg" loading="lazy" decoding="async" aria-hidden="true" />
                 </picture>
 
                 <button
@@ -63,7 +63,7 @@ const sliderId = `slider-${Math.random().toString(36).slice(2, 11)}`;
                 >
                   <picture>
                     {webp(image.src) && <source srcset={webp(image.src)} type="image/webp" />}
-                    <img src={url(image.src)} alt={image.alt} class="slide-img" loading="lazy" decoding="async" />
+                    <img src={url(image.src)} {...dims(image.src)} alt={image.alt} class="slide-img" loading="lazy" decoding="async" />
                   </picture>
                 </button>
 

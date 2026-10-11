@@ -12,7 +12,7 @@ const { site, contacts, footer } = global;
   <div class="container mx-auto px-4 lg:px-8">
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       <div>
-        <h3 class="footer-title">{footer.aboutTitle}</h3>
+        <p class="footer-title">{footer.aboutTitle}</p>
         <ul class="footer-list">
           {footer.aboutLinks.map((link) => (
             <li><a href={url(link.href)} class="footer-link">{link.title}</a></li>
@@ -20,7 +20,7 @@ const { site, contacts, footer } = global;
         </ul>
       </div>
       <div>
-        <h3 class="footer-title">{footer.servicesTitle}</h3>
+        <p class="footer-title"><a href={url(footer.servicesHref)}>{footer.servicesTitle}</a></p>
         <ul class="footer-list footer-list-wide">
           {footer.servicesLinks.map((link) => (
             <li>
@@ -31,15 +31,16 @@ const { site, contacts, footer } = global;
         </ul>
       </div>
       <div>
-        <h3 class="footer-title">{footer.contactsTitle}</h3>
+        <p class="footer-title">{footer.contactsTitle}</p>
         <ul class="footer-list">
-          <li class="footer-contact"><Icon name="address" size={17} /><span>{contacts.address}</span></li>
+          <li class="footer-contact"><Icon name="address" size={17} /><a href={url('/contact#map')} class="footer-link footer-address">{contacts.address}</a></li>
           <li class="footer-contact"><Icon name="phone" size={17} /><a href={`tel:${contacts.phoneRaw}`} class="footer-link">{contacts.phone}</a></li>
           <li class="footer-contact"><Icon name="email" size={17} /><a href={`mailto:${contacts.email}`} class="footer-link">{contacts.email}</a></li>
+          <li class="footer-contact footer-hours"><Icon name="working-hours" size={17} /><span>{contacts.hours}</span></li>
         </ul>
       </div>
       <div>
-        <h3 class="footer-title">{footer.infoTitle}</h3>
+        <p class="footer-title">{footer.infoTitle}</p>
         <ul class="footer-list">
           {footer.infoLinks.map((link) => (
             <li><a href={url(link.href)} class="footer-link">{link.title}</a></li>
@@ -80,6 +81,10 @@ const { site, contacts, footer } = global;
     margin-bottom: 18px;
   }
 
+  /* Заголовок колонки «Услуги» ведёт на страницу со всеми услугами; выглядит как прежде */
+  .footer-title a { color: inherit; transition: color 0.2s ease; }
+  .footer-title a:hover { color: var(--ink); }
+
   .footer-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; font-size: 14px; }
   .footer-list-wide { gap: 6px; }
 
@@ -109,6 +114,11 @@ const { site, contacts, footer } = global;
     color: var(--graphite);
   }
   .footer-contact :global(svg) { color: var(--ash); flex-shrink: 0; margin-top: 1px; }
+  /* Адрес длиннее строки и переносится: выравниваем по первой строке, как было у текста */
+  .footer-address { align-items: flex-start; min-height: 0; }
+  /* Часы — текст, а не ссылка: высоту строки держим той же, что у соседних */
+  .footer-hours { min-height: 34px; align-items: center; }
+  .footer-hours :global(svg) { margin-top: 0; }
 
   .footer-copy { font-size: 13px; color: var(--ash); }
 

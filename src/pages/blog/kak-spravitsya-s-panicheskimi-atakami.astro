@@ -1,27 +1,33 @@
 ---
 // src/pages/blog/kak-spravitsya-s-panicheskimi-atakami.astro
 import Layout from '../../layouts/Layout.astro';
-import { webp } from '../../utils/img';
+import { webp, dims } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import Icon from '../../components/Icon.astro';
+import RelatedCards from '../../components/RelatedCards.astro';
 import { url } from '../../utils/url';
+import { posts, postPath, otherPosts } from '../../data/posts';
+
+// Подпись к обложке и соседние статьи — из общего списка
+const post = posts.find((p) => p.slug === 'kak-spravitsya-s-panicheskimi-atakami')!;
 ---
 
 <Layout
-  title="Как справиться с паническими атаками | Советы психолога"
-  description="Эффективные методы борьбы с паническими атаками."
+  title="Как справиться с панической атакой самому | 5 техник по шагам"
+  description="Паническая атака пугает, но для жизни не опасна. Пять техник на время приступа: дыхание 4-7-8, заземление, холодная вода. И когда стоит обратиться к психологу."
 >
   <SEO
     slot="head"
-    title="Как справиться с паническими атаками | Психолог, Одинцово"
-    description="Эффективные методы борьбы с паническими атаками. Советы психолога из Одинцово. Техники, дыхание, помощь при панике."
-    keywords="панические атаки, как справиться с паникой, психолог Одинцово"
+    title="Как справиться с панической атакой самому | 5 техник по шагам"
+    description="Паническая атака пугает, но для жизни не опасна. Пять техник на время приступа: дыхание 4-7-8, заземление, холодная вода. И когда стоит обратиться к психологу."
+    headline="Как справиться с паническими атаками: практические техники"
     schema="article"
     image="/images/blog/panic-attacks.jpg"
     type="article"
-    published="2025-01-15"
+    published={post.date}
+    section="Тревожность"
   />
 
   <Breadcrumbs
@@ -40,7 +46,7 @@ import { url } from '../../utils/url';
         <div data-reveal>
           <div class="post-meta">
             <span class="post-cat">Тревожность</span>
-            <span>15 января 2025</span>
+            <time datetime={post.date}>{post.dateText}</time>
             <span class="sep" aria-hidden="true">·</span>
             <span>8 мин чтения</span>
           </div>
@@ -55,10 +61,18 @@ import { url } from '../../utils/url';
           </p>
 
           <div class="post-author">
-            <span class="author-mark"><Icon name="author" size={20} /></span>
+            <img
+              class="author-photo"
+              src={url('/images/specialists/julia-lyapina-avatar.webp')}
+              width="44"
+              height="44"
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
             <span class="author-lines">
               <a class="author-name" href={url('/about')}>Юлия Ляпина</a>
-              <span class="author-role">Психолог, специалист по работе с детьми и взрослыми</span>
+              <span class="author-role">Психолог, монтессори-педагог, работа с детьми и взрослыми</span>
             </span>
           </div>
         </div>
@@ -66,7 +80,7 @@ import { url } from '../../utils/url';
         <figure class="post-cover" data-reveal>
           <picture>
   {webp('/images/blog/panic-attacks.jpg') && <source srcset={webp('/images/blog/panic-attacks.jpg')} type="image/webp" />}
-  <img src={url('/images/blog/panic-attacks.jpg')} alt="Как справиться с паническими атаками" loading="eager" fetchpriority="high" decoding="async" />
+  <img src={url('/images/blog/panic-attacks.jpg')} {...dims('/images/blog/panic-attacks.jpg')} alt={post.alt} loading="eager" fetchpriority="high" decoding="async" />
 </picture>
         </figure>
 
@@ -181,7 +195,7 @@ import { url } from '../../utils/url';
 
           <h2>Когда нужна помощь специалиста?</h2>
           <p>
-            Обратитесь к психологу, если:
+            Обратитесь <a href={url('/services/adult')}>к психологу</a>, если:
           </p>
           <ul>
             <li>Панические атаки происходят регулярно (чаще 1 раза в месяц)</li>
@@ -217,6 +231,10 @@ import { url } from '../../utils/url';
             результаты в лечении панического расстройства.
           </p>
 
+          <p class="post-disclaimer">
+            Статья носит информационный характер и не заменяет консультацию специалиста. Если приступ случился впервые или сопровождается болью в груди, обмороком, затруднённым дыханием — обратитесь к врачу или вызовите скорую помощь: 103 или 112.
+          </p>
+
         </div>
       </div>
     </div>
@@ -230,7 +248,7 @@ import { url } from '../../utils/url';
           <p class="eyebrow eyebrow-center mb-4">Запись</p>
           <h2 class="heading mb-4">Нужна помощь с паническими атаками?</h2>
           <p class="lede cta-lede mb-8">
-            Запишитесь на консультацию в Одинцово или онлайн — разберём вашу ситуацию
+            Запишитесь на консультацию в Лесном городке (Одинцово) или онлайн — разберём вашу ситуацию
           </p>
           <div class="cta-actions">
             <button onclick="openBookingModal('adult')" class="pill pill-solid pill-lg" type="button">
@@ -245,6 +263,13 @@ import { url } from '../../utils/url';
     </div>
   </section>
 
+  <!-- ============ Читайте также ============ -->
+  <RelatedCards
+    eyebrow="Блог"
+    title="Читайте также"
+    items={otherPosts(post.slug).map((p) => ({ icon: p.icon, title: p.title, text: p.excerpt, href: postPath(p), more: 'Читать' }))}
+    tone="taupe"
+  />
 
   <ScrollAnimations />
 </Layout>
@@ -281,10 +306,14 @@ import { url } from '../../utils/url';
     display: flex; align-items: center; gap: 14px;
     margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--stone);
   }
-  .author-mark {
+  /* Оговорка под текстом — тише основного текста */
+  .prose .post-disclaimer {
+    margin-top: 36px; padding-top: 20px; border-top: 1px solid var(--stone);
+    font-size: 14px; line-height: 1.6; color: var(--smoke);
+  }
+  .author-photo {
     flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    background: rgba(47, 125, 150, 0.1); color: var(--spark-deep);
+    object-fit: cover; background: var(--taupe);
   }
   .author-lines { display: grid; gap: 2px; }
   .author-name {
@@ -341,6 +370,10 @@ import { url } from '../../utils/url';
   .prose li > ul, .prose li > ol { margin: 10px 0 0; }
 
   .prose strong { color: var(--ink); font-weight: 500; }
+
+  /* Тихая ссылка в тексте */
+  .prose a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .prose a:hover { color: var(--ink); }
 
   /* ---------- врезка ---------- */
   .note {

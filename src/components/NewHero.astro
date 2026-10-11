@@ -7,7 +7,7 @@ interface Props {
 
 const { title, subtitle } = Astro.props;
 import { url } from '../utils/url';
-import { HERO_SIZES, webpSet } from '../utils/img';
+import { HERO_SIZES, webpSet, dims, altOf } from '../utils/img';
 ---
 
 <section class="hero-section">
@@ -49,7 +49,7 @@ import { HERO_SIZES, webpSet } from '../utils/img';
       <div class="hero-visual orb surface-lg rise rise-2">
         <picture>
   <source srcset={webpSet('/images/hero-psychologist.jpg')} type="image/webp" sizes={HERO_SIZES} />
-  <img src={url('/images/hero-psychologist.jpg')} alt="Юлия Ляпина, психолог" class="hero-portrait" loading="eager" fetchpriority="high" decoding="async" />
+  <img src={url('/images/hero-psychologist.jpg')} {...dims('/images/hero-psychologist.jpg')} alt={altOf('/images/hero-psychologist.jpg', 'Юлия Ляпина, психолог')} class="hero-portrait" loading="eager" fetchpriority="high" decoding="async" />
 </picture>
       </div>
 

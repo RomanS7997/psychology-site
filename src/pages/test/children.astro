@@ -3,19 +3,30 @@
 import Layout from '../../layouts/Layout.astro';
 import { url } from '../../utils/url';
 import SEO from '../../components/SEO.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Icon from '../../components/Icon.astro';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 ---
 
 <Layout
-  title="Тест для родителей - Психологический центр"
-  description="Пройдите бесплатный тест и получите рекомендации по развитию вашего ребёнка."
+  title="Нужен ли ребёнку психолог: тест для родителей | 2 минуты"
+  description="Ответьте на несколько вопросов о возрасте ребёнка и о том, что вас беспокоит: поведение, страхи, общение, школа. Потом позвоню и расскажу, что рекомендую."
 >
   <SEO
     slot="head"
-    title="Тест для родителей | Кабинет психолога Ляпина Юлия"
-    description="Короткий тест для родителей: оцените, нужна ли ребёнку помощь психолога."
+    title="Нужен ли ребёнку психолог: тест для родителей | 2 минуты"
+    description="Ответьте на несколько вопросов о возрасте ребёнка и о том, что вас беспокоит: поведение, страхи, общение, школа. Потом позвоню и расскажу, что рекомендую."
   />
+
+  <div class="test-crumbs">
+    <Breadcrumbs
+      items={[
+        { label: 'Главная', href: url('/') },
+        { label: 'Индивидуальные занятия с детьми', href: url('/services/children') },
+        { label: 'Тест для родителей' }
+      ]}
+    />
+  </div>
 
   <section class="band band-taupe test-band">
     <div class="container mx-auto px-4 lg:px-8">
@@ -372,7 +383,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
               <a href={url('/')} class="pill pill-solid">
                 Вернуться на главную
               </a>
-              <a href={url('/programs/azbuka')} class="pill pill-outline">
+              <a href={url('/services')} class="pill pill-outline">
                 Посмотреть программы
               </a>
             </div>
@@ -390,10 +401,13 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
 <style>
   /* ---------- полоса страницы ---------- */
   .band { padding: 96px 0; }
-  /* На этих страницах нет крошек, поэтому отступ под закреплённой
-     шапкой держит первая полоса — иначе прогресс уезжает под неё. */
-  .test-band { padding-top: 128px; }
+  /* Отступ под закреплённую шапку держат крошки; полосе теста остаётся
+     тот же зазор, что у первого экрана под крошками на других страницах. */
+  .test-band { padding-top: 28px; }
   .test-band { min-height: 100vh; }
+  /* Крошки стоят на подложке теста: иначе над ним остаётся полоса
+     другого цвета, и строка крошек прилипает к её краю. */
+  .test-crumbs :global(.crumbs) { background: var(--taupe); }
   .inner { max-width: 720px; margin: 0 auto; }
 
   /* ---------- прогресс ---------- */
@@ -589,7 +603,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
   /* ---------- адаптив ---------- */
   @media (max-width: 767px) {
     .band { padding: 56px 0; }
-    .test-band { padding-top: 120px; }
+    .test-band { padding-top: 20px; }
     .test-card { padding: 26px 20px; border-radius: var(--r-card); }
     .panel { padding: 22px 20px; }
     .actions { flex-wrap: wrap; }
@@ -685,6 +699,7 @@ import ScrollAnimations from '../../components/ScrollAnimations.astro';
         if (!response.ok || !body || String(body.success) !== 'true') {
           throw new Error('Заявка не принята');
         }
+        try { window.siteTrack && window.siteTrack('test_submit', { test: 'children' }); } catch (e) {}
       } catch (err) {
         const note = document.getElementById('test-send-note');
         if (note) {

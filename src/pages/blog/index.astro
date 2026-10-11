@@ -1,60 +1,31 @@
 ---
 // src/pages/blog/index.astro
 import Layout from '../../layouts/Layout.astro';
-import { webp } from '../../utils/img';
+import { webp, dims } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import Icon from '../../components/Icon.astro';
+import RelatedCards from '../../components/RelatedCards.astro';
 import { url } from '../../utils/url';
-
+// Статьи — из общего списка: тот же, что на главной и в разметке.
 // Обложка: если фотографии для статьи нет, ставим тихую плашку с линейной иконкой.
-const posts = [
-  {
-    slug: 'kak-spravitsya-s-panicheskimi-atakami',
-    title: 'Как справиться с паническими атаками: практические техники',
-    excerpt: 'Пять проверенных техник, которые помогут остановить паническую атаку и предотвратить её в будущем.',
-    category: 'Тревожность',
-    date: '15 января 2025',
-    readTime: '8 мин',
-    image: '/images/blog/panic-attacks.jpg',
-    icon: 'anxiety',
-  },
-  {
-    slug: 'chto-delat-esli-rebenok-ne-slushaetsya',
-    title: 'Что делать, если ребёнок не слушается: 7 стратегий для родителей',
-    excerpt: 'Почему дети перестают слушаться и как восстановить контакт без криков и наказаний.',
-    category: 'Детская психология',
-    date: '12 января 2025',
-    readTime: '10 мин',
-    image: '/images/blog/child-behavior.jpg',
-    icon: 'children',
-  },
-  {
-    slug: 'kak-uluchshit-otnosheniya-s-partnerom',
-    title: 'Как улучшить отношения с партнёром: 5 упражнений на каждый день',
-    excerpt: 'Простые, но действенные упражнения для пар, которые хотят вернуть близость и понимание.',
-    category: 'Отношения',
-    date: '10 января 2025',
-    readTime: '7 мин',
-    image: '/images/blog/relationships.jpg',
-    icon: 'relationships',
-  },
-];
+// Первый ряд обложек виден сразу — грузим без отсрочки, первую — раньше всех.
+import { posts, postPath } from '../../data/posts';
+import { serviceCard } from '../../data/services';
 
 // Кнопки фильтра собираем из самих статей — список не разъезжается с сеткой.
 const categories = Array.from(new Set(posts.map((post) => post.category)));
 ---
 
 <Layout
-  title="Блог - Статьи о психологии | Кабинет психолога в Одинцово"
-  description="Полезные статьи о психологии от профессиональных психологов."
+  title="Блог психолога о тревоге, детях и отношениях | Юлия Ляпина"
+  description="Разбираю то, с чем приходят на приём: панические атаки, поведение ребёнка, отношения в паре. Пишу то же, что говорю на консультации. Читайте и пишите мне."
 >
   <SEO
     slot="head"
-    title="Блог - Статьи о психологии | Кабинет психолога в Одинцово"
-    description="Полезные статьи о психологии, воспитании детей, отношениях, тревоге и саморазвитии. Советы от психолога из Одинцово."
-    keywords="блог психолога, статьи о психологии, советы психолога"
+    title="Блог психолога о тревоге, детях и отношениях | Юлия Ляпина"
+    description="Разбираю то, с чем приходят на приём: панические атаки, поведение ребёнка, отношения в паре. Пишу то же, что говорю на консультации. Читайте и пишите мне."
     type="website"
     schema="blog"
   />
@@ -81,7 +52,8 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
             Пишу то же, что говорю на консультации, — без общих слов и без
             обещаний, что одна статья заменит работу со специалистом. Если
             после прочтения хочется разобраться в своей ситуации, приходите:
-            я принимаю в Одинцово, в кабинете в Лесном городке, и онлайн.
+            я принимаю в Одинцово,
+            <a href={url('/contact#map')}>в кабинете в Лесном городке</a>, и онлайн.
           </p>
         </div>
       </div>
@@ -112,14 +84,14 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
       <div class="inner">
 
         <div class="cards-3" id="posts-grid">
-          {posts.map((post) => (
+          {posts.map((post, i) => (
             <article class="post-card" data-category={post.category} data-reveal>
-              <a class="post lift" href={url(`/blog/${post.slug}`)}>
+              <a class="post lift" href={url(postPath(post))}>
                 {post.image ? (
                   <div class="post-photo">
                     <picture>
   {webp(post.image) && <source srcset={webp(post.image)} type="image/webp" />}
-  <img src={url(post.image)} alt={post.title} loading="lazy" decoding="async" />
+  <img src={url(post.image)} {...dims(post.image)} alt={post.alt} loading={i < 3 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : undefined} decoding="async" />
 </picture>
                   </div>
                 ) : (
@@ -138,7 +110,7 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
                   <p class="post-excerpt">{post.excerpt}</p>
 
                   <div class="post-foot">
-                    <span class="post-date">{post.date}</span>
+                    <span class="post-date">{post.dateText}</span>
                     <span class="post-more">Читать <Icon name="go-to" size={16} /></span>
                   </div>
                 </div>
@@ -150,7 +122,7 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
         <!-- Пустое состояние при фильтрации -->
         <div id="empty-state" class="empty hidden">
           <span class="empty-icon"><Icon name="articles" size={24} /></span>
-          <h2 class="heading-sm empty-title">Статей в этой категории пока нет</h2>
+          <p class="heading-sm empty-title">Статей в этой категории пока нет</p>
           <p class="muted">Попробуйте выбрать другую категорию</p>
         </div>
 
@@ -158,11 +130,15 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
     </div>
   </section>
 
+  <RelatedCards items={[serviceCard('/services/adult'), serviceCard('/services/children')]} tone="plain" />
+
   <ScrollAnimations />
 </Layout>
 
 <style>
   .hero-note { margin-top: 14px; font-size: 15px; line-height: 1.75; color: var(--smoke); }
+  .hero-note a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .hero-note a:hover { color: var(--ink); }
 
   /* ---------- ритм страницы ---------- */
   .page-hero { padding: 28px 0 56px; background: var(--canvas); }
@@ -272,7 +248,11 @@ const categories = Array.from(new Set(posts.map((post) => post.category)));
     background: var(--canvas); border: 1px solid var(--stone);
     color: var(--spark-deep); margin-bottom: 20px;
   }
-  .empty-title { margin-bottom: 8px; }
+  /* Это абзац, а не заголовок: то, что h2 получал от базового правила, задаём сами */
+  .empty-title {
+    margin-bottom: 8px;
+    font-weight: 300; letter-spacing: -0.02em; text-wrap: balance; color: var(--ink);
+  }
 
   /* ---------- адаптив ---------- */
   @media (max-width: 1023px) {

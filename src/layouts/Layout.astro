@@ -6,6 +6,8 @@ import Footer from '../components/Footer.astro';
 import FloatingCTA from '../components/global/FloatingCTA.astro';
 import ExitIntentPopup from '../components/global/ExitIntentPopup.astro';
 import SimpleBookingForm from '../components/forms/SimpleBookingForm.astro';
+import Analytics from '../components/Analytics.astro';
+import analytics from '../data/analytics.json';
 
 interface Props {
   title: string;
@@ -23,6 +25,7 @@ const {
   noindex = false,
 } = Astro.props;
 import { url } from '../utils/url';
+import { HERO_SIZES, webpLargest, webpSet } from '../utils/img';
 import fontRanges from '../data/font-ranges.json';
 
 const isHome = Astro.url.pathname.replace(/\/$/, '') === import.meta.env.BASE_URL.replace(/\/$/, '');
@@ -32,6 +35,11 @@ const isHome = Astro.url.pathname.replace(/\/$/, '') === import.meta.env.BASE_UR
 // какой показать; выиграть может превью. Поэтому превью закрыто от индексации,
 // а смотреть его это не мешает.
 const isPreview = /github\.io$/.test(Astro.site?.hostname || '');
+
+// Коды подтверждения прав на сайт для Яндекс.Вебмастера и Google Search Console.
+// Берутся из src/data/analytics.json; на превью не выводятся — там их быть не должно.
+const yandexVerification = !isPreview && String(analytics.yandexVerification || '').trim();
+const googleVerification = !isPreview && String(analytics.googleVerification || '').trim();
 
 // Куски шрифта и их диапазоны пересобирает scripts/build-font.py
 const FONT_FILES = Object.keys(fontRanges);
@@ -77,11 +85,20 @@ const fontFaces = FONT_FILES.map((name) => `
          за пределы head: браузер их подбирает, простые парсеры соцсетей нет. -->
     <slot name="head" />
     
-    <!-- Иконки вкладки и мобильного экрана -->
+    {yandexVerification && <meta name="yandex-verification" content={yandexVerification} />}
+    {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
+
+    <!-- Иконки вкладки и мобильного экрана. 120x120 — для выдачи Яндекса:
+         значок меньшего размера он рядом с сайтом в результатах не показывает. -->
     <link rel="icon" href={url('/favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" sizes="192x192" href={url('/icon-192.png')} />
+    <link rel="icon" type="image/png" sizes="120x120" href={url('/favicon-120.png')} />
     <link rel="icon" type="image/png" sizes="32x32" href={url('/favicon-32.png')} />
     <link rel="icon" type="image/png" sizes="16x16" href={url('/favicon-16.png')} />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
+    <link rel="manifest" href={url('/manifest.json')} />
+    <meta name="theme-color" content="#fbfaf8" />
+    <link rel="alternate" type="application/rss+xml" title="Блог психолога Юлии Ляпиной" href={url('/rss.xml')} />
     
     <!-- Без JS блоки с data-reveal остались бы прозрачными: показываем их сразу -->
     <noscript>
@@ -103,9 +120,9 @@ const fontFaces = FONT_FILES.map((name) => `
       <link
         rel="preload"
         as="image"
-        href={url('/images/hero-psychologist-1120.webp')}
-        imagesrcset={`${url('/images/hero-psychologist-620.webp')} 620w, ${url('/images/hero-psychologist-1120.webp')} 1120w`}
-        imagesizes="(max-width: 860px) 92vw, 560px"
+        href={webpLargest('/images/hero-psychologist.jpg')}
+        imagesrcset={webpSet('/images/hero-psychologist.jpg')}
+        imagesizes={HERO_SIZES}
         type="image/webp"
         fetchpriority="high"
       />
@@ -127,6 +144,7 @@ const fontFaces = FONT_FILES.map((name) => `
     <FloatingCTA />
     <ExitIntentPopup />
     <SimpleBookingForm />
+    <Analytics />
   </body>
 </html>
 

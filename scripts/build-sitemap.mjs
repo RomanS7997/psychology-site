@@ -26,6 +26,7 @@ if (!SITE) {
 const PRIORITY = [
   [/^$/, '1.0', 'weekly'],
   [/^(services|programs)\//, '0.9', 'monthly'],
+  [/^services$/, '0.8', 'monthly'],
   [/^blog$/, '0.8', 'weekly'],
   [/^blog\//, '0.7', 'monthly'],
   [/^(specialists|about|contact)$/, '0.8', 'monthly'],
@@ -72,21 +73,49 @@ const pages = findPages(DIST)
   .filter((p) => p !== '404')
   .sort((a, b) => a.localeCompare(b));
 
+const xmlEscape = (v) => String(v)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+function readPage(page) {
+  return readFileSync(join(DIST, page, 'index.html'), 'utf8');
+}
+
+// Фотографии страницы — в карту сайта: так поиск по картинкам узнаёт о них
+// сразу и знает, какой странице они принадлежат. Берём только содержательные
+// снимки из основной части страницы: без логотипа и без размытых подложек
+// галереи (у них пустой alt — это тот же файл, что и сам снимок).
+function pageImages(html) {
+  const main = (html.match(/<main[\s\S]*?<\/main>/) || [''])[0];
+  const seen = new Set();
+  const out = [];
+  for (const tag of main.match(/<img\b[^>]*>/g) || []) {
+    const src = (tag.match(/\ssrc="([^"]+)"/) || [])[1];
+    const alt = (tag.match(/\salt="([^"]*)"/) || [])[1];
+    if (!src || !alt || /logo/i.test(src) || seen.has(src)) continue;
+    seen.add(src);
+    out.push(new URL(src, `${SITE}/`).href);
+  }
+  return out;
+}
+
 const urls = pages.map((page) => {
   const rule = PRIORITY.find(([re]) => re.test(page));
   const priority = rule ? rule[1] : '0.5';
   const changefreq = rule ? rule[2] : 'monthly';
   const loc = page === '' ? `${ORIGIN}/` : `${ORIGIN}/${page}/`;
+  const images = pageImages(readPage(page))
+    .map((src) => `    <image:image><image:loc>${xmlEscape(src)}</image:loc></image:image>`)
+    .join('\n');
   return `  <url>
     <loc>${loc}</loc>
     <lastmod>${lastModified(page)}</lastmod>
     <changefreq>${changefreq}</changefreq>
-    <priority>${priority}</priority>
+    <priority>${priority}</priority>${images ? '\n' + images : ''}
   </url>`;
 });
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urls.join('\n')}
 </urlset>
 `;
@@ -107,21 +136,85 @@ Disallow: /
 # Это превью-копия сайта для просмотра правок.
 # Боевой адрес: https://julialyapina.ru/
 `
+  // Пояснения — здесь, а не в самом файле: внутри группы правил не должно быть
+  // ни пустых строк, ни посторонних символов, иначе часть роботов обрывает
+  // группу на первой же пустой строке.
+  //
+  // Disallow — хвосты старого WordPress: на /wp-admin/ и /wp-login.php хостинг
+  // сам отвечает пустой страницей-проверкой с кодом 200, роботу там делать нечего.
+  //
+  // Clean-param — метки рекламы и переходов. Это не отдельные страницы, и
+  // Яндексу об этом говорим прямо: иначе адрес с ?utm_source=... он считает
+  // дублем. Google строку не понимает и пропускает; у него ту же работу
+  // делает canonical.
+  //
+  // Каталог _astro НЕ закрыт намеренно: там стили и скрипты, без них
+  // поисковик не может отрисовать страницу.
   : `User-agent: *
-Allow: /
+Disallow: ${BASE}/wp-admin/
+Disallow: ${BASE}/wp-login.php
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&utm_referrer&yclid&ysclid&gclid&fbclid&_openstat&etext&erid
 
 Sitemap: ${ORIGIN}/sitemap.xml
-
-# Каталог _astro НЕ закрываем: там лежат стили и скрипты,
-# без них поисковик не может отрисовать страницу и оценить вёрстку.
-Disallow: ${BASE}/.well-known/
-
-Crawl-delay: 1
 `;
 
 writeFileSync(join(DIST, 'robots.txt'), robots, 'utf8');
 console.log(`sitemap.xml: ${pages.length} страниц, адрес ${ORIGIN}`);
 console.log(`robots.txt: карта сайта ${ORIGIN}/sitemap.xml`);
+
+// ---------------------------------------------------------------------------
+// Лента статей (RSS). Нужна читалкам и агрегаторам; заодно это ещё один
+// способ для поисковика узнать о новой статье в день выхода.
+// Данные берём из самих страниц: заголовок, описание и дату из разметки
+// статьи — то, что уже проверено и совпадает с видимым текстом.
+function jsonLd(html) {
+  const found = [];
+  for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
+    try {
+      const data = JSON.parse(m[1]);
+      for (const node of data['@graph'] || [data]) found.push(node);
+    } catch {
+      // битую разметку ловит отдельная проверка, здесь просто пропускаем
+    }
+  }
+  return found;
+}
+
+const posts = pages
+  .filter((p) => /^blog\/.+/.test(p))
+  .map((p) => {
+    const html = readPage(p);
+    const article = jsonLd(html).find((d) => /^(Article|BlogPosting)$/.test(String(d['@type'])));
+    const h1 = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '';
+    return {
+      link: `${ORIGIN}/${p}/`,
+      title: h1.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim() || (article && article.headline) || p,
+      description: (article && article.description) || '',
+      date: String((article && article.datePublished) || lastModified(p)).slice(0, 10),
+    };
+  })
+  .sort((x, y) => y.date.localeCompare(x.date));
+
+const rss = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Блог психолога Юлии Ляпиной</title>
+    <link>${ORIGIN}/blog/</link>
+    <description>Статьи о тревоге, отношениях и воспитании детей от практикующего психолога.</description>
+    <language>ru</language>
+    <atom:link href="${ORIGIN}/rss.xml" rel="self" type="application/rss+xml" />
+${posts.map((post) => `    <item>
+      <title>${xmlEscape(post.title)}</title>
+      <link>${post.link}</link>
+      <guid isPermaLink="true">${post.link}</guid>
+      <pubDate>${new Date(`${post.date}T09:00:00+03:00`).toUTCString()}</pubDate>
+      <description>${xmlEscape(post.description)}</description>
+    </item>`).join('\n')}
+  </channel>
+</rss>
+`;
+writeFileSync(join(DIST, 'rss.xml'), rss, 'utf8');
+console.log(`rss.xml: статей ${posts.length}`);
 
 // ---------------------------------------------------------------------------
 // Переезд со старого сайта на julialyapina.ru.

@@ -1,0 +1,209 @@
+---
+// src/pages/services/index.astro
+//
+// Страница со всеми услугами и программами.
+//
+// Зачем она появилась. Хлебные крошки шести страниц услуг вели на «Услуги» —
+// а раздела с таким адресом не было: /services/ отвечал «403 Forbidden», и
+// вторая ступень крошек упиралась в якорь на главной. Теперь у услуг есть
+// общая страница, куда ведут крошки, меню и подвал.
+//
+// Новых текстов здесь нет: названия и подписи — те же, что в меню
+// (src/data/services.ts), возраст и расписание — со страниц самих услуг.
+import Layout from '../../layouts/Layout.astro';
+import ScrollAnimations from '../../components/ScrollAnimations.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SEO from '../../components/SEO.astro';
+import Icon from '../../components/Icon.astro';
+import { url } from '../../utils/url';
+import { services } from '../../data/services';
+
+// Коротко: кому и как часто. Только то, что названо на странице услуги.
+const detail: Record<string, string> = {
+  '/services/adult': '55 минут · в кабинете или онлайн',
+  '/services/lila': 'В кабинете в Лесном городке',
+  '/services/children': 'Дети и подростки 5–18 лет',
+  '/services/school-prep': '6–7 лет · два раза в неделю',
+  '/programs/umniky': '4–6 лет · по будням',
+  '/programs/azbuka': '5–9 лет · раз в неделю',
+};
+
+const groups = [
+  { title: 'Взрослым', items: services.filter((service) => service.group === 'adult') },
+  { title: 'Детям и подросткам', items: services.filter((service) => service.group === 'children') },
+];
+
+const abs = (path: string) => new URL(url(path), Astro.site).href;
+const pageURL = abs('/services');
+const listSchema = [{
+  '@type': 'ItemList',
+  '@id': `${pageURL}#list`,
+  name: 'Услуги и программы кабинета',
+  numberOfItems: services.length,
+  itemListElement: services.map((service, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: service.name,
+    url: abs(service.path),
+  })),
+}];
+
+const title = 'Услуги и программы кабинета | Консультации, занятия для детей';
+const description = 'Консультации для взрослых, занятия с детьми и подростками, игра «Лила», подготовка к школе, программы «Умники и умницы» и «Азбука общения» — в Лесном городке.';
+---
+
+<Layout title={title} description={description}>
+  <SEO slot="head" title={title} description={description} schema="catalog" extraSchema={listSchema} />
+
+  <Breadcrumbs
+    items={[
+      { label: 'Главная', href: url('/') },
+      { label: 'Услуги' }
+    ]}
+  />
+
+  <!-- ============ Шапка страницы ============ -->
+  <section class="page-hero">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="hero-head" data-reveal>
+          <p class="eyebrow mb-3">Психолог · Лесной городок</p>
+          <h1 class="display mb-5">Услуги и программы</h1>
+          <p class="lede max-w-[56ch]">
+            Консультации проходят в кабинете в Лесном городке и онлайн,
+            занятия и программы для детей — в кабинете.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Услуги по группам ============ -->
+  {groups.map((group, g) => (
+    <section class={`band ${g % 2 === 0 ? 'band-taupe' : ''}`}>
+      <div class="container mx-auto px-4 lg:px-8">
+        <div class="inner">
+          <div class="band-head" data-reveal>
+            <h2 class="heading">{group.title}</h2>
+          </div>
+
+          <div class="cards-2">
+            {group.items.map((service) => (
+              <a href={url(service.path)} class="svc-card lift" data-reveal>
+                <span class="svc-icon"><Icon name={service.icon} size={22} /></span>
+                <p class="svc-meta">{detail[service.path]}</p>
+                <h3 class="svc-title">{service.title}</h3>
+                <p class="svc-text">{service.note}</p>
+                <span class="svc-more">Подробнее <Icon name="go-to" size={16} /></span>
+              </a>
+            ))}
+          </div>
+
+          {g === 0 && (
+            <p class="svc-note" data-reveal>
+              Не уверены, нужна ли консультация?
+              <a href={url('/test/general')}>Пройдите короткий тест</a> — это займёт пару минут.
+            </p>
+          )}
+          {g === 1 && (
+            <p class="svc-note" data-reveal>
+              Не уверены, что подойдёт? <a href={url('/test/children')}>Тест для родителей</a> —
+              узнайте, какая программа лучше всего подойдёт вашему ребёнку.
+              Занятия ведут педагоги — <a href={url('/specialists')}>моя команда</a>.
+            </p>
+          )}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- ============ Финальный призыв ============ -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <p class="eyebrow eyebrow-center mb-4">Запись</p>
+          <h2 class="heading mb-4">Готовы записаться на консультацию?</h2>
+          <p class="lede closing-lede">
+            Позвоните или заполните форму — свяжусь с вами в рабочее время
+          </p>
+          <div class="closing-actions">
+            <button onclick="openBookingModal('default')" class="pill pill-solid pill-lg" type="button">
+              Записаться
+            </button>
+            <a href={url('/contact')} class="pill pill-outline pill-lg">Контакты</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ScrollAnimations />
+</Layout>
+
+<style>
+  /* ---------- ритм страницы ---------- */
+  .page-hero { padding: 28px 0 64px; background: var(--canvas); }
+  .hero-head { max-width: 760px; }
+  .band { padding: 80px 0; }
+  .band-tight { padding: 24px 0 96px; }
+  .band-head { margin-bottom: 32px; }
+
+  /* ---------- карточка услуги ---------- */
+  .svc-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--canvas);
+    border: 1px solid var(--stone);
+    border-radius: var(--r-card);
+    padding: 28px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform .3s cubic-bezier(.2,.7,.3,1), border-color .25s ease;
+  }
+  .svc-card:hover { border-color: var(--ash); }
+
+  .svc-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(47, 125, 150, .1);
+    color: var(--spark-deep);
+    margin-bottom: 18px;
+  }
+  .svc-meta { font-size: 13px; color: var(--ash); margin-bottom: 8px; }
+  .svc-title { font-size: 20px; font-weight: 400; line-height: 1.3; letter-spacing: -0.01em; margin-bottom: 9px; }
+  .svc-text { font-size: 14.5px; line-height: 1.6; color: var(--smoke); margin-bottom: 20px; }
+  .svc-more {
+    margin-top: auto;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .svc-more :global(svg) { transition: transform .3s cubic-bezier(.2,.7,.3,1); }
+  .svc-card:hover .svc-more :global(svg) { transform: translateX(3px); }
+
+  /* Тихая строка под карточками */
+  .svc-note { margin-top: 28px; font-size: 14px; line-height: 1.7; color: var(--smoke); max-width: 72ch; }
+  .svc-note a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .svc-note a:hover { color: var(--ink); }
+
+  /* ---------- финальный призыв ---------- */
+  .closing-band { padding: 56px 48px; text-align: center; }
+  .closing-lede { margin: 0 auto 32px; max-width: 52ch; }
+  .closing-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  @media (max-width: 767px) {
+    .band { padding: 56px 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .page-hero { padding: 20px 0 44px; }
+    .svc-card { padding: 24px; }
+    .closing-band { padding: 32px 24px; }
+  }
+</style>

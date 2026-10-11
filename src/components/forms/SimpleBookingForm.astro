@@ -149,6 +149,9 @@ const ALL_FIELDS = ['name', 'phone', 'childName', 'childAge', 'email', 'comment'
 
     let returnFocus = null;
     let current = CONTEXTS.default;
+    // Какой раздел открыл форму — для цели в аналитике. Имя специалиста туда
+    // не уходит: только то, что запись шла «к специалисту».
+    let currentKey = 'default';
 
     function setError(wrap, text) {
       wrap.classList.add('has-error');
@@ -164,6 +167,9 @@ const ALL_FIELDS = ['name', 'phone', 'childName', 'childAge', 'email', 'comment'
 
     // ---------- Подстановка контекста ----------
     function applyContext(key) {
+      currentKey = typeof key === 'string' && key.indexOf('specialist:') === 0
+        ? 'specialist'
+        : (CONTEXTS[key] ? key : 'default');
       // Специалист приходит строкой вида specialist:Имя:Роль:kids
       if (typeof key === 'string' && key.indexOf('specialist:') === 0) {
         const parts = key.split(':');
@@ -375,6 +381,11 @@ const ALL_FIELDS = ['name', 'phone', 'childName', 'childAge', 'email', 'comment'
         if (!response.ok || !body || String(body.success) !== 'true') {
           throw new Error('Заявка не принята сервисом отправки');
         }
+
+        // Цель в аналитике: заявка ушла. Передаём только раздел, откуда она.
+        // В своём try: сбой счётчика не должен превратить успешную заявку
+        // в сообщение «не удалось отправить».
+        try { window.siteTrack && window.siteTrack('booking_submit', { context: currentKey }); } catch (e) {}
 
         form.reset();
         form.classList.add('hidden');

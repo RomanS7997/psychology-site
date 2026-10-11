@@ -1,14 +1,16 @@
 ---
 // src/pages/programs/umniky.astro
 import Layout from '../../layouts/Layout.astro';
-import { HERO_SIZES, webpSet } from '../../utils/img';
+import { HERO_SIZES, webpSet, dims, altOf } from '../../utils/img';
 import ScrollAnimations from '../../components/ScrollAnimations.astro';
 import AutoGallerySlider from '../../components/AutoGallerySlider.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SEO from '../../components/SEO.astro';
 import FAQ from '../../components/FAQ.astro';
+import RelatedCards from '../../components/RelatedCards.astro';
 import Icon from '../../components/Icon.astro';
 import { url } from '../../utils/url';
+import { serviceCard } from '../../data/services';
 
 // Фото галереи: файлы 1..10 в /images/gallery/umniky/
 const galleryPhotos = [
@@ -26,7 +28,7 @@ const galleryPhotos = [
 
 const galleryImages = galleryPhotos.map(({ n, caption }) => ({
   src: url(`/images/gallery/umniky/${n}.jpg`),
-  alt: `Занятие Умники и умницы — ${caption.toLowerCase()}`,
+  alt: altOf(`/images/gallery/umniky/${n}.jpg`, `Занятие «Умники и умницы» — ${caption.toLowerCase()}`),
   caption
 }));
 
@@ -82,6 +84,7 @@ const results = [
 
 const lessonFormat = [
   { label: 'Длительность', value: 'с 9:30 до 13:00' },
+  { label: 'Место', value: 'кабинет в Лесном городке' },
   { label: 'Размер группы', value: 'до 8 детей' },
   { label: 'Возраст', value: '4–6 лет' },
   { label: 'Частота', value: 'ежедневно, будние дни' },
@@ -96,21 +99,20 @@ const methods = [
 ---
 
 <Layout
-  title="«Умники и умницы» — подготовка к школе в Одинцово | 4–6 лет"
-  description="Ежедневная подготовка к школе для детей 4–6 лет: чтение, письмо, счёт, развитие речи и внимания. Группы до 8 детей."
+  title="Развивающие занятия для детей 4–6 лет | Лесной городок"
+  description="«Умники и умницы» — занятия по будням с 9:30 до 13:00: чтение, письмо, счёт, развитие речи, творчество. В группе до 8 детей. Напишите — расскажу о программе."
 >
   <SEO
     slot="head"
-    title="«Умники и умницы» — подготовка к школе в Одинцово | 4–6 лет"
-    description="Программа «Умники и умницы» в Одинцово: ежедневная подготовка к школе для детей 4–6 лет. Чтение, письмо, счёт, развитие речи и внимания."
-    keywords="подготовка к школе Одинцово, занятия для дошкольников, развитие детей 4–6 лет, занятия для детей Одинцово"
+    title="Развивающие занятия для детей 4–6 лет | Лесной городок"
+    description="«Умники и умницы» — занятия по будням с 9:30 до 13:00: чтение, письмо, счёт, развитие речи, творчество. В группе до 8 детей. Напишите — расскажу о программе."
     schema="service"
   />
 
   <Breadcrumbs
     items={[
       { label: 'Главная', href: url('/') },
-      { label: 'Программы', href: url('/#programs') },
+      { label: 'Услуги', href: url('/services') },
       { label: 'Умники и умницы' }
     ]}
   />
@@ -143,7 +145,7 @@ const methods = [
         <div class="hero-visual orb surface-lg">
           <picture>
   <source srcset={webpSet('/images/gallery/umniky/2.jpg')} type="image/webp" sizes={HERO_SIZES} />
-  <img src={url('/images/gallery/umniky/2.jpg')} alt="Занятие по программе «Умники и умницы»" class="hero-photo" loading="eager" fetchpriority="high" decoding="async" />
+  <img src={url('/images/gallery/umniky/2.jpg')} {...dims('/images/gallery/umniky/2.jpg')} alt={altOf('/images/gallery/umniky/2.jpg', 'Занятие по программе «Умники и умницы»', 'hero')} class="hero-photo" loading="eager" fetchpriority="high" decoding="async" />
 </picture>
         </div>
 
@@ -318,10 +320,26 @@ const methods = [
         {
           question: "Будет ли ребёнок готов к школе после программы?",
           answer: "Да. Программа даёт и академические знания, и психологическую готовность к школе: ребёнок умеет работать самостоятельно, слушать педагога и взаимодействовать с другими детьми. Выпускники программы уверенно начинают учиться, в том числе в лицеях и гимназиях."
+        },
+        {
+          question: "Где проходят занятия и как добраться?",
+          answer: "В кабинете в Лесном городке, Одинцовский округ. Точный адрес сообщу при записи. На электричке — до станции «Лесной Городок» или «Одинцово», на машине — по Минскому или Можайскому шоссе, парковка рядом с кабинетом."
         }
       ]}
     />
   </div>
+
+  <!-- ============ Смотрите также ============ -->
+  <RelatedCards
+    items={[
+      serviceCard('/programs/azbuka'),
+      serviceCard('/services/school-prep'),
+      serviceCard('/services/children'),
+    ]}
+    tone="taupe"
+  >
+    <p class="rel-note" data-reveal>Не уверены, что подойдёт? <a href={url('/test/children')}>Тест для родителей</a> — узнайте, какая программа лучше всего подойдёт вашему ребёнку.</p>
+  </RelatedCards>
 
   <ScrollAnimations />
 </Layout>

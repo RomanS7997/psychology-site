@@ -27,6 +27,9 @@ for dirpath, _, files in os.walk(ROOT):
             continue
         if name.startswith("logo") or "favicon" in name or "apple-touch" in name:
             continue
+        # Картинка для соцсетей нужна только в jpg: webp мессенджеры не берут
+        if name.startswith("og-image"):
+            continue
         src = os.path.join(dirpath, name)
         dst = os.path.splitext(src)[0] + ".webp"
         gallery = "gallery" in dirpath.replace("\\\\", "/")
@@ -41,15 +44,27 @@ for dirpath, _, files in os.walk(ROOT):
             im.convert("RGB").save(dst, "WEBP", quality=q, method=6)
         made += 1
 
+# Варианты для первого экрана. Телефону нужна картинка шириной 650–1000
+# точек, а раньше между 620 и 1120 ничего не было — он брал 1120.
+# И главное: исходники у пяти фото шириной 960, а «1120» получался
+# РАСТЯГИВАНИЕМ: файл тяжелел на треть, резкости не прибавлялось.
+# Теперь больше исходника вариант не делается, а имя файла — его настоящая ширина.
+import glob, re
+WIDTHS = (480, 620, 800, 1120)
 for src in HEROES:
     if not os.path.exists(src):
         continue
     im = Image.open(src).convert("RGB")
     base = os.path.splitext(src)[0]
-    for w in (620, 1120):
+    for old in glob.glob(glob.escape(base) + "-*.webp"):
+        if re.search(r"-\\d+\\.webp$", old):
+            os.remove(old)
+    widths = sorted({min(w, im.width) for w in WIDTHS})
+    for w in widths:
         k = w / im.width
         im.resize((w, round(im.height * k)), Image.LANCZOS).save(
-            "%s-%d.webp" % (base, w), "WEBP", quality=78 if w > 700 else 80, method=6)
+            "%s-%d.webp" % (base, w), "WEBP", quality=72 if w >= 800 else 76, method=6)
+    print("  %s: %s" % (os.path.basename(src), ", ".join(str(w) for w in widths)))
 
 print("webp готовы: %d файлов" % made)
 `;

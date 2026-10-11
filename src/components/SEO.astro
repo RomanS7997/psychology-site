@@ -1,26 +1,48 @@
 ---
 // src/components/SEO.astro
 // Мета-теги и разметка Schema.org.
-// Все адреса собираются из настроек Astro (astro.config.mjs), а не пишутся строкой:
-// при переезде на julialyapina.ru достаточно поменять SITE_URL — здесь править нечего.
+//
+// Все адреса собираются из настроек Astro (astro.config.mjs), а не пишутся
+// строкой: домен меняется в одном месте.
+//
+// Разметка — один связный граф на страницу. Кабинет, сайт и автор объявлены
+// один раз, каждый со своим постоянным @id, и всё остальное на них ссылается:
+// статья — на автора, услуга — на кабинет, страница — на сайт. Поисковик так
+// видит не семнадцать отдельных «организаций», а одну, у которой есть
+// страницы, услуги и человек.
 import { url } from '../utils/url';
+import { dims } from '../utils/img';
+import { services, serviceByPath } from '../data/services';
+import { posts, postPath } from '../data/posts';
 
 interface Props {
   title: string;
   description: string;
   type?: 'website' | 'article' | 'service';
-  schema?: 'organization' | 'service' | 'person' | 'localbusiness' | 'article' | 'blog';
-  /** Цена услуги в рублях — ставится в разметку только там, где она названа на странице. */
-  price?: number;
-  /** Название услуги для разметки. По умолчанию — заголовок страницы. */
+  schema?: 'organization' | 'service' | 'person' | 'localbusiness' | 'article' | 'blog' | 'about' | 'catalog';
+  /**
+   * Название, вид услуги и возраст для разметки. Обычно не передаются:
+   * страница услуги находит себя в src/data/services.ts по своему адресу.
+   */
   serviceName?: string;
+  serviceType?: string;
+  audience?: { min?: number; max?: number };
+  /** Заголовок статьи, как он написан на странице (H1). Для schema="article". */
+  headline?: string;
+  /** Цена услуги в рублях — только если она названа на самой странице. */
+  price?: number;
+  /** Не используется в выдаче; оставлен, чтобы не трогать страницы. */
   keywords?: string;
   image?: string;
   url?: string;
   /** Дата публикации статьи в виде 2025-01-15. Только для schema="article". */
   published?: string;
-  /** Дата последней правки статьи. Если не задана — берётся дата публикации. */
+  /** Дата последней содержательной правки статьи. По умолчанию — дата публикации. */
   modified?: string;
+  /** Рубрика статьи, как она подписана на странице. */
+  section?: string;
+  /** Дополнительные узлы разметки, которые знает только сама страница (видео, список людей). */
+  extraSchema?: Record<string, unknown>[];
 }
 
 const {
@@ -28,13 +50,17 @@ const {
   description,
   type = 'website',
   schema,
-  keywords,
   image = '/images/og-image.jpg',
   url: urlProp,
   published,
   modified,
   price,
   serviceName,
+  serviceType,
+  audience,
+  section,
+  headline,
+  extraSchema = [],
 } = Astro.props;
 
 // Полный адрес страницы и картинки — с учётом домена и базового пути
@@ -48,133 +74,211 @@ const imageURL = absolute(image);
 // Размеры объявляем только для общей картинки: у статей свои пропорции,
 // а соцсети верят заявленным числам и режут превью по ним.
 const isDefaultImage = image === '/images/og-image.jpg';
-const imageAlt = isDefaultImage
-  ? 'Юлия Ляпина — кабинет психолога в Одинцово'
-  : title.split('|')[0].trim();
+const imageSize = dims(image);
 const logoURL = absolute('/images/logo.png');
 const siteURL = new URL(url('/'), Astro.site).href;
 
+// Превью на github.io закрыто от индексации в Layout — здесь не спорим с ним
+const isPreview = /github\.io$/.test(Astro.site?.hostname || '');
+
 const fullTitle = title.includes('|') ? title : `${title} | Кабинет психолога Ляпина Юлия`;
+const shortTitle = title.split('|')[0].trim();
+
+// Заголовок для карточки ссылки в мессенджере. Название сайта там уже есть
+// отдельной строкой (og:site_name), поэтому хвост с именем не повторяем;
+// у статьи это её собственный заголовок, а не заголовок вкладки.
+const titleTail = title.includes('|') ? title.slice(title.indexOf('|') + 1).trim() : '';
+const articleHeadline = schema === 'article' ? headline || shortTitle : '';
+const shareTitle = articleHeadline
+  || (/^(Юлия Ляпина|Кабинет психолога Ляпина Юлия)$/.test(titleTail) ? shortTitle : title);
+const imageAlt = isDefaultImage ? 'Юлия Ляпина — кабинет психолога в Одинцово' : articleHeadline || shortTitle;
 
 const ORG_NAME = 'Кабинет психолога Ляпина Юлия';
 const PHONE = '+7-915-195-51-32';
 const EMAIL = 'lyapina_sorokina@mail.ru';
 
-// Один и тот же кабинет упоминается на разных страницах. Чтобы поисковик
-// видел одну организацию, а не несколько, у неё постоянный @id.
+const WEBSITE_ID = `${siteURL}#website`;
 const BUSINESS_ID = `${siteURL}#business`;
 const PERSON_ID = `${siteURL}#julia`;
-// Профили, на которые ведёт действующий сайт julialyapina.ru: поисковику они
+const PAGE_ID = `${canonicalURL}#webpage`;
+
+// Профили, на которые вёл прежний сайт julialyapina.ru: поисковику они
 // подтверждают, что сайт и аккаунты — один и тот же человек.
 const SAME_AS = ['https://t.me/lyapinajuliya', 'https://vk.com/id220663769'];
-const HOURS = {
-  '@type': 'OpeningHoursSpecification',
-  dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-  opens: '09:00',
-  closes: '21:00',
-};
-const GEO = { '@type': 'GeoCoordinates', latitude: '55.634', longitude: '37.193' };
 
-// Адрес указан ровно с той точностью, что и на странице контактов:
-// точное место кабинета сообщается при записи, поэтому улицы и индекса здесь нет.
+// Адрес указан ровно с той точностью, что и на странице контактов: точное
+// место кабинета сообщается при записи, поэтому улицы и индекса здесь нет.
+// Населённый пункт — Лесной городок: кабинет находится в нём, а Одинцово —
+// центр округа, он назван в зоне обслуживания.
 const ADDRESS = {
   '@type': 'PostalAddress',
-  addressLocality: 'Одинцово, Лесной городок',
+  addressLocality: 'Лесной городок',
   addressRegion: 'Московская область',
+  postalCode: '143080',
   addressCountry: 'RU',
 };
 
-let schemaData: Record<string, unknown> | null = null;
+const AREA = [
+  { '@type': 'Place', name: 'Лесной городок' },
+  { '@type': 'Place', name: 'Одинцово' },
+  { '@type': 'Place', name: 'Одинцовский городской округ' },
+];
 
-// Главная представляет кабинет как местное предприятие: по простому Organization
-// поисковик не понимает, что сюда можно прийти, и не показывает карточку с картой.
-if (schema === 'organization') {
-  schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': BUSINESS_ID,
-    name: ORG_NAME,
-    description: 'Профессиональная психологическая помощь в Одинцово и Лесном городке',
-    url: siteURL,
-    logo: logoURL,
-    image: imageURL,
-    telephone: PHONE,
-    email: EMAIL,
-    address: ADDRESS,
-    geo: GEO,
-    areaServed: [
-      { '@type': 'Place', name: 'Одинцово' },
-      { '@type': 'Place', name: 'Лесной городок' },
-      { '@type': 'Place', name: 'Одинцовский городской округ' },
-    ],
-    openingHoursSpecification: HOURS,
-    priceRange: '₽₽',
-    currenciesAccepted: 'RUB',
-    inLanguage: 'ru-RU',
-    founder: { '@id': PERSON_ID },
-    knowsAbout: [
-      'Детская психология',
-      'Семейная терапия',
-      'Когнитивно-поведенческая терапия',
-      'Арт-терапия',
-      'Подготовка к школе',
-    ],
-    sameAs: SAME_AS,
-  };
-}
+// Страница услуги узнаёт себя в общей таблице по своему адресу: название,
+// вид услуги и возраст написаны один раз и совпадают с каталогом кабинета.
+const thisService = schema === 'service'
+  ? services.find((service) => absolute(service.path) === canonicalURL) || serviceByPath(Astro.url.pathname)
+  : undefined;
 
-if (schema === 'localbusiness') {
-  schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
-    '@id': BUSINESS_ID,
-    name: ORG_NAME,
-    image: imageURL,
-    logo: logoURL,
+const website = {
+  '@type': 'WebSite',
+  '@id': WEBSITE_ID,
+  url: siteURL,
+  name: ORG_NAME,
+  alternateName: ['Психолог Юлия Ляпина', 'julialyapina.ru'],
+  inLanguage: 'ru-RU',
+  publisher: { '@id': BUSINESS_ID },
+};
+
+// Кабинет как местное предприятие: по простому Organization поисковик не
+// понимает, что сюда можно прийти, и не показывает карточку с картой.
+const business = {
+  '@type': 'ProfessionalService',
+  '@id': BUSINESS_ID,
+  name: ORG_NAME,
+  description: 'Психологическая помощь взрослым и детям, подготовка к школе и развивающие программы в Лесном городке (Одинцовский округ) и онлайн.',
+  url: siteURL,
+  logo: { '@type': 'ImageObject', url: logoURL, width: 512, height: 512 },
+  // Настоящие фотографии, а не только плашка для соцсетей: кабинет и хозяйка
+  image: [
+    absolute('/images/og-image.jpg'),
+    absolute('/images/services/adult-consulting.jpg'),
+    absolute('/images/services/julia-lyapina.jpg'),
+  ],
+  telephone: PHONE,
+  email: EMAIL,
+  address: ADDRESS,
+  // Координат здесь нет намеренно. Точный адрес кабинета сообщается при записи,
+  // а «примерная точка» для поисковика — это точка на чьём-то доме: прежняя
+  // стояла на частном участке в соседнем Солманово. Появится адрес в карточке
+  // Яндекс Бизнеса — тогда и координаты, взятые из неё же.
+  areaServed: AREA,
+  // Часы совпадают с тем, что написано человеку на странице контактов.
+  // Две записи об одном: первую читает Яндекс, вторую — Google.
+  openingHours: 'Mo-Su 09:00-21:00',
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    opens: '09:00',
+    closes: '21:00',
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
     telephone: PHONE,
-    email: EMAIL,
-    address: ADDRESS,
-    geo: GEO,
-    priceRange: '₽₽',
-    currenciesAccepted: 'RUB',
-    sameAs: SAME_AS,
-    url: siteURL,
-    // Часы совпадают с тем, что написано человеку на странице контактов
-    openingHoursSpecification: {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-      ],
-      opens: '09:00',
-      closes: '21:00',
-    },
-  };
-}
+    contactType: 'customer service',
+    availableLanguage: 'Russian',
+    areaServed: 'RU',
+  },
+  founder: { '@id': PERSON_ID },
+  employee: { '@id': PERSON_ID },
+  knowsAbout: [
+    'Детская психология',
+    'Семейная терапия',
+    'Когнитивно-поведенческая терапия',
+    'Арт-терапия',
+    'Подготовка к школе',
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Услуги кабинета',
+    itemListElement: services.map((service) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        '@id': `${absolute(service.path)}#service`,
+        name: service.name,
+        url: absolute(service.path),
+      },
+    })),
+  },
+  sameAs: SAME_AS,
+};
+
+// Автор и хозяйка кабинета. Всё отсюда написано на странице специалистов:
+// роль, учебные заведения, методы. Ничего сверх того. Учебные заведения —
+// только названия, которые она прислала сама: факультет и годы в разметку
+// не идут, пока она не сверит строку об образовании с дипломом.
+const person = {
+  '@type': 'Person',
+  '@id': PERSON_ID,
+  name: 'Юлия Ляпина',
+  jobTitle: 'Психолог',
+  description: 'Психолог, монтессори-педагог, работа с детьми и взрослыми',
+  url: absolute('/about'),
+  image: absolute('/images/specialists/julia-lyapina.jpg'),
+  worksFor: { '@id': BUSINESS_ID },
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'СГУ им. Н.Г. Чернышевского' },
+    { '@type': 'EducationalOrganization', name: 'Институт психотерапии и клинической психологии' },
+  ],
+  knowsAbout: [
+    'Арт-терапия',
+    'Когнитивно-поведенческая терапия',
+    'Метафорические ассоциативные карты',
+    'ДПДГ',
+    'Системная семейная терапия',
+    'Детская психология',
+    'Монтессори-педагогика',
+  ],
+  knowsLanguage: 'ru',
+  sameAs: SAME_AS,
+};
+
+const PAGE_TYPE: Record<string, string | string[]> = {
+  localbusiness: 'ContactPage',
+  about: ['AboutPage', 'ProfilePage'],
+  person: 'CollectionPage',
+  blog: 'CollectionPage',
+  catalog: 'CollectionPage',
+};
+
+const webpage: Record<string, unknown> = {
+  '@type': (schema && PAGE_TYPE[schema]) || 'WebPage',
+  '@id': PAGE_ID,
+  url: canonicalURL,
+  name: shortTitle,
+  description,
+  inLanguage: 'ru-RU',
+  isPartOf: { '@id': WEBSITE_ID },
+  about: { '@id': schema === 'about' ? PERSON_ID : BUSINESS_ID },
+  primaryImageOfPage: { '@type': 'ImageObject', url: imageURL, ...imageSize },
+};
+if (schema === 'about') webpage.mainEntity = { '@id': PERSON_ID };
+
+const graph: Record<string, unknown>[] = [website, business, person, webpage];
 
 if (schema === 'service') {
-  schemaData = {
-    '@context': 'https://schema.org',
+  const ages = audience || thisService?.audience;
+  const photo = !isDefaultImage ? image : thisService?.image;
+  graph.push({
     '@type': 'Service',
-    name: serviceName || title.split('|')[0].trim(),
+    '@id': `${canonicalURL}#service`,
+    name: serviceName || thisService?.name || shortTitle,
     description,
-    serviceType: 'Психологическое консультирование',
-    provider: {
-      '@type': 'ProfessionalService',
-      '@id': BUSINESS_ID,
-      name: ORG_NAME,
-      telephone: PHONE,
-      address: ADDRESS,
-    },
-    areaServed: [
-      { '@type': 'Place', name: 'Одинцово' },
-      { '@type': 'Place', name: 'Лесной городок' },
-    ],
+    serviceType: serviceType || thisService?.type || 'Психологическая помощь',
+    url: canonicalURL,
+    ...(photo ? { image: absolute(photo) } : {}),
+    provider: { '@id': BUSINESS_ID },
+    areaServed: AREA,
+    ...(ages && (ages.min || ages.max)
+      ? {
+          audience: {
+            '@type': 'PeopleAudience',
+            ...(ages.min ? { suggestedMinAge: ages.min } : {}),
+            ...(ages.max ? { suggestedMaxAge: ages.max } : {}),
+          },
+        }
+      : {}),
     // Цену ставим только там, где она названа на самой странице:
     // расходиться разметка и текст не должны.
     ...(price
@@ -191,102 +295,96 @@ if (schema === 'service') {
     availableChannel: {
       '@type': 'ServiceChannel',
       serviceUrl: canonicalURL,
+      servicePhone: { '@type': 'ContactPoint', telephone: PHONE },
       availableLanguage: { '@type': 'Language', name: 'Russian' },
     },
-  };
-}
-
-if (schema === 'person') {
-  schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'Person',
-    name: 'Юлия Ляпина',
-    // Ровно та формулировка, что стоит в карточке на странице специалистов
-    jobTitle: 'Психолог, специалист по работе с детьми и взрослыми',
-    worksFor: {
-      '@type': 'ProfessionalService',
-      '@id': BUSINESS_ID,
-      name: ORG_NAME,
-    },
-    address: ADDRESS,
-    telephone: PHONE,
-    email: EMAIL,
-    url: absolute('/about'),
-    knowsAbout: ['Детская психология', 'Семейная терапия', 'Арт-терапия', 'Подготовка к школе'],
-  };
+    mainEntityOfPage: { '@id': PAGE_ID },
+  });
 }
 
 if (schema === 'blog') {
-  schemaData = {
-    '@context': 'https://schema.org',
+  graph.push({
     '@type': 'Blog',
-    name: 'Блог о психологии',
+    '@id': `${canonicalURL}#blog`,
+    name: 'Блог психолога Юлии Ляпиной',
     description,
     url: canonicalURL,
     inLanguage: 'ru-RU',
-    publisher: { '@type': 'ProfessionalService', '@id': BUSINESS_ID, name: ORG_NAME },
-  };
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': BUSINESS_ID },
+    mainEntityOfPage: { '@id': PAGE_ID },
+    blogPost: posts.map((post) => ({
+      '@type': 'BlogPosting',
+      '@id': `${absolute(postPath(post))}#article`,
+      headline: post.title,
+      url: absolute(postPath(post)),
+      datePublished: `${post.date}T09:00:00+03:00`,
+      author: { '@id': PERSON_ID },
+    })),
+  });
 }
 
+// Время публикации с часовым поясом: без него Google считает дату в UTC
+// и для московской статьи может показать вчерашний день.
+const asDateTime = (d: string) => (/T/.test(d) ? d : `${d}T09:00:00+03:00`);
+
 if (schema === 'article') {
-  schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: title,
+  graph.push({
+    '@type': 'BlogPosting',
+    '@id': `${canonicalURL}#article`,
+    headline: articleHeadline,
     description,
-    image: imageURL,
-    mainEntityOfPage: canonicalURL,
+    image: [imageURL],
     // Автор — человек: у текстов о здоровье поисковик смотрит, кто их написал.
-    author: {
-      '@type': 'Person',
-      '@id': PERSON_ID,
-      name: 'Юлия Ляпина',
-      jobTitle: 'Психолог',
-      url: absolute('/about'),
-    },
-    publisher: {
-      '@type': 'ProfessionalService',
-      '@id': BUSINESS_ID,
-      name: ORG_NAME,
-      logo: {
-        '@type': 'ImageObject',
-        url: logoURL,
-      },
-    },
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': BUSINESS_ID },
     inLanguage: 'ru-RU',
+    isPartOf: { '@id': `${absolute('/blog')}#blog` },
+    mainEntityOfPage: { '@id': PAGE_ID },
+    ...(section ? { articleSection: section } : {}),
     // Дату передаёт сама статья. Без неё поля нет вовсе — иначе при каждой
     // пересборке все статьи объявляли бы себя опубликованными сегодня.
-    ...(published ? { datePublished: published } : {}),
-    ...(published ? { dateModified: modified || published } : {}),
-  };
+    ...(published ? { datePublished: asDateTime(published) } : {}),
+    ...(published ? { dateModified: asDateTime(modified || published) } : {}),
+  });
 }
+
+graph.push(...extraSchema);
+
+const schemaData = { '@context': 'https://schema.org', '@graph': graph };
+// «<» внутри текста разметки не должен закрыть тег script раньше времени
+const schemaJSON = JSON.stringify(schemaData).replace(/</g, '\\u003c');
 ---
 
 <!-- Основные теги -->
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
-{keywords && <meta name="keywords" content={keywords} />}
 <link rel="canonical" href={canonicalURL} />
+{!isPreview && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
+{schema === 'article' && <meta name="author" content="Юлия Ляпина" />}
 
 <!-- Open Graph -->
-<meta property="og:type" content={type} />
+<meta property="og:type" content={type === 'service' ? 'website' : type} />
 <meta property="og:url" content={canonicalURL} />
-<meta property="og:title" content={fullTitle} />
+<meta property="og:title" content={shareTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={imageURL} />
-{isDefaultImage && <meta property="og:image:width" content="1200" />}
-{isDefaultImage && <meta property="og:image:height" content="630" />}
+{imageSize.width && <meta property="og:image:width" content={String(imageSize.width)} />}
+{imageSize.height && <meta property="og:image:height" content={String(imageSize.height)} />}
 <meta property="og:image:alt" content={imageAlt} />
 <meta property="og:site_name" content={ORG_NAME} />
 <meta property="og:locale" content="ru_RU" />
+{schema === 'article' && published && <meta property="article:published_time" content={asDateTime(published)} />}
+{schema === 'article' && published && <meta property="article:modified_time" content={asDateTime(modified || published)} />}
+{schema === 'article' && <meta property="article:author" content={absolute('/about')} />}
+{schema === 'article' && section && <meta property="article:section" content={section} />}
 
 <!-- Карточка ссылки в X: спецификация требует name, а не property -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:title" content={shareTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={imageURL} />
+<meta name="twitter:image:alt" content={imageAlt} />
 
 <!-- Schema.org -->
-{schemaData && (
-  <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
-)}
+<script type="application/ld+json" set:html={schemaJSON} />

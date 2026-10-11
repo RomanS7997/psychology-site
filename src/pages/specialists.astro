@@ -1,16 +1,19 @@
 ---
 // src/pages/specialists.astro
 import Layout from '../layouts/Layout.astro';
-import { webp } from '../utils/img';
+import { webp, dims, altOf } from '../utils/img';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import SEO from '../components/SEO.astro';
 import Icon from '../components/Icon.astro';
+import RelatedCards from '../components/RelatedCards.astro';
 import { url } from '../utils/url';
+import { serviceCard } from '../data/services';
 
 // Карточки специалистов. Блоки идут в том же порядке, что и раньше:
 // list — перечисление с точкой, checks — с галочкой, tags — пилюли,
-// figures — цифры опыта, text — абзацы.
+// figures — цифры опыта, text — абзацы. more — тихая ссылка под абзацами
+// (только у Юлии: на страницу «Обо мне»).
 const specialists = [
   {
     id: 'specialist-1',
@@ -59,6 +62,7 @@ const specialists = [
         items: [
           'Я работаю с клиентами более 15 лет. Использую научно обоснованные методы. Моя задача — не держать клиентов годами в терапии, а научить самостоятельно справляться с трудностями.',
         ],
+        more: { label: 'Подробнее обо мне', href: '/about' },
       },
     ],
   },
@@ -221,18 +225,43 @@ const specialists = [
     ],
   },
 ];
+// Разметка команды. Юлия — тот же узел, что автор статей и хозяйка кабинета
+// (#julia); остальные трое описаны здесь: имя, роль и фото — как в карточках.
+const siteRoot = new URL(url('/'), Astro.site).href;
+const pageUrl = new URL(url('/specialists'), Astro.site).href;
+const teamSchema = [{
+  '@type': 'ItemList',
+  '@id': `${pageUrl}#team`,
+  name: 'Специалисты кабинета',
+  numberOfItems: specialists.length,
+  itemListElement: specialists.map((person, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: index === 0
+      ? { '@id': `${siteRoot}#julia` }
+      : {
+          '@type': 'Person',
+          '@id': `${pageUrl}#${person.id}`,
+          name: person.name,
+          jobTitle: person.role,
+          image: new URL(url(person.photo), Astro.site).href,
+          url: `${pageUrl}#${person.id}`,
+          worksFor: { '@id': `${siteRoot}#business` },
+        },
+  })),
+}];
 ---
 
 <Layout
-  title="Моя команда - Специалисты в Одинцово | Кабинет психолога"
-  description="Психолог и педагоги в Одинцово."
+  title="Логопед, монтессори-педагог, репетитор | Лесной городок"
+  description="Нас четверо: психолог, монтессори-педагог, логопед и педагог-репетитор. О каждом — образование и направления работы. Не знаете, кого выбрать, — напишите мне."
 >
   <SEO
     slot="head"
-    title="Моя команда - Специалисты в Одинцово | Кабинет психолога"
-    description="Психолог и педагоги в Одинцово. Квалифицированная помощь взрослым и детям. Познакомьтесь с моей командой."
-    keywords="психолог Одинцово, специалисты, команда педагогов"
+    title="Логопед, монтессори-педагог, репетитор | Лесной городок"
+    description="Нас четверо: психолог, монтессори-педагог, логопед и педагог-репетитор. О каждом — образование и направления работы. Не знаете, кого выбрать, — напишите мне."
     schema="person"
+    extraSchema={teamSchema}
   />
 
   <Breadcrumbs
@@ -247,7 +276,7 @@ const specialists = [
     <div class="container mx-auto px-4 lg:px-8">
       <div class="inner">
         <div class="hero-head" data-reveal>
-          <p class="eyebrow mb-3">Команда</p>
+          <p class="eyebrow mb-3">Психолог, логопед, педагоги</p>
           <h1 class="display mb-5">Моя команда профессионалов</h1>
           <p class="lede max-w-[58ch]">
             Познакомьтесь со мной и моей командой педагогов: опытные специалисты
@@ -274,7 +303,7 @@ const specialists = [
     <div class="container mx-auto px-4 lg:px-8">
       <div class="inner">
         <div class="specialists-stack">
-          {specialists.map((person) => (
+          {specialists.map((person, index) => (
             <article
               id={person.id}
               class="specialist-card"
@@ -288,7 +317,7 @@ const specialists = [
                   <div class="specialist-photo">
                     <picture>
   {webp(person.photo) && <source srcset={webp(person.photo)} type="image/webp" />}
-  <img src={url(person.photo)} alt={person.name} loading="lazy" decoding="async" />
+  <img src={url(person.photo)} {...dims(person.photo)} alt={altOf(person.photo, person.name)} loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : undefined} decoding="async" />
 </picture>
                   </div>
                   <div class="specialist-badges">
@@ -345,6 +374,12 @@ const specialists = [
                           {block.items.map((p) => <p>{p}</p>)}
                         </div>
                       )}
+
+                      {block.more && (
+                        <p class="block-more">
+                          <a href={url(block.more.href)}>{block.more.label}</a>
+                        </p>
+                      )}
                     </div>
                   ))}
 
@@ -384,6 +419,17 @@ const specialists = [
       </div>
     </div>
   </section>
+
+  <!-- ============ Смотрите также ============ -->
+  <RelatedCards
+    items={[
+      serviceCard('/services/adult'),
+      serviceCard('/services/children'),
+      serviceCard('/services/school-prep'),
+    ]}
+    tone="taupe"
+  />
+
   <ScrollAnimations />
 </Layout>
 
@@ -499,6 +545,11 @@ const specialists = [
   .block-text { max-width: 64ch; }
   .block-text p { font-size: 14.5px; line-height: 1.7; color: var(--smoke); }
   .block-text p + p { margin-top: 12px; }
+
+  /* Тихая ссылка под абзацами «О себе» */
+  .block-more { margin-top: 12px; font-size: 14.5px; line-height: 1.7; }
+  .block-more a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .block-more a:hover { color: var(--ink); }
 
   .specialist-cta { align-self: flex-start; }
 

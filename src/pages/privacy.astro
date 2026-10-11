@@ -6,16 +6,24 @@ import SEO from '../components/SEO.astro';
 import ScrollAnimations from '../components/ScrollAnimations.astro';
 import Icon from '../components/Icon.astro';
 import { url } from '../utils/url';
+import analytics from '../data/analytics.json';
+
+// Раздел о счётчиках показывает только те сервисы, что действительно
+// подключены: политика не должна обещать то, чего нет, и молчать о том, что есть.
+const hasMetrika = Boolean(String(analytics.yandexMetrika || '').trim());
+const hasGA = Boolean(String(analytics.ga4 || '').trim());
+const hasAnalytics = hasMetrika || hasGA;
+const needConsent = analytics.requireConsent !== false;
 ---
 
 <Layout
   title="Политика конфиденциальности | Кабинет психолога Ляпина Юлия"
-  description="Политика конфиденциальности и обработки персональных данных"
+  description="Какие данные я получаю через формы записи и тесты, зачем они нужны, сколько хранятся и как их удалить. Сайт заявки не хранит — они сразу уходят мне на почту."
 >
   <SEO
     slot="head"
     title="Политика конфиденциальности | Кабинет психолога Ляпина Юлия"
-    description="Политика конфиденциальности и обработки персональных данных на сайте кабинета психолога."
+    description="Какие данные я получаю через формы записи и тесты, зачем они нужны, сколько хранятся и как их удалить. Сайт заявки не хранит — они сразу уходят мне на почту."
   />
 
   <Breadcrumbs
@@ -148,8 +156,11 @@ import { url } from '../utils/url';
             Если вы не хотите, чтобы данные проходили через посредника, — просто позвоните
             нам по телефону <a href="tel:+79151955132">+7 (915) 195-51-32</a>.</p>
 
-            <p>Мы можем использовать сервисы аналитики (Google Analytics, Яндекс.Метрика),
-            которые собирают анонимные данные о посещениях сайта.</p>
+            {hasAnalytics
+              ? <p>Для статистики посещений мы используем {[hasMetrika && 'Яндекс.Метрику', hasGA && 'Google Analytics'].filter(Boolean).join(' и ')} —
+                подробности в разделе <a href="#cookies">«Cookies и статистика посещений»</a>.</p>
+              : <p>Мы можем использовать сервисы аналитики (Google Analytics, Яндекс.Метрика),
+                которые собирают анонимные данные о посещениях сайта.</p>}
           </section>
 
           <section data-reveal>
@@ -172,8 +183,8 @@ import { url } from '../utils/url';
             </ul>
           </section>
 
-          <section data-reveal>
-            <h2>9. Cookies</h2>
+          <section data-reveal id="cookies">
+            <h2>9. Cookies и статистика посещений</h2>
 
             <p>Сайт использует файлы cookies для:</p>
 
@@ -182,6 +193,28 @@ import { url } from '../utils/url';
               <li>Аналитики посещаемости</li>
               <li>Улучшения работы сайта</li>
             </ul>
+
+            {hasAnalytics && (
+              <>
+                <p><strong>Какие счётчики стоят на сайте.</strong>{' '}
+                {hasMetrika && <>Яндекс.Метрика (ООО «Яндекс», Россия). </>}
+                {hasGA && <>Google Analytics (Google LLC, США) — при его работе данные о посещении передаются за пределы России. </>}
+                Они показывают нам, какие страницы открывают и откуда приходят посетители:
+                адрес страницы, время визита, тип устройства и браузера, примерный город,
+                обезличенный идентификатор в cookie.</p>
+
+                <p><strong>Чего в статистике нет.</strong> То, что вы пишете в формах, —
+                имя, телефон, вопросы, ответы тестов — счётчикам не передаётся. Запись
+                действий на странице (Вебвизор) выключена.</p>
+
+                {needConsent
+                  ? <p><strong>Только с вашего согласия.</strong> Счётчики включаются после того,
+                    как вы нажали «Хорошо» в уведомлении внизу страницы. Если вы выбрали
+                    «Не нужно», они не загружаются вовсе. Выбор можно поменять в любой момент:{' '}
+                    <button type="button" class="cookie-reset" onclick="window.siteCookieChoice && window.siteCookieChoice()">показать уведомление снова</button>.</p>
+                  : <p>Отказаться от учёта в статистике можно, запретив cookies в настройках браузера.</p>}
+              </>
+            )}
 
             <p>Вы можете отключить cookies в настройках браузера, но это может ограничить
             функциональность сайта.</p>
@@ -238,6 +271,14 @@ import { url } from '../utils/url';
 </Layout>
 
 <style>
+  /* Кнопка «показать уведомление снова» выглядит как ссылка в тексте: это
+     действие, а не переход, поэтому button, но браузерного вида у неё нет. */
+  .cookie-reset {
+    padding: 0; border: 0; background: none; font: inherit; cursor: pointer;
+    color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px;
+  }
+  .cookie-reset:hover { color: var(--ink); }
+
   /* ---------- ритм секций ---------- */
   .band { padding: 96px 0; }
   .band-text { padding: 48px 0 96px; }
