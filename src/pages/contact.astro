@@ -11,10 +11,12 @@ import { services } from '../data/services';
 
 const geo = site.contacts.geo;
 
-// Ссылки на Яндекс Карты. Точка — центр посёлка, а не дом: точный адрес
-// кабинета на сайте не публикуется.
-const mapLink = `https://yandex.ru/maps/?ll=${geo.lon}%2C${geo.lat}&z=14`;
-const routeLink = `https://yandex.ru/maps/?rtext=~${geo.lat}%2C${geo.lon}&rtt=auto`;
+// Ссылки на Яндекс Карты ведут в карточку кабинета: там отзывы, фотографии
+// и маршрут. На самой странице точный адрес по-прежнему не пишется — карта
+// ниже показывает посёлок, а не дом.
+const mapLink = site.contacts.yandexCard;
+// Маршрут строится до точки карточки: её координаты взяты из самой карточки
+const routeLink = 'https://yandex.ru/maps/?rtext=~55.633394%2C37.212872&rtt=auto';
 
 // Что проходит в кабинете: названия из меню, возраст и длительность — со
 // страниц самих услуг.
@@ -320,8 +322,8 @@ const detail: Record<string, string> = {
         </div>
 
         <p class="map-links" data-reveal>
-          <a href={mapLink} target="_blank" rel="noopener">Открыть в Яндекс Картах</a>
-          <a href={routeLink} target="_blank" rel="noopener">Построить маршрут до Лесного городка</a>
+          <a href={mapLink} target="_blank" rel="noopener">Кабинет на Яндекс Картах</a>
+          <a href={routeLink} target="_blank" rel="noopener">Построить маршрут</a>
         </p>
 
         <div class="routes">

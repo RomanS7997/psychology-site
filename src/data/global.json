@@ -14,7 +14,8 @@
     "geo": {
       "lat": 55.63998,
       "lon": 37.20745
-    }
+    },
+    "yandexCard": "https://yandex.ru/maps/org/psikholog_lyapina_yu_v_/162631418145/"
   },
   "menu": {
     "servicesLabel": "Услуги",

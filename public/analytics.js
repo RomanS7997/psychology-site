@@ -108,9 +108,8 @@
   function boot() {
     var choice = stored();
     if (!cfg.requireConsent) {
-      // Владелец решил считать всех; плашка тогда только сообщает
+      // Владелец решил считать всех: счётчики включаются сразу, плашки нет
       load();
-      if (!choice) showNote();
     } else if (choice === 'granted') {
       load();
     } else if (!choice) {

@@ -9,11 +9,13 @@
 //
 // Три решения, принятых намеренно.
 //
-// 1. Счётчики включаются только после согласия посетителя (requireConsent).
-//    Это сайт психолога: человек приходит сюда с личным, и по закону о
-//    персональных данных на метрические программы нужно согласие. Плата —
-//    часть посещений в статистику не попадёт. Переключатель один:
-//    "requireConsent": false в analytics.json.
+// 1. Считать всех или только согласившихся — решает владелец сайта одной
+//    строкой в analytics.json. Сейчас там "requireConsent": false: считаются
+//    все посетители, плашки с вопросом нет (решение владельца от 11.10.2026 —
+//    с плашкой часть посещений в статистику не попадала бы). Что именно
+//    собирают счётчики, написано в политике конфиденциальности.
+//    Если поставить true — счётчики будут включаться только после того, как
+//    человек нажмёт «Хорошо» в плашке внизу страницы; плашка появится сама.
 //
 // 2. Вебвизор выключен в коде (webvisor: false) и включаться не должен.
 //    Он записывает движения мыши и ввод в поля — то есть то, что человек
@@ -41,7 +43,7 @@ const services = [ym && 'Яндекс.Метрика', ga && 'Google Analytics']
 {enabled && <script is:inline set:html={`window.__analytics=${JSON.stringify(config)};`}></script>}
 {enabled && <script is:inline defer src={url('/analytics.js')}></script>}
 
-{enabled && (
+{enabled && requireConsent && (
   <div id="cookie-note" class="cookie-note" role="region" aria-label="Уведомление о файлах cookie" hidden>
     <p class="cookie-text">
       Сайт использует файлы cookie и {services}, чтобы понимать, какие страницы полезны.
@@ -50,9 +52,7 @@ const services = [ym && 'Яндекс.Метрика', ga && 'Google Analytics']
     </p>
     <div class="cookie-actions">
       <button type="button" class="pill pill-solid cookie-btn" data-cookie-yes>Хорошо</button>
-      {requireConsent && (
-        <button type="button" class="pill pill-outline cookie-btn" data-cookie-no>Не нужно</button>
-      )}
+      <button type="button" class="pill pill-outline cookie-btn" data-cookie-no>Не нужно</button>
     </div>
   </div>
 )}
