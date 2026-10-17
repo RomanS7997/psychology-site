@@ -1,0 +1,27 @@
+---
+// src/pages/services/logoped.astro
+// Страница занятий с логопедом. Всё о человеке — из его карточки
+// в src/data/specialists.ts; здесь только заголовки страницы.
+import SpecialistLanding from '../../components/SpecialistLanding.astro';
+import { specialistById } from '../../data/specialists';
+import { serviceCard } from '../../data/services';
+
+const person = specialistById('specialist-3');
+---
+
+<SpecialistLanding
+  person={person}
+  title="Логопед в Лесном городке | Дети 4–18 лет, Одинцово"
+  description="Учитель-логопед Евграфова Наталья Викторовна: постановка звуков, развитие речи и фонематического слуха, артикуляционная моторика. Дети 4–18 лет, Лесной городок."
+  eyebrow="Дети и школьники 4–18 лет"
+  h1="Логопед в Лесном городке"
+  lede="Занятия ведёт учитель-логопед Евграфова Наталья Викторовна — в кабинете в Лесном городке. Дети и школьники от 4 до 18 лет."
+  crumb="Логопед"
+  facts={[{ value: '4–18', label: 'возраст детей, лет' }]}
+  focusTitle="С чем работает логопед"
+  extra={{
+    title: 'Также ведёт',
+    items: ['Русский язык и литература', 'Подготовка к ВПР, ОГЭ и ЕГЭ', 'Скорочтение и развитие памяти'],
+  }}
+  related={[serviceCard('/services/repetitor'), serviceCard('/services/school-prep'), serviceCard('/services/children')]}
+/>

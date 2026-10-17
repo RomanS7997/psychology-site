@@ -1,0 +1,29 @@
+---
+// src/pages/services/repetitor.astro
+// Страница занятий с репетитором начальных классов. Всё о человеке — из его карточки
+// в src/data/specialists.ts; здесь только заголовки страницы.
+import SpecialistLanding from '../../components/SpecialistLanding.astro';
+import { specialistById } from '../../data/specialists';
+import { serviceCard } from '../../data/services';
+
+const person = specialistById('specialist-4');
+---
+
+<SpecialistLanding
+  person={person}
+  title="Репетитор начальных классов в Лесном городке | 1–6 класс"
+  description="Педагог Стрижкова Наталья Петровна: помощь с учёбой и домашними заданиями для 1–6 класса, подготовка детей 4–6 лет к школе. 18 лет в школе, 8 — репетитором."
+  eyebrow="Школьники 1–6 класса"
+  h1="Репетитор начальных классов в Лесном городке"
+  lede="Занятия ведёт педагог Стрижкова Наталья Петровна — в кабинете в Лесном городке: помощь в освоении школьной программы с 1 по 6 класс и подготовка детей 4–6 лет к школе."
+  crumb="Репетитор"
+  facts={[{ value: '18', label: 'лет в школе' }, { value: '8', label: 'лет репетитором' }]}
+  focusTitle="С чем помогает"
+  extra={{
+    title: 'Русский язык и экзамены',
+    items: ['Русский язык и литература', 'Подготовка к ВПР, ОГЭ и ЕГЭ'],
+    note: 'Эти занятия ведёт учитель русского языка и литературы Евграфова Наталья Викторовна.',
+    link: { label: 'Подробнее о занятиях с ней', href: '/services/logoped' },
+  }}
+  related={[serviceCard('/services/logoped'), serviceCard('/services/school-prep'), serviceCard('/programs/umniky')]}
+/>

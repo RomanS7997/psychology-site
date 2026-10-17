@@ -1,0 +1,23 @@
+---
+// src/pages/services/montessori.astro
+// Страница занятий с монтессори-педагогом. Всё о человеке — из его карточки
+// в src/data/specialists.ts; здесь только заголовки страницы.
+import SpecialistLanding from '../../components/SpecialistLanding.astro';
+import { specialistById } from '../../data/specialists';
+import { serviceCard } from '../../data/services';
+
+const person = specialistById('specialist-2');
+---
+
+<SpecialistLanding
+  person={person}
+  title="Монтессори-занятия в Лесном городке | Дети 3–6 лет"
+  description="Монтессори-педагог Власихина Людмила Степановна: занятия для детей 3–6 лет — математика и чтение, сенсорика, логика, творчество, подготовка к школе."
+  eyebrow="Дети 3–6 лет"
+  h1="Монтессори-занятия в Лесном городке"
+  lede="Занятия ведёт монтессори-педагог Власихина Людмила Степановна — в кабинете в Лесном городке. Для детей от 3 до 6 лет."
+  crumb="Монтессори"
+  facts={[{ value: '3–6', label: 'возраст детей, лет' }, { value: '20+', label: 'лет опыта' }]}
+  focusTitle="Чем занимаются на занятиях"
+  related={[serviceCard('/programs/umniky'), serviceCard('/services/school-prep'), serviceCard('/services/children')]}
+/>

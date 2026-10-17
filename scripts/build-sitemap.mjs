@@ -216,6 +216,63 @@ ${posts.map((post) => `    <item>
 writeFileSync(join(DIST, 'rss.xml'), rss, 'utf8');
 console.log(`rss.xml: статей ${posts.length}`);
 
+// llms.txt — короткая справка о кабинете для нейросетей (ChatGPT, Perplexity,
+// Алиса и прочих), которые отвечают людям на вопросы вроде «где в Лесном
+// городке детский психолог». Формат — llmstxt.org: заголовок, суть одной
+// строкой, ссылки на страницы с описаниями.
+//
+// Собирается из уже готовых страниц: факты о кабинете — из разметки главной,
+// названия и описания страниц — из их собственных заголовков. Отдельного
+// текста, который надо не забыть поправить, у этого файла нет.
+if (!isPreview) {
+  const homeNodes = jsonLd(readPage(''));
+  const biz = homeNodes.find((n) => n['@type'] === 'ProfessionalService') || {};
+  const person = homeNodes.find((n) => n['@type'] === 'Person') || {};
+  const addr = biz.address || {};
+  const place = [addr.addressRegion, addr.addressLocality, addr.streetAddress].filter(Boolean).join(', ');
+
+  const pageInfo = (p) => {
+    const html = readPage(p);
+    const h1 = ((html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+    const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
+    const unescape = (v) => v.replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&amp;/g, '&');
+    return `- [${unescape(h1)}](${ORIGIN}/${p}${p ? '/' : ''}): ${unescape(desc)}`;
+  };
+  const group = (re) => pages.filter((p) => re.test(p)).map(pageInfo).join('\n');
+
+  const llms = `# ${biz.name || 'Кабинет психолога'}
+
+> Кабинет психолога Юлии Ляпиной в посёлке Лесной городок (Одинцовский округ, Московская область): консультации взрослых в кабинете и онлайн, занятия с детьми и подростками, подготовка к школе, развивающие программы, логопед, репетитор, монтессори-занятия.
+
+- Адрес: ${place}
+- Телефон: ${biz.telephone || ''}
+- Почта: ${biz.email || ''}
+- Часы работы: ежедневно с 9:00 до 21:00
+- Психолог: ${person.name || ''} — ${person.description || person.jobTitle || ''}
+- Методы: ${(person.knowsAbout || []).join(', ')}
+- Карточка на Яндекс Картах: ${biz.hasMap || ''}
+- Цены на сайте не публикуются, их называют при записи.
+
+## Услуги и программы
+
+${group(/^(services|programs)(\/|$)/)}
+
+## О кабинете
+
+${group(/^(about|specialists|contact)$/)}
+
+## Статьи
+
+${group(/^blog(\/|$)/)}
+
+## Тесты
+
+${group(/^test\//)}
+`;
+  writeFileSync(join(DIST, 'llms.txt'), llms, 'utf8');
+  console.log(`llms.txt: ${llms.split('\n').filter((l) => l.startsWith('- [')).length} страниц`);
+}
+
 // ---------------------------------------------------------------------------
 // Переезд со старого сайта на julialyapina.ru.
 // Старый сайт — статическая выгрузка WordPress, у него всего три внутренних

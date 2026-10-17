@@ -95,6 +95,43 @@ export const services: Service[] = [
     image: '/images/gallery/azbuka/5.jpg',
     group: 'children',
   },
+  // Занятия со специалистами. Всё о людях — из их карточек на «Специалистах»
+  // (src/data/specialists.ts), возраст — оттуда же.
+  {
+    path: '/services/logoped',
+    name: 'Занятия с логопедом',
+    title: 'Логопед',
+    note: 'Постановка звуков и развитие речи, дети 4–18 лет',
+    text: 'Учитель-логопед: звуки, речь, фонематический слух',
+    type: 'Логопед',
+    icon: 'speech',
+    audience: { min: 4, max: 18 },
+    image: '/images/specialists/evgrafova-natalia.jpg',
+    group: 'children',
+  },
+  {
+    path: '/services/repetitor',
+    name: 'Занятия с репетитором начальных классов',
+    title: 'Репетитор начальных классов',
+    note: 'Помощь с учёбой и домашними заданиями, 1–6 класс',
+    text: 'Школьная программа и домашние задания, 1–6 класс',
+    type: 'Репетитор',
+    icon: 'school-difficulties',
+    image: '/images/specialists/strizhkova-natalia.jpg',
+    group: 'children',
+  },
+  {
+    path: '/services/montessori',
+    name: 'Монтессори-занятия',
+    title: 'Монтессори-занятия',
+    note: 'Математика, чтение, сенсорика, дети 3–6 лет',
+    text: 'Монтессори-педагог: математика, чтение, сенсорика, 3–6 лет',
+    type: 'Монтессори-педагогика',
+    icon: 'development-programs',
+    audience: { min: 3, max: 6 },
+    image: '/images/specialists/vlasihina-lyudmila.jpg',
+    group: 'children',
+  },
 ];
 
 export const serviceByPath = (path: string) =>

@@ -1,0 +1,318 @@
+---
+// Страница занятий с одним специалистом: логопед, репетитор, монтессори.
+//
+// Зачем. Люди ищут не «специалистов кабинета», а «логопед Лесной городок» и
+// «репетитор начальных классов». Раньше такие запросы вели только на общую
+// страницу из четырёх карточек, где логопед — одна из них.
+//
+// Ничего нового о людях здесь не написано. Образование, направления, методы
+// и рассказ о себе берутся из карточки специалиста (src/data/specialists.ts) —
+// той же, что стоит на странице «Специалисты». Своё у страницы только то, что
+// задаёт сама страница: заголовок, короткий ввод и подборка «с чем работает».
+import Layout from '../layouts/Layout.astro';
+import SEO from './SEO.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+import ScrollAnimations from './ScrollAnimations.astro';
+import RelatedCards from './RelatedCards.astro';
+import Icon from './Icon.astro';
+import { url } from '../utils/url';
+import { webp, dims, altOf } from '../utils/img';
+import site from '../data/global.json';
+import type { Specialist } from '../data/specialists';
+
+interface RelatedItem { icon: string; title: string; text: string; href: string }
+
+interface Props {
+  person: Specialist;
+  title: string;
+  description: string;
+  eyebrow: string;
+  h1: string;
+  lede: string;
+  crumb: string;
+  /** Короткие факты в первом экране: возраст, опыт */
+  facts: { value: string; label: string }[];
+  /** Заголовок блока с направлениями; сами направления — из карточки */
+  focusTitle: string;
+  /** Необязательный блок «Также ведёт» со ссылкой */
+  extra?: { title: string; items: string[]; note?: string; link?: { label: string; href: string } };
+  related: RelatedItem[];
+}
+
+const { person, title, description, eyebrow, h1, lede, crumb, facts, focusTitle, extra, related } = Astro.props;
+
+type Block = { type: string; title?: string; items?: unknown[] };
+const blocks = person.blocks as Block[];
+const byTitle = (re: RegExp) => blocks.find((b) => b.title && re.test(b.title));
+const strings = (b?: Block) => ((b?.items as string[]) || []);
+
+const focus = strings(byTitle(/^Направления работы/));
+const methods = strings(byTitle(/^Методы работы/));
+const education = strings(byTitle(/^Образование/));
+const courses = strings(byTitle(/^Дополнительное образование/));
+const story = blocks.filter((b) => b.type === 'text' && b.title && /^(О себе|Навыки)/.test(b.title));
+const kids = person.categories.includes('children');
+const bookKey = `specialist:${person.name}:${person.role}:${kids ? 'kids' : 'adult'}`;
+
+// Разметка: тот же узел человека, что на странице «Специалисты» (#specialist-N)
+const specialistsURL = new URL(url('/specialists'), Astro.site).href;
+const personSchema = [{
+  '@type': 'Person',
+  '@id': `${specialistsURL}#${person.id}`,
+  name: person.name,
+  jobTitle: person.role,
+  image: new URL(url(person.photo), Astro.site).href,
+  url: `${specialistsURL}#${person.id}`,
+  worksFor: { '@id': `${new URL(url('/'), Astro.site).href}#business` },
+}];
+---
+
+<Layout title={title} description={description}>
+  <SEO slot="head" title={title} description={description} schema="service" extraSchema={personSchema} />
+
+  <Breadcrumbs
+    items={[
+      { label: 'Главная', href: url('/') },
+      { label: 'Услуги', href: url('/services') },
+      { label: crumb }
+    ]}
+  />
+
+  <!-- ============ Первый экран ============ -->
+  <section class="page-hero">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner hero-grid">
+        <div data-reveal>
+          <p class="eyebrow mb-4">{eyebrow}</p>
+          <h1 class="display mb-5">{h1}</h1>
+          <p class="lede mb-7 max-w-[48ch]">{lede}</p>
+
+          <dl class="hero-facts">
+            {facts.map((fact) => (
+              <div>
+                <dt class="hero-figure">{fact.value}</dt>
+                <dd class="hero-label">{fact.label}</dd>
+              </div>
+            ))}
+          </dl>
+
+          <div class="hero-actions">
+            <button onclick={`openBookingModal('${bookKey}')`} class="pill pill-solid pill-lg" type="button">
+              {person.cta || 'Записаться'}
+            </button>
+            <a href={url(`/specialists#${person.id}`)} class="pill pill-outline pill-lg">Все специалисты</a>
+          </div>
+        </div>
+
+        <figure class="person surface-lg" data-reveal>
+          <picture>
+            {webp(person.photo) && <source srcset={webp(person.photo)} type="image/webp" />}
+            <img src={url(person.photo)} {...dims(person.photo)} alt={altOf(person.photo, person.name)} loading="eager" fetchpriority="high" decoding="async" />
+          </picture>
+          <figcaption>
+            <span class="person-name">{person.name}</span>
+            <span class="person-role">{person.role}</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ С чем работает ============ -->
+  <section class="band band-taupe">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="band-head" data-reveal>
+          <p class="eyebrow mb-3">Направления</p>
+          <h2 class="heading">{focusTitle}</h2>
+        </div>
+        <ul class="focus-grid">
+          {focus.map((item) => (
+            <li class="focus-card surface" data-reveal>
+              <span class="focus-mark"><Icon name="result" size={18} /></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        {methods.length > 0 && (
+          <p class="focus-note" data-reveal>Методы работы: {methods.join(' · ')}</p>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ О специалисте ============ -->
+  <section class="band">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner about-grid">
+        <div data-reveal>
+          <p class="eyebrow mb-3">О специалисте</p>
+          <h2 class="heading mb-6">{person.name}</h2>
+          {story.map((block) => (strings(block).map((p) => <p class="story-text">{p}</p>)))}
+          {extra && (
+            <div class="extra">
+              <h3 class="extra-title">{extra.title}</h3>
+              <ul class="extra-list">
+                {extra.items.map((item) => <li>{item}</li>)}
+              </ul>
+              {extra.note && <p class="extra-note">{extra.note}</p>}
+              {extra.link && <p class="extra-note"><a href={url(extra.link.href)}>{extra.link.label}</a></p>}
+            </div>
+          )}
+        </div>
+
+        <div class="edu surface-lg" data-reveal>
+          <h3 class="edu-title"><Icon name="education" size={18} /> Образование</h3>
+          <ul class="edu-list">
+            {education.map((item) => <li>{item}</li>)}
+          </ul>
+          {courses.length > 0 && (
+            <>
+              <h3 class="edu-title edu-title-next"><Icon name="courses" size={18} /> Дополнительное образование</h3>
+              <ul class="edu-list">
+                {courses.map((item) => <li>{item}</li>)}
+              </ul>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Где и как записаться ============ -->
+  <section class="band band-tight">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="inner">
+        <div class="glow-band closing-band" data-reveal>
+          <p class="eyebrow eyebrow-center mb-4">Запись</p>
+          <h2 class="heading mb-4">Записать ребёнка на занятие</h2>
+          <p class="lede closing-lede">
+            Кабинет: {site.contacts.address}, {site.contacts.addressNote.split(',')[0]}.
+            {' '}{site.contacts.hours}.
+          </p>
+          <div class="closing-actions">
+            <button onclick={`openBookingModal('${bookKey}')`} class="pill pill-solid pill-lg" type="button">
+              {person.cta || 'Записаться'}
+            </button>
+            <a href={`tel:${site.contacts.phoneRaw}`} class="pill pill-outline pill-lg">{site.contacts.phone}</a>
+          </div>
+          <p class="closing-note"><a href={url('/contact#map')}>Как добраться</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <RelatedCards items={related} tone="taupe" />
+
+  <ScrollAnimations />
+</Layout>
+
+<style>
+  .page-hero { padding: 28px 0 72px; background: var(--canvas); }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 56px;
+    align-items: center;
+  }
+
+  .hero-facts { display: flex; flex-wrap: wrap; gap: 28px 44px; margin: 0 0 32px; }
+  .hero-figure { font-size: 34px; font-weight: 300; letter-spacing: -0.02em; line-height: 1.1; color: var(--ink); }
+  .hero-label { margin: 4px 0 0; font-size: 13px; color: var(--smoke); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .person { margin: 0; padding: 14px; }
+  .person img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: calc(var(--r-large) - 8px);
+  }
+  .person figcaption { display: grid; gap: 3px; padding: 16px 8px 6px; }
+  .person-name { font-size: 17px; color: var(--ink); }
+  .person-role { font-size: 13.5px; color: var(--smoke); }
+
+  .band { padding: 88px 0; }
+  .band-tight { padding: 24px 0 96px; }
+
+  .focus-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .focus-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 22px 24px;
+    background: var(--canvas);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--graphite);
+  }
+  .focus-mark {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(47, 125, 150, .1);
+    color: var(--spark-deep);
+  }
+  .focus-note { margin-top: 24px; font-size: 14.5px; line-height: 1.7; color: var(--smoke); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 56px;
+    align-items: start;
+  }
+  .story-text { font-size: 16px; line-height: 1.75; color: var(--graphite); margin-bottom: 16px; }
+
+  .extra { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--stone); }
+  .extra-title { font-size: 18px; font-weight: 400; letter-spacing: -0.01em; margin-bottom: 12px; }
+  .extra-list { margin: 0; padding-left: 18px; display: grid; gap: 6px; font-size: 15px; color: var(--graphite); }
+  .extra-note { margin-top: 12px; font-size: 14.5px; line-height: 1.7; color: var(--smoke); }
+  .extra-note a, .closing-note a { color: var(--spark-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .extra-note a:hover, .closing-note a:hover { color: var(--ink); }
+
+  .edu { padding: 28px; }
+  .edu-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .edu-title :global(svg) { color: var(--spark-deep); }
+  .edu-title-next { margin-top: 24px; }
+  .edu-list { margin: 0; padding-left: 18px; display: grid; gap: 8px; font-size: 14.5px; line-height: 1.6; color: var(--graphite); }
+
+  .closing-band { padding: 56px 48px; text-align: center; }
+  .closing-lede { margin: 0 auto 28px; max-width: 52ch; }
+  .closing-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .closing-note { margin-top: 18px; font-size: 14px; }
+
+  @media (max-width: 1023px) {
+    .hero-grid, .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .person { max-width: 420px; }
+  }
+  @media (max-width: 767px) {
+    .page-hero { padding: 20px 0 52px; }
+    .band { padding: 60px 0; }
+    .band-tight { padding: 8px 0 64px; }
+    .focus-grid { grid-template-columns: 1fr; }
+    .hero-figure { font-size: 28px; }
+    .closing-band { padding: 32px 24px; }
+  }
+</style>
