@@ -41,6 +41,11 @@
   # бесконечное число «страниц» без содержимого. Ведём на главную.
   RewriteRule ^index\.php(/.*)?$ https://julialyapina.ru/ [R=301,L]
 
+  # Метка перехода из копии старого сайта: дальше по ней ставится заголовок
+  # Clear-Site-Data (блок mod_headers ниже). Адрес не меняем, только помечаем.
+  RewriteCond %{QUERY_STRING} (^|&)fresh=
+  RewriteRule ^ - [E=FRESH_FROM_OLD:1]
+
   # -------------------------------------------------------------------------
   # Разделы, у которых нет своей страницы
   # -------------------------------------------------------------------------
@@ -177,6 +182,16 @@
     SetEnvIfNoCase Referer "^https?://([^/]+\.)?(julialyapina\.ru|webvisor\.com|metri[ck]a\.yandex\.(com|ru|by|com\.tr))/" METRIKA_FRAME
   </IfModule>
   Header always set X-Frame-Options "SAMEORIGIN" env=!METRIKA_FRAME
+
+  # Переход из сохранённой копии старого сайта приходит с меткой ?fresh=.
+  # Такому браузеру велим выбросить всё, что он хранит от этого сайта: в
+  # Chrome, Firefox и Edge это стирает и копию старой главной, и всё прочее
+  # старое разом. Safari пока понимает не всё — для него страница сама
+  # перезаписывает копии (скрипт в Layout.astro).
+  Header always set Clear-Site-Data "\"cache\"" env=FRESH_FROM_OLD
+  # Главная отдаётся через внутренний переход на index.html — там метка
+  # приходит с приставкой REDIRECT_.
+  Header always set Clear-Site-Data "\"cache\"" env=REDIRECT_FRESH_FROM_OLD
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
   # HSTS: браузер запоминает на год, что сюда ходят только по https, и сам

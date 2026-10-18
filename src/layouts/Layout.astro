@@ -28,6 +28,10 @@ import { url } from '../utils/url';
 import { HERO_SIZES, webpLargest, webpSet } from '../utils/img';
 import fontRanges from '../data/font-ranges.json';
 
+// Адреса, под которыми в браузерах могли остаться копии старого сайта
+const staleUrls = ['/', '/about/', '/contact/', '/services/', '/index.htm',
+  '/about/index-1.htm', '/contact/index-1.htm', '/services/index-1.htm'].map((u) => url(u));
+
 const isHome = Astro.url.pathname.replace(/\/$/, '') === import.meta.env.BASE_URL.replace(/\/$/, '');
 
 // Превью на github.io — копия боевого сайта слово в слово. Два одинаковых
@@ -113,6 +117,23 @@ const fontFaces = FONT_FILES.map((name) => `
         [data-counter] { visibility: visible !important; }
       </style>
     </noscript>
+
+    <!-- Человек пришёл из сохранённой копии старого сайта (её перебрасывает
+         сюда файл public/wp-includes/js/jquery/jquery.min.js с меткой fresh).
+         Перезаписываем эти копии в памяти браузера свежими страницами — запрос
+         с cache: 'reload' идёт мимо кэша и кладёт в него новый ответ, — и
+         убираем метку из адреса. В следующий раз старое уже не покажется. -->
+    <script is:inline define:vars={{ staleUrls }}>
+      (function () {
+        if (!/[?&]fresh=/.test(location.search)) return;
+        try {
+          staleUrls.forEach(function (u) {
+            fetch(u, { cache: 'reload', credentials: 'same-origin' }).catch(function () {});
+          });
+          history.replaceState(null, '', location.pathname + location.hash);
+        } catch (e) {}
+      })();
+    </script>
 
     <!-- Самый крупный элемент первого экрана: без подсказки браузер
          добирается до него только после разбора стилей -->
