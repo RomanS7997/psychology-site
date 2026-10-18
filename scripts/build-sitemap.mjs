@@ -146,14 +146,15 @@ Disallow: /
   // Clean-param — метки рекламы и переходов. Это не отдельные страницы, и
   // Яндексу об этом говорим прямо: иначе адрес с ?utm_source=... он считает
   // дублем. Google строку не понимает и пропускает; у него ту же работу
-  // делает canonical.
+  // делает canonical. fresh — метка, с которой старые копии сайта из кэша
+  // браузера перебрасываются на новые страницы (см. public/wp-includes).
   //
   // Каталог _astro НЕ закрыт намеренно: там стили и скрипты, без них
   // поисковик не может отрисовать страницу.
   : `User-agent: *
 Disallow: ${BASE}/wp-admin/
 Disallow: ${BASE}/wp-login.php
-Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&utm_referrer&yclid&ysclid&gclid&fbclid&_openstat&etext&erid
+Clean-param: utm_source&utm_medium&utm_campaign&utm_content&utm_term&utm_referrer&yclid&ysclid&gclid&fbclid&_openstat&etext&erid&fresh
 
 Sitemap: ${ORIGIN}/sitemap.xml
 `;
