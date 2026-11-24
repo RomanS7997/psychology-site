@@ -54,6 +54,10 @@
   RewriteRule ^programs/?$ https://julialyapina.ru/services/     [R=301,L]
   RewriteRule ^test/?$     https://julialyapina.ru/test/general/ [R=301,L]
 
+  # Страница называлась «Монтессори-занятия» (17.10–24.11.2026). Таких
+  # занятий в кабинете нет — есть развивающие; адрес сменился вместе с названием.
+  RewriteRule ^services/montessori/?$ https://julialyapina.ru/services/razvivayushchie-zanyatiya/ [R=301,L]
+
   # -------------------------------------------------------------------------
   # Адрес раздела без косой черты на конце
   # -------------------------------------------------------------------------

@@ -1,0 +1,27 @@
+---
+// src/pages/services/razvivayushchie-zanyatiya.astro
+// Страница развивающих занятий для детей 3–6 лет.
+// Раньше называлась «Монтессори-занятия» — Юлия поправила 24.11.2026:
+// монтессори-занятий в кабинете нет, есть развивающие; ведёт их
+// монтессори-педагог, это в карточке педагога оставлено.
+// Всё о человеке — из его карточки
+// в src/data/specialists.ts; здесь только заголовки страницы.
+import SpecialistLanding from '../../components/SpecialistLanding.astro';
+import { specialistById } from '../../data/specialists';
+import { serviceCard } from '../../data/services';
+
+const person = specialistById('specialist-2');
+---
+
+<SpecialistLanding
+  person={person}
+  title="Развивающие занятия с педагогом | Дети 3–6 лет, Лесной городок"
+  description="Развивающие занятия для детей 3–6 лет в Лесном городке: математика и чтение, сенсорика, логика, творчество, подготовка к школе. Ведёт педагог Власихина Л. С."
+  eyebrow="Дети 3–6 лет"
+  h1="Развивающие занятия в Лесном городке"
+  lede="Занятия ведёт монтессори-педагог Власихина Людмила Степановна — в кабинете в Лесном городке. Для детей от 3 до 6 лет."
+  crumb="Развивающие занятия"
+  facts={[{ value: '3–6', label: 'возраст детей, лет' }, { value: '20+', label: 'лет опыта' }]}
+  focusTitle="Чем занимаются на занятиях"
+  related={[serviceCard('/programs/umniky'), serviceCard('/services/school-prep'), serviceCard('/services/children')]}
+/>

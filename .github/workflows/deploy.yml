@@ -199,7 +199,8 @@ jobs:
           images/gallery/umniky/2-1120.webp
           images/services/adult-consulting-1120.webp
           images/services/child-therapy-1120.webp
-          images/services/school-prep-1120.webp"
+          images/services/school-prep-1120.webp
+          services/montessori/index.html"
           CLEANUP="rm -f \"$FTP_DIR/_probe.php\"; rm -r -f \"$FTP_DIR/img\"; rm -r -f \"$FTP_DIR/images/team\";"
           for f in $GONE; do
             # Страховка: если такой файл снова появился в сборке, не трогаем его
