@@ -226,13 +226,17 @@ jobs:
       - name: Проверить, что всё доехало
         if: steps.check.outputs.ready == 'yes'
         run: |
+          # Один медленный ответ хостинга не должен ронять всю проверку: curl
+          # с исчерпанным временем выходит с ошибкой, и под bash -e шаг падал,
+          # хотя файлы уже лежали на сервере (24.11.2026). Теперь такой запрос
+          # повторяется, а если так и не ответил — файл считается недоехавшим.
           missing=0
           total=0
           while IFS= read -r f; do
             rel="${f#dist/}"
             case "$rel" in .htaccess) continue ;; esac
             total=$((total+1))
-            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://julialyapina.ru/$rel")
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 --retry 2 --retry-delay 3 --retry-all-errors "https://julialyapina.ru/$rel" || true)
             case "$code" in
               200|301|302) ;;
               *) echo "НЕТ ($code): $rel"; missing=$((missing+1)) ;;
@@ -243,7 +247,7 @@ jobs:
           # И обратная проверка: того, что должно было исчезнуть, на сервере нет
           leftover=0
           for gone in _probe.php img/favicon-32x32.png images/README.md images/services/photo_2025-11-23_16-50-24.jpg images/team/julia-lyapina.jpg; do
-            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "https://julialyapina.ru/$gone")
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 --retry 2 --retry-delay 3 --retry-all-errors "https://julialyapina.ru/$gone" || true)
             case "$code" in
               404|410) ;;
               *) echo "ОСТАЛСЯ ($code): $gone"; leftover=$((leftover+1)) ;;
