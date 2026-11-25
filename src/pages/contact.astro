@@ -395,13 +395,11 @@ const detail: Record<string, string> = {
     if (note) { note.textContent = ''; note.className = 'form-status'; }
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/lyapina_sorokina@mail.ru', {
+      const response = await fetch('/send.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           _subject: 'Новое обращение с сайта — форма «Напишите мне»',
-          _template: 'table',
-          _captcha: 'false',
           'Имя': fd.get('name') || '—',
           'Телефон': fd.get('phone') || '—',
           'Email': fd.get('email') || '—',
@@ -411,7 +409,7 @@ const detail: Record<string, string> = {
         }),
       });
 
-      // Сервис отвечает 200 и при отказе — смотрим тело
+      // Об успехе судим по полю success в ответе, а не по одному статусу
       const data = await response.json().catch(() => null);
       if (!response.ok || !data || String(data.success) !== 'true') {
         throw new Error('Заявка не принята');

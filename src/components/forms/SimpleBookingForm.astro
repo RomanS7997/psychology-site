@@ -351,8 +351,6 @@ const ALL_FIELDS = ['name', 'phone', 'childName', 'childAge', 'email', 'comment'
       const data = new FormData(form);
       const payload = {
         _subject: current.subject,
-        _template: 'table',
-        _captcha: 'false',
         'Услуга': current.service,
         'Имя': data.get('name') || '—',
         'Телефон': data.get('phone') || '—',
@@ -369,13 +367,13 @@ const ALL_FIELDS = ['name', 'phone', 'childName', 'childAge', 'email', 'comment'
       submitBtn.classList.add('is-loading');
 
       try {
-        const response = await fetch('https://formsubmit.co/ajax/lyapina_sorokina@mail.ru', {
+        const response = await fetch('/send.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(payload),
         });
 
-        // formsubmit отвечает 200 и при отказе — судить по статусу нельзя,
+        // Об успехе судим по полю success в ответе, а не по одному статусу,
         // иначе человек видит «заявка отправлена», а письмо никуда не ушло.
         const body = await response.json().catch(function () { return null; });
         if (!response.ok || !body || String(body.success) !== 'true') {

@@ -254,6 +254,15 @@ jobs:
             esac
           done
 
+          # Обработчик форм должен исполняться, а не отдаваться текстом: иначе
+          # формы снова молча перестанут доходить. Живой отвечает "ready":true,
+          # а в тексте самого файла этой строки в таком виде нет.
+          forms=$(curl -s --max-time 20 --retry 2 --retry-delay 3 --retry-all-errors "https://julialyapina.ru/send.php" || true)
+          case "$forms" in
+            *'"ready":true'*) echo "обработчик форм: работает" ;;
+            *) echo "::error::send.php не отвечает как обработчик: ${forms:0:200}"; exit 1 ;;
+          esac
+
           if [ "$missing" -gt 0 ] || [ "$leftover" -gt 0 ]; then
             echo "::error::Не доехало: $missing, не удалилось: $leftover"
             exit 1
