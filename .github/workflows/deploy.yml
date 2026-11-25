@@ -80,9 +80,9 @@ jobs:
   # WordPress, и его надо убрать осознанно, а не скриптом.
   beget:
     runs-on: ubuntu-latest
-    # Оборванная FTP-сессия умеет висеть до упора. Пятнадцати минут хватает
-    # с запасом даже на полную перезаливку с видео.
-    timeout-minutes: 30
+    # Оборванная FTP-сессия умеет висеть до упора. Каждый проход заливки
+    # ограничен восемью минутами (их пять), плюс сборка и проверка.
+    timeout-minutes: 50
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -207,9 +207,16 @@ jobs:
             if [ ! -e "dist/$f" ]; then CLEANUP="$CLEANUP rm -f \"$FTP_DIR/$f\";"; fi
           done
 
+          # --overwrite: заливать поверх старого файла, а не удалять его сначала.
+          # Без него lftp писал «Removing old file», потом обрывался на передаче
+          # («max-retries exceeded»), и файла на сайте не оставалось вовсе:
+          # 25.11.2026 так пропали шрифты, главное фото и две страницы.
+          #
+          # timeout: один зависший проход съедал все полчаса задачи, и до
+          # следующего прохода дело не доходило.
           for pass in 1 2 3 4 5; do
             echo "::group::Проход $pass"
-            if lftp -f <(cat "$RUNNER_TEMP/lftp.rc"; echo "mirror -R --no-perms --parallel=2 --verbose=1 dist/ \"$FTP_DIR\"; $CLEANUP bye"); then
+            if timeout 480 lftp -f <(cat "$RUNNER_TEMP/lftp.rc"; echo "mirror -R --no-perms --overwrite --parallel=2 --verbose=1 dist/ \"$FTP_DIR\"; $CLEANUP bye"); then
               echo "проход $pass: lftp завершился без ошибок"
               echo "::endgroup::"
               break
